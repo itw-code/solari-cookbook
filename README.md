@@ -312,21 +312,48 @@ reported instead.
 ## Architecture
 
 ```mermaid
-flowchart TD
-    A["<b>Seeded variant factory</b><br/>src/generate-variants/*<br/>prng · axes · task-spec · variants<br/>same seed → same variant"]
-    B["<b>Solari sandbox</b><br/>src/solari/orchestrate.ts<br/>fork · install Node 22 · serve app · previewUrl"]
-    C["<b>Solari cloud browser</b><br/>src/solari/driver.ts<br/>LiveSolari | MockSolari<br/>locator() never called"]
-    D["<b>Vision-first agent loop</b><br/>src/agent/*<br/>screenshot 1280×800 → click(x,y) | type | press | nav | done | abort<br/><b>pixels in, coordinates out</b>"]
-    E["<b>Fail-closed verifier</b><br/>src/verify/*<br/>reads /app/data/invoice.db via the sandbox channel<br/>recomputes expected from seed · checks C1–C7 · sha256 evidence hash<br/><b>false on ANY ambiguity</b>"]
-    F["<b>Scorecard · curve · breaks</b><br/>src/scorecard/*<br/>scorecard.json · curve.png · where-it-breaks.md"]
-    V["variants.json"]
+flowchart TB
+    subgraph Phase1["🧊 Phase 1 · ColdStart — Vision-First Generalization Benchmark"]
+        direction LR
+        A["<b>Seeded variant factory</b><br/>src/generate-variants/*<br/>prng · axes · task-spec · variants<br/>same seed → same variant"]
+        B["<b>Solari sandbox</b><br/>src/solari/orchestrate.ts<br/>fork · install Node 22 · serve app · previewUrl"]
+        C["<b>Solari cloud browser</b><br/>src/solari/driver.ts<br/>LiveSolari | MockSolari<br/>locator() never called"]
+        D["<b>Vision-first agent loop</b><br/>src/agent/*<br/>screenshot 1280×800 → click(x,y) | type | press | nav | done | abort<br/><b>pixels in, coordinates out</b>"]
+        E["<b>Fail-closed verifier</b><br/>src/verify/*<br/>reads /app/data/invoice.db via sandbox channel<br/>recomputes expected from seed · checks C1–C7 · sha256 evidence hash<br/><b>false on ANY ambiguity</b>"]
+        F["<b>Scorecard · curve · breaks</b><br/>src/scorecard/*<br/>scorecard.json · curve.png · where-it-breaks.md"]
+        V["variants.json"]
+        A --> B --> C --> D --> E --> F
+        A -.-> V
+    end
 
-    A --> B --> C --> D --> E --> F
-    A -.-> V
+    subgraph Phase2["🎨 Phase 2 · Slop-Catcher & Multi-Model Router"]
+        direction TB
+        S0["<b>Demo / target site</b><br/>src/demo-site/server.ts<br/>exposes /design-metrics.json"]
+        S1["<b>URL scanner</b><br/>src/design-qa/scan-url.ts<br/>microVM → screenshot · mock-friendly"]
+        S2["<b>Slop-Catcher VLM</b><br/>src/design-qa/slop-catcher.ts<br/>contrast · spacing · visual slop"]
+        S3["<b>Hybrid scoring engine</b><br/>src/design-qa/scoring-engine.ts<br/>deterministic CSS + VLM"]
+        S4["<b>Design QA orchestrator</b><br/>src/design-qa/orchestrator.ts<br/>persists design-qa-report.json<br/>PASS · WARN · BLOCK"]
+        S5["<b>Combined demo report</b><br/>scripts/render-demo-report.ts<br/>combined-demo-report.html · .json"]
+        S0 --> S1 --> S2 --> S3 --> S4 --> S5
+    end
+
+    R{{"<b>Multi-Model Router</b><br/>src/config/model-router.ts<br/>ACTION (heavy CUA) · PERCEPTION (lightweight VLM)"}}
+
+    D -.->|"resolves via"| R
+    S2 -.->|"resolves via"| R
 
     style D fill:#1f6feb,color:#ffffff
     style E fill:#8250df,color:#ffffff
+    style S2 fill:#1f6feb,color:#ffffff
+    style S4 fill:#8250df,color:#ffffff
+    style R fill:#bf8700,color:#000000
 ```
+
+**Reading the diagram.** The pipeline splits into two cooperating tracks:
+
+- **Phase 1 (top, blue/violet) — ColdStart.** The same linear A→B→C→D→E→F pipeline as before, ending in `scorecard.json` + `curve.png` + `where-it-breaks.md`. The vision-first agent loop (D) is the part that proves zero-shot generalization, and the fail-closed verifier (E) is the part that keeps it honest — both are highlighted.
+- **Phase 2 (bottom, blue/violet) — Slop-Catcher.** Boots a demo/target site, scans it via a microVM, runs the Slop-Catcher VLM, combines deterministic CSS metrics with VLM scoring through the hybrid engine, and the orchestrator gates the result as `PASS` / `WARN` / `BLOCK` into a persistent report.
+- **Shared backbone (orange) — Multi-Model Router.** One config module (`src/config/model-router.ts`) feeds both the heavy `ACTION` model used by the ColdStart agent (D) and the lightweight `PERCEPTION` VLM used by the Slop-Catcher (S2). This is the cost-optimization backbone: the heavy model only runs when the light one lets it through.
 
 **The task app** ([`src/variant-app/`](src/variant-app/)) is a dependency-free Node 22
 `node:http` + `node:sqlite` server with exactly four routes (`/`, `/new`, `/invoices` POST,
