@@ -322,12 +322,21 @@ DESIGN.md                   the locked design contract
 
 ## Demo
 
-`artifacts/demo.gif` — a 16-frame animated walkthrough of a **successful** run
-(`r_mtjqchve_s17`, the P1:4 relabel + P3:3 field-density variant), stitched from the
-agent's per-step screenshots. It shows the vision-first agent filling the relabeled form
-(`Client`, `VAT`, `Units`, `Price`, `Memo`), submitting with `Confirm`, and landing on the
-`Recorded` confirmation page — all from coordinates, no DOM. The corresponding
-`trace.json` (same run) records the exact action each screenshot drove.
+High-resolution showcase media (from a successful run, `r_mtjqchve_s17` — the
+P1:4 relabel + P3:3 variant). Everything is built from the agent's crisp 1280×800
+per-step screenshots;
+
+- **`artifacts/showcase.png`** — a 2×2 hero montage: empty *never-seen* form → filling →
+  coordinates in → the `POSTED` confirmation. Crisp, social-media-ready still.
+- **`artifacts/showcase.mp4`** — a short H.264 video (1280×800, ~5.7s) of the full run.
+  Sharper than a GIF; best for X/LinkedIn/YouTube.
+- **`artifacts/showcase.gif`** — the same run as a 1280×800 (256-color optimized) GIF,
+  for platforms that prefer GIF.
+
+It shows the vision-first agent filling the relabeled form (`Client`, `VAT`, `Units`,
+`Price`, `Memo`), submitting with `Confirm`, and landing on the `Recorded` confirmation
+page — all from coordinates, no DOM. The corresponding `trace.json` (same run) records the
+exact action each screenshot drove.
 
 ---
 
