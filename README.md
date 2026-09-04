@@ -118,7 +118,7 @@ honest:
 #### 2. Four Common Real-World Use Cases
 
 1. **Automated Invoice & Data Entry (Finance & Back-Office)**:
-   - *Problem*: Clerks manually copy line items from PDFs into QuickBooks/SAP/Xero at $2.50–$4.16 per invoice with 5–10% typo rates.
+   - *Problem*: Clerks manually copy line items from PDFs into QuickBooks/SAP/Xero. This repo has no measurement of the manual cost per invoice (an earlier draft cited $2.50–$4.16 without a traceable source), though typos at human entry speed are a real failure mode the harness is designed to catch.
    - *Fix*: The AI reads documents visually, enters data into web portals, and commits records. ColdStart ensures it survives portal layout updates.
 2. **Smart Photo & Storage Cleanup (Personal Utility & SaaS)**:
    - *Problem*: Cloud storage gets clogged with duplicate burst shots, receipts, and accidental screenshots.
@@ -130,19 +130,27 @@ honest:
    - *Problem*: SaaS apps break across different customer themes, custom fields, and updated checkout flows.
    - *Fix*: ColdStart procedurally generates 14+ mutated app variants in CI to stress-test workflows automatically before release.
 
-#### 3. Dual ROI: Time Savings + Economic Advantage (Research-Backed)
+#### 3. Dual ROI: Measured Time + Illustrative Economics
+
+Dollar figures in this section are **illustrative modeling**, not measurements. The Solari
+SDK exposes no credit balance or $/hour rate (`credits: null` in
+[`artifacts/scorecard.json`](artifacts/scorecard.json)), and `src/scorecard/cost.ts` states
+there is no defensible $ conversion without a published rate. The external benchmarks named
+in an earlier draft of this section (APQC / Gartner / BLS) were not traceable to any linkable
+source and have been removed. **Named assumptions:** 450s per manual invoice and $25/hr
+labor, placeholders for illustration only.
 
 | Metric Dimension | Manual Baseline (Research) | Solari + ColdStart (Measured) | Net Advantage |
 | :--- | :--- | :--- | :--- |
-| **⏱️ Time per Task** | **450s (7.5 min)** (APQC / Gartner Avg) | **16.2s** (Live trace `r_mtjqchve_s17`) | **27.7x Faster** (96.4% time reduction) |
-| **⏱️ Time per 1,000 Tasks** | **125 hours** (~3 full work weeks) | **4.5 hours** total compute | **120.5 hours saved / month** |
-| **💰 Unit Cost per Task** | **$3.13** (BLS financial clerk benchmark) | **$0.032** ($0.007 microVM + $0.025 LLM) | **98.9% Direct Cost Savings** |
-| **💰 Business Gross Margin** | ~$0.00 (Labor-bound cost center) | **$0.75 billable / $0.032 cost** | **95.7% Gross Margin** ($10.7k/mo profit on 15k tasks) |
+| **⏱️ Time per Task** | 450s (7.5 min) - *assumed* | **~49-69s** (measured: run `r_mtjqchve_s17` took 69.4s sandbox wall / 49.2s browser wall per its `run.json`) | ~6.5-9x vs. the assumed baseline |
+| **⏱️ Time per 1,000 Tasks** | 125 hours (at the assumed 450s/task) | ~13.5-19 hours of sandbox wall time (isolated set: 471.6s across 6 runs; mixed set: 616.7s across 5 runs) | derived from the assumed baseline |
+| **💰 Unit Cost per Task** | $3.13 (at the assumed $25/hr x 450s) | **not measurable** - no $ rate is exposed; the observable envelope is ~69s sandbox + ~49s browser + 16 LLM calls + ~28.6k token-in / ~0.7k token-out per run | cannot be computed without a published rate |
+| **💰 Business Gross Margin** | not applicable (illustrative scenario only) | no price or $ cost is measured anywhere in this repo | deleted - arithmetic on two unmeasured inputs |
 
-> 📊 **Research Sources**:
-> - *Time Baseline*: APQC Financial Management Benchmarks (Accounts Payable cycle latency) & Gartner Ops.
-> - *Labor Benchmark*: U.S. Bureau of Labor Statistics (BLS) financial clerk wage rates ($25/hr blended).
-> - *Measured AI Compute*: Solari metered Firecracker microVM execution logs (`artifacts/scorecard.json`).
+> 📊 **Sources**:
+> - *Measured AI compute*: `artifacts/scorecard.json`, `artifacts/step06-mixed/scorecard.json`, and `artifacts/runs/r_mtjqchve_s17/run.json` (wall seconds, LLM calls, token estimates - no dollar amounts).
+> - *Manual baseline & labor rate*: stated assumptions for illustration, not sourced benchmarks.
+> - *$0.032, $3.13, 98.9%, 95.7%, $10.7k/mo*: illustrative modeling downstream of those assumptions; they appear here for transparency, not as results.
 
 #### 4. Competitive Analysis: Why Solari + ColdStart Wins
 
@@ -152,7 +160,7 @@ honest:
 | **UI Change Resilience** | 🔴 **0%** (Crashes on refactor) | 🔴 **0%** (Fails on ID/CSS change) | 🟡 **Partial** (Fails on shadow DOM) | 🟢 **100% Surface Invariance** (P1/P5 proven) |
 | **Sandbox Boot Time** | 60–180s (Full Windows VM) | ~5–10s (Local Node) | ~15–30s (Container) | ⚡ **~10s MicroVM Fast-Forks** |
 | **OOD Robustness Testing** | None (Warm app only) | None (Hardcoded) | None (Live site only) | 🧪 **ColdStart 5-Axis Engine** (14 seeded variants) |
-| **Cost Per Execution** | $1.20–$2.00 + $15k license | $0.10–$0.30 (Dev time) | $0.10–$0.25 (Token bloat) | 🟢 **~$0.032 / task** (98.9% savings) |
+| **Cost Per Execution** | $1.20–$2.00 + $15k license | $0.10–$0.30 (Dev time) | $0.10–$0.25 (Token bloat) | 🟡 **not measured** - no $ rate is exposed; see `artifacts/scorecard.json` for the observable envelope |
 | **Verification Integrity** | Self-reported status | DOM assertions | LLM self-reported 'done' | 🔒 **Fail-Closed SQLite Direct Channel** |
 
 #### 5. From Architecture to Verified Production: The 4-Hour AI Coding Sprint
@@ -171,7 +179,7 @@ honest:
 - **14:30 – 15:00 (Hour 1 · Fast-Fork Sandboxes on Solari)**: Connected Solari Firecracker microVM snapshot fast-forks booting in ~10 seconds with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**, guaranteeing 0 leaked zombie sandboxes.
 - **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** (reasoning across **Kimi K3** and **GLM 5**) to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
 - **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and rapidly generated 37/37 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
-- *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 11 step reports in [`reports/`](reports/).*
+- *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 10 step reports in [`reports/`](reports/).*
 
 ##### The 48-Hour Build Timeline Overview
 | Phase | Timeframe | Focus | Deliverables & Milestones |
@@ -214,16 +222,19 @@ as the task, `verifyAgainstPath({seed:0, dbPath})` as ground truth). Three isola
 
 **What this establishes:**
 
-- **P2 — structure/flow — is the one genuine breaker.** Isolated P2:3 never reached `done`
-  (`step_cap`, no `POSTED` invoice). The two-step wizard defeats an agent that handles every
-  *other* perturbation on the same task.
+- **P2 — structure/flow — is the one genuine breaker.** Across the two isolated P2:3 runs,
+  one aborted at step 0 on a screenshot protocol error (infrastructure, not generalization)
+  and the other hit `step_cap`; neither produced a `POSTED` invoice. The two-step wizard
+  defeats an agent that handles every *other* perturbation on the same task, though note that
+  only one of the two runs actually exercised the wizard.
 - **The P5 theme control HOLDS — 2/2, 16 steps each.** A CSS-only re-theme (dark serif pill)
   does not break the agent, so it **is** skin-invariant. This is the honesty check passing:
   the agent is not secretly text-scraping.
 - **P3 field order & density passes when isolated** (17 steps, 7/7 verifier checks green).
 - **`session.replay_url` is wired and captured** (`recording:true` + `releaseAndWait` +
-  `getReplayUrl` per run): 4 of 5 live sessions returned a real presigned replay; the one
-  `null` is recorded honestly. `recording_id` is captured on every live run.
+  `getReplayUrl` per run): 4 of 6 live sessions returned a real presigned replay; the two
+  `null`s (both P3_field_order:4 runs, rep 1 and rep 2) are recorded honestly in
+  `artifacts/scorecard.json`. `recording_id` is captured on every live run that produced one.
 
 ![Success rate vs. perturbation intensity, per axis](artifacts/curve.png)
 
@@ -278,12 +289,20 @@ text was ever entered), looped, or got rate-limited (`HTTP 429`); only
 is the harness + grounding + fail-closed verification** — not the model. The harness behaved
 correctly even when the model did not, and recorded the failure honestly.
 
-### Cost (observable, metered)
+### Cost (observable, not metered in $)
 
-Total **617s sandbox + 523s browser, about 0.316 billable hours**, **128 LLM calls**, and an
-estimated **228,608 token-in / 5,376 out**. `credits` is `null` because the Solari SDK does
-not expose a credit balance or a $/hour rate; the observable envelope (wall seconds + call
-count + token estimate) is reported instead.
+Two run sets were costed:
+
+- **Axis-isolated (current, `artifacts/scorecard.json`)**: **471.6s sandbox + 338.6s browser,
+  about 0.225 billable hours, 98 LLM calls**, and an estimated **175,028 token-in / 4,116 out**
+  across 6 runs.
+- **Mixed-axis (Step 06, superseded for causal claims - `artifacts/step06-mixed/scorecard.json`)**:
+  **616.7s sandbox + 522.5s browser, about 0.316 billable hours, 128 LLM calls**, and an
+  estimated **228,608 token-in / 5,376 out** across 5 runs.
+
+For both sets, `credits` is `null` because the Solari SDK does not expose a credit balance or
+a $/hour rate; the observable envelope (wall seconds + call count + token estimate) is
+reported instead.
 
 ---
 
@@ -381,7 +400,7 @@ src/
   verify/                   fail-closed verifier (verifier, checks C1-C7)
   scorecard/                scorecard + curve + cost + axis-isolated runner
 test/                       vitest unit tests (prng, axes, verifier, agent-loop) - 37, offline
-reports/                    the 11 audited per-step build reports (Steps 00-07)
+reports/                    the 10 audited per-step build reports (Steps 00-07)
 artifacts/                  scorecard.json, curve.png, where-it-breaks.md, showcase.*, runs/
 scripts/                    live run wrappers (source .env, never echo keys)
 examples/                   <- upstream Solari cookbook samples (not part of ColdStart)
@@ -412,10 +431,11 @@ is gitignored; it is produced by a live run.)
 - **`credits` is `null`.** The Solari SDK exposes no credit balance or $/hour rate; the
   observable envelope (sandbox/browser seconds, LLM call count, token estimate, billable hours)
   is reported instead.
-- **One replay URL is `null`** (P3_field_order:4, rep 1). Recording is on and most runs returned
-  a real presigned replay, but one session's `getReplayUrl` returned nothing after about 6s of
-  polling post-release — recorded `null` honestly. The `trace.json` + screenshots + verifier
-  `evidence_hash` remain the audit anchor regardless.
+- **Two replay URLs are `null`** (both P3_field_order:4 runs - `r_mtjsp83o…_r1` and
+  `r_mtjsqyft…_r2`). Recording is on and the other four runs returned a real presigned replay,
+  but these two sessions' `getReplayUrl` returned nothing after polling post-release - recorded
+  `null` honestly. The `trace.json` + screenshots + verifier `evidence_hash` remain the audit
+  anchor regardless.
 - **Model dependency.** Only a computer-use-capable model completes the task at all (see the
   model note above). ColdStart's value is the harness — reproducible variants, vision-first
   grounding, fail-closed verification — not any single model.
@@ -461,7 +481,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | [`docs/proposals/v1-witness.md`](docs/proposals/v1-witness.md) | First proposal — rejected after audit (crowded cluster, would have copied competitors) |
 | [`docs/proposals/v2-coldstart.md`](docs/proposals/v2-coldstart.md) | Final proposal — validated the uncrowded gap, aligned with Pinetree's thesis |
 | [`NEXT_STEPS.md`](NEXT_STEPS.md) | What I'd build next if hired (including the 3-Layer Cost-Optimized Multi-Model Evaluation Pipeline) |
-| [`reports/`](reports/) | The 11 audited build reports showing incremental progress |
+| [`reports/`](reports/) | The 10 audited build reports showing incremental progress |
 
 ---
 

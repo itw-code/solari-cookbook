@@ -1015,12 +1015,12 @@
     <div class="p-6 sm:p-8 rounded-2xl glass-card border border-pine-500/40 glow-emerald mb-14">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-white/10 pb-4">
         <div>
-          <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Research-Backed ROI &amp; Competitive Edge</span>
+          <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Measured ROI &amp; Illustrative Economics</span>
           <h4 class="text-2xl font-black text-white mt-1">Dual ROI: Time Savings + Economic Advantage</h4>
         </div>
         <div class="flex items-center gap-2">
-          <span class="px-2.5 py-1 rounded bg-pine-950 text-pine-300 border border-pine-500/30 text-xs font-mono font-bold">⏱️ 27.7x Faster</span>
-          <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold">💰 98.9% Cost Savings</span>
+          <span class="px-2.5 py-1 rounded bg-pine-950 text-pine-300 border border-pine-500/30 text-xs font-mono font-bold">⏱️ ~6.5-9x vs. assumed baseline</span>
+          <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold">💰 $ cost: not measurable (illustrative)</span>
         </div>
       </div>
 
@@ -1031,25 +1031,25 @@
         <div class="p-5 rounded-xl bg-dark-700/60 border border-white/10 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-mono font-bold text-pine-300 uppercase">Metric 1: Time Savings ROI</span>
-              <span class="text-xs font-mono text-emerald-400 font-bold">96.4% Time Reduction</span>
+              <span class="text-xs font-mono font-bold text-pine-300 uppercase">Metric 1: Time Savings (measured)</span>
+              <span class="text-xs font-mono text-emerald-400 font-bold">~49-69s per task</span>
             </div>
             <div class="space-y-2 text-xs font-mono mb-4">
               <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
-                <span class="text-slate-400">Manual Entry (APQC / Gartner Avg):</span>
+                <span class="text-slate-400">Manual entry (assumed baseline):</span>
                 <span class="text-rose-400 font-bold">450s (7.5 min) / doc</span>
               </div>
               <div class="flex justify-between p-2 rounded bg-pine-950/80 border border-pine-500/40">
-                <span class="text-pine-300">Solari + Vision AI (Measured):</span>
-                <span class="text-emerald-400 font-black">16.2s / doc</span>
+                <span class="text-pine-300">Solari + Vision AI (measured):</span>
+                <span class="text-emerald-400 font-black">~49-69s / doc</span>
               </div>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>The Impact:</strong> For every 1,000 documents processed, human clerks spend <strong>125 hours</strong> (~3 full work weeks). Solari completes it in <strong>4.5 hours</strong> — freeing up <strong>120.5 hours/month</strong> of high-value human creativity.
+              <strong>The Impact:</strong> The manual baseline is a stated assumption, not a sourced benchmark. Measured agent wall time (run <code>r_mtjqchve_s17</code>: 69.4s sandbox / 49.2s browser per its <code>run.json</code>; isolated set total 471.6s sandbox across 6 runs) implies roughly 13.5-19 hours of sandbox time per 1,000 documents, against an assumed 125 hours of human entry.
             </p>
           </div>
           <div class="mt-4 pt-3 border-t border-white/5 text-[10px] font-mono text-slate-400">
-            📊 <em>Source: APQC Financial Benchmarks (Accounts Payable cycle latency) &amp; Solari live trace audit.</em>
+            📊 <em>Source: <code>artifacts/runs/r_mtjqchve_s17/run.json</code> and <code>artifacts/scorecard.json</code> (wall seconds). Manual baseline is an assumption, not a citation.</em>
           </div>
         </div>
 
@@ -1057,25 +1057,25 @@
         <div class="p-5 rounded-xl bg-dark-700/60 border border-white/10 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-3">
-              <span class="text-xs font-mono font-bold text-pine-300 uppercase">Metric 2: Economic ROI &amp; Earnings</span>
-              <span class="text-xs font-mono text-emerald-400 font-bold">95.7% Gross Margin</span>
+              <span class="text-xs font-mono font-bold text-pine-300 uppercase">Metric 2: Economics (illustrative modeling)</span>
+              <span class="text-xs font-mono text-emerald-400 font-bold">not measurable</span>
             </div>
             <div class="space-y-2 text-xs font-mono mb-4">
               <div class="flex justify-between p-2 rounded bg-black/40 border border-white/5">
-                <span class="text-slate-400">Human Labor (@ $25/hr BLS benchmark):</span>
-                <span class="text-rose-400 font-bold">$3.13 / task</span>
+                <span class="text-slate-400">Human labor (assumed $25/hr &times; 450s):</span>
+                <span class="text-rose-400 font-bold">$3.13 / task (assumed)</span>
               </div>
               <div class="flex justify-between p-2 rounded bg-pine-950/80 border border-pine-500/40">
                 <span class="text-pine-300">Solari MicroVM + Model Compute:</span>
-                <span class="text-emerald-400 font-black">$0.032 / task</span>
+                <span class="text-emerald-400 font-black">$ not measurable*</span>
               </div>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>Business Model (Agency / Micro-SaaS):</strong> Process 15,000 tasks/mo for 5 clients @ $0.75/task = <strong>$11,250/mo revenue</strong>. Compute cost is only <strong>$480/mo</strong>, yielding <strong>$10,770/mo net profit</strong>.
+              <strong>*Why not measurable:</strong> the Solari SDK exposes no credit balance or $/hour rate (<code>credits: null</code> in <code>artifacts/scorecard.json</code>), so no $ cost can be computed. The observable envelope is ~69s sandbox + ~49s browser + 16 LLM calls + ~28.6k token-in / ~0.7k token-out per run. Any revenue/margin figure would be arithmetic on unmeasured inputs.
             </p>
           </div>
           <div class="mt-4 pt-3 border-t border-white/5 text-[10px] font-mono text-slate-400">
-            📊 <em>Source: U.S. Bureau of Labor Statistics (BLS) financial clerk wage data &amp; Solari metered compute.</em>
+            📊 <em>Source: <code>src/scorecard/cost.ts</code>, which states there is "no defensible $ conversion without a published rate." The earlier BLS citation was not traceable and has been removed.</em>
           </div>
         </div>
 
@@ -1132,7 +1132,7 @@
                 <td class="py-3 px-4 text-rose-400">$1.20–$2.00 + $15k license</td>
                 <td class="py-3 px-4 text-amber-400">$0.10–$0.30 (Dev time)</td>
                 <td class="py-3 px-4 text-amber-400">$0.10–$0.25 (Token bloat)</td>
-                <td class="py-3 px-4 text-emerald-300 font-bold bg-pine-950/30 border-l border-r border-pine-500/30">~$0.032 / task (98.9% savings)</td>
+                <td class="py-3 px-4 text-amber-400 bg-pine-950/30 border-l border-r border-pine-500/30">not measured (no $ rate exposed)</td>
               </tr>
               <tr class="hover:bg-white/[0.02]">
                 <td class="py-3 px-4 font-bold text-white">Verification Integrity</td>
