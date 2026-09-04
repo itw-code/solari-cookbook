@@ -86,12 +86,10 @@ Every competitor used sandboxes for **verification/CI**. ColdStart uses Solari m
 
 ## The ask
 
-> You don't want my resume — you want to know if I can close the gap you care about.
+> "You don't want my resume — you want to know if I can close the gap you care about.
 > 
-> I read the mission: *intelligence is no longer the bottleneck, execution is.*
+> I didn't just build a benchmark. I built **ColdStart** to measure zero-shot generalization, and the **Slop-Catcher** to solve the incoming wave of AI-generated UI. 
 > 
-> So I didn't build another agent demo. I built **ColdStart** — the tool that measures the one thing Pinetree claims that nobody else is testing: zero-shot generalization to unseen environments.
+> By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs. 
 > 
-> The code runs. The tests pass. The insight is real: agents that recognize every label can still fail when the order of operations changes.
-> 
-> I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one.
+> The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."

@@ -16,7 +16,7 @@
  * 6. Prints console table: Target | Slop Score | Design Status | Task Completed | Verifier.
  */
 
-import { mkdirSync, writeFileSync } from "node:fs"
+import { existsSync, mkdirSync, writeFileSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { startDemoServer, type DemoServerInstance } from "../src/demo-site/server.ts"
 import { verifyDemoSignup, type DemoVerifierResult } from "../src/demo-site/verifier.ts"
@@ -237,6 +237,10 @@ export async function runCombinedDemo(): Promise<any> {
     }
 
     writeFileSync(reportPath, JSON.stringify(report, null, 2), "utf8")
+    const docsArtifactsDir = resolve("docs/artifacts")
+    if (existsSync(docsArtifactsDir)) {
+      writeFileSync(resolve(docsArtifactsDir, "combined-demo-report.json"), JSON.stringify(report, null, 2), "utf8")
+    }
     console.log(`\nReport written to: ${reportPath}`)
 
     // 6. Print Console Table

@@ -115,7 +115,7 @@ honest:
 | **The "Memorized Demo" Trap** | AI agents look 100% reliable on the exact demo form they were built on, but get lost on unseen layouts or multi-step flows. | **ColdStart Verification**: Automatically scrambles apps across 5 mutation axes and validates actual database rows with fail-closed SQLite checks. |
 | **Slow, Heavy VMs** | Full virtual machines take minutes to boot, cost a fortune, and leave leftover credentials and security risks. | **Solari MicroVMs**: Boots lightweight, disposable Firecracker microVMs in ~10 seconds (measured; snapshot fast-forks were best-effort in our runs and mostly 409'd, so direct provisioning is the working path) with zero leaked sandboxes. |
 
-#### 2. Four Common Real-World Use Cases
+#### 2. Five Common Real-World Use Cases
 
 1. **Automated Invoice & Data Entry (Finance & Back-Office)**:
    - *Problem*: Clerks manually copy line items from PDFs into QuickBooks/SAP/Xero. This repo has no measurement of the manual cost per invoice (an earlier draft cited $2.50–$4.16 without a traceable source), though typos at human entry speed are a real failure mode the harness is designed to catch.
@@ -129,6 +129,9 @@ honest:
 4. **Autonomous Web App Testing (Software Teams & QA)**:
    - *Problem*: SaaS apps break across different customer themes, custom fields, and updated checkout flows.
    - *Fix*: ColdStart procedurally generates 14+ mutated app variants in CI to stress-test workflows automatically before release.
+5. **Automated PR Gatekeeping & "Slop" Filtering (Software Teams & Design Ops 🎨)**:
+   - *Problem*: Developers are drowning in AI-generated pull requests. The bottleneck is no longer writing code; it's reviewing it for "AI Slop" (bad contrast, generic layouts, poor spacing). Running heavy CUAs to check UI aesthetics is cost-prohibitive.
+   - *Fix*: The ColdStart Multi-Model Router spins up a Solari microVM in 10s. The lightweight VLM layer checks the PR for accessibility and brand compliance for pennies. If it passes, the heavy CUA verifies the structural flow. Bad PRs are auto-blocked before a human ever reviews them.
 
 #### 3. Dual ROI: Measured Time + Illustrative Economics
 
@@ -337,6 +340,15 @@ recomputes `customer`, the line items, `tax_rate_bps`, both dates, **and the tot
 raw line-item columns, then compares against the stored row. Only an unambiguous,
 fully-matching, internally-consistent `POSTED` invoice flips `task_completed` to `true`. The
 raw artifact bytes are sha256-bound, so any swap is detectable.
+
+### Phase 2 Architecture: The "Slop-Catcher" & Multi-Model Router
+
+The codebase features a decoupled perception layer (VLM) and action layer (CUA) driven by [`src/config/model-router.ts`](src/config/model-router.ts):
+- **Layer 1: The "Slop-Catcher" (Perception)** — Fast VLMs (Gemini 1.5 Flash / GPT-4o) detect design defects, low contrast, and off-grid spacing variance for < $0.002.
+- **Layer 2: Adversarial Red-Team (Action)** — Targeted agent-vs-agent structural evaluation (Claude 3.5 Sonnet vs. UI-TARS / GPT-5.6 Luna).
+- **Layer 3: CI/CD Triage Gate** — PR diff inspection gating deep CUA tests behind fast VLM scans, saving up to 95% compute.
+
+Run `npm run demo:all` to reproduce the evaluation and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html).
 
 ---
 

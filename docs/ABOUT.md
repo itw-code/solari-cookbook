@@ -83,6 +83,10 @@ ColdStart is the same instinct applied to computer-use agents: the model can "un
 
 ## The ask
 
-> I'm applying for the **$300K SWE Intern** position at Pinetree Research. I built ColdStart because I believe this is what you actually need: the benchmark that keeps your core claim honest. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one.
+> "You don't want my resume — you want to know if I can close the gap you care about.
 > 
-> The code runs. The tests pass. The insight is real. Let's talk.
+> I didn't just build a benchmark. I built **ColdStart** to measure zero-shot generalization, and the **Slop-Catcher** to solve the incoming wave of AI-generated UI. 
+> 
+> By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs. 
+> 
+> The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
