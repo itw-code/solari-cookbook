@@ -1045,7 +1045,7 @@
               </div>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
-              <strong>The Impact:</strong> The manual baseline is a stated assumption, not a sourced benchmark. Measured agent wall time (run <code>r_mtjqchve_s17</code>: 69.4s sandbox / 49.2s browser per its <code>run.json</code>; isolated set total 471.6s sandbox across 6 runs) implies roughly 13.5-19 hours of sandbox time per 1,000 documents, against an assumed 125 hours of human entry.
+              <strong>The Impact:</strong> The manual baseline is a stated assumption, not a sourced benchmark. Measured agent wall time (isolated set: 471.6s sandbox across 6 runs ≈ 78.6s/run → ~21.8h per 1,000; mixed Step 06 set: 616.7s across 5 runs ≈ 123.3s/run → ~34.3h; the single showcase run <code>r_mtjqchve_s17</code> ran 69.4s sandbox / 49.2s browser but the scored sets include step_cap and retried runs), against an assumed 125 hours of human entry.
             </p>
           </div>
           <div class="mt-4 pt-3 border-t border-white/5 text-[10px] font-mono text-slate-400">

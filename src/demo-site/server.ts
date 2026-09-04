@@ -22,7 +22,7 @@ import { createServer, type IncomingMessage, type ServerResponse, type Server } 
 import { mkdirSync } from "node:fs"
 import { dirname, resolve } from "node:path"
 import type { AddressInfo } from "node:net"
-import { DatabaseSync } from "../sqlite.js"
+import { DatabaseSync } from "../sqlite.ts"
 
 export interface SignupRecord {
   id: number

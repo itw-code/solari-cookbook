@@ -18,13 +18,13 @@
 
 import { mkdirSync, writeFileSync } from "node:fs"
 import { join, resolve } from "node:path"
-import { startDemoServer, type DemoServerInstance } from "../src/demo-site/server.js"
-import { verifyDemoSignup, type DemoVerifierResult } from "../src/demo-site/verifier.js"
-import { scanExternalPage } from "../src/design-qa/scan-url.js"
-import type { DesignQAResult } from "../src/design-qa/orchestrator.js"
-import { runAgentLoop, type PageHandle, type LoopResult } from "../src/agent/loop.js"
-import type { Action } from "../src/agent/action.js"
-import type { ModelCaller, ModelDecision, ModelTurnInput } from "../src/agent/model.js"
+import { startDemoServer, type DemoServerInstance } from "../src/demo-site/server.ts"
+import { verifyDemoSignup, type DemoVerifierResult } from "../src/demo-site/verifier.ts"
+import { scanExternalPage } from "../src/design-qa/scan-url.ts"
+import type { DesignQAResult } from "../src/design-qa/orchestrator.ts"
+import { runAgentLoop, type PageHandle, type LoopResult } from "../src/agent/loop.ts"
+import type { Action } from "../src/agent/action.ts"
+import type { ModelCaller, ModelDecision, ModelTurnInput } from "../src/agent/model.ts"
 
 // ---------------------------------------------------------------------------
 // Mock PageHandle for offline deterministic execution of early access form

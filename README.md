@@ -143,7 +143,7 @@ labor, placeholders for illustration only.
 | Metric Dimension | Manual Baseline (Research) | Solari + ColdStart (Measured) | Net Advantage |
 | :--- | :--- | :--- | :--- |
 | **⏱️ Time per Task** | 450s (7.5 min) - *assumed* | **~49-69s** (measured: run `r_mtjqchve_s17` took 69.4s sandbox wall / 49.2s browser wall per its `run.json`) | ~6.5-9x vs. the assumed baseline |
-| **⏱️ Time per 1,000 Tasks** | 125 hours (at the assumed 450s/task) | ~13.5-19 hours of sandbox wall time (isolated set: 471.6s across 6 runs; mixed set: 616.7s across 5 runs) | derived from the assumed baseline |
+| **⏱️ Time per 1,000 Tasks** | 125 hours (at the assumed 450s/task) | ~21.8-34.3 hours of sandbox wall time (isolated set: 471.6s across 6 runs ≈ 78.6s/run → 21.8h per 1,000; mixed Step 06 set: 616.7s across 5 runs ≈ 123.3s/run → 34.3h; the single showcase run's 49.2-69.4s/task would imply 13.5-19.4h but the scored sets include step_cap and retried runs) | derived from the assumed baseline |
 | **💰 Unit Cost per Task** | $3.13 (at the assumed $25/hr x 450s) | **not measurable** - no $ rate is exposed; the observable envelope is ~69s sandbox + ~49s browser + 16 LLM calls + ~28.6k token-in / ~0.7k token-out per run | cannot be computed without a published rate |
 | **💰 Business Gross Margin** | not applicable (illustrative scenario only) | no price or $ cost is measured anywhere in this repo | deleted - arithmetic on two unmeasured inputs |
 

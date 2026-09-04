@@ -180,7 +180,9 @@ const DESIGN_STATUS_RANK: Record<"PASS" | "WARN" | "BLOCK", number> = { PASS: 0,
  */
 function aggregateDesignQa(runs: RunRecord[]): {
   designSlopScore: number | null
+  /** Worst-of per-run design QA status; null when no design-qa reports exist. */
   designStatus: "PASS" | "WARN" | "BLOCK" | null
+  /** Static honesty disclosure for design-QA figures (mock VLM, self-reported metrics). */
   designQaDisclosure: string | null
 } {
   const scores: number[] = []
@@ -255,6 +257,9 @@ export function buildScorecard(input: BuildInput): Scorecard {
   const designQa = aggregateDesignQa(runs)
 
   return {
+    // schema note: additive nullable fields (designSlopScore/designStatus/designQaDisclosure)
+    // were added post-audit; consumers must treat absent fields as null. Base schema_version
+    // unchanged so the committed isolated scorecard remains byte-comparable.
     schema_version: "1.0",
     generated_at: new Date().toISOString(),
     task_app: "create-invoice",

@@ -13,8 +13,8 @@
  * Returns `{ task_completed: boolean, checks: { D1, D2, D3 }, row? }`.
  */
 
-import { DatabaseSync } from "../sqlite.js"
-import type { SignupRecord } from "./server.js"
+import { DatabaseSync } from "../sqlite.ts"
+import type { SignupRecord } from "./server.ts"
 
 export interface VerifyDemoInput {
   /** The expected email submitted by the agent. */

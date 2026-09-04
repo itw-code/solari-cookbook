@@ -218,11 +218,9 @@ async function postChat(messages: ChatMessage[]): Promise<string> {
   // (src/config/model-router.ts), NOT read directly from LLM_* here. The router
   // prefers ACTION_MODEL_PROVIDER / ACTION_MODEL_NAME / ACTION_MODEL_API_KEY and
   // falls back to the legacy LLM_* variables, so existing .env setups keep
-  // working unchanged — but the ACTION chain is now the single source of truth
-  // for the agent path, matching the documented router behavior.
-  //
-  // Endpoint: the router carries no endpoint field, so the endpoint still comes
-  // from LLM_ENDPOINT (an [OI]-compatible chat-completions URL).
+  // Endpoint + key/model fallbacks: the router resolves provider/model/key;
+  // the endpoint itself still comes from LLM_ENDPOINT and legacy LLM_* vars
+  // remain the fallback chain (router covers model identity, not transport).
   const action = getModelConfig("ACTION")
   const key = action.apiKey || requireEnv("LLM_API_KEY")
   const endpoint = requireEnv("LLM_ENDPOINT")
