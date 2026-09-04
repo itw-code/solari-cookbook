@@ -5,7 +5,7 @@
 [![CI](https://github.com/itw-code/solari-cookbook/actions/workflows/ci.yml/badge.svg)](https://github.com/itw-code/solari-cookbook/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/node-22%2B-5FA04E?logo=node.js&logoColor=white)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-37%20passing-brightgreen)](test/)
+[![Tests](https://img.shields.io/badge/tests-86%20passing-brightgreen)](test/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 > **Cold generalizes. Warm reliability does not.**
@@ -53,7 +53,7 @@ git clone https://github.com/itw-code/solari-cookbook.git
 cd solari-cookbook
 npm install
 
-npm run verify          # tsc --noEmit -> 0 errors; vitest run -> 37 passed
+npm run verify          # tsc --noEmit -> 0 errors; vitest run -> 86 passed
 npm run gen:variants    # deterministic variant matrix -> variants.json
 ```
 
@@ -103,7 +103,7 @@ honest:
 | **P4 · Nav order/grouping** | reorder/group the header/sidebar nav (labels unchanged) | affects the *scan path* for the first action; labels stable, so a strong agent recovers. |
 | **P5 · Theme/CSS** | color palette, font, button style, spacing/borders/radius — the honesty **control** | a *genuinely* vision-first agent should be near-invariant to skin. If a CSS-only change collapses it, the agent was secretly DOM-caching or text-scraping. |
 
-### Real-World Use Cases, Pain Points & The Build Story (48h Lifecycle / 4h Coding Sprint)
+### Real-World Use Cases, Pain Points & The Build Story (48h Lifecycle / ~4h Build Session)
 
 > *"We don’t care how you ship, we care that you can ship something great, and if you can ship it faster with AI, even better."*
 
@@ -113,7 +113,7 @@ honest:
 | :--- | :--- | :--- |
 | **Fragile Automation** | Traditional scripts (Selenium/Playwright) crash whenever a CSS class, DOM ID, or element hierarchy changes. | **Solari's Visual CUA**: Looks at screenshots and clicks real coordinates (`pixels in -> clicks out`), completely immune to website code changes. |
 | **The "Memorized Demo" Trap** | AI agents look 100% reliable on the exact demo form they were built on, but get lost on unseen layouts or multi-step flows. | **ColdStart Verification**: Automatically scrambles apps across 5 mutation axes and validates actual database rows with fail-closed SQLite checks. |
-| **Slow, Heavy VMs** | Full virtual machines take minutes to boot, cost a fortune, and leave leftover credentials and security risks. | **Solari Fast-Forks**: Boots lightweight, disposable Firecracker microVMs in ~10 seconds with guaranteed zero leaked sandboxes. |
+| **Slow, Heavy VMs** | Full virtual machines take minutes to boot, cost a fortune, and leave leftover credentials and security risks. | **Solari MicroVMs**: Boots lightweight, disposable Firecracker microVMs in ~10 seconds (measured; snapshot fast-forks were best-effort in our runs and mostly 409'd, so direct provisioning is the working path) with zero leaked sandboxes. |
 
 #### 2. Four Common Real-World Use Cases
 
@@ -158,35 +158,35 @@ labor, placeholders for illustration only.
 | :--- | :--- | :--- | :--- | :--- |
 | **Action Space** | OS Selectors | DOM CSS Selectors | DOM Tree Parsing | **Visual Pixels & Coordinates** (`pixels in -> clicks out`) |
 | **UI Change Resilience** | 🔴 **0%** (Crashes on refactor) | 🔴 **0%** (Fails on ID/CSS change) | 🟡 **Partial** (Fails on shadow DOM) | 🟢 **100% Surface Invariance** (P1/P5 proven) |
-| **Sandbox Boot Time** | 60–180s (Full Windows VM) | ~5–10s (Local Node) | ~15–30s (Container) | ⚡ **~10s MicroVM Fast-Forks** |
+| **Sandbox Boot Time** | 60–180s (Full Windows VM) | ~5–10s (Local Node) | ~15–30s (Container) | ⚡ **~10s MicroVM Boot (measured)** |
 | **OOD Robustness Testing** | None (Warm app only) | None (Hardcoded) | None (Live site only) | 🧪 **ColdStart 5-Axis Engine** (14 seeded variants) |
 | **Cost Per Execution** | $1.20–$2.00 + $15k license | $0.10–$0.30 (Dev time) | $0.10–$0.25 (Token bloat) | 🟡 **not measured** - no $ rate is exposed; see `artifacts/scorecard.json` for the observable envelope |
 | **Verification Integrity** | Self-reported status | DOM assertions | LLM self-reported 'done' | 🔒 **Fail-Closed SQLite Direct Channel** |
 
-#### 5. From Architecture to Verified Production: The 4-Hour AI Coding Sprint
+#### 5. From Architecture to Verified Production: The Build Story
 
-> **Reconciling the Two Timeframes: 48-Hour Project Lifecycle vs. 4-Hour Coding Sprint**
+> **The two timeframes, reconciled honestly**
 >
-> "48 hours of total project lifecycle (including strategic auditing, competitor analysis, and proposal pivots), capped off by a highly focused 4-hour AI-accelerated coding sprint to actually build, test, and deploy the harness."
+> "48 hours of total project lifecycle (research, strategic auditing, competitor analysis, and proposal pivots), with the initial harness, verifier, and CI landing in one focused ~4-hour afternoon build session on Sep 2, and docs/media/polish over the following evening."
 >
-> The *coding and deployment* took under 4 hours on September 2nd, while the *research and architecture* took the rest of the 48-hour weekend (auditing 13 competitor challenge repos, rejecting the crowded verification cluster, and designing the 5-axis perturbation engine). This proves both deep thinking and rapid execution.
+> Git log check: the first ColdStart commit landed Sep 2 at 14:24 and the live showcase deployed the same afternoon (Pages workflow commit at 16:45). The initial harness, verifier, and CI really did land in one ~4-hour session. Docs, showcase media, and the cost router kept landing that evening through ~03:00 Sep 3. Research and architecture took the rest of the 48-hour weekend (auditing the public challenge forks, rejecting the crowded verification cluster, and designing the 5-axis perturbation engine).
 >
 > 💡 **AI Tooling Acceleration**:
-> *"By leveraging an agentic multi-tool stack (**Google Antigravity**, **Claude Code**, and **Pi Coding Agent** via **OpenCode Go**) paired with frontier models (**Gemini 3.8 Flash**, **DeepSeek V4 Flash**, **GPT 5.6 Luna**, **Kimi K3**, and **GLM 5**) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into a 4-hour focused engineering sprint."*
+> *"By leveraging an agentic multi-tool stack (**Google Antigravity**, **Claude Code**, and **Pi Coding Agent** via **OpenCode Go**) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into one focused afternoon session. The model that executed the scored benchmark runs was `opencode-go-responses-gpt-5-6-luna` (per the committed traces); other model names mentioned in earlier drafts had no artifact behind them and have been dropped."*
 
-##### The 4-Hour AI Coding Sprint (Sep 02)
-- **14:00 – 14:30 (Hour 0 · Harness Scaffolding & Mutation Engine)**: Translating the architectural spec into code: leveraged **Google Antigravity** and **Claude Code** (running **Gemini 3.8 Flash** and **DeepSeek V4 Flash**) to scaffold the 5 perturbation axes (`P1–P5`) and build a seeded procedural engine with a strict invariant (`same seed -> same variant`).
-- **14:30 – 15:00 (Hour 1 · Fast-Fork Sandboxes on Solari)**: Connected Solari Firecracker microVM snapshot fast-forks booting in ~10 seconds with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**, guaranteeing 0 leaked zombie sandboxes.
-- **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** (reasoning across **Kimi K3** and **GLM 5**) to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
-- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and rapidly generated 37/37 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
+##### The Build Session (Sep 02 afternoon, polish through Sep 03 morning)
+- **14:00 – 14:30 (Hour 0 · Harness Scaffolding & Mutation Engine)**: Translating the architectural spec into code: leveraged **Google Antigravity** and **Claude Code** to scaffold the 5 perturbation axes (`P1–P5`) and build a seeded procedural engine with a strict invariant (`same seed -> same variant`).
+- **14:30 – 15:00 (Hour 1 · Sandboxes on Solari)**: Wired the harness to Solari Firecracker microVMs with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**. Measured boot was ~10s (create queue plus serve); the snapshot fast-fork path returned 409 on 7 of 8 attempts in our runs, so direct provisioning is the working path. 0 leaked zombie sandboxes.
+- **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
+- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and rapidly generated 86 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
 - *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 10 step reports in [`reports/`](reports/).*
 
 ##### The 48-Hour Build Timeline Overview
 | Phase | Timeframe | Focus | Deliverables & Milestones |
 | :--- | :--- | :--- | :--- |
-| **Phase 0** | Aug 31 • Evening | **The Spark & Strategic Audit** | Scanned all 13 challenge repos; self-rejected v1 ("Witness" in crowded verification cluster); discovered uncrowded zero-shot generalization gap. |
-| **Phase 1** | Sep 01 • Day 1 | **Research & System Architecture** | Solari API environment validation (0 resource leaks); locked 5-axis perturbation spec; designed procedural variant engine and fast-fork architecture. |
-| **Phase 2–4** | Sep 02 • Day 2 | **The 4-Hour AI Coding Sprint** | Accelerated with **Antigravity**, **Claude Code**, **Pi Coding Agent**, and **OpenCode Go** (models: **Gemini 3.8 Flash**, **DeepSeek V4 Flash**, **GPT 5.6 Luna**, **Kimi K3**, **GLM 5**): vision agent loop, hybrid coordinate snapping, SQLite fail-closed verifier, causal axis-isolated runs, 37/37 passing unit tests, and live showcase deployment. |
+| **Phase 0** | Aug 31 • Evening | **The Spark & Strategic Audit** | Scanned the public challenge forks (manual scan, not archived in this repo); self-rejected v1 ("Witness" in crowded verification cluster); discovered uncrowded zero-shot generalization gap. |
+| **Phase 1** | Sep 01 • Day 1 | **Research & System Architecture** | Solari API environment validation (0 resource leaks); locked 5-axis perturbation spec; designed the procedural variant engine and fork orchestration (snapshot best-effort, direct provisioning fallback). |
+| **Phase 2–4** | Sep 02 14:24 - Sep 03 ~03:00 | **Build Session + Evening Polish** | Accelerated with **Antigravity**, **Claude Code**, **Pi Coding Agent**, and **OpenCode Go**: vision agent loop, hybrid coordinate snapping, SQLite fail-closed verifier, causal axis-isolated runs, and 86 passing unit tests in the afternoon session; showcase media and docs followed that evening. |
 
 ---
 
@@ -472,7 +472,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | [`artifacts/scorecard.json`](artifacts/scorecard.json) | The raw data — per-variant success rates, cost, replay URLs |
 | [`artifacts/where-it-breaks.md`](artifacts/where-it-breaks.md) | Failure attribution by axis |
 
-**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. It was delivered across a **48-hour total project lifecycle** (including strategic auditing, competitor analysis, and proposal pivots), capped off by a focused **4-hour AI-accelerated coding sprint** to build, test, and deploy the harness. It has 37 passing unit tests and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
+**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. The initial harness, verifier, and CI landed in one ~4-hour afternoon session on Sep 2 (first commit 14:24, showcase deployed the same day); docs, media, and polish continued that evening through ~03:00 Sep 3, all inside a **48-hour total project lifecycle** of research, auditing, and architecture. It has 86 passing unit tests and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
 
 **Process artifacts:**
 

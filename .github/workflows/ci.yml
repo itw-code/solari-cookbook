@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Scan tracked files for key material
         run: |
-          if git grep -InE 'slr_live_[A-Za-z0-9]{6,}|sk-[A-Za-z0-9]{16,}|Bearer [A-Za-z0-9._-]{12,}' -- . ':!*.lock' ':!package-lock.json'; then
+          if git grep -InE 'slr_live_[A-Za-z0-9_]{3,}|sk-[A-Za-z0-9]{16,}|Bearer [A-Za-z0-9._-]{12,}|Challenge[-]Intern' -- . ':!*.lock' ':!package-lock.json'; then
             echo "::error::possible secret found in tracked files"
             exit 1
           fi

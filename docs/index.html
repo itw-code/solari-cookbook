@@ -7,18 +7,18 @@
   <!-- Primary Meta Tags -->
   <title>ColdStart — Zero-Shot Generalization Benchmark for Computer-Use Agents</title>
   <meta name="title" content="ColdStart — Zero-Shot Generalization Benchmark for Computer-Use Agents">
-  <meta name="description" content="An open-source benchmark harness testing Computer-Use Agents on procedurally mutated, out-of-distribution web applications via Solari microVM snapshot fast-forks.">
+  <meta name="description" content="An open-source benchmark harness testing Computer-Use Agents on procedurally mutated, out-of-distribution web applications on Solari ephemeral microVMs.">
 
   <!-- Open Graph / Facebook / Discord -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
-  <meta property="og:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 37/37 tests pass, 0 leaked microVMs.">
+  <meta property="og:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 86 tests pass, 0 leaked microVMs.">
   <meta property="og:image" content="./artifacts/showcase.png">
 
   <!-- Twitter / X -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
-  <meta property="twitter:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 37/37 tests pass, 0 leaked microVMs.">
+  <meta property="twitter:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 86 tests pass, 0 leaked microVMs.">
   <meta property="twitter:image" content="./artifacts/showcase.png">
 
   <!-- Tailwind CSS CDN -->
@@ -146,7 +146,7 @@
           ⚡ Solari MicroVM Snapshot Forks
         </span>
         <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-medium">
-          🧪 37/37 Vitest Unit Tests PASS
+          🧪 86 Vitest Unit Tests PASS
         </span>
         <span class="px-3 py-1 rounded-full bg-black/60 text-slate-300 border border-white/10 text-xs font-mono font-medium">
           🔒 Fail-Closed DB Verification (C1–C7)
@@ -438,7 +438,7 @@
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="px-2.5 py-0.5 rounded bg-blue-950 text-blue-300 border border-blue-500/30 text-[10px] font-mono font-bold uppercase">What Others Test</span>
-              <span class="text-[10px] font-mono text-emerald-400">93% Repeatability</span>
+              <span class="text-[10px] font-mono text-emerald-400">3/3 Repeatability</span>
             </div>
             <div class="rounded-xl overflow-hidden border border-white/10 mb-4 aspect-video bg-black">
               <img src="./artifacts/step-02/baseline-s0.png" alt="Warm Baseline Form" class="w-full h-full object-cover">
@@ -867,9 +867,9 @@
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-950/80 text-pine-300 border border-pine-500/30 text-xs font-mono font-medium mb-3">
         <span>💼 Real-World Value &amp; The Build Story</span>
         <span class="text-slate-500">•</span>
-        <span class="text-emerald-400">4-Hour Coding Sprint • 48-Hour Lifecycle</span>
+        <span class="text-emerald-400">4h Build Session • 48-Hour Lifecycle</span>
       </div>
-      <h3 class="text-3xl sm:text-4xl font-black text-white">Solving Real Problems &amp; The 4-Hour AI Coding Sprint</h3>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">Solving Real Problems &amp; The Build Story</h3>
       <p class="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
         &ldquo;We don’t care how you ship, we care that you can ship something great, and if you can ship it faster with AI, even better.&rdquo;
       </p>
@@ -932,7 +932,7 @@
               <span>✓</span> How Solari Fixes It
             </div>
             <p class="text-xs text-slate-400 leading-relaxed">
-              Solari boots lightweight, throwaway browser sandboxes in ~10 seconds. You run your task, close the session, and everything is wiped clean with 0 leftover leaks.
+              Solari boots lightweight, throwaway browser sandboxes in ~10 seconds (measured). Snapshot fast-forks were best-effort in our runs and mostly 409'd, so direct provisioning is the working path. You run your task, close the session, and everything is wiped clean with 0 leftover leaks.
             </p>
           </div>
         </div>
@@ -1118,7 +1118,7 @@
                 <td class="py-3 px-4 text-slate-400">60–180s (Full Windows VM)</td>
                 <td class="py-3 px-4 text-slate-400">~5–10s (Local Node)</td>
                 <td class="py-3 px-4 text-slate-400">~15–30s (Container)</td>
-                <td class="py-3 px-4 text-emerald-300 font-bold bg-pine-950/30 border-l border-r border-pine-500/30">~10s MicroVM Fast-Forks</td>
+                <td class="py-3 px-4 text-emerald-300 font-bold bg-pine-950/30 border-l border-r border-pine-500/30">~10s MicroVM Boot (measured)</td>
               </tr>
               <tr class="hover:bg-white/[0.02]">
                 <td class="py-3 px-4 font-bold text-white">Out-of-Distribution Testing</td>
@@ -1148,26 +1148,26 @@
 
     </div>
 
-    <!-- PART 4: THE 4-HOUR AI CODING SPRINT (WITHIN 48-HOUR LIFECYCLE) -->
+    <!-- PART 4: THE BUILD SESSION (WITHIN 48-HOUR LIFECYCLE) -->
     <div class="p-6 sm:p-8 rounded-2xl glass-card-subtle border border-white/10">
       <div class="flex items-center justify-between mb-6">
         <div>
-          <span class="text-xs font-mono font-bold text-pine-400 uppercase tracking-wider">The AI-Accelerated Coding Sprint</span>
-          <h4 class="text-xl sm:text-2xl font-black text-white mt-1">From Architecture to Verified Production: The 4-Hour Coding Sprint</h4>
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase tracking-wider">The AI-Accelerated Build Story</span>
+          <h4 class="text-xl sm:text-2xl font-black text-white mt-1">From Architecture to Verified Production: The Build Story</h4>
         </div>
-        <span class="text-xs font-mono text-emerald-400 px-2.5 py-1 rounded bg-pine-950 border border-pine-500/30 hidden sm:inline-block">⚡ 4h Coding Sprint • 48h Total Lifecycle</span>
+        <span class="text-xs font-mono text-emerald-400 px-2.5 py-1 rounded bg-pine-950 border border-pine-500/30 hidden sm:inline-block">⚡ ~4h Build Session • 48h Total Lifecycle</span>
       </div>
 
       <!-- Narrative Reconciliation Callout -->
       <div class="p-4 mb-6 rounded-xl bg-pine-950/40 border border-pine-500/20 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2">
         <p>
-          <strong class="text-emerald-400">Reconciling the Two Timeframes:</strong> 48 hours of total project lifecycle (including strategic auditing, competitor analysis, and proposal pivots), capped off by a highly focused 4-hour AI-accelerated coding sprint to actually build, test, and deploy the harness.
+          <strong class="text-emerald-400">Reconciling the Two Timeframes:</strong> The initial harness, verifier, and CI landed in one ~4-hour afternoon session on Sep 2 (git log: first commit 14:24, showcase deployed the same afternoon). Docs, showcase media, and the cost router followed that evening through ~03:00 Sep 3. Research, auditing, and architecture took the rest of the 48-hour project lifecycle.
         </p>
         <p class="text-xs text-slate-400">
-          The <em>coding and deployment</em> took 4 hours on September 2nd, while the <em>research and architecture</em> took the rest of the 48-hour weekend. This proves both deep thinking and rapid execution.
+          The <em>coding and deployment</em> took one ~4-hour session on September 2nd; <em>docs, media, and polish</em> continued that evening through ~03:00 September 3rd. Research and architecture took the rest of the 48-hour weekend.
         </p>
         <p class="text-xs text-pine-300 font-mono pt-1 border-t border-white/5">
-          💡 <strong>AI Tooling Acceleration:</strong> By leveraging an agentic multi-tool stack (<strong>Google Antigravity</strong>, <strong>Claude Code</strong>, and <strong>Pi Coding Agent</strong> routed through <strong>OpenCode Go</strong>) powered by frontier models (<strong>Gemini 3.8 Flash</strong>, <strong>DeepSeek V4 Flash</strong>, <strong>GPT 5.6 Luna</strong>, <strong>Kimi K3</strong>, and <strong>GLM 5</strong>) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into a 4-hour focused engineering sprint.
+          💡 <strong>AI Tooling Acceleration:</strong> By leveraging an agentic multi-tool stack (<strong>Google Antigravity</strong>, <strong>Claude Code</strong>, and <strong>Pi Coding Agent</strong> routed through <strong>OpenCode Go</strong>) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into one focused afternoon build session.
         </p>
       </div>
 
@@ -1180,7 +1180,7 @@
             <div class="text-xs text-slate-400 mt-1">Harness Scaffolding &amp; Mutation Engine</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Translating Spec into Code:</strong> With the architecture locked during the weekend research phase, we leveraged <strong>Google Antigravity</strong> and <strong>Claude Code</strong> (running <strong>Gemini 3.8 Flash</strong> and <strong>DeepSeek V4 Flash</strong>) to scaffold the 5-axis procedural mutation engine (<code>P1–P5</code>) into TypeScript, enforcing the deterministic PRNG invariant (<code>same seed -&gt; same variant</code>) so every benchmark test is fresh and un-memorized.
+            <strong class="text-white">Translating Spec into Code:</strong> With the architecture locked during the weekend research phase, we leveraged <strong>Google Antigravity</strong> and <strong>Claude Code</strong> (two AI coding agents in parallel) to scaffold the 5-axis procedural mutation engine (<code>P1–P5</code>) into TypeScript, enforcing the deterministic PRNG invariant (<code>same seed -&gt; same variant</code>) so every benchmark test is fresh and un-memorized.
           </div>
         </div>
 
@@ -1191,7 +1191,7 @@
             <div class="text-xs text-slate-400 mt-1">Solari Fast Sandboxes</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Connecting Solari MicroVMs:</strong> Wired the test harness to Solari's microVM snapshot forks with SDK bindings and strict resource cleanup orchestration generated via <strong>Pi Coding Agent</strong> through <strong>OpenCode Go</strong>. We got disposable browser environments spinning up in ~10 seconds, with automated cleanup ensuring zero leftover sandboxes after every run.
+            <strong class="text-white">Connecting Solari MicroVMs:</strong> Wired the test harness to Solari's microVM snapshot forks with SDK bindings and strict resource cleanup orchestration generated via <strong>Pi Coding Agent</strong> through <strong>OpenCode Go</strong>. Measured boot was ~10 seconds (create queue plus serve); the snapshot fast-fork path returned 409 on 7 of 8 attempts in our runs, so direct provisioning is the working path, with automated cleanup ensuring zero leftover sandboxes after every run.
           </div>
         </div>
 
@@ -1202,7 +1202,7 @@
             <div class="text-xs text-slate-400 mt-1">The Struggle &amp; Breakthrough</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Fixing the "Click-Lock" Bug:</strong> In our first live runs, general chat models got stuck — clicking the exact same textbox 24 times without ever typing! Pair-programming with <strong>Antigravity</strong> (reasoning across <strong>Kimi K3</strong> and <strong>GLM 5</strong>), we quickly diagnosed the visual grounding breakdown and engineered smart coordinate snapping to lock the AI's aim onto interactive inputs, achieving a smooth 16-step completion.
+            <strong class="text-white">Fixing the "Click-Lock" Bug:</strong> In our first live runs, general chat models got stuck — clicking the exact same textbox 24 times without ever typing! Pair-programming with <strong>Antigravity</strong>, we quickly diagnosed the visual grounding breakdown and engineered smart coordinate snapping to lock the AI's aim onto interactive inputs, achieving a smooth 16-step completion.
           </div>
         </div>
 
@@ -1213,7 +1213,7 @@
             <div class="text-xs text-slate-400 mt-1">Verification &amp; Shipped Live</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 37/37 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
+            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 86 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
           </div>
         </div>
 
@@ -1243,7 +1243,7 @@
     <div class="text-center max-w-3xl mx-auto mb-14">
       <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">System Architecture</h2>
       <h3 class="text-3xl sm:text-4xl font-black text-white">How ColdStart Evaluates Agents Cold</h3>
-      <p class="text-slate-400 text-sm mt-3">From seeded microVM snapshot forks to fail-closed SQLite verification.</p>
+      <p class="text-slate-400 text-sm mt-3">From seeded ephemeral microVMs to fail-closed SQLite verification.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -1256,7 +1256,7 @@
           </div>
           <h4 class="text-lg font-bold text-white mb-2">Snapshot-as-Factory</h4>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Pre-bakes dependencies into a base microVM snapshot. At evaluation time, it boots new seeded variant environments in ~10 seconds via fast-forks, ensuring clean sandbox isolation without container pollution.
+            Pre-bakes dependencies into a base microVM snapshot. At evaluation time, it boots new seeded variant environments in ~10 seconds (measured; snapshot fast-forks were best-effort in our runs and mostly 409'd, so direct provisioning is the working path), ensuring clean sandbox isolation without container pollution.
           </p>
         </div>
         <div class="mt-4 pt-4 border-t border-white/5 font-mono text-[11px] text-pine-300">
@@ -1306,7 +1306,7 @@
     <div class="text-center max-w-3xl mx-auto mb-14">
       <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Procedural Environment Factory</h2>
       <h3 class="text-3xl sm:text-4xl font-black text-white">The 5 Out-of-Distribution Perturbation Axes</h3>
-      <p class="text-slate-400 text-sm mt-3">Seeded PRNG mutations generated on the fly inside Solari snapshot fast-forks.</p>
+      <p class="text-slate-400 text-sm mt-3">Seeded PRNG mutations generated on the fly inside fresh Solari microVMs.</p>
     </div>
 
     <!-- Variant Cards Grid -->
@@ -1419,7 +1419,7 @@
   <div class="mb-12 max-w-4xl mx-auto">
     <div class="p-8 rounded-2xl glass-card border border-pine-500/30 glow-emerald">
       <h4 class="text-xl font-bold text-white mb-6 text-center">The Validated Gap</h4>
-      <p class="text-slate-300 text-sm text-center mb-8">I scanned all 13 challenge submissions before writing a single line of code:</p>
+      <p class="text-slate-300 text-sm text-center mb-8">I scanned the other challenge submissions before writing a single line of code:</p>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Crowded Themes -->
@@ -1459,9 +1459,9 @@
           </div>
           
           <div class="mt-4 p-4 rounded-lg bg-black/40 border border-emerald-500/20">
-            <div class="text-xs text-slate-400 mb-2">Pinetree's Hallucinate Westworld Result:</div>
+            <div class="text-xs text-slate-400 mb-2">Pinetree's reported Hallucinate Westworld result (unverified here; add the official link before citing numbers):</div>
             <div class="flex items-center gap-3">
-              <span class="text-3xl font-black text-emerald-400">93%</span>
+              <span class="text-3xl font-black text-emerald-400">Zero-shot</span>
               <span class="text-sm text-slate-300">on fully-unseen environment, zero prior exposure</span>
             </div>
           </div>
@@ -1523,7 +1523,7 @@
           <div id="v2-details" class="hidden p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-slate-300">
             <p class="font-bold text-emerald-400 mb-2">Why it works:</p>
             <ul class="list-disc list-inside space-y-1">
-              <li>Validated 0/13 applicants in this theme</li>
+              <li>No other applicant tested this theme</li>
               <li>Directly aligned with Pinetree's thesis</li>
               <li>Uses Solari's superpower differently (environment branching)</li>
             </ul>
@@ -1554,13 +1554,13 @@
         </span>
         <h4 class="text-2xl sm:text-3xl font-black text-white mt-3">The 48-Hour Build Timeline</h4>
         <p class="text-sm sm:text-base text-slate-300 mt-3 font-medium leading-relaxed">
-          48 hours of total project lifecycle (including strategic auditing, competitor analysis, and proposal pivots), capped off by a highly focused 4-hour AI-accelerated coding sprint to actually build, test, and deploy the harness.
+          The initial harness, verifier, and CI landed in one ~4-hour afternoon session on Sep 2 (git log: first commit 14:24, showcase deployed the same afternoon). Docs, showcase media, and the cost router followed that evening through ~03:00 Sep 3. Research, auditing, and architecture took the rest of the 48-hour project lifecycle.
         </p>
         <p class="text-xs text-slate-400 mt-2">
-          From Harry Chow's challenge tweet on Aug 31 to an audited, zero-leak zero-shot benchmark harness on Sep 2: research and architecture took the weekend; coding and deployment took under 4 hours.
+          From Harry Chow's challenge tweet on Aug 31 to an audited, zero-leak zero-shot benchmark harness on Sep 2: research and architecture took the weekend; the first commit landed Sep 2 at 14:24 and the harness, verifier, and CI shipped in one ~4-hour afternoon session, with docs and media following that evening
         </p>
         <div class="mt-4 p-3.5 rounded-xl bg-pine-950/40 border border-pine-500/20 text-xs text-slate-300 text-left leading-relaxed">
-          <strong class="text-emerald-400">⚡ AI Tooling Acceleration:</strong> By leveraging an agentic multi-tool stack (<strong>Google Antigravity</strong>, <strong>Claude Code</strong>, and <strong>Pi Coding Agent</strong> via <strong>OpenCode Go</strong>) paired with frontier models (<strong>Gemini 3.8 Flash</strong>, <strong>DeepSeek V4 Flash</strong>, <strong>GPT 5.6 Luna</strong>, <strong>Kimi K3</strong>, and <strong>GLM 5</strong>) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into a 4-hour focused engineering sprint.
+          <strong class="text-emerald-400">⚡ AI Tooling Acceleration:</strong> By leveraging an agentic multi-tool stack (<strong>Google Antigravity</strong>, <strong>Claude Code</strong>, and <strong>Pi Coding Agent</strong> via <strong>OpenCode Go</strong>) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into one focused afternoon build session.
         </div>
       </div>
 
@@ -1578,8 +1578,8 @@
           </div>
           <div class="text-xs text-slate-300 leading-relaxed border-l md:border-l border-white/10 pl-4 md:pl-6 space-y-1.5">
             <p><strong class="text-white">Harry Chow tweets the $300K challenge:</strong> "No resume, no grades. Fork Solari, build a real use case, ship fast with AI."</p>
-            <p><strong class="text-white">The Competitive Audit:</strong> Scanned all 13 challenge repos and pull requests. Discovered 6+ applicants had already submitted generic "verification CI" (PRs #4, #16, #20). Self-rejected v1 ("Witness") to avoid entering a crowded, copycat cluster.</p>
-            <p><strong class="text-emerald-400">The Discovery:</strong> Pinetree's whole identity is zero-shot generalization on unseen environments (93% on Hallucinate Westworld). Exactly <strong>0 of 13 applicants</strong> touched it. That was the uncrowded white space.</p>
+            <p><strong class="text-white">The Competitive Audit:</strong> Scanned the public challenge forks and pull requests in a manual audit (not archived in this repo). Several applicants had already submitted generic "verification CI" entries. Self-rejected v1 ("Witness") to avoid entering a crowded, copycat cluster.</p>
+            <p><strong class="text-emerald-400">The Discovery:</strong> Pinetree's whole identity is zero-shot generalization on unseen environments. Exactly <strong>0 of the other applicants</strong> touched it. That was the uncrowded white space.</p>
           </div>
         </div>
 
@@ -1595,7 +1595,7 @@
           <div class="text-xs text-slate-300 leading-relaxed border-l md:border-l border-white/10 pl-4 md:pl-6 space-y-1.5">
             <p><strong class="text-white">Env Validation &amp; Design Lock (Steps 00-01):</strong> Verified Solari API in live environment, proven 0 resource leaks. Locked design: Create-Invoice app with 5 perturbation axes.</p>
             <p><strong class="text-white">Procedural Variant Factory (Step 02):</strong> Seeded PRNG matrix generating 14 deterministic web app variants. 15/15 unit tests pass.</p>
-            <p><strong class="text-white">Solari Orchestration (Step 03):</strong> Implemented microVM snapshot fast-forks. Forked fresh, isolated environments in ~10 seconds without container residue. Zero microVMs leaked.</p>
+            <p><strong class="text-white">Solari Orchestration (Step 03):</strong> Wired microVM fork orchestration. Measured boot: ~10.4s per fork (create queue + serve); the snapshot path 409'd on 7 of 8 attempts, so direct provisioning is the working path. Zero container residue. Zero microVMs leaked.</p>
           </div>
         </div>
 
@@ -1604,12 +1604,12 @@
           <div class="flex items-center gap-3 md:w-48 shrink-0">
             <span class="w-8 h-8 rounded-lg bg-pine-950 border border-pine-500/30 flex items-center justify-center font-mono text-xs font-bold text-pine-300">02</span>
             <div>
-              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Coding Sprint</div>
+              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Build Session</div>
               <div class="text-[11px] font-mono text-pine-400">Core Loop &amp; Verifier (Steps 04 – 05)</div>
             </div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed border-l md:border-l border-white/10 pl-4 md:pl-6 space-y-1.5">
-            <p><strong class="text-white">Vision-First Agent Loop (Step 04):</strong> Built pure vision-first execution (1280x800 screenshots, coordinate actions). Prompted <strong>Antigravity</strong> and <strong>Claude Code</strong> (reasoning across <strong>Kimi K3</strong> and <strong>GLM 5</strong>) to engineer harness-side hybrid grounding and smart coordinate snapping, rapidly diagnosing and resolving the visual "click-lock" bug. Demonstrated 3/3 repeatability on baseline.</p>
+            <p><strong class="text-white">Vision-First Agent Loop (Step 04):</strong> Built pure vision-first execution (1280x800 screenshots, coordinate actions). Prompted <strong>Antigravity</strong> and <strong>Claude Code</strong> to engineer harness-side hybrid grounding and smart coordinate snapping, rapidly diagnosing and resolving the visual "click-lock" bug. Demonstrated 3/3 repeatability on baseline.</p>
             <p><strong class="text-white">Fail-Closed Verifier (Step 05):</strong> Accelerated by <strong>Claude Code</strong> and <strong>Pi Coding Agent</strong> (via <strong>OpenCode Go</strong>) to scaffold an independent auditor checking the sandbox SQLite database directly (C1–C7 integrity checks), completely ignoring what the agent claims.</p>
           </div>
         </div>
@@ -1619,7 +1619,7 @@
           <div class="flex items-center gap-3 md:w-48 shrink-0">
             <span class="w-8 h-8 rounded-lg bg-emerald-950 border border-emerald-500/30 flex items-center justify-center font-mono text-xs font-bold text-emerald-300">03</span>
             <div>
-              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Coding Sprint</div>
+              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Build Session</div>
               <div class="text-[11px] font-mono text-emerald-400">Causal Evaluation (Steps 06 &amp; 06b)</div>
             </div>
           </div>
@@ -1634,13 +1634,13 @@
           <div class="flex items-center gap-3 md:w-48 shrink-0">
             <span class="w-8 h-8 rounded-lg bg-pine-950 border border-pine-500/30 flex items-center justify-center font-mono text-xs font-bold text-pine-300">04</span>
             <div>
-              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Coding Sprint</div>
+              <div class="text-xs font-mono font-bold text-white uppercase">Sep 02 • Build Session</div>
               <div class="text-[11px] font-mono text-pine-400">Packaging &amp; Live Deployment (Steps 07 – 08)</div>
             </div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed border-l md:border-l border-white/10 pl-4 md:pl-6 space-y-1.5">
             <p><strong class="text-white">Packaging &amp; Verification (Step 07):</strong> Generated showcase gif (16 keyframes), cleaned secrets, and compiled full test harness.</p>
-            <p><strong class="text-emerald-400 font-bold">Final Orchestrator Sign-off (Step 08): PASS.</strong> Automated 37/37 passing Vitest unit tests with zero TypeScript errors and zero leaked microVMs using <strong>Claude Code</strong> and <strong>OpenCode Go</strong> (evaluating against <strong>GPT 5.6 Luna</strong>), deploying the live showcase in under 4 hours of coding.</p>
+            <p><strong class="text-emerald-400 font-bold">Final Orchestrator Sign-off (Step 08): PASS.</strong> Automated 86 passing Vitest unit tests with zero TypeScript errors and zero leaked microVMs using <strong>Claude Code</strong> and <strong>OpenCode Go</strong> (evaluating against <strong>GPT 5.6 Luna</strong>), deploying the live showcase the same afternoon.</p>
           </div>
         </div>
 
@@ -2579,12 +2579,12 @@ npm install</code></pre>
       <!-- STEP 2 -->
       <div class="p-6 rounded-2xl glass-card border border-white/10">
         <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (37/37 PASS)</span>
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (86 Tests PASS)</span>
           <span class="text-[10px] font-mono text-emerald-400">Offline Mocks</span>
         </div>
         <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
           <pre><code>npm test
-# Output: 37 passed across 5 test files (VariantFactory, Verifier, AgentLoop, SolariDriver, Scorecard)</code></pre>
+# Output: 86 passed across 11 test files (agent-loop, axes, demo-site, design-qa-orchestrator, model-router, prng, render-demo-report, scan-url, slop-catcher, slop-scoring, verifier)</code></pre>
         </div>
       </div>
 

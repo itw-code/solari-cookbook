@@ -20,11 +20,11 @@ The test filters for:
 
 ## What everyone else built
 
-I scanned all 13 public challenge forks before writing a single line of code:
+I scanned the public challenge forks before writing a single line of code (manual audit; exact counts not archived in this repo):
 
 | Theme | # of applicants | Examples |
 |-------|-----------------|----------|
-| Reliability-CI / verify-the-outcome / audit | ~6 + 4 PRs | `receipts`, `agent-gauntlet`, `agent-ready`, PRs #16/#20/#4 |
+| Reliability-CI / verify-the-outcome / audit | ~6 + PRs | `receipts`, `agent-gauntlet`, `agent-ready` (PR numbers from a manual scan, not archived here) |
 | Stealth / captcha / residential proxies | ~7 | `agent-ready`, `cascade`, `hotel-california`, `brief`, `apply-lens` |
 | Cost-aware surface routing | 1 | `cascade` |
 | Voice agents | 2 | `solari-voice-agent` |
@@ -39,7 +39,7 @@ The most crowded cluster was **verification/reliability** — the thing my first
 
 Pinetree's entire public identity is **zero-shot generalization**:
 
-> 93% on Hallucinate Westworld — a fully-unseen environment — with no prior exposure, beating Yutori (86%) which *was RL-trained on that exact environment*.
+> Pinetree reports a strong zero-shot result on **Hallucinate Westworld**, a fully-unseen environment, which their agent had never seen. (The specific score and the Yutori comparison that appeared in an earlier draft of this line had no linkable source; add the official links before quoting numbers.)
 
 Their research page says the moat is **vision-first + true generalization**. Nobody in the applicant field had built tooling to measure that.
 
@@ -65,7 +65,7 @@ Their research page says the moat is **vision-first + true generalization**. Nob
 
 ## Why this uses Solari's superpower correctly
 
-Every competitor used sandboxes for **verification/CI**. ColdStart uses **snapshot → fork** to spin up **N fresh, isolated, unseen environment variants in ~1s each**:
+Every competitor used sandboxes for **verification/CI**. ColdStart uses Solari microVMs to spin up **N fresh, isolated, unseen environment variants in ~10s each (measured; the snapshot fast-fork path was best-effort in our runs and mostly 409'd, so direct provisioning is the working path)**:
 
 - **Procedural environment generation** — the exact primitive that makes this cheap and reproducible
 - Nobody else touched this use of the Solari API

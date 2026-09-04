@@ -16,7 +16,7 @@
 
 **[Screen: Split view — Pinetree benchmark table vs. competitor cluster map]**
 
-> "Pinetree's crown jewel is 93% on Hallucinate Westworld — an environment their agent had never seen. But here's the thing: none of the 13 applicants in this hiring challenge built tooling to measure that. They all tested reliability on known apps. ColdStart tests generalization to unknown ones."
+> "Pinetree's crown jewel is zero-shot generalization — their agent scores on environments it has never seen. But none of the other applicants in this hiring challenge built tooling to measure that. They all tested reliability on known apps. ColdStart tests generalization to unknown ones."
 
 ---
 
@@ -48,7 +48,7 @@
 
 **[Screen: PITCH.md or your face if recording with camera]**
 
-> "I built this harness in a focused 4-hour AI coding sprint following a weekend of deep competitive research and architectural design — a 48-hour total lifecycle that proves both deep strategic thinking and rapid execution. The code's clean, the tests pass, and the insight is real. Thanks for watching."
+> "I built the initial harness in one focused ~4-hour session after a weekend of deep competitive research and architectural design — a 48-hour total lifecycle. Polish, media, and docs followed over the next evening. The code's clean, the tests pass, and the insight is real. Thanks for watching."
 
 ---
 
