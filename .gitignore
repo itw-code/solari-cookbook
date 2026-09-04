@@ -6,3 +6,8 @@ __pycache__/
 .venv/
 venv/
 screenshot.png
+
+# ColdStart locals
+dist/
+*.db
+artifacts/runs/

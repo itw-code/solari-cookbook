@@ -1,0 +1,1365 @@
+{
+  "schema_version": "1.0",
+  "task_app": "create-invoice",
+  "generator": "coldstart-generate-variants",
+  "baseline_seed": 0,
+  "variant_count": 14,
+  "variants": [
+    {
+      "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+      "seed": 0,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 0,
+        "P3_field_order": 0,
+        "P4_nav_order": 0,
+        "P5_theme": 0
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 0,
+          "P2_structure": 0,
+          "P3_field_order": 0,
+          "P4_nav_order": 0,
+          "P5_theme": 0
+        },
+        "P1": {
+          "create": "Create Invoice",
+          "customer": "Customer",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Unit Price",
+          "description": "Description",
+          "confirmation": "Invoice Created",
+          "invoke": "New Invoice",
+          "listHeading": "Invoices"
+        },
+        "P2": {
+          "layout": "single",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "customer",
+            "invoice_date",
+            "due_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "description",
+            "qty",
+            "unit_price"
+          ],
+          "optionalFields": [],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#ffffff",
+          "text": "#1f2937",
+          "muted": "#6b7280",
+          "accent": "#2563eb",
+          "accentText": "#ffffff",
+          "border": "#d1d5db",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "6px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 0,
+        "instruction": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "ACMECORP",
+          "invoice_date": "2026-10-01",
+          "due_date": "2026-10-31",
+          "items": [
+            {
+              "description": "Consulting",
+              "qty": 3,
+              "unit_price_cents": 12000
+            }
+          ],
+          "subtotal_cents": 36000,
+          "tax_cents": 2880,
+          "total_cents": 38880,
+          "tax_rate_bps": 800
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0",
+      "seed": 17,
+      "intensity_by_axis": {
+        "P1_relabel": 4,
+        "P2_structure": 0,
+        "P3_field_order": 3,
+        "P4_nav_order": 0,
+        "P5_theme": 0
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 4,
+          "P2_structure": 0,
+          "P3_field_order": 3,
+          "P4_nav_order": 0,
+          "P5_theme": 0
+        },
+        "P1": {
+          "create": "New Bill",
+          "customer": "Client",
+          "submit": "Confirm",
+          "tax": "VAT",
+          "qty": "Units",
+          "unitPrice": "Price",
+          "description": "Memo",
+          "confirmation": "Recorded",
+          "invoke": "New Bill",
+          "listHeading": "Sales"
+        },
+        "P2": {
+          "layout": "single",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "due_date",
+            "tax_rate",
+            "invoice_date",
+            "customer"
+          ],
+          "itemOrder": [
+            "description",
+            "unit_price",
+            "qty"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#ffffff",
+          "text": "#1f2937",
+          "muted": "#6b7280",
+          "accent": "#2563eb",
+          "accentText": "#ffffff",
+          "border": "#d1d5db",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "6px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 17,
+        "instruction": "Open the billing app and create an invoice for customer \"INITECH\" with one line item: description \"Development\", qty 4, unit price $373.00, tax rate 7.50%, invoice date 2026-06-10, due date 2026-07-10. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "INITECH",
+          "invoice_date": "2026-06-10",
+          "due_date": "2026-07-10",
+          "items": [
+            {
+              "description": "Development",
+              "qty": 4,
+              "unit_price_cents": 37300
+            }
+          ],
+          "subtotal_cents": 149200,
+          "tax_cents": 11190,
+          "total_cents": 160390,
+          "tax_rate_bps": 750
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s7__P1:0__P2:3__P3:0__P4:2__P5:2",
+      "seed": 7,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 3,
+        "P3_field_order": 0,
+        "P4_nav_order": 2,
+        "P5_theme": 2
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 0,
+          "P2_structure": 3,
+          "P3_field_order": 0,
+          "P4_nav_order": 2,
+          "P5_theme": 2
+        },
+        "P1": {
+          "create": "Create Invoice",
+          "customer": "Customer",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Unit Price",
+          "description": "Description",
+          "confirmation": "Invoice Created",
+          "invoke": "New Invoice",
+          "listHeading": "Invoices"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "customer",
+            "invoice_date",
+            "due_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "description",
+            "qty",
+            "unit_price"
+          ],
+          "optionalFields": [],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#0f172a",
+          "text": "#e2e8f0",
+          "muted": "#94a3b8",
+          "accent": "#f59e0b",
+          "accentText": "#1f2937",
+          "border": "#334155",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "8px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 7,
+        "instruction": "Open the billing app and create an invoice for customer \"INITECH\" with one line item: description \"Training\", qty 4, unit price $380.00, tax rate 21%, invoice date 2026-06-18, due date 2026-07-12. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "INITECH",
+          "invoice_date": "2026-06-18",
+          "due_date": "2026-07-12",
+          "items": [
+            {
+              "description": "Training",
+              "qty": 4,
+              "unit_price_cents": 38000
+            }
+          ],
+          "subtotal_cents": 152000,
+          "tax_cents": 31920,
+          "total_cents": 183920,
+          "tax_rate_bps": 2100
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s13__P1:3__P2:1__P3:1__P4:2__P5:0",
+      "seed": 13,
+      "intensity_by_axis": {
+        "P1_relabel": 3,
+        "P2_structure": 1,
+        "P3_field_order": 1,
+        "P4_nav_order": 2,
+        "P5_theme": 0
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 3,
+          "P2_structure": 1,
+          "P3_field_order": 1,
+          "P4_nav_order": 2,
+          "P5_theme": 0
+        },
+        "P1": {
+          "create": "Generate a Charge",
+          "customer": "Customer",
+          "submit": "Confirm",
+          "tax": "Tax %",
+          "qty": "Units",
+          "unitPrice": "Amount per Unit",
+          "description": "Memo",
+          "confirmation": "Invoice Created",
+          "invoke": "Create New",
+          "listHeading": "Bills"
+        },
+        "P2": {
+          "layout": "single",
+          "confirmation": "page",
+          "entryPosition": "midbody"
+        },
+        "P3": {
+          "metaOrder": [
+            "invoice_date",
+            "customer",
+            "due_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "description",
+            "qty",
+            "unit_price"
+          ],
+          "optionalFields": [],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#ffffff",
+          "text": "#1f2937",
+          "muted": "#6b7280",
+          "accent": "#2563eb",
+          "accentText": "#ffffff",
+          "border": "#d1d5db",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "6px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 13,
+        "instruction": "Open the billing app and create an invoice for customer \"UMBRELLA\" with one line item: description \"Licensing\", qty 2, unit price $272.00, tax rate 21%, invoice date 2026-03-03, due date 2026-04-10. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "UMBRELLA",
+          "invoice_date": "2026-03-03",
+          "due_date": "2026-04-10",
+          "items": [
+            {
+              "description": "Licensing",
+              "qty": 2,
+              "unit_price_cents": 27200
+            }
+          ],
+          "subtotal_cents": 54400,
+          "tax_cents": 11424,
+          "total_cents": 65824,
+          "tax_rate_bps": 2100
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s31__P1:2__P2:2__P3:2__P4:1__P5:0",
+      "seed": 31,
+      "intensity_by_axis": {
+        "P1_relabel": 2,
+        "P2_structure": 2,
+        "P3_field_order": 2,
+        "P4_nav_order": 1,
+        "P5_theme": 0
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 2,
+          "P2_structure": 2,
+          "P3_field_order": 2,
+          "P4_nav_order": 1,
+          "P5_theme": 0
+        },
+        "P1": {
+          "create": "Generate a Charge",
+          "customer": "Billed To",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Rate",
+          "description": "Detail",
+          "confirmation": "Saved",
+          "invoke": "New Invoice",
+          "listHeading": "Invoices"
+        },
+        "P2": {
+          "layout": "wizard",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "invoice_date",
+            "tax_rate",
+            "customer",
+            "due_date"
+          ],
+          "itemOrder": [
+            "description",
+            "unit_price",
+            "qty"
+          ],
+          "optionalFields": [
+            "po_number"
+          ],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "reports",
+            "invoices",
+            "new"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#ffffff",
+          "text": "#1f2937",
+          "muted": "#6b7280",
+          "accent": "#2563eb",
+          "accentText": "#ffffff",
+          "border": "#d1d5db",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "6px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 31,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Consulting\", qty 2, unit price $194.00, tax rate 21%, invoice date 2026-10-07, due date 2026-11-10. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-10-07",
+          "due_date": "2026-11-10",
+          "items": [
+            {
+              "description": "Consulting",
+              "qty": 2,
+              "unit_price_cents": 19400
+            }
+          ],
+          "subtotal_cents": 38800,
+          "tax_cents": 8148,
+          "total_cents": 46948,
+          "tax_rate_bps": 2100
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s2__P1:2__P2:3__P3:1__P4:1__P5:3",
+      "seed": 2,
+      "intensity_by_axis": {
+        "P1_relabel": 2,
+        "P2_structure": 3,
+        "P3_field_order": 1,
+        "P4_nav_order": 1,
+        "P5_theme": 3
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 2,
+          "P2_structure": 3,
+          "P3_field_order": 1,
+          "P4_nav_order": 1,
+          "P5_theme": 3
+        },
+        "P1": {
+          "create": "New Bill",
+          "customer": "Customer",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Unit Price",
+          "description": "Item",
+          "confirmation": "Saved",
+          "invoke": "Create New",
+          "listHeading": "Records"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "invoice_date",
+            "customer",
+            "due_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "description",
+            "qty",
+            "unit_price"
+          ],
+          "optionalFields": [],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "reports",
+            "invoices",
+            "new"
+          ],
+          "grouped": false,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#1c1024",
+          "text": "#f3e8ff",
+          "muted": "#c4b5fd",
+          "accent": "#a855f7",
+          "accentText": "#ffffff",
+          "border": "#4c1d95",
+          "font": "Georgia, 'Times New Roman', serif",
+          "buttonStyle": "pill",
+          "radius": "999px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 2,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Support\", qty 5, unit price $64.00, tax rate 7.50%, invoice date 2026-06-09, due date 2026-07-17. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-06-09",
+          "due_date": "2026-07-17",
+          "items": [
+            {
+              "description": "Support",
+              "qty": 5,
+              "unit_price_cents": 6400
+            }
+          ],
+          "subtotal_cents": 32000,
+          "tax_cents": 2400,
+          "total_cents": 34400,
+          "tax_rate_bps": 750
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s8__P1:4__P2:1__P3:2__P4:2__P5:1",
+      "seed": 8,
+      "intensity_by_axis": {
+        "P1_relabel": 4,
+        "P2_structure": 1,
+        "P3_field_order": 2,
+        "P4_nav_order": 2,
+        "P5_theme": 1
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 4,
+          "P2_structure": 1,
+          "P3_field_order": 2,
+          "P4_nav_order": 2,
+          "P5_theme": 1
+        },
+        "P1": {
+          "create": "Generate a Charge",
+          "customer": "Billed To",
+          "submit": "Confirm",
+          "tax": "Tax %",
+          "qty": "Quantity",
+          "unitPrice": "Amount per Unit",
+          "description": "Detail",
+          "confirmation": "Done",
+          "invoke": "Create New",
+          "listHeading": "Sales"
+        },
+        "P2": {
+          "layout": "single",
+          "confirmation": "page",
+          "entryPosition": "midbody"
+        },
+        "P3": {
+          "metaOrder": [
+            "due_date",
+            "invoice_date",
+            "customer",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "qty",
+            "description",
+            "unit_price"
+          ],
+          "optionalFields": [
+            "po_number"
+          ],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#f5fbf9",
+          "text": "#134e4a",
+          "muted": "#52807a",
+          "accent": "#0f766e",
+          "accentText": "#ffffff",
+          "border": "#a7d3cf",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "outline",
+          "radius": "4px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 8,
+        "instruction": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 4, unit price $493.00, tax rate 10%, invoice date 2026-03-29, due date 2026-04-17. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "ACMECORP",
+          "invoice_date": "2026-03-29",
+          "due_date": "2026-04-17",
+          "items": [
+            {
+              "description": "Consulting",
+              "qty": 4,
+              "unit_price_cents": 49300
+            }
+          ],
+          "subtotal_cents": 197200,
+          "tax_cents": 19720,
+          "total_cents": 216920,
+          "tax_rate_bps": 1000
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
+      "seed": 21,
+      "intensity_by_axis": {
+        "P1_relabel": 1,
+        "P2_structure": 0,
+        "P3_field_order": 3,
+        "P4_nav_order": 0,
+        "P5_theme": 3
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 1,
+          "P2_structure": 0,
+          "P3_field_order": 3,
+          "P4_nav_order": 0,
+          "P5_theme": 3
+        },
+        "P1": {
+          "create": "Create Invoice",
+          "customer": "Customer",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Amount per Unit",
+          "description": "Memo",
+          "confirmation": "Invoice Created",
+          "invoke": "New Invoice",
+          "listHeading": "Charges"
+        },
+        "P2": {
+          "layout": "single",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "due_date",
+            "invoice_date",
+            "tax_rate",
+            "customer"
+          ],
+          "itemOrder": [
+            "unit_price",
+            "description",
+            "qty"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#1c1024",
+          "text": "#f3e8ff",
+          "muted": "#c4b5fd",
+          "accent": "#a855f7",
+          "accentText": "#ffffff",
+          "border": "#4c1d95",
+          "font": "Georgia, 'Times New Roman', serif",
+          "buttonStyle": "pill",
+          "radius": "999px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 21,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Licensing\", qty 5, unit price $120.00, tax rate 12.50%, invoice date 2026-04-04, due date 2026-04-30. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-04-04",
+          "due_date": "2026-04-30",
+          "items": [
+            {
+              "description": "Licensing",
+              "qty": 5,
+              "unit_price_cents": 12000
+            }
+          ],
+          "subtotal_cents": 60000,
+          "tax_cents": 7500,
+          "total_cents": 67500,
+          "tax_rate_bps": 1250
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
+      "seed": 9,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 3,
+        "P3_field_order": 4,
+        "P4_nav_order": 1,
+        "P5_theme": 0
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 0,
+          "P2_structure": 3,
+          "P3_field_order": 4,
+          "P4_nav_order": 1,
+          "P5_theme": 0
+        },
+        "P1": {
+          "create": "Create Invoice",
+          "customer": "Customer",
+          "submit": "Submit",
+          "tax": "Tax Rate",
+          "qty": "Qty",
+          "unitPrice": "Unit Price",
+          "description": "Description",
+          "confirmation": "Invoice Created",
+          "invoke": "New Invoice",
+          "listHeading": "Invoices"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "tax_rate",
+            "due_date",
+            "invoice_date",
+            "customer"
+          ],
+          "itemOrder": [
+            "qty",
+            "description",
+            "unit_price"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "today",
+          "defaultRows": 2
+        },
+        "P4": {
+          "order": [
+            "reports",
+            "invoices",
+            "new"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#ffffff",
+          "text": "#1f2937",
+          "muted": "#6b7280",
+          "accent": "#2563eb",
+          "accentText": "#ffffff",
+          "border": "#d1d5db",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "6px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 9,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Maintenance\", qty 3, unit price $479.00, tax rate 8%, invoice date 2026-10-04, due date 2026-11-08. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-10-04",
+          "due_date": "2026-11-08",
+          "items": [
+            {
+              "description": "Maintenance",
+              "qty": 3,
+              "unit_price_cents": 47900
+            }
+          ],
+          "subtotal_cents": 143700,
+          "tax_cents": 11496,
+          "total_cents": 155196,
+          "tax_rate_bps": 800
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
+      "seed": 3,
+      "intensity_by_axis": {
+        "P1_relabel": 4,
+        "P2_structure": 2,
+        "P3_field_order": 4,
+        "P4_nav_order": 0,
+        "P5_theme": 3
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 4,
+          "P2_structure": 2,
+          "P3_field_order": 4,
+          "P4_nav_order": 0,
+          "P5_theme": 3
+        },
+        "P1": {
+          "create": "New Bill",
+          "customer": "Client",
+          "submit": "Confirm",
+          "tax": "Tax %",
+          "qty": "Quantity",
+          "unitPrice": "Rate",
+          "description": "Detail",
+          "confirmation": "Done",
+          "invoke": "Record New",
+          "listHeading": "Bills"
+        },
+        "P2": {
+          "layout": "wizard",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "customer",
+            "due_date",
+            "invoice_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "unit_price",
+            "description",
+            "qty"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "today",
+          "defaultRows": 2
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#1c1024",
+          "text": "#f3e8ff",
+          "muted": "#c4b5fd",
+          "accent": "#a855f7",
+          "accentText": "#ffffff",
+          "border": "#4c1d95",
+          "font": "Georgia, 'Times New Roman', serif",
+          "buttonStyle": "pill",
+          "radius": "999px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 3,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Maintenance\", qty 3, unit price $463.00, tax rate 12.50%, invoice date 2026-08-31, due date 2026-10-02. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-08-31",
+          "due_date": "2026-10-02",
+          "items": [
+            {
+              "description": "Maintenance",
+              "qty": 3,
+              "unit_price_cents": 46300
+            }
+          ],
+          "subtotal_cents": 138900,
+          "tax_cents": 17363,
+          "total_cents": 156263,
+          "tax_rate_bps": 1250
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s29__P1:3__P2:3__P3:3__P4:2__P5:1",
+      "seed": 29,
+      "intensity_by_axis": {
+        "P1_relabel": 3,
+        "P2_structure": 3,
+        "P3_field_order": 3,
+        "P4_nav_order": 2,
+        "P5_theme": 1
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 3,
+          "P2_structure": 3,
+          "P3_field_order": 3,
+          "P4_nav_order": 2,
+          "P5_theme": 1
+        },
+        "P1": {
+          "create": "Record a Sale",
+          "customer": "Account",
+          "submit": "Done",
+          "tax": "VAT",
+          "qty": "Items",
+          "unitPrice": "Amount per Unit",
+          "description": "Detail",
+          "confirmation": "Invoice Created",
+          "invoke": "New Invoice",
+          "listHeading": "Sales"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "tax_rate",
+            "due_date",
+            "customer",
+            "invoice_date"
+          ],
+          "itemOrder": [
+            "qty",
+            "description",
+            "unit_price"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "new",
+            "invoices",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#f5fbf9",
+          "text": "#134e4a",
+          "muted": "#52807a",
+          "accent": "#0f766e",
+          "accentText": "#ffffff",
+          "border": "#a7d3cf",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "outline",
+          "radius": "4px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 29,
+        "instruction": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Maintenance\", qty 1, unit price $78.00, tax rate 8%, invoice date 2026-02-16, due date 2026-03-24. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "STARK",
+          "invoice_date": "2026-02-16",
+          "due_date": "2026-03-24",
+          "items": [
+            {
+              "description": "Maintenance",
+              "qty": 1,
+              "unit_price_cents": 7800
+            }
+          ],
+          "subtotal_cents": 7800,
+          "tax_cents": 624,
+          "total_cents": 8424,
+          "tax_rate_bps": 800
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s12__P1:4__P2:3__P3:3__P4:2__P5:2",
+      "seed": 12,
+      "intensity_by_axis": {
+        "P1_relabel": 4,
+        "P2_structure": 3,
+        "P3_field_order": 3,
+        "P4_nav_order": 2,
+        "P5_theme": 2
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 4,
+          "P2_structure": 3,
+          "P3_field_order": 3,
+          "P4_nav_order": 2,
+          "P5_theme": 2
+        },
+        "P1": {
+          "create": "Generate a Charge",
+          "customer": "Billed To",
+          "submit": "Done",
+          "tax": "Sales Tax",
+          "qty": "Units",
+          "unitPrice": "Price",
+          "description": "Detail",
+          "confirmation": "Saved",
+          "invoke": "Add New",
+          "listHeading": "Sales"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "customer",
+            "invoice_date",
+            "due_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "qty",
+            "description",
+            "unit_price"
+          ],
+          "optionalFields": [
+            "po_number",
+            "reference"
+          ],
+          "taxControl": "preset",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#0f172a",
+          "text": "#e2e8f0",
+          "muted": "#94a3b8",
+          "accent": "#f59e0b",
+          "accentText": "#1f2937",
+          "border": "#334155",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "8px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 12,
+        "instruction": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Licensing\", qty 5, unit price $110.00, tax rate 21%, invoice date 2026-06-07, due date 2026-07-16. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "ACMECORP",
+          "invoice_date": "2026-06-07",
+          "due_date": "2026-07-16",
+          "items": [
+            {
+              "description": "Licensing",
+              "qty": 5,
+              "unit_price_cents": 11000
+            }
+          ],
+          "subtotal_cents": 55000,
+          "tax_cents": 11550,
+          "total_cents": 66550,
+          "tax_rate_bps": 2100
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s6__P1:2__P2:3__P3:2__P4:0__P5:2",
+      "seed": 6,
+      "intensity_by_axis": {
+        "P1_relabel": 2,
+        "P2_structure": 3,
+        "P3_field_order": 2,
+        "P4_nav_order": 0,
+        "P5_theme": 2
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 2,
+          "P2_structure": 3,
+          "P3_field_order": 2,
+          "P4_nav_order": 0,
+          "P5_theme": 2
+        },
+        "P1": {
+          "create": "Create Invoice",
+          "customer": "Bill To",
+          "submit": "Submit",
+          "tax": "Tax %",
+          "qty": "Qty",
+          "unitPrice": "Price",
+          "description": "Description",
+          "confirmation": "Recorded",
+          "invoke": "New Invoice",
+          "listHeading": "Charges"
+        },
+        "P2": {
+          "layout": "wizard_inline_addrows",
+          "confirmation": "inline",
+          "entryPosition": "fab"
+        },
+        "P3": {
+          "metaOrder": [
+            "due_date",
+            "invoice_date",
+            "customer",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "description",
+            "unit_price",
+            "qty"
+          ],
+          "optionalFields": [
+            "po_number"
+          ],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": false,
+          "navPosition": "top"
+        },
+        "P5": {
+          "bg": "#0f172a",
+          "text": "#e2e8f0",
+          "muted": "#94a3b8",
+          "accent": "#f59e0b",
+          "accentText": "#1f2937",
+          "border": "#334155",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "solid",
+          "radius": "8px",
+          "dark": true
+        }
+      },
+      "task_spec": {
+        "seed": 6,
+        "instruction": "Open the billing app and create an invoice for customer \"GLOBEX\" with one line item: description \"Training\", qty 1, unit price $455.00, tax rate 12.50%, invoice date 2026-10-19, due date 2026-12-01. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "GLOBEX",
+          "invoice_date": "2026-10-19",
+          "due_date": "2026-12-01",
+          "items": [
+            {
+              "description": "Training",
+              "qty": 1,
+              "unit_price_cents": 45500
+            }
+          ],
+          "subtotal_cents": 45500,
+          "tax_cents": 5688,
+          "total_cents": 51188,
+          "tax_rate_bps": 1250
+        }
+      }
+    },
+    {
+      "variant_id": "inv__s24__P1:3__P2:2__P3:2__P4:2__P5:1",
+      "seed": 24,
+      "intensity_by_axis": {
+        "P1_relabel": 3,
+        "P2_structure": 2,
+        "P3_field_order": 2,
+        "P4_nav_order": 2,
+        "P5_theme": 1
+      },
+      "axis_params": {
+        "axis": {
+          "P1_relabel": 3,
+          "P2_structure": 2,
+          "P3_field_order": 2,
+          "P4_nav_order": 2,
+          "P5_theme": 1
+        },
+        "P1": {
+          "create": "New Bill",
+          "customer": "Account",
+          "submit": "Done",
+          "tax": "Sales Tax",
+          "qty": "Quantity",
+          "unitPrice": "Amount per Unit",
+          "description": "Description",
+          "confirmation": "Invoice Created",
+          "invoke": "Add New",
+          "listHeading": "Records"
+        },
+        "P2": {
+          "layout": "wizard",
+          "confirmation": "page",
+          "entryPosition": "topbar"
+        },
+        "P3": {
+          "metaOrder": [
+            "customer",
+            "due_date",
+            "invoice_date",
+            "tax_rate"
+          ],
+          "itemOrder": [
+            "unit_price",
+            "qty",
+            "description"
+          ],
+          "optionalFields": [
+            "po_number"
+          ],
+          "taxControl": "input",
+          "datePrefill": "blank",
+          "defaultRows": 1
+        },
+        "P4": {
+          "order": [
+            "invoices",
+            "new",
+            "reports"
+          ],
+          "grouped": true,
+          "navPosition": "side"
+        },
+        "P5": {
+          "bg": "#f5fbf9",
+          "text": "#134e4a",
+          "muted": "#52807a",
+          "accent": "#0f766e",
+          "accentText": "#ffffff",
+          "border": "#a7d3cf",
+          "font": "system-ui, sans-serif",
+          "buttonStyle": "outline",
+          "radius": "4px",
+          "dark": false
+        }
+      },
+      "task_spec": {
+        "seed": 24,
+        "instruction": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Setup Fees\", qty 1, unit price $34.00, tax rate 10%, invoice date 2026-07-19, due date 2026-08-29. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+        "expected": {
+          "customer": "ACMECORP",
+          "invoice_date": "2026-07-19",
+          "due_date": "2026-08-29",
+          "items": [
+            {
+              "description": "Setup Fees",
+              "qty": 1,
+              "unit_price_cents": 3400
+            }
+          ],
+          "subtotal_cents": 3400,
+          "tax_cents": 340,
+          "total_cents": 3740,
+          "tax_rate_bps": 1000
+        }
+      }
+    }
+  ]
+}
