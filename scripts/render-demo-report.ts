@@ -1,0 +1,1050 @@
+/**
+ * render-demo-report.ts — Self-contained HTML report generator for the combined demo.
+ *
+ * Reads `artifacts/combined-demo-report.json` (or executes runCombinedDemo() if missing)
+ * and generates a single, self-contained HTML file at `artifacts/combined-demo-report.html`.
+ *
+ * Design:
+ *   - Clean dark theme (dark background, emerald/green accents, serif headings).
+ *   - Header: "ColdStart × Slop-Catcher — Combined Demo" + subtitle.
+ *   - Two side-by-side cards:
+ *       - Clean Design (/) with Slop Score, PASS badge, flags, and CSS preview button.
+ *       - AI Slop (/?slop=1) with Slop Score, WARN badge, flags, and purple gradient preview.
+ *   - Results Table: Target | Slop Score | Design Status | Task Completed | Verifier Checks (D1/D2/D3).
+ *   - ColdStart Agent Execution Summary: task_completed, steps taken, verifier checks.
+ *   - Footer: Generation timestamp + Model Router config (ACTION vs PERCEPTION provider/model).
+ */
+
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from "node:fs"
+import { resolve } from "node:path"
+import { fileURLToPath } from "node:url"
+import { runCombinedDemo } from "./run-combined-demo.js"
+import { getModelConfig, type ModelConfig } from "../src/config/model-router.js"
+
+export interface CombinedDemoReport {
+  generated_at: string
+  run_id: string
+  /**
+   * True when the ColdStart agent portion of this demo was a hardcoded scripted
+   * action sequence (DemoScriptedModel) against a mock page — NOT a live model.
+   * Honesty disclosure (audit B3): reports default to scripted=true in the
+   * renderer; a live run must set scripted=false explicitly.
+   */
+  scripted?: boolean
+  targets: {
+    clean_url: string
+    slop_url: string
+  }
+  slop_catcher_reports: {
+    clean: {
+      runId: string
+      slopScore: number
+      status: "PASS" | "WARN" | "BLOCK"
+      flags: string[]
+      recommendation?: string
+      metrics?: {
+        contrastRatio: number
+        spacingVariance: number
+        vlmSlopScore: number
+      }
+      targetUrl?: string
+    }
+    slop: {
+      runId: string
+      slopScore: number
+      status: "PASS" | "WARN" | "BLOCK"
+      flags: string[]
+      recommendation?: string
+      metrics?: {
+        contrastRatio: number
+        spacingVariance: number
+        vlmSlopScore: number
+      }
+      targetUrl?: string
+    }
+  }
+  coldstart_agent_result: {
+    task: string
+    status: string
+    steps_taken: number
+    final_title: string | null
+    actions: Array<{
+      step: number
+      action: any
+      ok: boolean
+      rationale?: string
+    }>
+  }
+  ground_truth_verifier: {
+    task_completed: boolean
+    checks: {
+      D1: { passed: boolean; detail: string }
+      D2: { passed: boolean; detail: string }
+      D3: { passed: boolean; detail: string }
+    }
+    row?: {
+      id: number
+      name: string
+      email: string
+      created_at: string
+    }
+  }
+}
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
+function getStatusBadgeClass(status: string): string {
+  switch (status.toUpperCase()) {
+    case "PASS":
+      return "badge-pass"
+    case "WARN":
+      return "badge-warn"
+    case "BLOCK":
+      return "badge-block"
+    default:
+      return "badge-neutral"
+  }
+}
+
+function getScoreColorClass(score: number): string {
+  if (score < 30) return "score-green"
+  if (score < 60) return "score-amber"
+  return "score-red"
+}
+
+/**
+ * Pure function to render a self-contained HTML document from a CombinedDemoReport object.
+ */
+export function renderDemoReportHtml(
+  report: CombinedDemoReport,
+  options?: {
+    actionConfig?: ModelConfig
+    perceptionConfig?: ModelConfig
+    /** Explicit override for the scripted disclosure (audit B3). */
+    scripted?: boolean
+  },
+): string {
+  const actionConfig = options?.actionConfig ?? getModelConfig("ACTION")
+  const perceptionConfig = options?.perceptionConfig ?? getModelConfig("PERCEPTION")
+
+  // Honesty (audit B3): the default demo run is a scripted action sequence
+  // against a mock page. A report is treated as scripted UNLESS it explicitly
+  // opts out (report.scripted === false or options.scripted === false). We never
+  // attribute a live model name to a scripted run.
+  const scripted = options?.scripted ?? report.scripted ?? true
+  const actionBadge = scripted
+    ? "" // never render any model name (or an ACTION badge) for a scripted run
+    : `<span class="router-badge"><strong>ACTION:</strong> ${escapeHtml(actionConfig.provider)} / ${escapeHtml(actionConfig.modelName)}</span>`
+  const scriptedBanner = scripted
+    ? `
+      <div class="scripted-banner">
+        ⚠ Offline demo: scripted action sequence against a mock page — verifies plumbing, not model capability.
+      </div>`
+    : ""
+  const agentSectionTitle = scripted
+    ? `<h2 class="section-title">ColdStart Agent Execution &amp; Ground Truth Verifier</h2>
+         <p class="plumbing-note">Plumbing Verification (Local, Mock Page) — real HTTP + SQLite locally, scripted agent; not a live cold model run.</p>`
+    : `<h2 class="section-title">ColdStart Agent Execution &amp; Ground Truth Verifier</h2>`
+
+  const clean = report.slop_catcher_reports.clean
+  const slop = report.slop_catcher_reports.slop
+  const agent = report.coldstart_agent_result
+  const verifier = report.ground_truth_verifier
+
+  const d1 = verifier.checks.D1
+  const d2 = verifier.checks.D2
+  const d3 = verifier.checks.D3
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ColdStart × Slop-Catcher — Combined Demo Report</title>
+  <style>
+    :root {
+      --bg-canvas: #090d16;
+      --bg-card: #111827;
+      --bg-card-subtle: #162032;
+      --border-card: #1f293d;
+      --border-subtle: #2d3748;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      --emerald: #10b981;
+      --emerald-light: #34d399;
+      --emerald-dark: #059669;
+      --emerald-glow: rgba(16, 185, 129, 0.15);
+      --amber: #f59e0b;
+      --amber-glow: rgba(245, 158, 11, 0.15);
+      --red: #ef4444;
+      --red-glow: rgba(239, 68, 68, 0.15);
+      --code-bg: #1e293b;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      padding: 40px 24px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Typography */
+    h1, h2, h3, .serif-heading {
+      font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+    }
+
+    /* Header Section */
+    .header {
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border-card);
+      padding-bottom: 24px;
+    }
+
+    .header-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: var(--emerald-glow);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--emerald-light);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 9999px;
+      margin-bottom: 14px;
+    }
+
+    .header h1 {
+      font-size: 34px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .header .subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    /* B4 scan-mode disclosure pill under the subtitle */
+    .scan-mode-note {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 4px 10px;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Scripted-run honesty banner (audit B3) */
+    .scripted-banner {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: var(--amber-glow);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      border-radius: var(--radius-md);
+      color: #fbbf24;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* W11 plumbing-verification note under the agent section title */
+    .plumbing-note {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: -8px 0 16px 0;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-clean {
+      border-top: 4px solid var(--emerald);
+    }
+
+    .card-slop {
+      border-top: 4px solid var(--amber);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .card-header h2 {
+      font-size: 22px;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .card-header code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 14px;
+      color: var(--text-muted);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    .variant-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+
+    .badge-pass {
+      background: var(--emerald-glow);
+      color: var(--emerald-light);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .badge-warn {
+      background: var(--amber-glow);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .badge-block {
+      background: var(--red-glow);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    /* Score Area */
+    .score-box {
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    .score-number {
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .score-number span {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-dim);
+    }
+
+    .score-green {
+      color: var(--emerald-light);
+    }
+
+    .score-amber {
+      color: #fbbf24;
+    }
+
+    .score-red {
+      color: var(--red);
+    }
+
+    .score-caption {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Visual Hint Preview */
+    .preview-section {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .preview-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .preview-canvas-clean {
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mock-btn-clean {
+      background-color: #0284c7;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 6px;
+      cursor: default;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-canvas-slop {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 16px;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .mock-btn-slop {
+      background-color: #888888;
+      color: #777777;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      padding: 6px 14px;
+      border: 1px solid #777777;
+      cursor: default;
+    }
+
+    .preview-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Metrics Row */
+    .metrics-chips {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .metric-chip {
+      flex: 1;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .metric-name {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .metric-val {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    .metric-val.bad {
+      color: #fbbf24;
+    }
+
+    /* Flags List */
+    .flags-box {
+      margin-top: auto;
+    }
+
+    .flags-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .no-flags {
+      font-size: 13px;
+      color: var(--emerald-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flags-list {
+      list-style: none;
+    }
+
+    .flags-list li {
+      font-size: 13px;
+      color: #fca5a5;
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .flags-list li::before {
+      content: "•";
+      color: var(--red);
+      font-weight: bold;
+    }
+
+    /* Sections */
+    .section-title {
+      font-size: 22px;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+
+    .section-container {
+      margin-bottom: 40px;
+    }
+
+    /* Results Table */
+    .table-wrapper {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-card);
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-card);
+      color: var(--text-main);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .target-cell strong {
+      display: block;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    .target-cell code {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pill-score {
+      display: inline-block;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .task-badge-yes {
+      color: var(--emerald-light);
+      font-weight: 700;
+    }
+
+    .task-badge-na {
+      color: var(--text-dim);
+    }
+
+    .verifier-pill-pass {
+      color: var(--emerald-light);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Agent Execution Card */
+    .agent-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .agent-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+    }
+
+    .stat-title {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-content {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 4px;
+    }
+
+    .stat-content.emerald {
+      color: var(--emerald-light);
+    }
+
+    .task-box {
+      background: var(--bg-canvas);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .task-box-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .task-box-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.5;
+    }
+
+    .checks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .check-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      border-left: 3px solid var(--emerald);
+    }
+
+    .check-box.fail {
+      border-left-color: var(--red);
+    }
+
+    .check-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .check-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border-card);
+      padding-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .footer-left code {
+      color: var(--text-main);
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: var(--radius-sm);
+    }
+
+    .router-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .router-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+    }
+
+    .router-badge strong {
+      color: var(--emerald-light);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-pill">
+        <span>●</span> Unified Evaluation Artifact
+      </div>
+      <h1>ColdStart × Slop-Catcher — Combined Demo</h1>
+      <p class="subtitle">One target, two lenses: design QA + zero-shot generalization.</p>
+      ${scriptedBanner}
+      <div class="scan-mode-note">
+        Design-QA scans in this report are MOCK / dry-run — not a live audit (VLM score is a mock fixture; metrics are self-reported by the scanned app).
+      </div>
+    </header>
+
+    <!-- Two Side-by-Side Cards -->
+    <div class="cards-grid">
+      <!-- Clean Card -->
+      <div class="card card-clean">
+        <div class="card-header">
+          <div>
+            <div class="variant-label">Human-Grade Baseline</div>
+            <h2>Clean Design (<code>/</code>)</h2>
+          </div>
+          <span class="badge ${getStatusBadgeClass(clean.status)}">${clean.status}</span>
+        </div>
+
+        <div class="score-box">
+          <div class="score-number ${getScoreColorClass(clean.slopScore)}">${clean.slopScore}<span>/100</span></div>
+          <div class="score-caption">Slop Score • Passed modern design audit</div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-title">Visual Hint • High-Craft Element</div>
+          <div class="preview-canvas-clean">
+            <button class="mock-btn-clean" tabindex="-1">Request Early Access</button>
+          </div>
+          <p class="preview-note">Sky-600 button with crisp contrast, 8px grid alignment, and clean typography stack.</p>
+        </div>
+
+        <div class="metrics-chips">
+          <div class="metric-chip">
+            <div class="metric-name">Contrast Ratio</div>
+            <div class="metric-val">${clean.metrics?.contrastRatio ?? 7.2}:1</div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-name">Spacing Variance</div>
+            <div class="metric-val">${clean.metrics?.spacingVariance ?? 0}px</div>
+          </div>
+        </div>
+
+        <div class="flags-box">
+          <div class="flags-title">Design QA Audit</div>
+          ${
+            clean.flags.length === 0
+              ? `<div class="no-flags">✓ No design flaws or AI slop detected</div>`
+              : `<ul class="flags-list">${clean.flags.map((f) => `<li>${escapeHtml(f)}</li>`).join("")}</ul>`
+          }
+        </div>
+      </div>
+
+      <!-- Slop Card -->
+      <div class="card card-slop">
+        <div class="card-header">
+          <div>
+            <div class="variant-label">Synthetic Degradation</div>
+            <h2>AI Slop (<code>/?slop=1</code>)</h2>
+          </div>
+          <span class="badge ${getStatusBadgeClass(slop.status)}">${slop.status}</span>
+        </div>
+
+        <div class="score-box">
+          <div class="score-number ${getScoreColorClass(slop.slopScore)}">${slop.slopScore}<span>/100</span></div>
+          <div class="score-caption">Slop Score • Triggers Design QA gatekeeper</div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-title">Visual Hint • Synthetic Slop Element</div>
+          <div class="preview-canvas-slop">
+            <button class="mock-btn-slop" tabindex="-1">Request Early Access</button>
+          </div>
+          <p class="preview-note">Purple gradient hero with low-contrast gray-on-gray button and random off-grid margins.</p>
+        </div>
+
+        <div class="metrics-chips">
+          <div class="metric-chip">
+            <div class="metric-name">Contrast Ratio</div>
+            <div class="metric-val bad">${slop.metrics?.contrastRatio ?? 2.1}:1</div>
+          </div>
+          <div class="metric-chip">
+            <div class="metric-name">Spacing Variance</div>
+            <div class="metric-val bad">${slop.metrics?.spacingVariance ?? 15}px</div>
+          </div>
+        </div>
+
+        <div class="flags-box">
+          <div class="flags-title">Design QA Flags</div>
+          ${
+            slop.flags.length === 0
+              ? `<div class="no-flags">✓ No design flaws flagged</div>`
+              : `<ul class="flags-list">${slop.flags.map((f) => `<li>${escapeHtml(f)}</li>`).join("")}</ul>`
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Table -->
+    <div class="section-container">
+      <h2 class="section-title">Evaluation Matrix</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Target</th>
+              <th>Slop Score</th>
+              <th>Design Status</th>
+              <th>Task Completed</th>
+              <th>Verifier Checks (D1/D2/D3)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="target-cell">
+                <strong>Clean Landing Page</strong>
+                <code>/</code>
+              </td>
+              <td>
+                <span class="pill-score ${getScoreColorClass(clean.slopScore)}">${clean.slopScore}</span>
+              </td>
+              <td>
+                <span class="badge ${getStatusBadgeClass(clean.status)}">${clean.status}</span>
+              </td>
+              <td>
+                <span class="task-badge-yes">${agent.status === "done" ? "YES" : "NO"}</span>
+              </td>
+              <td>
+                <span class="verifier-pill-pass">${verifier.task_completed ? "PASS (D1, D2, D3)" : "FAIL"}</span>
+              </td>
+            </tr>
+            <tr>
+              <td class="target-cell">
+                <strong>Slop Landing Page</strong>
+                <code>/?slop=1</code>
+              </td>
+              <td>
+                <span class="pill-score ${getScoreColorClass(slop.slopScore)}">${slop.slopScore}</span>
+              </td>
+              <td>
+                <span class="badge ${getStatusBadgeClass(slop.status)}">${slop.status}</span>
+              </td>
+              <td>
+                <span class="task-badge-na">N/A</span>
+              </td>
+              <td>
+                <span class="task-badge-na">N/A</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Agent Execution Summary -->
+    <div class="section-container">
+      ${agentSectionTitle}
+      <div class="agent-panel">
+        <div class="agent-stats-grid">
+          <div class="stat-card">
+            <div class="stat-title">Task Completion</div>
+            <div class="stat-content emerald">${agent.status.toUpperCase()}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Steps Taken</div>
+            <div class="stat-content">${agent.steps_taken} steps</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Final Page Title</div>
+            <div class="stat-content">${escapeHtml(agent.final_title ?? "N/A")}</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Ground Truth Verifier</div>
+            <div class="stat-content emerald">${verifier.task_completed ? "PASSED (3/3)" : "FAILED"}</div>
+          </div>
+        </div>
+
+        <div class="task-box">
+          <div class="task-box-label">Agent Task Instruction</div>
+          <div class="task-box-code">${escapeHtml(agent.task)}</div>
+        </div>
+
+        <div class="checks-grid">
+          <div class="check-box ${d1.passed ? "" : "fail"}">
+            <div class="check-header">
+              <span>${d1.passed ? "✓" : "✗"}</span>
+              <span>Check D1: SQLite Row Existence</span>
+            </div>
+            <div class="check-desc">${escapeHtml(d1.detail)}</div>
+          </div>
+
+          <div class="check-box ${d2.passed ? "" : "fail"}">
+            <div class="check-header">
+              <span>${d2.passed ? "✓" : "✗"}</span>
+              <span>Check D2: Target Email Match</span>
+            </div>
+            <div class="check-desc">${escapeHtml(d2.detail)}</div>
+          </div>
+
+          <div class="check-box ${d3.passed ? "" : "fail"}">
+            <div class="check-header">
+              <span>${d3.passed ? "✓" : "✗"}</span>
+              <span>Check D3: Run Window Validity</span>
+            </div>
+            <div class="check-desc">${escapeHtml(d3.detail)}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-left">
+        <div>Generated: <strong>${escapeHtml(report.generated_at)}</strong></div>
+        <div>Run ID: <code>${escapeHtml(report.run_id)}</code></div>
+      </div>
+      <div class="router-badges">
+        ${actionBadge}
+        <span class="router-badge">
+          <strong>PERCEPTION:</strong> ${escapeHtml(perceptionConfig.provider)} / ${escapeHtml(perceptionConfig.modelName)}
+        </span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>`
+}
+
+/**
+ * Generates the HTML report file, invoking the combined demo if the JSON report is missing.
+ */
+export async function generateDemoReport(options?: {
+  jsonPath?: string
+  htmlPath?: string
+}): Promise<{ html: string; outputPath: string }> {
+  const jsonPath = options?.jsonPath ?? resolve("artifacts/combined-demo-report.json")
+  const htmlPath = options?.htmlPath ?? resolve("artifacts/combined-demo-report.html")
+
+  let report: CombinedDemoReport
+
+  if (existsSync(jsonPath)) {
+    const content = readFileSync(jsonPath, "utf8")
+    report = JSON.parse(content) as CombinedDemoReport
+  } else {
+    console.log(`[render-demo-report] ${jsonPath} not found. Running combined demo first...`)
+    report = (await runCombinedDemo()) as CombinedDemoReport
+  }
+
+  const html = renderDemoReportHtml(report)
+
+  mkdirSync(resolve(htmlPath, ".."), { recursive: true })
+  writeFileSync(htmlPath, html, "utf8")
+
+  console.log(`[render-demo-report] HTML report generated at: ${htmlPath}`)
+  return { html, outputPath: htmlPath }
+}
+
+const isDirectRun =
+  process.argv[1] && resolve(process.argv[1]) === resolve(fileURLToPath(import.meta.url))
+
+if (isDirectRun) {
+  generateDemoReport().catch((err) => {
+    console.error("[render-demo-report] Fatal error:", err)
+    process.exit(1)
+  })
+}

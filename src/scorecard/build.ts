@@ -16,8 +16,8 @@
  * being written; traces redact already.
  */
 
-import { mkdir, writeFile } from "node:fs/promises"
-import { dirname } from "node:path"
+import { mkdirSync, writeFileSync, readFileSync } from "node:fs"
+import { dirname, join, resolve } from "node:path"
 import { aggregateCost, COST_ESTIMATE_NOTE, type CostAggregate } from "./cost.ts"
 import { generalizationCurve, successByAxis, successByPoint, whereItBreaks } from "./curve.ts"
 
@@ -141,6 +141,16 @@ export interface Scorecard {
   generalization_curve: GeneralizationPoint[]
   cost: CostAggregate & { note: string }
   where_it_breaks: BreakEntry[]
+  /**
+   * Design-QA (Slop-Catcher) aggregate over the per-run `design-qa-report.json`
+   * artifacts (mean slopScore, 0-100). null when no design-qa reports exist —
+   * never fabricated.
+   */
+  designSlopScore: number | null
+  /** Worst-case per-run design status (PASS < WARN < BLOCK); null when no reports. */
+  designStatus: "PASS" | "WARN" | "BLOCK" | null
+  /** Explicit provenance disclosure for the design fields; null when no reports. */
+  designQaDisclosure: string | null
 }
 
 export interface BuildInput {
@@ -151,6 +161,74 @@ export interface BuildInput {
 /** True precisely when a run is a computed SUCCESS (agent ok AND verifier true). */
 export function isSuccess(run: RunRecord): boolean {
   return run.agent.status === "ok" && run.outcome.verifier.task_completed === true
+}
+
+/** Severity rank for per-run design statuses (PASS < WARN < BLOCK). */
+const DESIGN_STATUS_RANK: Record<"PASS" | "WARN" | "BLOCK", number> = { PASS: 0, WARN: 1, BLOCK: 2 }
+
+/**
+ * Read the persisted per-run design-qa-report.json files
+ * (`artifacts/runs/<run_id>/design-qa-report.json`) when they exist and
+ * aggregate them into the scorecard's design fields:
+ *   - designSlopScore: mean slopScore across runs with a report
+ *   - designStatus: worst-case per-run status (PASS < WARN < BLOCK)
+ *   - designQaDisclosure: provenance disclosure string
+ *
+ * Honesty: when a report carries a mock/dry-run disclosure (MockVlmClient +
+ * mock-fallback or self-reported metrics), the aggregate disclosure says so.
+ * When NO reports exist, ALL design fields are null — never fabricated.
+ */
+function aggregateDesignQa(runs: RunRecord[]): {
+  designSlopScore: number | null
+  designStatus: "PASS" | "WARN" | "BLOCK" | null
+  designQaDisclosure: string | null
+} {
+  const scores: number[] = []
+  const statuses: Array<"PASS" | "WARN" | "BLOCK"> = []
+  let anyMock = false
+
+  for (const run of runs) {
+    const reportPath = join(resolve("artifacts/runs"), run.run_id, "design-qa-report.json")
+    let raw: string
+    try {
+      raw = readFileSync(reportPath, "utf8")
+    } catch {
+      continue // no report for this run — skip, don't fabricate
+    }
+    try {
+      const report = JSON.parse(raw) as {
+        slopScore?: number
+        status?: "PASS" | "WARN" | "BLOCK"
+        disclosure?: string
+      }
+      if (typeof report.slopScore === "number" && Number.isFinite(report.slopScore)) {
+        scores.push(report.slopScore)
+      }
+      if (report.status !== undefined && report.status in DESIGN_STATUS_RANK) {
+        statuses.push(report.status)
+      }
+      if (typeof report.disclosure === "string" && report.disclosure.trim().length > 0) {
+        anyMock = true
+      }
+    } catch {
+      console.warn(`[scorecard] unparsable design-qa-report.json for ${run.run_id} — skipped`)
+    }
+  }
+
+  if (scores.length === 0) {
+    return { designSlopScore: null, designStatus: null, designQaDisclosure: null }
+  }
+
+  const mean = scores.reduce((a, b) => a + b, 0) / scores.length
+  const worst = statuses.reduce<"PASS" | "WARN" | "BLOCK">(
+    (acc, s) => (DESIGN_STATUS_RANK[s] > DESIGN_STATUS_RANK[acc] ? s : acc),
+    "PASS",
+  )
+  const disclosure =
+    `Aggregated from ${scores.length} per-run design-qa-report.json file(s)` +
+    (anyMock ? " (mock/dry-run mode — NOT a live VLM audit)" : "")
+
+  return { designSlopScore: mean, designStatus: worst, designQaDisclosure: disclosure }
 }
 
 /**
@@ -174,6 +252,7 @@ export function buildScorecard(input: BuildInput): Scorecard {
   for (const [k, v] of Object.entries(variantTally)) successByVariant[k] = v.succ / v.total
 
   const cost = aggregateCost(runs, AXIS_KEYS)
+  const designQa = aggregateDesignQa(runs)
 
   return {
     schema_version: "1.0",
@@ -188,6 +267,9 @@ export function buildScorecard(input: BuildInput): Scorecard {
     generalization_curve: generalizationCurve(runs),
     cost: { ...cost, note: COST_ESTIMATE_NOTE },
     where_it_breaks: whereItBreaks(runs),
+    designSlopScore: designQa.designSlopScore,
+    designStatus: designQa.designStatus,
+    designQaDisclosure: designQa.designQaDisclosure,
   }
 }
 
@@ -213,7 +295,7 @@ function redactUrl(url: string): string {
 
 /** Write the scorecard JSON to `path`. */
 export async function writeScorecard(path: string, scorecard: Scorecard): Promise<string> {
-  await mkdir(dirname(path), { recursive: true })
-  await writeFile(path, JSON.stringify(scorecard, null, 2))
+  mkdirSync(dirname(path), { recursive: true })
+  writeFileSync(path, JSON.stringify(scorecard, null, 2))
   return path
 }

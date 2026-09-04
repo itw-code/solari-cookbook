@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-09-03T09:06:30.915Z",
+  "run_id": "demo_mtlawaxl",
+  "scripted": true,
+  "targets": {
+    "clean_url": "http://localhost:6732/",
+    "slop_url": "http://localhost:6732/?slop=1"
+  },
+  "slop_catcher_reports": {
+    "clean": {
+      "runId": "scan_mtlawaxm_http___localhost_6732_",
+      "slopScore": 4,
+      "status": "PASS",
+      "flags": [],
+      "recommendation": "Design passes baseline QA standards.",
+      "metrics": {
+        "contrastRatio": 7.2,
+        "spacingVariance": 0,
+        "vlmSlopScore": 10
+      },
+      "targetUrl": "http://localhost:6732/",
+      "mode": "MOCK",
+      "disclosure": "MOCK / dry-run scan: no microVM was booted and no live VLM call was made — this is NOT a live VLM audit of the target page."
+    },
+    "slop": {
+      "runId": "scan_mtlawaxx_http___localhost_6732__slop_1",
+      "slopScore": 40,
+      "status": "WARN",
+      "flags": [
+        "Low contrast ratio detected (2.1:1 < 4.5:1 WCAG AA)",
+        "Off-grid spacing variance detected (15px deviation)"
+      ],
+      "recommendation": "Design passes baseline QA standards.",
+      "metrics": {
+        "contrastRatio": 2.1,
+        "spacingVariance": 15,
+        "vlmSlopScore": 10
+      },
+      "targetUrl": "http://localhost:6732/?slop=1",
+      "mode": "MOCK",
+      "disclosure": "MOCK / dry-run scan: no microVM was booted and no live VLM call was made — this is NOT a live VLM audit of the target page."
+    }
+  },
+  "coldstart_agent_result": {
+    "task": "Open early access page at http://localhost:6732/, enter name \"ColdStart Agent\" and email \"agent@demo.solari\", submit the form, and report done.",
+    "status": "done",
+    "steps_taken": 6,
+    "final_title": "Access Requested",
+    "actions": [
+      {
+        "step": 1,
+        "action": {
+          "kind": "click",
+          "x": 200,
+          "y": 150
+        },
+        "ok": true,
+        "rationale": "Demo Step 1: click"
+      },
+      {
+        "step": 2,
+        "action": {
+          "kind": "type",
+          "text": "ColdStart Agent"
+        },
+        "ok": true,
+        "rationale": "Demo Step 2: type"
+      },
+      {
+        "step": 3,
+        "action": {
+          "kind": "click",
+          "x": 200,
+          "y": 220
+        },
+        "ok": true,
+        "rationale": "Demo Step 3: click"
+      },
+      {
+        "step": 4,
+        "action": {
+          "kind": "type",
+          "text": "agent@demo.solari"
+        },
+        "ok": true,
+        "rationale": "Demo Step 4: type"
+      },
+      {
+        "step": 5,
+        "action": {
+          "kind": "click",
+          "x": 200,
+          "y": 300
+        },
+        "ok": true,
+        "rationale": "Demo Step 5: click"
+      },
+      {
+        "step": 6,
+        "action": {
+          "kind": "done"
+        },
+        "ok": true,
+        "rationale": "Demo Step 6: done"
+      }
+    ]
+  },
+  "ground_truth_verifier": {
+    "task_completed": true,
+    "checks": {
+      "D1": {
+        "passed": true,
+        "detail": "D1 PASSED: Signup row found (id=1, name=\"ColdStart Agent\")"
+      },
+      "D2": {
+        "passed": true,
+        "detail": "D2 PASSED: Email matches expected \"agent@demo.solari\""
+      },
+      "D3": {
+        "passed": true,
+        "detail": "D3 PASSED: created_at (2026-09-03T09:06:30.907Z) is within window [2026-09-03T09:06:30.892Z - 2026-09-03T09:06:35.914Z]"
+      }
+    },
+    "row": {
+      "id": 1,
+      "name": "ColdStart Agent",
+      "email": "agent@demo.solari",
+      "created_at": "2026-09-03T09:06:30.907Z"
+    }
+  }
+}

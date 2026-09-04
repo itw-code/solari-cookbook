@@ -19,6 +19,7 @@
  */
 import type { Action } from "./action.ts"
 import { isActionKind } from "./action.ts"
+import { getModelConfig } from "../config/model-router.ts"
 
 // ---------------------------------------------------------------------------
 // Environment (secrets never logged / written)
@@ -213,9 +214,19 @@ const MAX_LLM_ATTEMPTS = 6
 const MAX_BACKOFF_MS = 15000
 
 async function postChat(messages: ChatMessage[]): Promise<string> {
-  const key = requireEnv("LLM_API_KEY")
+  // W10: the ACTION model config is resolved through the Multi-Model Router
+  // (src/config/model-router.ts), NOT read directly from LLM_* here. The router
+  // prefers ACTION_MODEL_PROVIDER / ACTION_MODEL_NAME / ACTION_MODEL_API_KEY and
+  // falls back to the legacy LLM_* variables, so existing .env setups keep
+  // working unchanged — but the ACTION chain is now the single source of truth
+  // for the agent path, matching the documented router behavior.
+  //
+  // Endpoint: the router carries no endpoint field, so the endpoint still comes
+  // from LLM_ENDPOINT (an [OI]-compatible chat-completions URL).
+  const action = getModelConfig("ACTION")
+  const key = action.apiKey || requireEnv("LLM_API_KEY")
   const endpoint = requireEnv("LLM_ENDPOINT")
-  const model = requireEnv("LLM_MODEL")
+  const model = action.modelName || requireEnv("LLM_MODEL")
 
   let lastStatus = 0
   let lastBody = ""

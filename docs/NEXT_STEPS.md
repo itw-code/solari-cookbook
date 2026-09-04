@@ -2,6 +2,18 @@
 
 > If hired, this is what I'd build next — extending ColdStart from a proof-of-concept to a production generalization benchmark.
 
+> **Current-status honesty note (audit W10/W11):** the Multi-Model Router config
+> chains (ACTION / PERCEPTION) below are implemented and consumed — the live
+> agent resolves its model via `getModelConfig("ACTION")`
+> (`src/agent/model.ts`) and the Slop-Catcher VLM clients via
+> `getModelConfig("PERCEPTION")` (`src/design-qa/slop-catcher.ts`). What does
+> NOT exist yet is the Layer 1–3 CI/CD pipeline described below (triage gate,
+> adversarial red-team loop) — that remains future work. Separately, the
+> Combined Demo (`scripts/run-combined-demo.ts` + its rendered report) is a
+> **plumbing verification (local, mock page)**: a scripted action sequence
+> against a mock page with real local HTTP + SQLite — it verifies the harness
+> wiring, not model capability, and is labeled as such in the report.
+
 ---
 
 ## Immediate (Week 1-2)
