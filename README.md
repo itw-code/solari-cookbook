@@ -98,6 +98,22 @@ honest:
 | **P4 · Nav order/grouping** | reorder/group the header/sidebar nav (labels unchanged) | affects the *scan path* for the first action; labels stable, so a strong agent recovers. |
 | **P5 · Theme/CSS** | color palette, font, button style, spacing/borders/radius — the honesty **control** | a *genuinely* vision-first agent should be near-invariant to skin. If a CSS-only change collapses it, the agent was secretly DOM-caching or text-scraping. |
 
+### What makes a good use case? (Founder's Vision)
+
+> *"Tbh, we aren't looking for specifics. What we want to see is people create genuine uses that solve problems.*
+>
+> 1. *Build something that solves a problem you have and makes your life easier (e.g. a personal assistant, a news scraper, a code reviewer agent).*
+> 2. *Or build something that solves someone else's problems (you can then turn this into your own product and sell it and use Solari to kickstart your own business).*
+>
+> *Where do I find problems?*
+> - *Everyday struggles: Things that make life slightly annoying (e.g. you constantly have to organize Google Photos bc you have too many photos -> build an agent that clears duplicate photos and deletes redundant screenshots).*
+> - *Scroll X or Reddit: See what friction real people are facing.*
+> - *Talk to the people around you: What challenges do they face everyday — they can be your first user.*
+>
+> *Ultimately, we hope Solari solves a problem you have."*
+
+**The ColdStart link**: As builders create agents for these genuine, open-ended problems, the target applications will continually evolve, re-order fields, and shift UI flows. ColdStart exists to ensure your Solari-powered agent **generalizes cold in the wild** rather than breaking on the first unseen layout change.
+
 ---
 
 ## Results

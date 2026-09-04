@@ -10,6 +10,7 @@
     "build": "tsc -p tsconfig.build.json",
     "gen:variants": "tsx src/generate-variants/index.ts",
     "verify": "npm run typecheck && npm test",
+    "docs:serve": "python -m http.server 8080 --directory docs",
     "run:orchestrate": "bash scripts/run-step-03.sh",
     "run:scorecard": "bash scripts/run-step-06.sh",
     "run:isolated": "bash scripts/run-step-06b.sh"
