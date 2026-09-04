@@ -15,6 +15,7 @@
     "run:scorecard": "bash scripts/run-step-06.sh",
     "run:isolated": "bash scripts/run-step-06b.sh",
     "demo:all": "tsx scripts/run-combined-demo.ts && tsx scripts/render-demo-report.ts",
+    "build:slop-gif": "tsx scripts/build-slop-gif.ts",
     "serve": "tsx scripts/preview.ts"
   },
   "dependencies": {

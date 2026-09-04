@@ -348,7 +348,7 @@ The codebase features a decoupled perception layer (VLM) and action layer (CUA) 
 - **Layer 2: Adversarial Red-Team (Action)** — Targeted agent-vs-agent structural evaluation (Claude 3.5 Sonnet vs. UI-TARS / GPT-5.6 Luna).
 - **Layer 3: CI/CD Triage Gate** — PR diff inspection gating deep CUA tests behind fast VLM scans, saving up to 95% compute.
 
-Run `npm run demo:all` to reproduce the evaluation and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html).
+Run `npm run demo:all` to reproduce the evaluation and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html). See the animated action replay at [`artifacts/slop-catcher-replay.gif`](artifacts/slop-catcher-replay.gif).
 
 ---
 
@@ -468,6 +468,8 @@ screenshot drove.
 | [`artifacts/showcase.png`](artifacts/showcase.png) | 2x2 hero montage: empty *never-seen* form, filling, coordinates in, the `POSTED` confirmation |
 | [`artifacts/showcase.mp4`](artifacts/showcase.mp4) | short H.264 video (1280x800, ~5.7s) of the full run — sharper than a GIF |
 | [`artifacts/showcase.gif`](artifacts/showcase.gif) | the same run as a 1280x800 GIF (shown at the top of this README) |
+| [`artifacts/slop-catcher-replay.gif`](artifacts/slop-catcher-replay.gif) | 7-step animated action replay of the Slop-Catcher & Multi-Model Router evaluation (960x498) |
+| [`artifacts/slop-catcher-replay.mp4`](artifacts/slop-catcher-replay.mp4) | H.264 video version of the Slop-Catcher action replay for social media (Discord/X) |
 
 ![2x2 hero montage of a successful cold run](artifacts/showcase.png)
 

@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-09-03T12:53:02.442Z",
-  "run_id": "demo_mtlizm7v",
+  "generated_at": "2026-09-03T14:48:33.559Z",
+  "run_id": "demo_mtln46ax",
   "scripted": true,
   "targets": {
-    "clean_url": "http://localhost:11603/",
-    "slop_url": "http://localhost:11603/?slop=1"
+    "clean_url": "http://localhost:13122/",
+    "slop_url": "http://localhost:13122/?slop=1"
   },
   "slop_catcher_reports": {
     "clean": {
-      "runId": "scan_mtlizm7v_http___localhost_11603_",
+      "runId": "scan_mtln46ax_http___localhost_13122_",
       "slopScore": 4,
       "status": "PASS",
       "flags": [],
@@ -18,12 +18,12 @@
         "spacingVariance": 0,
         "vlmSlopScore": 10
       },
-      "targetUrl": "http://localhost:11603/",
+      "targetUrl": "http://localhost:13122/",
       "mode": "MOCK",
       "disclosure": "MOCK / dry-run scan: no microVM was booted and no live VLM call was made — this is NOT a live VLM audit of the target page."
     },
     "slop": {
-      "runId": "scan_mtlizm86_http___localhost_11603__slop_1",
+      "runId": "scan_mtln46b6_http___localhost_13122__slop_1",
       "slopScore": 40,
       "status": "WARN",
       "flags": [
@@ -36,13 +36,13 @@
         "spacingVariance": 15,
         "vlmSlopScore": 10
       },
-      "targetUrl": "http://localhost:11603/?slop=1",
+      "targetUrl": "http://localhost:13122/?slop=1",
       "mode": "MOCK",
       "disclosure": "MOCK / dry-run scan: no microVM was booted and no live VLM call was made — this is NOT a live VLM audit of the target page."
     }
   },
   "coldstart_agent_result": {
-    "task": "Open early access page at http://localhost:11603/, enter name \"ColdStart Agent\" and email \"agent@demo.solari\", submit the form, and report done.",
+    "task": "Open early access page at http://localhost:13122/, enter name \"ColdStart Agent\" and email \"agent@demo.solari\", submit the form, and report done.",
     "status": "done",
     "steps_taken": 6,
     "final_title": "Access Requested",
@@ -118,14 +118,14 @@
       },
       "D3": {
         "passed": true,
-        "detail": "D3 PASSED: created_at (2026-09-03T12:53:02.436Z) is within window [2026-09-03T12:53:02.422Z - 2026-09-03T12:53:07.442Z]"
+        "detail": "D3 PASSED: created_at (2026-09-03T14:48:33.551Z) is within window [2026-09-03T14:48:33.537Z - 2026-09-03T14:48:38.559Z]"
       }
     },
     "row": {
       "id": 1,
       "name": "ColdStart Agent",
       "email": "agent@demo.solari",
-      "created_at": "2026-09-03T12:53:02.436Z"
+      "created_at": "2026-09-03T14:48:33.551Z"
     }
   }
 }
