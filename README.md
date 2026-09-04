@@ -358,7 +358,7 @@ Run `npm run demo:all` to reproduce the evaluation and view the report at [`arti
 
 ```bash
 npm install
-npm run verify           # typecheck + 37 unit tests, MOCK mode
+npm run verify           # typecheck + 86 unit tests, MOCK mode
 npm run gen:variants     # deterministic variant matrix -> variants.json
 ```
 
@@ -411,7 +411,7 @@ src/
   agent/                    vision-first loop (action, model, loop, trace, screenshot)
   verify/                   fail-closed verifier (verifier, checks C1-C7)
   scorecard/                scorecard + curve + cost + axis-isolated runner
-test/                       vitest unit tests (prng, axes, verifier, agent-loop) - 37, offline
+test/                       vitest unit tests — 86, offline (prng, axes, verifier, agent-loop, model-router, slop-scoring, slop-catcher, render-demo-report, scan-url, demo-site, design-qa-orchestrator)
 reports/                    the 10 audited per-step build reports (Steps 00-07)
 artifacts/                  scorecard.json, curve.png, where-it-breaks.md, showcase.*, runs/
 scripts/                    live run wrappers (source .env, never echo keys)
@@ -507,9 +507,7 @@ challenge.
 
 - **ColdStart** — everything in `src/`, `test/`, `scripts/`, `artifacts/`, `reports/`,
   `DESIGN.md`, and this README.
-- **`examples/`** — the **upstream** Solari cookbook samples (browser quickstarts, desktop
-  computer-use, sandbox code interpreter, session recording, and so on). They are unmodified,
-  are not part of ColdStart, and are kept so this fork stays rebaseable against upstream. See
+- **`examples/`** — the **upstream** Solari cookbook samples (browser quickstarts TS/Py, desktop computer-use, sandbox code interpreter, sandbox port preview, session recording, browser stealth proxy, browser profiles). They are unmodified, are not part of ColdStart, and are kept so this fork stays rebaseable against upstream. See
   the [Solari SDK docs](https://docs.getsolari.com) for those.
 
 ## More
