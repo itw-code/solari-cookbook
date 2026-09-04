@@ -16,6 +16,12 @@ success-vs-novelty **curve**, and a **"where it breaks"** analysis.
 It runs on [Solari](https://getsolari.com) (cloud browser + sandbox) and was built
 as a working answer to the Pinetree Research SWE-intern challenge.
 
+**TL;DR (causal, measured):** the agent **generalizes across surface variation** —
+label-vocabulary drift (P1), theme/CSS (P5, the anti-DOM “control” — holds 2/2) and
+field order/density (P3) — but **genuinely breaks on procedural/structural change**
+(a two-step wizard, P2). Every outcome is verified by a **fail-closed** ground-truth
+check, so nothing here is claimed — it is measured and independently confirmed.
+
 ---
 
 ## Why this exists
@@ -324,7 +330,7 @@ DESIGN.md                   the locked design contract
 
 High-resolution showcase media (from a successful run, `r_mtjqchve_s17` — the
 P1:4 relabel + P3:3 variant). Everything is built from the agent's crisp 1280×800
-per-step screenshots;
+per-step screenshots:
 
 - **`artifacts/showcase.png`** — a 2×2 hero montage: empty *never-seen* form → filling →
   coordinates in → the `POSTED` confirmation. Crisp, social-media-ready still.
