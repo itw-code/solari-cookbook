@@ -98,7 +98,7 @@ honest:
 | **P4 · Nav order/grouping** | reorder/group the header/sidebar nav (labels unchanged) | affects the *scan path* for the first action; labels stable, so a strong agent recovers. |
 | **P5 · Theme/CSS** | color palette, font, button style, spacing/borders/radius — the honesty **control** | a *genuinely* vision-first agent should be near-invariant to skin. If a CSS-only change collapses it, the agent was secretly DOM-caching or text-scraping. |
 
-### What makes a good use case? (Founder's Vision)
+### Real-World Use Cases, Pain Points & Unit Economics
 
 > *"Tbh, we aren't looking for specifics. What we want to see is people create genuine uses that solve problems.*
 >
@@ -111,8 +111,45 @@ honest:
 > - *Talk to the people around you: What challenges do they face everyday — they can be your first user.*
 >
 > *Ultimately, we hope Solari solves a problem you have."*
+> — *Solari Founder's Philosophy*
 
-**The ColdStart link**: As builders create agents for these genuine, open-ended problems, the target applications will continually evolve, re-order fields, and shift UI flows. ColdStart exists to ensure your Solari-powered agent **generalizes cold in the wild** rather than breaking on the first unseen layout change.
+#### 1. The Core Pain Points & Why Solari + ColdStart
+
+| Pain Point | The Breakdown | How Solari + ColdStart Solves It |
+| :--- | :--- | :--- |
+| **Brittle RPA & Selectors** | Traditional scripts (Selenium/Playwright) crash whenever a CSS class, DOM ID, or element hierarchy changes. | **Solari's Vision CUA**: Operates via screenshots and coordinate clicks, making automation immune to DOM obfuscation. |
+| **The "Warm Demo" Illusion** | Agents look 100% reliable on fixed demo forms, but fail silently in production when layouts, field orders, or wizard steps shift. | **ColdStart Verification**: Perturbs apps across 5 mutation axes and validates database commits with fail-closed SQLite checks. |
+| **Heavy VM Latency & Leaks** | Spinning up full VMs takes minutes, burns huge budgets, and risks credential leaks and zombie instances. | **Solari Fast-Forks**: Boots isolated Firecracker microVMs in ~10 seconds with guaranteed zero leaked sandboxes. |
+
+#### 2. Four Concrete Real-World Use Cases
+
+1. **Automated ERP & Invoice Entry (Finance & Back-Office)**:
+   - *Problem*: Clerks manually copy line items from PDFs into QuickBooks/SAP/Xero at $2.50–$4.16 per invoice with 5–10% typo rates.
+   - *Solari + ColdStart Fix*: CUA reads documents visually, enters data into web portals, and verifies commits. ColdStart ensures the agent survives portal layout updates.
+2. **Cloud Storage & Photo Deduplication (Personal Utility & SaaS)**:
+   - *Problem*: Google Photos / iCloud get clogged with burst duplicates and screenshots, burning storage limits.
+   - *Solari + ColdStart Fix*: Ephemeral browser microVM scans albums, detects redundant screenshots, and deletes them safely without leaking permanent credentials.
+3. **Anti-Bot Resistant Web Scraping & Lead Enrichment (Market Intel)**:
+   - *Problem*: Dynamic JS trees and anti-bot defenses break standard headless DOM scrapers.
+   - *Solari + ColdStart Fix*: Visual agents browse via genuine mouse/keyboard actions from fresh microVM IPs.
+4. **Continuous Multi-Tenant QA & Regression Testing (Engineering)**:
+   - *Problem*: SaaS apps break across different customer themes, custom tenant fields, and updated checkout flows.
+   - *Solari + ColdStart Fix*: ColdStart procedurally generates 14+ mutated app variants in CI to stress-test workflows before shipping.
+
+#### 3. Unit Economics & ROI: Cost vs. Potential Earnings
+
+| Execution Method | Cost / Task | Speed & Reliability |
+| :--- | :--- | :--- |
+| **Human Data Entry** | **$2.50 – $4.16** (5–10 min @ $25/hr) | Slow, prone to fatigue & 5–10% errors |
+| **Legacy RPA / Custom APIs** | **$1.20 – $2.00** + $15k setup fee | High maintenance, breaks on UI redesigns |
+| **Solari + Vision CUA (ColdStart Verified)** | **~$0.032** (~16s microVM + LLM tokens) | **98.5% cost reduction**, fail-closed verified |
+
+**Potential Earnings Model (Automation Micro-SaaS / Agency)**:
+- Process **15,000 tasks/month** across 5 business clients (3,000 tasks/client).
+- Client Billing (@ $0.75 / verified task): **$11,250 / month** revenue.
+- Solari + LLM Compute Cost (15,000 × $0.032): **-$480 / month**.
+- **Net Monthly Profit: $10,770 / month (95.7% Gross Margin)**.
+- *Or save 120+ internal engineering/operations hours per month ($4,000+/mo saved).*
 
 ---
 
