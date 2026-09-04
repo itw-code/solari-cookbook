@@ -61,6 +61,27 @@ export function generalizationCurve(runs: RunRecord[]): GeneralizationPoint[] {
   return points
 }
 
+/** Given a run, the set of (axis,intensity) points it actually ``belongs to''.
+ *  A run is a member of point (axis, intensity) iff that axis has intensity==k>0.
+ *  In an axis-ISOLATED batch every run belongs to exactly one point. */
+export function successByPoint(runs: RunRecord[]): Record<string, number> {
+  const byKey = new Map<string, { total: number; succ: number }>()
+  for (const r of runs) {
+    for (const axis of AXIS_KEYS) {
+      const k = r.intensity_by_axis[axis]
+      if (k <= 0) continue
+      const key = `${axis}:${k}`
+      const slot = byKey.get(key) ?? { total: 0, succ: 0 }
+      slot.total += 1
+      if (isSuccess(r)) slot.succ += 1
+      byKey.set(key, slot)
+    }
+  }
+  const out: Record<string, number> = {}
+  for (const [key, slot] of byKey) out[key] = slot.succ / slot.total
+  return out
+}
+
 /** For every failed run, attribute a break entry to each axis it perturbed. */
 export function whereItBreaks(runs: RunRecord[]): BreakEntry[] {
   const out: BreakEntry[] = []
@@ -292,8 +313,8 @@ const FONT: Record<string, string[]> = {
  * Render success_rate vs perturbation intensity per axis into a PNG.
  * Returns the output path.
  */
-export async function renderCurvePng(runs: RunRecord[], outPath: string): Promise<string> {
-  const curve = generalizationCurve(runs)
+export async function renderCurvePng(runs: RunRecord[], outPath: string, curveOverride?: GeneralizationPoint[]): Promise<string> {
+  const curve = curveOverride ?? generalizationCurve(runs)
   const byAxis = new Map<AxisKey, GeneralizationPoint[]>()
   for (const p of curve) {
     const arr = byAxis.get(p.axis) ?? []

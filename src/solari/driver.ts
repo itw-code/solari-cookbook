@@ -31,6 +31,13 @@ export type BrowserLaunchOptions = LaunchOptions
 /** Options handed to `createSandbox`. A superset of the SDK's `CreateSandboxOptions`. */
 export type SandboxCreateOptions = CreateSandboxOptions
 
+/** A session's presigned replay (masked before it leaves the harness). */
+export interface ReplayResult {
+  url: string
+  expiresInSeconds?: number
+  contentEncoding?: string
+}
+
 /**
  * The single seam the rest of the project uses to talk to Solari.
  * Implemented by LiveSolari (network) and MockSolari (offline fixtures).
@@ -40,6 +47,14 @@ export interface SolariDriver {
   launchBrowser(opts?: BrowserLaunchOptions): Promise<BrowserSession>
   /** Create a sandbox microVM session. */
   createSandbox(opts?: SandboxCreateOptions): Promise<Sandbox>
+  /**
+   * Release a browser session, then return its presigned replay url.
+   * Replay is available ~1-3s after `releaseAndWait`; callers should poll.
+   * Returns null when the replay is genuinely unobtainable (never faked).
+   */
+  getReplayUrl(sessionId: string): Promise<ReplayResult | null>
+  /** Release (and wait for confirmation) a browser session. */
+  releaseAndWait(sessionId: string): Promise<void>
   /** Tear down any held local clients / proxies. Idempotent. */
   shutdown(): Promise<void>
 }
@@ -82,6 +97,28 @@ export class LiveSolari implements SolariDriver {
     return this.client.sandboxes.create(opts)
   }
 
+  async getReplayUrl(sessionId: string): Promise<ReplayResult | null> {
+    try {
+      const r = await this.browser.sessions.getReplayUrl(sessionId)
+      return { url: r.url, expiresInSeconds: r.expiresInSeconds, contentEncoding: r.contentEncoding }
+    } catch (e) {
+      // Presigned replay may not be ready yet (1-3s after release) or unavailable
+      // on this plan. Return null honestly — never fabricate a URL.
+      if (this.config.debug) console.warn(`[LiveSolari] getReplayUrl(${sessionId}) failed:`, e)
+      return null
+    }
+  }
+
+  async releaseAndWait(sessionId: string): Promise<void> {
+    try {
+      await this.browser.sessions.releaseAndWait(sessionId)
+    } catch (e) {
+      // Idempotent: an already-released session is a tolerated no-op. Surface
+      // real failures to debug logging only; the caller decides on the outcome.
+      if (this.config.debug) console.warn(`[LiveSolari] releaseAndWait(${sessionId}) failed:`, e)
+    }
+  }
+
   async shutdown(): Promise<void> {
     if (this.config.debug) console.log("[LiveSolari] shutdown")
     // STEP 00: close the browser client's loopback proxy. Add client/sandbox
@@ -108,6 +145,15 @@ export class MockSolari implements SolariDriver {
     return {
       sandboxId: "mock-sandbox-0001",
     } as unknown as Sandbox
+  }
+
+  async getReplayUrl(_sessionId: string): Promise<ReplayResult | null> {
+    // Mock mode has no real session — replay is unobtainable.
+    return null
+  }
+
+  async releaseAndWait(_sessionId: string): Promise<void> {
+    // no-op
   }
 
   async shutdown(): Promise<void> {

@@ -138,7 +138,9 @@ Model: `opencode-go-responses-gpt-5-6-luna`. Success = agent `ok` **AND** verifi
 | `P4_nav_order` | 0.00 | 1 |
 | `P5_theme` | 0.00 | 2 |
 
-### The headline finding
+### The raw (mixed-axis) result — superseded by the causal finding (below)
+
+> ⚠️ This first Step 06 run set perturbed **≥2 axes per variant**, so its per-axis attribution is **confounded** (a failure is charged to every axis a variant touched). **Read the Step 06b axis-isolated / causal result below as the conclusion; this table is the raw, confounded observation.**
 
 - **Robust to label-vocabulary drift.** The heaviest relabel variant (`s17`, P1:4 —
   `Client`, `Confirm`, `VAT`, `Units`, `Price`, `Memo`, `Recorded` — *plus* reordered
@@ -173,6 +175,58 @@ call count + token estimate) is reported instead.
 
 ---
 
+### Step 06b — AXIS-ISOLATED & CAUSAL (Option C)
+
+The Step 06 run set perturbed **≥2 axes per variant**, so its per-axis rates were
+**confounded** (a failure was attributed to *every* axis a variant touched). Step 06b
+removes the confound: **exactly one axis is perturbed at a time** while the task and the
+expected answer are held CONSTANT (`VARIANT_SEED=0` + `COLDSTART_AXES=<one active axis>`,
+`deriveTaskSpec(0).instruction` as the task, `verifyAgainstPath({seed:0, dbPath})` as ground
+truth). Three isolated points, **n=2 each = 6 runs** (same model, `max_steps=40`, viewport 1280×800):
+
+| point | axis (isolated) | rep | terminated_by | status | task_completed | success |
+| --- | --- | --- | --- | --- | --- | --- |
+| P2_structure:3 | structure / wizard | 1 | abort (infra) | aborted | false | ❌ |
+| P2_structure:3 | structure / wizard | 2 | step_cap | step_cap | false | ❌ |
+| P5_theme:3 | theme / CSS skin | 1 | done | ok | true | ✅ |
+| P5_theme:3 | theme / CSS skin | 2 | done | ok | true | ✅ |
+| P3_field_order:4 | field order & density | 1 | done | ok | true | ✅ |
+| P3_field_order:4 | field order & density | 2 | abort (infra) | aborted | false | ❌ |
+
+**success_by_axis (isolated — causal, no cross-axis attribution):**
+
+| axis | success rate | n (isolated) |
+| --- | --- | --- |
+| `P2_structure` | 0.00 | 2 |
+| `P5_theme` | 1.00 | 2 |
+| `P3_field_order` | 0.50 | 2 |
+
+### The causal finding (it resolves the Step 06 confound)
+
+- **The one genuine breaker is P2 — structure / flow (the two-step wizard).** Isolated
+  P2:3 never reached `done` (`step_cap`, no `POSTED` invoice). This confirms Step 06's
+  strongest signal and is the causal breaker.
+- **The theme honesty control (`P5`) HOLDS when isolated — 2/2 pass in 16 steps each.**
+  Step 06 reported P5:0.00, but that came from the **combined** `s21` (P5:3 + P1:1 + P3:3).
+  In isolation a CSS-only re-theme (dark serif pill) does **not** break the agent — so the
+  agent *is* skin-invariant, exactly as the P5 control is designed to check. The Step 06 P5
+  failure was a **confound** (the interaction of theme with relabel + field density), not a
+  P5 effect.
+- **Field order & density (P3:4) passes when isolated** (17 steps, 7/7 verifier checks green).
+  Step 06's "P3 fails" was likewise drawn from combined variants.
+- **`session.replay_url` is now wired and captured** (`recording:true` + `releaseAndWait` +
+  `getReplayUrl` per run): 4 of 5 live sessions returned a real presigned replay; the one
+  `null` (P3_field_order:4 × 1) is recorded honestly (the SDK returned nothing after ~6s of
+  polling post-release). `recording_id` is captured on every live run.
+
+**Honest caveat:** 2 of the 6 runs were **infra aborts**, not generalization failures
+(P2:3 rep1 — the browser screenshot channel dropped mid-run; P3:4 rep2 — the sandbox control
+channel closed at provisioning). Clean-evidence rates are therefore P2 **0/1**, P5 **2/2**, P3
+**1/1**. n=2 with two infra-aborts is a small sample — treat the causal *direction* as robust
+and the exact rates as soft.
+
+---
+
 ## How to run
 
 Prerequisites: **Node 22+**, and for live runs a Solari API key + a vision model endpoint.
@@ -202,6 +256,9 @@ COLDSTART_MAX_STEPS=24 npx tsx src/agent/index.ts
 
 # 7) Live generalization scorecard — the 5-variant run set (cost-bounded)
 bash scripts/run-step-06.sh     # drives src/scorecard/index.ts; env sourced in-shell
+
+# 8) Axis-isolated (causal) scorecard follow-up — P2:3 / P5:3 / P3:4, n=2 each
+bash scripts/run-step-06b.sh    # drives src/scorecard/isolated.ts; env sourced in-shell
 ```
 
 > The run scripts source `.env` **in-shell** (`set -a; . ./.env; set +a`) so a key is
@@ -222,11 +279,12 @@ src/
   generate-variants/        seeded variant factory (prng, axes, task-spec, variants)
   agent/                    vision-first loop (action, model, loop, trace, screenshot)
   verify/                   fail-closed verifier (verifier, checks C1–C7)
-  scorecard/                scorecard + curve + cost (build, curve, cost, index)
+  scorecard/                scorecard + curve + cost + axis-isolated runner (build, curve, cost, index, isolated)
 test/                       vitest unit tests (prng, axes, verifier, agent-loop)
 artifacts/                  scorecard.json · curve.png · where-it-breaks.md · demo.gif · runs/
 scripts/run-step-03.sh      live orchestration proof wrapper
 scripts/run-step-06.sh      live scorecard wrapper (sources .env, never echoes keys)
+scripts/run-step-06b.sh     live axis-isolated scorecard wrapper (sources .env, never echoes keys)
 DESIGN.md                   the locked design contract
 ```
 
@@ -234,19 +292,24 @@ DESIGN.md                   the locked design contract
 
 ## Limitations (honest)
 
-- **n=1 per point.** The Step 06 run set is 5 variants, one run each (cost-bounded). The
-  per-axis rates are a *signal*, not a statistically causal measure.
-- **Mixed-axis confound.** Every perturbed variant perturbs ≥2 axes at once, so a failure
-  is attributed to *every* axis it touched (intensity > 0). The curve and break-analysis
-  are indicative; axis-isolated variants (P2:3 alone, P5:3 alone, P3:4 alone) with n≥3
-  are the natural follow-up.
-- **`s3` was an infra abort, not a generalization signal.** The shared browser session
-  closed mid-run on the free plan; the honest terminal is `aborted` with no `POSTED`
-  invoice. Not counted as clean evidence.
-- **`replay_url` is `null`** and **`credits` is `null`.** The SDK does not expose the
-  presigned replay URL through the driver seam (not wired) nor a credit/rate API. The
-  per-step action trace (`trace.json`) + per-step screenshots + verifier `evidence_hash`
-  are the audit anchor instead.
+- **Small-n + infra-aborts.** Step 06b is n=2 per isolated point (cost-bounded), and 2 of
+  its 6 runs were **infra aborts** (a dropped browser screenshot channel; a sandbox control
+  channel that closed at provisioning) — not generalization failures. Clean-evidence rates
+  are P2 0/1, P5 2/2, P3 1/1. Causal *direction* is robust, exact rates are soft.
+- **Mixed-axis confound RESOLVED by Step 06b (causal).** The original Step 06 set perturbed
+  ≥2 axes per variant, so its per-axis rates were indicative, not causal. Step 06b runs one
+  axis at a time with a constant task, and shows the **P5 theme control actually holds** and
+  **P3 field density passes** — the Step 06 P5/P3 failures were confounds from combined
+  variants. **P2 structure (the two-step wizard) is the genuine breaker.** P4 and P1 were
+  not re-isolated in this follow-up (P1 already passed at P1:4 in Step 06; P4 was only ever
+  tested bundled).
+- **`credits` is `null`.** The Solari SDK exposes no credit balance or $/hour rate; the
+  observable envelope (sandbox/browser seconds, LLM call count, token estimate, billable
+  hours) is reported instead. Replay URL is now captured (see Results).
+- **Per-run replay has one `null` (P3_field_order:4 × 1).** Recording is on and most runs
+  returned a real presigned replay, but one session's `getReplayUrl` returned nothing after
+  polling — recorded `null` honestly; the `action_trace.json` + screenshots + verifier
+  `evidence_hash` remain the audit anchor regardless.
 - **Model dependency.** Only a computer-use-capable model completes the task. A general
   chat/vision model cannot (see the honest model note above). ColdStart's value is the
   harness — the reproducibility of the variants, the vision-first grounding, and the

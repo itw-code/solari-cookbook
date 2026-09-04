@@ -93,13 +93,15 @@ export function aggregateCost(runs: RunRecord[], axisKeys: AxisKey[]): CostAggre
     ti += c.model_tokens_in
     to += c.model_tokens_out
 
+    // SUM across runs sharing a variant_id (n>1 per variant must aggregate).
+    const prev = byVariant[r.variant_id] ?? { runs: 0, sandbox_seconds: 0, browser_seconds: 0, llm_calls: 0, model_tokens_in: 0, model_tokens_out: 0 }
     byVariant[r.variant_id] = {
-      runs: (byVariant[r.variant_id]?.runs ?? 0) + 1,
-      sandbox_seconds: c.sandbox_seconds,
-      browser_seconds: c.browser_seconds,
-      llm_calls: c.llm_calls,
-      model_tokens_in: c.model_tokens_in,
-      model_tokens_out: c.model_tokens_out,
+      runs: prev.runs + 1,
+      sandbox_seconds: prev.sandbox_seconds + c.sandbox_seconds,
+      browser_seconds: prev.browser_seconds + c.browser_seconds,
+      llm_calls: prev.llm_calls + c.llm_calls,
+      model_tokens_in: prev.model_tokens_in + c.model_tokens_in,
+      model_tokens_out: prev.model_tokens_out + c.model_tokens_out,
     }
 
     // Attribute cost to every axis the variant perturbed (intensity > 0).

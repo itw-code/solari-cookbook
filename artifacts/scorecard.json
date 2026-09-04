@@ -1,81 +1,230 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-09-02T06:52:36.316Z",
+  "generated_at": "2026-09-02T07:50:46.359Z",
   "task_app": "create-invoice",
   "config": {
     "max_steps": 40,
     "viewport": "1280x800",
-    "n_runs_per_point": 1,
+    "n_runs_per_point": 2,
     "mode": "LIVE"
   },
   "variants": [
     {
-      "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+      "variant_id": "inv__isol__P2_structure:3__s0",
       "seed": 0,
       "intensity_by_axis": {
         "P1_relabel": 0,
-        "P2_structure": 0,
+        "P2_structure": 3,
         "P3_field_order": 0,
         "P4_nav_order": 0,
         "P5_theme": 0
       }
     },
     {
-      "variant_id": "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0",
-      "seed": 17,
-      "intensity_by_axis": {
-        "P1_relabel": 4,
-        "P2_structure": 0,
-        "P3_field_order": 3,
-        "P4_nav_order": 0,
-        "P5_theme": 0
-      }
-    },
-    {
-      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
-      "seed": 9,
+      "variant_id": "inv__isol__P2_structure:3__s0",
+      "seed": 0,
       "intensity_by_axis": {
         "P1_relabel": 0,
         "P2_structure": 3,
-        "P3_field_order": 4,
-        "P4_nav_order": 1,
+        "P3_field_order": 0,
+        "P4_nav_order": 0,
         "P5_theme": 0
       }
     },
     {
-      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
-      "seed": 21,
+      "variant_id": "inv__isol__P5_theme:3__s0",
+      "seed": 0,
       "intensity_by_axis": {
-        "P1_relabel": 1,
+        "P1_relabel": 0,
         "P2_structure": 0,
-        "P3_field_order": 3,
+        "P3_field_order": 0,
         "P4_nav_order": 0,
         "P5_theme": 3
       }
     },
     {
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "seed": 3,
+      "variant_id": "inv__isol__P5_theme:3__s0",
+      "seed": 0,
       "intensity_by_axis": {
-        "P1_relabel": 4,
-        "P2_structure": 2,
-        "P3_field_order": 4,
+        "P1_relabel": 0,
+        "P2_structure": 0,
+        "P3_field_order": 0,
         "P4_nav_order": 0,
         "P5_theme": 3
+      }
+    },
+    {
+      "variant_id": "inv__isol__P3_field_order:4__s0",
+      "seed": 0,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 0,
+        "P3_field_order": 4,
+        "P4_nav_order": 0,
+        "P5_theme": 0
+      }
+    },
+    {
+      "variant_id": "inv__isol__P3_field_order:4__s0",
+      "seed": 0,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 0,
+        "P3_field_order": 4,
+        "P4_nav_order": 0,
+        "P5_theme": 0
       }
     }
   ],
   "runs": [
     {
-      "run_id": "r_mtjqb0xr_s0",
-      "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+      "run_id": "r_mtjsgujp_isol__P2_structure-k3__s0_r1",
+      "variant_id": "inv__isol__P2_structure:3__s0",
+      "seed": 0,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 3,
+        "P3_field_order": 0,
+        "P4_nav_order": 0,
+        "P5_theme": 0
+      },
+      "agent": {
+        "model": "opencode-go-responses-gpt-5-6-luna",
+        "steps_taken": 0,
+        "max_steps": 40,
+        "terminated_by": "abort",
+        "status": "aborted",
+        "error": "agent loop failed: page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+      },
+      "outcome": {
+        "status": "aborted",
+        "task_completed": false,
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsgujp_isol__P2_structure-k3__s0_r1\\trace.json",
+        "verifier": {
+          "task_completed": false,
+          "field_errors": [],
+          "checks_run": [
+            {
+              "check": "C1",
+              "passed": false,
+              "detail": "no artifact captured (variant/sandbox error)"
+            }
+          ],
+          "evidence_hash": ""
+        }
+      },
+      "session": {
+        "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/52b8b988-2f30-479c-b46f-b5566cf2523a.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+        "recording_id": "ip-10-0-11-211:52b8b988-2f30-479c-b46f-b5566cf2523a:cmtj5qdco00y2o6018m04ewvp:1788334979868.EittoWUDiIwUzqW2-zWgLw",
+        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODAyOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNDk2OTA3MA.0o5yEJ9E_4ntT194r-vwAYwhF6gPYwqBGFVxr_19wHI",
+        "snapshot_id": null,
+        "fixture_path": null
+      },
+      "cost": {
+        "credits": null,
+        "hours": 0.025065739638888886,
+        "sandbox_seconds": 58.51045020000001,
+        "browser_seconds": 31.7262198,
+        "model_tokens_in": 16074,
+        "model_tokens_out": 378,
+        "model_request_count": 9,
+        "llm_calls": 9
+      }
+    },
+    {
+      "run_id": "r_mtjsi3p1_isol__P2_structure-k3__s0_r2",
+      "variant_id": "inv__isol__P2_structure:3__s0",
+      "seed": 0,
+      "intensity_by_axis": {
+        "P1_relabel": 0,
+        "P2_structure": 3,
+        "P3_field_order": 0,
+        "P4_nav_order": 0,
+        "P5_theme": 0
+      },
+      "agent": {
+        "model": "opencode-go-responses-gpt-5-6-luna",
+        "steps_taken": 40,
+        "max_steps": 40,
+        "terminated_by": "step_cap",
+        "status": "step_cap",
+        "error": null
+      },
+      "outcome": {
+        "status": "step_cap",
+        "task_completed": false,
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
+        "verifier": {
+          "task_completed": false,
+          "field_errors": [],
+          "checks_run": [
+            {
+              "check": "C1",
+              "passed": false,
+              "detail": "no POSTED invoice found (0 invoice(s) total)"
+            },
+            {
+              "check": "C2",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            },
+            {
+              "check": "C3",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            },
+            {
+              "check": "C4",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            },
+            {
+              "check": "C5",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            },
+            {
+              "check": "C6",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            },
+            {
+              "check": "C7",
+              "passed": false,
+              "detail": "no POSTED invoice to evaluate against expected"
+            }
+          ],
+          "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
+        }
+      },
+      "session": {
+        "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/6494cc35-490c-423f-b8ea-a9c98ad48d10.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+        "recording_id": "ip-10-0-11-211:6494cc35-490c-423f-b8ea-a9c98ad48d10:cmtj5qdco00y2o6018m04ewvp:1788335038093.o31kHU1PRYcRQKsZKwp4_A",
+        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODQ5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTAyNzU1Mg.P5wsxzip7ZIZ3k3vEN8RBTsYhg9bpPWn519QJvilxdY",
+        "snapshot_id": null,
+        "fixture_path": null
+      },
+      "cost": {
+        "credits": null,
+        "hours": 0.09482981947222223,
+        "sandbox_seconds": 183.2510987,
+        "browser_seconds": 158.13626520000003,
+        "model_tokens_in": 71440,
+        "model_tokens_out": 1680,
+        "model_request_count": 40,
+        "llm_calls": 40
+      }
+    },
+    {
+      "run_id": "r_mtjsm13e_isol__P5_theme-k3__s0_r1",
+      "variant_id": "inv__isol__P5_theme:3__s0",
       "seed": 0,
       "intensity_by_axis": {
         "P1_relabel": 0,
         "P2_structure": 0,
         "P3_field_order": 0,
         "P4_nav_order": 0,
-        "P5_theme": 0
+        "P5_theme": 3
       },
       "agent": {
         "model": "opencode-go-responses-gpt-5-6-luna",
@@ -88,7 +237,7 @@
       "outcome": {
         "status": "ok",
         "task_completed": true,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqb0xr_s0\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsm13e_isol__P5_theme-k3__s0_r1\\trace.json",
         "verifier": {
           "task_completed": true,
           "field_errors": [],
@@ -129,21 +278,21 @@
               "detail": "stored subtotal=36000 tax=2880 total=38880 vs recomputed subtotal=36000 tax=2880 total=38880"
             }
           ],
-          "evidence_hash": "c28b80ba4c25acd6e3a8a05b6f12c6dc811624640ad9dfd8dc64e9811c20402c"
+          "evidence_hash": "b2c9b5c38c3843948956cd87e11137de3bb4545adc66c5e1f00888239a36664e"
         }
       },
       "session": {
-        "replay_url": null,
-        "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
-        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDMzOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTMzODA2Mg.nucgpwmoMj4HxDOOgWFc-EIUTkjSR0zSybLJtXk8D_M",
+        "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/dde9fbdc-37b3-4626-888c-c534caea97a1.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+        "recording_id": "ip-10-0-11-211:dde9fbdc-37b3-4626-888c-c534caea97a1:cmtj5qdco00y2o6018m04ewvp:1788335221819.9PRdntr9oL1dzEEdRI6MwQ",
+        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDY1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTIxMDc3Ng.3csv5tNWn3k5Ch-lNdvryLqEwUvDZ-NGmmuezm_taXY",
         "snapshot_id": null,
         "fixture_path": null
       },
       "cost": {
         "credits": null,
-        "hours": 0.032505375361111116,
-        "sandbox_seconds": 68.6002647,
-        "browser_seconds": 48.4191039,
+        "hours": 0.03222177258333333,
+        "sandbox_seconds": 70.7326782,
+        "browser_seconds": 45.26570730000001,
         "model_tokens_in": 28576,
         "model_tokens_out": 672,
         "model_request_count": 16,
@@ -151,15 +300,15 @@
       }
     },
     {
-      "run_id": "r_mtjqchve_s17",
-      "variant_id": "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0",
-      "seed": 17,
+      "run_id": "r_mtjsnjob_isol__P5_theme-k3__s0_r2",
+      "variant_id": "inv__isol__P5_theme:3__s0",
+      "seed": 0,
       "intensity_by_axis": {
-        "P1_relabel": 4,
+        "P1_relabel": 0,
         "P2_structure": 0,
-        "P3_field_order": 3,
+        "P3_field_order": 0,
         "P4_nav_order": 0,
-        "P5_theme": 0
+        "P5_theme": 3
       },
       "agent": {
         "model": "opencode-go-responses-gpt-5-6-luna",
@@ -172,7 +321,7 @@
       "outcome": {
         "status": "ok",
         "task_completed": true,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqchve_s17\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsnjob_isol__P5_theme-k3__s0_r2\\trace.json",
         "verifier": {
           "task_completed": true,
           "field_errors": [],
@@ -190,7 +339,7 @@
             {
               "check": "C2",
               "passed": true,
-              "detail": "customer \"INITECH\" vs expected \"INITECH\""
+              "detail": "customer \"ACMECORP\" vs expected \"ACMECORP\""
             },
             {
               "check": "C3",
@@ -200,34 +349,34 @@
             {
               "check": "C4",
               "passed": true,
-              "detail": "tax_rate_bps 750 vs expected 750"
+              "detail": "tax_rate_bps 800 vs expected 800"
             },
             {
               "check": "C5",
               "passed": true,
-              "detail": "invoice_date 2026-06-10 due_date 2026-07-10 vs expected 2026-06-10 / 2026-07-10"
+              "detail": "invoice_date 2026-10-01 due_date 2026-10-31 vs expected 2026-10-01 / 2026-10-31"
             },
             {
               "check": "C6",
               "passed": true,
-              "detail": "stored subtotal=149200 tax=11190 total=160390 vs recomputed subtotal=149200 tax=11190 total=160390"
+              "detail": "stored subtotal=36000 tax=2880 total=38880 vs recomputed subtotal=36000 tax=2880 total=38880"
             }
           ],
-          "evidence_hash": "d0db28d7779e04ff0ccc75c75ed03ac80ed232443d3e6bff59e1d70d19e7abec"
+          "evidence_hash": "01a0195597b0759a6ef4c1fb3df47875e6c6da4fb776c415969a439206181ed3"
         }
       },
       "session": {
-        "replay_url": null,
-        "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
-        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM0OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQwNjg2MQ.8MfvjlEBfNWtoerai42eO1y6RtOtT6cKvt4s45Gp3nc",
+        "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/6bf31cda-631b-493f-8216-1b614207df60.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+        "recording_id": "ip-10-0-11-211:6bf31cda-631b-493f-8216-1b614207df60:cmtj5qdco00y2o6018m04ewvp:1788335292029.Mu2DqmYFEMC9Qbj9yXSqMw",
+        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODg5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTI4MTU5NA.hvclc3oCuzldDCr6GFEtljUTMb2yYr49TRhz30TgjSo",
         "snapshot_id": null,
         "fixture_path": null
       },
       "cost": {
         "credits": null,
-        "hours": 0.03295531888888888,
-        "sandbox_seconds": 69.4494355,
-        "browser_seconds": 49.18971619999999,
+        "hours": 0.03604129922222221,
+        "sandbox_seconds": 78.31206149999996,
+        "browser_seconds": 51.4366177,
         "model_tokens_in": 28576,
         "model_tokens_out": 672,
         "model_request_count": 16,
@@ -235,196 +384,112 @@
       }
     },
     {
-      "run_id": "r_mtjqdzgn_s9",
-      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
-      "seed": 9,
+      "run_id": "r_mtjsp83o_isol__P3_field_order-k4__s0_r1",
+      "variant_id": "inv__isol__P3_field_order:4__s0",
+      "seed": 0,
       "intensity_by_axis": {
         "P1_relabel": 0,
-        "P2_structure": 3,
+        "P2_structure": 0,
         "P3_field_order": 4,
-        "P4_nav_order": 1,
+        "P4_nav_order": 0,
         "P5_theme": 0
       },
       "agent": {
         "model": "opencode-go-responses-gpt-5-6-luna",
-        "steps_taken": 40,
+        "steps_taken": 17,
         "max_steps": 40,
-        "terminated_by": "step_cap",
-        "status": "step_cap",
+        "terminated_by": "done",
+        "status": "ok",
         "error": null
       },
       "outcome": {
-        "status": "step_cap",
-        "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqdzgn_s9\\trace.json",
+        "status": "ok",
+        "task_completed": true,
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsp83o_isol__P3_field_order-k4__s0_r1\\trace.json",
         "verifier": {
-          "task_completed": false,
+          "task_completed": true,
           "field_errors": [],
           "checks_run": [
             {
               "check": "C1",
-              "passed": false,
-              "detail": "no POSTED invoice found (0 invoice(s) total)"
-            },
-            {
-              "check": "C2",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C3",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C4",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C5",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C6",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
+              "passed": true,
+              "detail": "exactly one POSTED invoice (id=1)"
             },
             {
               "check": "C7",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
+              "passed": true,
+              "detail": "invoice_no=\"INV-2026-0001\" matches ^INV-\\d{4}-\\d{4}$; unique=yes"
+            },
+            {
+              "check": "C2",
+              "passed": true,
+              "detail": "customer \"ACMECORP\" vs expected \"ACMECORP\""
+            },
+            {
+              "check": "C3",
+              "passed": true,
+              "detail": "items count 1 vs expected 1; in-order (description,qty,unit_price_cents) compared"
+            },
+            {
+              "check": "C4",
+              "passed": true,
+              "detail": "tax_rate_bps 800 vs expected 800"
+            },
+            {
+              "check": "C5",
+              "passed": true,
+              "detail": "invoice_date 2026-10-01 due_date 2026-10-31 vs expected 2026-10-01 / 2026-10-31"
+            },
+            {
+              "check": "C6",
+              "passed": true,
+              "detail": "stored subtotal=36000 tax=2880 total=38880 vs recomputed subtotal=36000 tax=2880 total=38880"
             }
           ],
-          "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
+          "evidence_hash": "a79e274dd32488b041df5224e4dedf4a0888d5e8954edc329e265791ffdc032d"
         }
       },
       "session": {
         "replay_url": null,
-        "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
-        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM2OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQ3NjU0Ng.tqA13aHUCWXOp8T-MWdEEk0NcPnPxnhVo_eph-XVKfc",
+        "recording_id": "ip-10-0-11-211:fa77ae95-57c1-4066-b270-9f26617e7b24:cmtj5qdco00y2o6018m04ewvp:1788335370463.37aFon09WXAIUw2RIHTUXg",
+        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODkwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTM1OTgyNw.SRulBrO802blDf20iXoPVIOOz7a6RJRg95fzG5QuWD8",
         "snapshot_id": null,
         "fixture_path": null
       },
       "cost": {
         "credits": null,
-        "hours": 0.09283999288888888,
-        "sandbox_seconds": 176.82454179999996,
-        "browser_seconds": 157.39943649999998,
-        "model_tokens_in": 71440,
-        "model_tokens_out": 1680,
-        "model_request_count": 40,
-        "llm_calls": 40
+        "hours": 0.03690623930555557,
+        "sandbox_seconds": 80.78662,
+        "browser_seconds": 52.0758529,
+        "model_tokens_in": 30362,
+        "model_tokens_out": 714,
+        "model_request_count": 17,
+        "llm_calls": 17
       }
     },
     {
-      "run_id": "r_mtjqhrwi_s21",
-      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
-      "seed": 21,
+      "run_id": "r_mtjsqyft_isol__P3_field_order-k4__s0_r2",
+      "variant_id": "inv__isol__P3_field_order:4__s0",
+      "seed": 0,
       "intensity_by_axis": {
-        "P1_relabel": 1,
+        "P1_relabel": 0,
         "P2_structure": 0,
-        "P3_field_order": 3,
-        "P4_nav_order": 0,
-        "P5_theme": 3
-      },
-      "agent": {
-        "model": "opencode-go-responses-gpt-5-6-luna",
-        "steps_taken": 40,
-        "max_steps": 40,
-        "terminated_by": "step_cap",
-        "status": "step_cap",
-        "error": null
-      },
-      "outcome": {
-        "status": "step_cap",
-        "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqhrwi_s21\\trace.json",
-        "verifier": {
-          "task_completed": false,
-          "field_errors": [],
-          "checks_run": [
-            {
-              "check": "C1",
-              "passed": false,
-              "detail": "no POSTED invoice found (0 invoice(s) total)"
-            },
-            {
-              "check": "C2",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C3",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C4",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C5",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C6",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C7",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            }
-          ],
-          "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
-        }
-      },
-      "session": {
-        "replay_url": null,
-        "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
-        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDQ1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTY1MzEwMA.G0UbehEigIBqIjVuww7cOeRFvVJGAbH5JkZw5zP14Sw",
-        "snapshot_id": null,
-        "fixture_path": null
-      },
-      "cost": {
-        "credits": null,
-        "hours": 0.11689046486111111,
-        "sandbox_seconds": 220.77327350000002,
-        "browser_seconds": 200.0324032,
-        "model_tokens_in": 71440,
-        "model_tokens_out": 1680,
-        "model_request_count": 40,
-        "llm_calls": 40
-      }
-    },
-    {
-      "run_id": "r_mtjqmi96_s3",
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "seed": 3,
-      "intensity_by_axis": {
-        "P1_relabel": 4,
-        "P2_structure": 2,
         "P3_field_order": 4,
         "P4_nav_order": 0,
-        "P5_theme": 3
+        "P5_theme": 0
       },
       "agent": {
         "model": "opencode-go-responses-gpt-5-6-luna",
-        "steps_taken": 16,
+        "steps_taken": 0,
         "max_steps": 40,
         "terminated_by": "abort",
         "status": "aborted",
-        "error": "agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed"
+        "error": "Control channel closed (1005)"
       },
       "outcome": {
         "status": "aborted",
         "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqmi96_s3\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsqyft_isol__P3_field_order-k4__s0_r2\\trace.json",
         "verifier": {
           "task_completed": false,
           "field_errors": [],
@@ -432,111 +497,60 @@
             {
               "check": "C1",
               "passed": false,
-              "detail": "no POSTED invoice found (0 invoice(s) total)"
-            },
-            {
-              "check": "C2",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C3",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C4",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C5",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C6",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
-            },
-            {
-              "check": "C7",
-              "passed": false,
-              "detail": "no POSTED invoice to evaluate against expected"
+              "detail": "no artifact captured (variant/sandbox error)"
             }
           ],
-          "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
+          "evidence_hash": ""
         }
       },
       "session": {
         "replay_url": null,
-        "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
-        "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDUwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTg3Mzg1Ng._jvujrPtCvVM-pLEq7HKV9l0UANDvc_t1RtwliNwTS4",
+        "recording_id": null,
+        "sandbox_id": null,
         "snapshot_id": null,
         "fixture_path": null
       },
       "cost": {
         "credits": null,
-        "hours": 0.041249859833333305,
-        "sandbox_seconds": 81.0059974,
-        "browser_seconds": 67.49351429999992,
-        "model_tokens_in": 28576,
-        "model_tokens_out": 672,
-        "model_request_count": 16,
-        "llm_calls": 16
+        "hours": 0,
+        "sandbox_seconds": 0,
+        "browser_seconds": 0,
+        "model_tokens_in": 0,
+        "model_tokens_out": 0,
+        "model_request_count": 0,
+        "llm_calls": 0
       }
     }
   ],
   "success_by_variant": {
-    "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0": 1,
-    "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0": 1,
-    "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0": 0,
-    "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3": 0,
-    "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3": 0
+    "inv__isol__P2_structure:3__s0": 0,
+    "inv__isol__P5_theme:3__s0": 1,
+    "inv__isol__P3_field_order:4__s0": 0.5
+  },
+  "success_by_point": {
+    "P2_structure:3": 0,
+    "P5_theme:3": 1,
+    "P3_field_order:4": 0.5
   },
   "success_by_axis": {
-    "P1_relabel": 0.3333333333333333,
+    "P1_relabel": null,
     "P2_structure": 0,
-    "P3_field_order": 0.25,
-    "P4_nav_order": 0,
-    "P5_theme": 0
+    "P3_field_order": 0.5,
+    "P4_nav_order": null,
+    "P5_theme": 1
   },
   "generalization_curve": [
     {
-      "axis": "P1_relabel",
-      "intensity": 0,
-      "success_rate": 0.5,
-      "n_runs": 2
-    },
-    {
-      "axis": "P1_relabel",
-      "intensity": 1,
-      "success_rate": 0,
-      "n_runs": 1
-    },
-    {
-      "axis": "P1_relabel",
-      "intensity": 4,
-      "success_rate": 0.5,
-      "n_runs": 2
-    },
-    {
       "axis": "P2_structure",
       "intensity": 0,
-      "success_rate": 0.6666666666666666,
-      "n_runs": 3
-    },
-    {
-      "axis": "P2_structure",
-      "intensity": 2,
-      "success_rate": 0,
+      "success_rate": 1,
       "n_runs": 1
     },
     {
       "axis": "P2_structure",
       "intensity": 3,
       "success_rate": 0,
-      "n_runs": 1
+      "n_runs": 2
     },
     {
       "axis": "P3_field_order",
@@ -546,132 +560,98 @@
     },
     {
       "axis": "P3_field_order",
-      "intensity": 3,
-      "success_rate": 0.5,
-      "n_runs": 2
-    },
-    {
-      "axis": "P3_field_order",
       "intensity": 4,
-      "success_rate": 0,
+      "success_rate": 0.5,
       "n_runs": 2
     },
     {
-      "axis": "P4_nav_order",
+      "axis": "P5_theme",
       "intensity": 0,
-      "success_rate": 0.5,
-      "n_runs": 4
-    },
-    {
-      "axis": "P4_nav_order",
-      "intensity": 1,
-      "success_rate": 0,
+      "success_rate": 1,
       "n_runs": 1
     },
     {
       "axis": "P5_theme",
-      "intensity": 0,
-      "success_rate": 0.6666666666666666,
-      "n_runs": 3
-    },
-    {
-      "axis": "P5_theme",
       "intensity": 3,
-      "success_rate": 0,
+      "success_rate": 1,
       "n_runs": 2
     }
   ],
   "cost": {
     "metered": false,
-    "total_sandbox_seconds": 616.6535129,
-    "total_browser_seconds": 522.5341740999999,
-    "total_llm_calls": 128,
-    "total_model_tokens_in": 228608,
-    "total_model_tokens_out": 5376,
-    "estimated_billable_hours": 0.31644102416666664,
+    "total_sandbox_seconds": 471.5929086,
+    "total_browser_seconds": 338.64066290000005,
+    "total_llm_calls": 98,
+    "total_model_tokens_in": 175028,
+    "total_model_tokens_out": 4116,
+    "estimated_billable_hours": 0.22506488097222224,
     "credits": null,
     "by_variant": {
-      "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0": {
-        "runs": 1,
-        "sandbox_seconds": 68.6002647,
-        "browser_seconds": 48.4191039,
-        "llm_calls": 16,
-        "model_tokens_in": 28576,
-        "model_tokens_out": 672
+      "inv__isol__P2_structure:3__s0": {
+        "runs": 2,
+        "sandbox_seconds": 241.7615489,
+        "browser_seconds": 189.862485,
+        "llm_calls": 49,
+        "model_tokens_in": 87514,
+        "model_tokens_out": 2058
       },
-      "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0": {
-        "runs": 1,
-        "sandbox_seconds": 69.4494355,
-        "browser_seconds": 49.18971619999999,
-        "llm_calls": 16,
-        "model_tokens_in": 28576,
-        "model_tokens_out": 672
+      "inv__isol__P5_theme:3__s0": {
+        "runs": 2,
+        "sandbox_seconds": 149.0447397,
+        "browser_seconds": 96.702325,
+        "llm_calls": 32,
+        "model_tokens_in": 57152,
+        "model_tokens_out": 1344
       },
-      "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0": {
-        "runs": 1,
-        "sandbox_seconds": 176.82454179999996,
-        "browser_seconds": 157.39943649999998,
-        "llm_calls": 40,
-        "model_tokens_in": 71440,
-        "model_tokens_out": 1680
-      },
-      "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3": {
-        "runs": 1,
-        "sandbox_seconds": 220.77327350000002,
-        "browser_seconds": 200.0324032,
-        "llm_calls": 40,
-        "model_tokens_in": 71440,
-        "model_tokens_out": 1680
-      },
-      "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3": {
-        "runs": 1,
-        "sandbox_seconds": 81.0059974,
-        "browser_seconds": 67.49351429999992,
-        "llm_calls": 16,
-        "model_tokens_in": 28576,
-        "model_tokens_out": 672
+      "inv__isol__P3_field_order:4__s0": {
+        "runs": 2,
+        "sandbox_seconds": 80.78662,
+        "browser_seconds": 52.0758529,
+        "llm_calls": 17,
+        "model_tokens_in": 30362,
+        "model_tokens_out": 714
       }
     },
     "by_axis": {
       "P1_relabel": {
-        "runs": 3,
-        "sandbox_seconds": 371.2287064,
-        "browser_seconds": 316.7156336999999,
-        "llm_calls": 72,
-        "model_tokens_in": 128592,
-        "model_tokens_out": 3024
+        "runs": 0,
+        "sandbox_seconds": 0,
+        "browser_seconds": 0,
+        "llm_calls": 0,
+        "model_tokens_in": 0,
+        "model_tokens_out": 0
       },
       "P2_structure": {
         "runs": 2,
-        "sandbox_seconds": 257.8305392,
-        "browser_seconds": 224.89295079999988,
-        "llm_calls": 56,
-        "model_tokens_in": 100016,
-        "model_tokens_out": 2352
+        "sandbox_seconds": 241.7615489,
+        "browser_seconds": 189.86248500000002,
+        "llm_calls": 49,
+        "model_tokens_in": 87514,
+        "model_tokens_out": 2058
       },
       "P3_field_order": {
-        "runs": 4,
-        "sandbox_seconds": 548.0532482,
-        "browser_seconds": 474.1150701999999,
-        "llm_calls": 112,
-        "model_tokens_in": 200032,
-        "model_tokens_out": 4704
+        "runs": 2,
+        "sandbox_seconds": 80.78662,
+        "browser_seconds": 52.0758529,
+        "llm_calls": 17,
+        "model_tokens_in": 30362,
+        "model_tokens_out": 714
       },
       "P4_nav_order": {
-        "runs": 1,
-        "sandbox_seconds": 176.82454179999996,
-        "browser_seconds": 157.39943649999998,
-        "llm_calls": 40,
-        "model_tokens_in": 71440,
-        "model_tokens_out": 1680
+        "runs": 0,
+        "sandbox_seconds": 0,
+        "browser_seconds": 0,
+        "llm_calls": 0,
+        "model_tokens_in": 0,
+        "model_tokens_out": 0
       },
       "P5_theme": {
         "runs": 2,
-        "sandbox_seconds": 301.77927090000003,
-        "browser_seconds": 267.52591749999993,
-        "llm_calls": 56,
-        "model_tokens_in": 100016,
-        "model_tokens_out": 2352
+        "sandbox_seconds": 149.04473969999995,
+        "browser_seconds": 96.702325,
+        "llm_calls": 32,
+        "model_tokens_in": 57152,
+        "model_tokens_out": 1344
       }
     },
     "note": "tokens are an estimate: image=ceil(w*h/750), text=~chars/4, out=~42/turn. Solari credit balance + $/hour rate are NOT exposed by the SDK, so credits=null and estimated_billable_hours=(sandbox_seconds+browser_seconds)/3600 is the observable cost."
@@ -680,62 +660,20 @@
     {
       "axis": "P2_structure",
       "intensity": 3,
-      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P3_field_order",
-      "intensity": 4,
-      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P4_nav_order",
-      "intensity": 1,
-      "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P1_relabel",
-      "intensity": 1,
-      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P3_field_order",
-      "intensity": 3,
-      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P5_theme",
-      "intensity": 3,
-      "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
-      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
-    },
-    {
-      "axis": "P1_relabel",
-      "intensity": 4,
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "failure_mode": "agent_aborted: agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed"
+      "variant_id": "inv__isol__P2_structure:3__s0",
+      "failure_mode": "agent_aborted: agent loop failed: page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
     },
     {
       "axis": "P2_structure",
-      "intensity": 2,
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "failure_mode": "agent_aborted: agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed"
+      "intensity": 3,
+      "variant_id": "inv__isol__P2_structure:3__s0",
+      "failure_mode": "agent_step_cap: hit 40 steps without reaching 'done'"
     },
     {
       "axis": "P3_field_order",
       "intensity": 4,
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "failure_mode": "agent_aborted: agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed"
-    },
-    {
-      "axis": "P5_theme",
-      "intensity": 3,
-      "variant_id": "inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3",
-      "failure_mode": "agent_aborted: agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed"
+      "variant_id": "inv__isol__P3_field_order:4__s0",
+      "failure_mode": "agent_aborted: Control channel closed (1005)"
     }
   ]
 }

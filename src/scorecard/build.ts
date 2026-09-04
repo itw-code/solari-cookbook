@@ -19,7 +19,7 @@
 import { mkdir, writeFile } from "node:fs/promises"
 import { dirname } from "node:path"
 import { aggregateCost, COST_ESTIMATE_NOTE, type CostAggregate } from "./cost.ts"
-import { generalizationCurve, successByAxis, whereItBreaks } from "./curve.ts"
+import { generalizationCurve, successByAxis, successByPoint, whereItBreaks } from "./curve.ts"
 
 // ---------------------------------------------------------------------------
 // Axis vocabulary (matches variants.json intensity_by_axis keys)
@@ -135,6 +135,8 @@ export interface Scorecard {
   variants: Array<{ variant_id: string; seed: number; intensity_by_axis: Record<AxisKey, number> }>
   runs: RunRecord[]
   success_by_variant: Record<string, number>
+  /** Success rate per (axis,intensity) point, e.g. "P2_structure:3" -> 0.50. */
+  success_by_point: Record<string, number>
   success_by_axis: Record<AxisKey, number>
   generalization_curve: GeneralizationPoint[]
   cost: CostAggregate & { note: string }
@@ -159,8 +161,17 @@ export function buildScorecard(input: BuildInput): Scorecard {
   const runs = input.runs
   const variants = runs.map((r) => ({ variant_id: r.variant_id, seed: r.seed, intensity_by_axis: r.intensity_by_axis }))
 
+  // Per-variant success RATE (successes / runs for that variant_id). With n>1 per
+  // variant this must aggregate, not overwrite, so a 1-of-2 point reads 0.5.
+  const variantTally: Record<string, { succ: number; total: number }> = {}
+  for (const r of runs) {
+    const slot = variantTally[r.variant_id] ?? { succ: 0, total: 0 }
+    slot.total += 1
+    if (isSuccess(r)) slot.succ += 1
+    variantTally[r.variant_id] = slot
+  }
   const successByVariant: Record<string, number> = {}
-  for (const r of runs) successByVariant[r.variant_id] = isSuccess(r) ? 1 : 0
+  for (const [k, v] of Object.entries(variantTally)) successByVariant[k] = v.succ / v.total
 
   const cost = aggregateCost(runs, AXIS_KEYS)
 
@@ -172,6 +183,7 @@ export function buildScorecard(input: BuildInput): Scorecard {
     variants,
     runs: runs.map(redactRunUrls),
     success_by_variant: successByVariant,
+    success_by_point: successByPoint(runs),
     success_by_axis: successByAxis(runs),
     generalization_curve: generalizationCurve(runs),
     cost: { ...cost, note: COST_ESTIMATE_NOTE },

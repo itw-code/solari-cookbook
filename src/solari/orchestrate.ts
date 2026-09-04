@@ -21,6 +21,7 @@ import type { Sandbox, SandboxView, CreateSandboxOptions } from "@solarisdk/sdk"
 import { readdirSync, readFileSync } from "node:fs"
 import { resolve, join } from "node:path"
 import { fileURLToPath } from "node:url"
+import type { IntensityByAxis } from "../generate-variants/axes.ts"
 
 // ----------------------------------------------------------------------------
 // Configuration (from the environment; never secrets)
@@ -472,12 +473,13 @@ export async function forkVariant(
   templateId: string | undefined,
   seed: number,
   variantId: string,
+  axes?: IntensityByAxis,
 ): Promise<Fork> {
   const t0 = now()
   const mkOpts = (template: string): CreateSandboxOptions => ({
     template,
     metadata: { ...METADATA_RUN, kind: "variant-fork", seed: String(seed), variant_id: variantId },
-    envs: { DB_PATH, PORT: String(PORT), VARIANT_SEED: String(seed) },
+    envs: buildEnvs(seed, axes),
     timeoutMs: SESSION_TIMEOUT_MS,
   })
 
@@ -511,6 +513,15 @@ export async function forkVariant(
   const serveMs = now() - (t0 + createMs)
   const invoiceCount = await countInvoices(sandbox)
   return { sandbox, seed, bootMode, bootMs, createMs, serveMs, preview, healthz, invoiceCount }
+}
+
+/** Build the sandbox env vars: the fixed DB/PORT + VARIANT_SEED, plus an
+ *  optional COLDSTART_AXES JSON (axis-isolated runs) that the variant app reads
+ *  to render a single-axis-perturbed variant with a constant task. */
+function buildEnvs(seed: number, axes?: IntensityByAxis): Record<string, string> {
+  const envs: Record<string, string> = { DB_PATH, PORT: String(PORT), VARIANT_SEED: String(seed) }
+  if (axes) envs.COLDSTART_AXES = JSON.stringify(axes)
+  return envs
 }
 
 /** Ensure Node 22 (node:sqlite) is available, then upload the compiled app. */

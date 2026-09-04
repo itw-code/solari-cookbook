@@ -288,3 +288,24 @@ export function deriveConfig(seed: number): PerturbationConfig {
     P5: buildP5(seed, axis.P5_theme),
   }
 }
+
+/**
+ * Build a perturbation config from an EXPLICIT intensity vector (not derived
+ * from a seed). Used for axis-ISOLATED runs (COLDSTART_AXES): the harness
+ * renders a single-axis-perturbed app with a constant task, so ONLY the one
+ * active axis varies and the finding is causal.
+ *
+ * `seed` is used only for domain-separated sub-streams inside each axis build
+ * (so a given intensity still resolves deterministically to the same concrete
+ * params); the returned `axis` vector is exactly the given `intensities`.
+ */
+export function deriveConfigFromIntensities(intensities: IntensityByAxis, seed = 0): PerturbationConfig {
+  return {
+    axis: { ...intensities },
+    P1: buildP1(seed, intensities.P1_relabel),
+    P2: buildP2(seed, intensities.P2_structure),
+    P3: buildP3(seed, intensities.P3_field_order),
+    P4: buildP4(seed, intensities.P4_nav_order),
+    P5: buildP5(seed, intensities.P5_theme),
+  }
+}

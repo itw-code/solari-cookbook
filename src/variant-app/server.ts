@@ -13,12 +13,26 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http"
 import { openDb, ensureSchema, createInvoice, getInvoice, getInvoiceItems, listInvoices, resolveDbPath } from "./db.js"
 import { parseAndValidate, type InvoiceInput } from "./invoice.js"
-import { deriveConfig } from "../generate-variants/axes.js"
+import { deriveConfig, deriveConfigFromIntensities, type IntensityByAxis } from "../generate-variants/axes.js"
 import { renderList, renderNew, renderInvoice, renderHealthz } from "./render.js"
 
 const PORT = Number(process.env.PORT ?? 3000)
 const SEED = Number(process.env.VARIANT_SEED ?? 0)
-const config = deriveConfig(SEED)
+
+// Optional axis-override: COLDSTART_AXES = JSON like {"P2_structure":3,"P5_theme":0,...}.
+// When present the app renders a SINGLE-axis-perturbed variant with a constant
+// task (VARIANT_SEED controls the task/expected values; COLDSTART_AXES controls
+// ONLY the perturbation). This is how the harness runs axis-ISOLATED variants
+// (DESIGN §2, MASTER Step 06 Option C). Falls back to deriveConfig(SEED).
+const axesRaw = process.env.COLDSTART_AXES
+let config = deriveConfig(SEED)
+if (axesRaw) {
+  try {
+    config = deriveConfigFromIntensities(JSON.parse(axesRaw) as IntensityByAxis, SEED)
+  } catch (e) {
+    console.error(`[variant-app] invalid COLDSTART_AXES JSON (${String(e)}) — falling back to deriveConfig(seed=${SEED})`)
+  }
+}
 
 function readBody(req: IncomingMessage): Promise<string> {
   return new Promise((resolvePromise, reject) => {
