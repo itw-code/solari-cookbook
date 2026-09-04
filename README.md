@@ -363,6 +363,10 @@ reports/                    the 11 audited per-step build reports (Steps 00-07)
 artifacts/                  scorecard.json, curve.png, where-it-breaks.md, showcase.*, runs/
 scripts/                    live run wrappers (source .env, never echo keys)
 examples/                   <- upstream Solari cookbook samples (not part of ColdStart)
+docs/proposals/             the proposal iteration (v1 Witness → v2 ColdStart)
+PITCH.md                    the strategic pitch: why this, why me
+ABOUT.md                    about the author: background, projects, and why Pinetree
+NEXT_STEPS.md               what I'd build next if hired
 DESIGN.md                   the locked design contract
 .github/workflows/ci.yml    typecheck, test, build, variant determinism, secret scan
 ```
@@ -415,6 +419,30 @@ screenshot drove.
 
 ---
 
+## For Reviewers
+
+If you're evaluating this submission for the Pinetree Research SWE-intern challenge, here's the fastest path to understanding what was built and why:
+
+| Start here | What it tells you |
+| --- | --- |
+| [`PITCH.md`](PITCH.md) | The strategic reasoning — why ColdStart, why this gap, why this approach |
+| [Results section](#results) | The actual findings — what passed, what failed, and what it means |
+| [`artifacts/scorecard.json`](artifacts/scorecard.json) | The raw data — per-variant success rates, cost, replay URLs |
+| [`artifacts/where-it-breaks.md`](artifacts/where-it-breaks.md) | Failure attribution by axis |
+
+**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. It took ~4 hours to build, has 37 passing tests, and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
+
+**Process artifacts:**
+
+| Document | What it shows |
+| --- | --- |
+| [`docs/proposals/v1-witness.md`](docs/proposals/v1-witness.md) | First proposal — rejected after audit (crowded cluster, would have copied competitors) |
+| [`docs/proposals/v2-coldstart.md`](docs/proposals/v2-coldstart.md) | Final proposal — validated the uncrowded gap, aligned with Pinetree's thesis |
+| [`NEXT_STEPS.md`](NEXT_STEPS.md) | What I'd build next if hired |
+| [`reports/`](reports/) | The 11 audited build reports showing incremental progress |
+
+---
+
 ## About this repository
 
 This is a **fork of the [Solari cookbook](https://github.com/solari-sdk/solari-cookbook)**.
@@ -430,11 +458,13 @@ challenge.
 
 ## More
 
-- [`DESIGN.md`](DESIGN.md) — the locked design contract (task app, axes, action space,
-  verifier, scorecard schema, sandbox strategy).
-- [`reports/`](reports/) — the audited per-step build reports, Steps 00-07, each with commands,
-  deliverables, evidence pointers, and a self-check against acceptance criteria.
-- [`artifacts/`](artifacts/) — the scorecard, curve, break analysis, and showcase media.
+- [`PITCH.md`](PITCH.md) — the strategic pitch: why this, why me, why now
+- [`ABOUT.md`](ABOUT.md) — about the author: background, projects, and why Pinetree
+- [`NEXT_STEPS.md`](NEXT_STEPS.md) — what I'd build next if hired
+- [`DESIGN.md`](DESIGN.md) — the locked design contract (task app, axes, action space, verifier, scorecard schema, sandbox strategy)
+- [`docs/proposals/`](docs/proposals/) — the proposal iteration (v1 Witness → v2 ColdStart)
+- [`reports/`](reports/) — the audited per-step build reports, Steps 00-07, each with commands, deliverables, evidence pointers, and a self-check against acceptance criteria
+- [`artifacts/`](artifacts/) — the scorecard, curve, break analysis, and showcase media
 
 MIT licensed. Built on the [Solari cookbook](https://github.com/solari-sdk/solari-cookbook) and
 the [Solari SDK](https://docs.getsolari.com).

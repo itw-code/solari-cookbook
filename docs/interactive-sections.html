@@ -1,0 +1,638 @@
+<!-- INTERACTIVE PITCH SECTION -->
+<section id="pitch" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+  
+  <div class="text-center max-w-3xl mx-auto mb-14">
+    <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">The Pitch</h2>
+    <h3 class="text-3xl sm:text-4xl font-black text-white">Why ColdStart, Why Now</h3>
+    <p class="text-slate-400 text-sm mt-3">The strategic reasoning behind the project — what every other applicant missed.</p>
+  </div>
+
+  <!-- THE GAP ANIMATION -->
+  <div class="mb-12 max-w-4xl mx-auto">
+    <div class="p-8 rounded-2xl glass-card border border-pine-500/30 glow-emerald">
+      <h4 class="text-xl font-bold text-white mb-6 text-center">The Validated Gap</h4>
+      <p class="text-slate-300 text-sm text-center mb-8">I scanned all 13 challenge submissions before writing a single line of code:</p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Crowded Themes -->
+        <div class="space-y-3">
+          <h5 class="text-xs font-mono font-bold text-rose-400 uppercase mb-4">❌ Crowded Clusters</h5>
+          
+          <div class="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-rose-500/20">
+            <span class="text-sm text-slate-300">Reliability / Verification / Audit</span>
+            <span class="text-rose-400 font-mono font-bold text-lg" data-count="6">6+</span>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-rose-500/20">
+            <span class="text-sm text-slate-300">Stealth / Captcha / Proxies</span>
+            <span class="text-rose-400 font-mono font-bold text-lg" data-count="7">7</span>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-amber-500/20">
+            <span class="text-sm text-slate-300">Voice Agents</span>
+            <span class="text-amber-400 font-mono font-bold text-lg" data-count="2">2</span>
+          </div>
+          
+          <div class="flex items-center justify-between p-3 rounded-lg bg-black/40 border border-amber-500/20">
+            <span class="text-sm text-slate-300">Vertical Workflows</span>
+            <span class="text-amber-400 font-mono font-bold text-lg" data-count="2">2</span>
+          </div>
+        </div>
+        
+        <!-- Open Gap -->
+        <div class="flex flex-col justify-center">
+          <h5 class="text-xs font-mono font-bold text-emerald-400 uppercase mb-4">✅ Open Gap — Pinetree's Crown Jewel</h5>
+          
+          <div class="p-6 rounded-xl bg-gradient-to-br from-emerald-950/50 to-pine-950/50 border-2 border-emerald-500/50 text-center">
+            <div class="text-6xl font-black text-emerald-400 mb-2" data-count="0">0</div>
+            <div class="text-sm text-slate-300 font-medium">Applicants testing</div>
+            <div class="text-lg text-white font-bold">Zero-Shot Generalization</div>
+            <div class="text-xs text-pine-400 mt-2 font-mono">— The one thing Pinetree actually claims</div>
+          </div>
+          
+          <div class="mt-4 p-4 rounded-lg bg-black/40 border border-emerald-500/20">
+            <div class="text-xs text-slate-400 mb-2">Pinetree's Hallucinate Westworld Result:</div>
+            <div class="flex items-center gap-3">
+              <span class="text-3xl font-black text-emerald-400">93%</span>
+              <span class="text-sm text-slate-300">on fully-unseen environment, zero prior exposure</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROPOSAL ITERATION TIMELINE -->
+  <div class="mb-12 max-w-4xl mx-auto">
+    <h4 class="text-xl font-bold text-white mb-6 text-center">Proposal Iteration</h4>
+    
+    <div class="relative">
+      <!-- Timeline Line -->
+      <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-rose-500 via-amber-500 to-emerald-500"></div>
+      
+      <!-- v1 Witness - REJECTED -->
+      <div class="relative flex items-center mb-8">
+        <div class="w-1/2 pr-8 text-right">
+          <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/30 cursor-pointer hover:border-rose-500/60 transition-all" onclick="toggleProposal('v1')">
+            <div class="flex items-center justify-end gap-2 mb-2">
+              <span class="text-xs font-mono font-bold text-rose-400">REJECTED</span>
+              <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+            </div>
+            <h5 class="text-lg font-bold text-white">v1: Witness</h5>
+            <p class="text-sm text-slate-400 mt-1">Verification / Reliability Focus</p>
+          </div>
+        </div>
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-rose-500 border-4 border-black"></div>
+        <div class="w-1/2 pl-8">
+          <div id="v1-details" class="hidden p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-slate-300">
+            <p class="font-bold text-rose-400 mb-2">Why it failed:</p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Targeted the most crowded cluster (6+ competitors)</li>
+              <li>The "issues" cited were other applicants' PRs</li>
+              <li>Would have been copying competitors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pivot -->
+      <div class="relative flex items-center mb-8">
+        <div class="w-1/2 pr-8 text-right"></div>
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full bg-amber-500 border-4 border-black flex items-center justify-center">
+          <span class="text-black text-sm">⟳</span>
+        </div>
+        <div class="w-1/2 pl-8">
+          <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/30">
+            <p class="text-sm text-amber-300 font-bold">Audited & Pivoted</p>
+            <p class="text-xs text-slate-400">Found the uncrowded gap</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- v2 ColdStart - ACCEPTED -->
+      <div class="relative flex items-center">
+        <div class="w-1/2 pr-8 text-right">
+          <div id="v2-details" class="hidden p-4 rounded-xl bg-black/40 border border-white/10 text-xs text-slate-300">
+            <p class="font-bold text-emerald-400 mb-2">Why it works:</p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Validated 0/13 applicants in this theme</li>
+              <li>Directly aligned with Pinetree's thesis</li>
+              <li>Uses Solari's superpower differently (environment branching)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-emerald-500 border-4 border-black"></div>
+        <div class="w-1/2 pl-8">
+          <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/30 cursor-pointer hover:border-emerald-500/60 transition-all" onclick="toggleProposal('v2')">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span class="text-xs font-mono font-bold text-emerald-400">SHIPPED</span>
+            </div>
+            <h5 class="text-lg font-bold text-white">v2: ColdStart</h5>
+            <p class="text-sm text-slate-400 mt-1">Zero-Shot Generalization Harness</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE ASK -->
+  <div class="max-w-4xl mx-auto">
+    <div class="p-8 rounded-2xl bg-gradient-to-br from-pine-950/80 to-black/80 border border-pine-500/30">
+      <h4 class="text-lg font-bold text-white mb-4">The Ask</h4>
+      <blockquote class="text-slate-300 text-sm leading-relaxed italic border-l-4 border-pine-500 pl-4">
+        "You don't want my resume — you want to know if I can close the gap you care about.
+        <br><br>
+        I read the mission: <span class="text-emerald-400 font-semibold">intelligence is no longer the bottleneck, execution is.</span>
+        <br><br>
+        So I didn't build another agent demo. I built <strong class="text-white">ColdStart</strong> — the tool that measures the one thing Pinetree claims that nobody else is testing: zero-shot generalization to unseen environments.
+        <br><br>
+        The code runs. The tests pass. The insight is real: agents that recognize every label can still fail when the order of operations changes.
+        <br><br>
+        I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+      </blockquote>
+    </div>
+  </div>
+
+</section>
+
+<!-- INTERACTIVE ABOUT SECTION -->
+<section id="about" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+  
+  <div class="text-center max-w-3xl mx-auto mb-14">
+    <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">About the Author</h2>
+    <h3 class="text-3xl sm:text-4xl font-black text-white">Ihsan Wanda</h3>
+    <p class="text-slate-400 text-sm mt-3">Analytics Engineer building at the intersection of data, automation, and real-world workflows.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    
+    <!-- Profile Card -->
+    <div class="lg:col-span-1">
+      <div class="p-6 rounded-2xl glass-card border border-white/10 text-center">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-pine-500 to-emerald-600 mx-auto mb-4 flex items-center justify-center">
+          <span class="text-4xl font-black text-white">IW</span>
+        </div>
+        <h4 class="text-xl font-bold text-white">Ihsan Wanda</h4>
+        <p class="text-sm text-slate-400 mt-1">Analytics Engineer</p>
+        <p class="text-xs text-pine-400 mt-2 font-mono">@ SawitPRO</p>
+        
+        <div class="mt-4 pt-4 border-t border-white/10">
+          <p class="text-xs text-slate-400">📍 Indonesia (Open to remote/global/SEA)</p>
+        </div>
+        
+        <div class="mt-4 flex justify-center gap-3">
+          <a href="https://github.com/itw-code" target="_blank" class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs font-mono text-slate-300 hover:text-white hover:border-white/30 transition-all">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/ihsan3wanda/" target="_blank" class="px-3 py-2 rounded-lg bg-black/40 border border-white/10 text-xs font-mono text-slate-300 hover:text-white hover:border-white/30 transition-all">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Skills & Projects -->
+    <div class="lg:col-span-2 space-y-6">
+      
+      <!-- Core Stack -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10">
+        <h4 class="text-lg font-bold text-white mb-4">Core Stack</h4>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div class="skill-bar p-3 rounded-lg bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-1">🐍</div>
+            <div class="text-xs font-mono text-slate-300">Python</div>
+            <div class="w-full h-1 bg-black/60 rounded-full mt-2 overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full" style="width: 95%"></div>
+            </div>
+          </div>
+          <div class="skill-bar p-3 rounded-lg bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-1">📘</div>
+            <div class="text-xs font-mono text-slate-300">TypeScript</div>
+            <div class="w-full h-1 bg-black/60 rounded-full mt-2 overflow-hidden">
+              <div class="h-full bg-blue-500 rounded-full" style="width: 90%"></div>
+            </div>
+          </div>
+          <div class="skill-bar p-3 rounded-lg bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-1">🗃️</div>
+            <div class="text-xs font-mono text-slate-300">SQL / dbt</div>
+            <div class="w-full h-1 bg-black/60 rounded-full mt-2 overflow-hidden">
+              <div class="h-full bg-orange-500 rounded-full" style="width: 95%"></div>
+            </div>
+          </div>
+          <div class="skill-bar p-3 rounded-lg bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-1">⚛️</div>
+            <div class="text-xs font-mono text-slate-300">React</div>
+            <div class="w-full h-1 bg-black/60 rounded-full mt-2 overflow-hidden">
+              <div class="h-full bg-cyan-500 rounded-full" style="width: 85%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Notable Projects -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10">
+        <h4 class="text-lg font-bold text-white mb-4">Notable Projects</h4>
+        <div class="space-y-3">
+          <a href="https://github.com/itw-code/palm-analytics-dbt" target="_blank" class="block p-4 rounded-xl bg-black/40 border border-white/5 hover:border-pine-500/50 transition-all group">
+            <div class="flex items-center justify-between">
+              <div>
+                <h5 class="font-bold text-white group-hover:text-pine-400 transition-all">palm-analytics-dbt</h5>
+                <p class="text-xs text-slate-400 mt-1">Full analytics engineering: Kimball modeling, SCD2, CI/CD</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 rounded bg-orange-500/20 text-orange-300 text-xs font-mono">dbt</span>
+                <span class="px-2 py-1 rounded bg-yellow-500/20 text-yellow-300 text-xs font-mono">DuckDB</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="https://github.com/itw-code/sawit-field-crm" target="_blank" class="block p-4 rounded-xl bg-black/40 border border-white/5 hover:border-pine-500/50 transition-all group">
+            <div class="flex items-center justify-between">
+              <div>
+                <h5 class="font-bold text-white group-hover:text-pine-400 transition-all">sawit-field-crm</h5>
+                <p class="text-xs text-slate-400 mt-1">Field CRM for palm-oil enumerators — 53 pytest tests</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 rounded bg-green-500/20 text-green-300 text-xs font-mono">Streamlit</span>
+                <span class="px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 text-xs font-mono">pytest</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="https://github.com/itw-code/Kids-Learning-Hub" target="_blank" class="block p-4 rounded-xl bg-black/40 border border-white/5 hover:border-pine-500/50 transition-all group">
+            <div class="flex items-center justify-between">
+              <div>
+                <h5 class="font-bold text-white group-hover:text-pine-400 transition-all">Kids-Learning-Hub</h5>
+                <p class="text-xs text-slate-400 mt-1">Ad-free PWA educational portal — React 19, Playwright</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-1 rounded bg-blue-500/20 text-blue-300 text-xs font-mono">React</span>
+                <span class="px-2 py-1 rounded bg-purple-500/20 text-purple-300 text-xs font-mono">Playwright</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</section>
+
+<!-- NEXT STEPS SECTION -->
+<section id="nextsteps" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+  
+  <div class="text-center max-w-3xl mx-auto mb-14">
+    <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Future Roadmap</h2>
+    <h3 class="text-3xl sm:text-4xl font-black text-white">What I'd Build Next</h3>
+    <p class="text-slate-400 text-sm mt-3">If hired, here's the expansion path from proof-of-concept to production benchmark.</p>
+  </div>
+
+  <!-- Interactive Tabs -->
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-wrap justify-center gap-2 mb-8">
+      <button onclick="showPhase('immediate')" id="tab-immediate" class="tab-btn px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">
+        Week 1-2
+      </button>
+      <button onclick="showPhase('short')" id="tab-short" class="tab-btn px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all bg-black/40 text-slate-400 border border-white/10 hover:border-white/30">
+        Week 3-4
+      </button>
+      <button onclick="showPhase('medium')" id="tab-medium" class="tab-btn px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all bg-black/40 text-slate-400 border border-white/10 hover:border-white/30">
+        Month 2
+      </button>
+      <button onclick="showPhase('long')" id="tab-long" class="tab-btn px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all bg-black/40 text-slate-400 border border-white/10 hover:border-white/30">
+        Month 3+
+      </button>
+    </div>
+    
+    <!-- Phase Content -->
+    <div id="phase-immediate" class="phase-content">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl glass-card border border-emerald-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+              <span class="text-xl">📝</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Expand Task Templates</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Currently: Create-Invoice only. Add:</p>
+          <ul class="text-xs text-slate-400 space-y-2">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              File Ticket — multi-field form with dropdowns
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Update Address — navigate, find, update, verify
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Data Reconciliation — compare, identify, correct
+            </li>
+          </ul>
+        </div>
+        
+        <div class="p-6 rounded-2xl glass-card border border-emerald-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center">
+              <span class="text-xl">🖥️</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Desktop Variants</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Test native GUI applications:</p>
+          <ul class="text-xs text-slate-400 space-y-2">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Native apps (calc.exe, notepad, file explorer)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Cross-platform (Windows, macOS, Linux)
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+              Desktop perturbations (DPI, theme, scaling)
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div id="phase-short" class="phase-content hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl glass-card border border-blue-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <span class="text-xl">🤖</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Model Comparison Matrix</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Run same variants across multiple models:</p>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs">
+              <thead>
+                <tr class="border-b border-white/10">
+                  <th class="text-left text-slate-400 py-2">Model</th>
+                  <th class="text-center text-slate-400 py-2">P1</th>
+                  <th class="text-center text-slate-400 py-2">P2</th>
+                  <th class="text-center text-slate-400 py-2">P5</th>
+                </tr>
+              </thead>
+              <tbody class="text-slate-300">
+                <tr class="border-b border-white/5">
+                  <td class="py-2">GPT-4o</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                </tr>
+                <tr class="border-b border-white/5">
+                  <td class="py-2">Claude 3.5</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                </tr>
+                <tr>
+                  <td class="py-2">Pinetree Agent</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                  <td class="text-center">?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div class="p-6 rounded-2xl glass-card border border-blue-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center">
+              <span class="text-xl">📊</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Continuous Novelty Axis</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Replace discrete points with continuous slider:</p>
+          <div class="relative h-8 bg-black/40 rounded-lg overflow-hidden">
+            <div class="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-emerald-500/30 via-amber-500/30 to-rose-500/30"></div>
+            <div class="absolute inset-y-0 left-0 flex items-center justify-between w-full px-4">
+              <span class="text-xs font-mono text-white">0.0</span>
+              <span class="text-xs font-mono text-white">0.5</span>
+              <span class="text-xs font-mono text-white">1.0</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 mt-2">Generate generalization curve as smooth function</p>
+        </div>
+      </div>
+    </div>
+    
+    <div id="phase-medium" class="phase-content hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 rounded-2xl glass-card border border-purple-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+              <span class="text-xl">🔄</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Pinetree Agent Integration</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Wire ColdStart as continuous benchmark:</p>
+          <ul class="text-xs text-slate-400 space-y-2">
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+              Run on every agent commit
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+              Track generalization score over time
+            </li>
+            <li class="flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+              Alert on regressions
+            </li>
+          </ul>
+        </div>
+        
+        <div class="p-6 rounded-2xl glass-card border border-purple-500/30">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+              <span class="text-xl">🔍</span>
+            </div>
+            <h4 class="text-lg font-bold text-white">Failure Mode Taxonomy</h4>
+          </div>
+          <p class="text-sm text-slate-300 mb-3">Build diagnostic classifier:</p>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between p-2 rounded bg-black/40 text-xs">
+              <span class="text-slate-300">Click-lock</span>
+              <span class="text-rose-400 font-mono">Visual grounding</span>
+            </div>
+            <div class="flex items-center justify-between p-2 rounded bg-black/40 text-xs">
+              <span class="text-slate-300">Step cap burn</span>
+              <span class="text-amber-400 font-mono">Flow confusion</span>
+            </div>
+            <div class="flex items-center justify-between p-2 rounded bg-black/40 text-xs">
+              <span class="text-slate-300">Premature done</span>
+              <span class="text-rose-400 font-mono">Hallucination</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="phase-long" class="phase-content hidden">
+      <div class="p-6 rounded-2xl glass-card border border-pine-500/30">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-lg bg-pine-500/20 flex items-center justify-center">
+            <span class="text-xl">🌐</span>
+          </div>
+          <h4 class="text-lg font-bold text-white">Real-World Environment Sampling</h4>
+        </div>
+        <p class="text-sm text-slate-300 mb-3">Sample from actual enterprise apps instead of synthetic variants:</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+          <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-2">☁️</div>
+            <div class="text-xs font-mono text-slate-300">Salesforce</div>
+          </div>
+          <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-2">🏢</div>
+            <div class="text-xs font-mono text-slate-300">SAP</div>
+          </div>
+          <div class="p-4 rounded-xl bg-black/40 border border-white/5 text-center">
+            <div class="text-2xl mb-2">🔧</div>
+            <div class="text-xs font-mono text-slate-300">Custom Tools</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cost Projections -->
+  <div class="mt-12 max-w-4xl mx-auto">
+    <div class="p-6 rounded-2xl glass-card border border-white/10">
+      <h4 class="text-lg font-bold text-white mb-4">Cost Projections</h4>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left text-slate-400 py-2">Expansion</th>
+              <th class="text-center text-slate-400 py-2">Sandbox Hours</th>
+              <th class="text-center text-slate-400 py-2">LLM Calls</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr class="border-b border-white/5">
+              <td class="py-2">+3 task templates</td>
+              <td class="text-center font-mono">~2h</td>
+              <td class="text-center font-mono">~500</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-2">Desktop variants</td>
+              <td class="text-center font-mono">~1h</td>
+              <td class="text-center font-mono">~200</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-2">Model comparison</td>
+              <td class="text-center font-mono">~4h</td>
+              <td class="text-center font-mono">~1000</td>
+            </tr>
+            <tr>
+              <td class="py-2">Continuous integration</td>
+              <td class="text-center font-mono">~10h/mo</td>
+              <td class="text-center font-mono">~2000/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+// Toggle proposal details
+function toggleProposal(id) {
+  const el = document.getElementById(id + '-details');
+  if (el) {
+    el.classList.toggle('hidden');
+  }
+}
+
+// Phase tabs
+function showPhase(phase) {
+  // Hide all phases
+  document.querySelectorAll('.phase-content').forEach(el => el.classList.add('hidden'));
+  // Show selected phase
+  document.getElementById('phase-' + phase).classList.remove('hidden');
+  
+  // Update tab styles
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.remove('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500/50');
+    btn.classList.add('bg-black/40', 'text-slate-400', 'border-white/10');
+  });
+  
+  const activeBtn = document.getElementById('tab-' + phase);
+  activeBtn.classList.remove('bg-black/40', 'text-slate-400', 'border-white/10');
+  activeBtn.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-500/50');
+}
+
+// Animate counters on scroll
+function animateCounters() {
+  const counters = document.querySelectorAll('[data-count]');
+  counters.forEach(counter => {
+    const target = parseInt(counter.getAttribute('data-count'));
+    const duration = 1500;
+    const start = 0;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const current = Math.floor(progress * target);
+      counter.textContent = current;
+      
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    }
+    
+    requestAnimationFrame(update);
+  });
+}
+
+// Animate skill bars on scroll
+function animateSkillBars() {
+  const bars = document.querySelectorAll('.skill-bar');
+  bars.forEach((bar, index) => {
+    setTimeout(() => {
+      bar.style.opacity = '1';
+      bar.style.transform = 'translateY(0)';
+    }, index * 100);
+  });
+}
+
+// Initialize animations when elements come into view
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      if (entry.target.id === 'pitch') {
+        animateCounters();
+      }
+      if (entry.target.id === 'about') {
+        animateSkillBars();
+      }
+    }
+  });
+}, { threshold: 0.3 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Observe sections for animations
+  const pitchSection = document.getElementById('pitch');
+  const aboutSection = document.getElementById('about');
+  if (pitchSection) observer.observe(pitchSection);
+  if (aboutSection) observer.observe(aboutSection);
+  
+  // Initialize skill bars as hidden
+  document.querySelectorAll('.skill-bar').forEach(bar => {
+    bar.style.opacity = '0';
+    bar.style.transform = 'translateY(10px)';
+    bar.style.transition = 'all 0.3s ease-out';
+  });
+});
+</script>
