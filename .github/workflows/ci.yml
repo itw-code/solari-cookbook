@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: typecheck · test · build (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22', '24']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Runs in MOCK mode: no SOLARI_API_KEY / LLM_API_KEY, no network, no credits.
+      - name: Unit tests (offline, MOCK mode)
+        run: npm test
+
+      - name: Build the variant app
+        run: npm run build
+
+      # The variant matrix is seeded and deterministic: regenerating it must not
+      # change the committed variants.json. This is the `same seed -> same variant`
+      # guarantee, enforced in CI.
+      - name: Variant factory is deterministic
+        run: |
+          npm run gen:variants
+          git diff --exit-code -- variants.json
+
+  secrets:
+    name: no secrets in tracked files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan tracked files for key material
+        run: |
+          if git grep -InE 'slr_live_[A-Za-z0-9]{6,}|sk-[A-Za-z0-9]{16,}|Bearer [A-Za-z0-9._-]{12,}' -- . ':!*.lock' ':!package-lock.json'; then
+            echo "::error::possible secret found in tracked files"
+            exit 1
+          fi
+          echo "clean: no key material in tracked files"

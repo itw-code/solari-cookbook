@@ -8,7 +8,11 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "build": "tsc -p tsconfig.build.json",
-    "gen:variants": "tsx src/generate-variants/index.ts"
+    "gen:variants": "tsx src/generate-variants/index.ts",
+    "verify": "npm run typecheck && npm test",
+    "run:orchestrate": "bash scripts/run-step-03.sh",
+    "run:scorecard": "bash scripts/run-step-06.sh",
+    "run:isolated": "bash scripts/run-step-06b.sh"
   },
   "dependencies": {
     "@solarisdk/browser": "^0.1.1",
