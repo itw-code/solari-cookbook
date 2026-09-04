@@ -36,7 +36,7 @@ I'm an **Analytics Engineer** at **SawitPRO** (palm oil industry) based in **Ind
 | Project | What it is | Stack |
 |---------|------------|-------|
 | [**ColdStart**](https://github.com/itw-code/solari-cookbook) | Zero-shot generalization harness for computer-use agents — this submission | TypeScript, Solari SDK, vision-first agents |
-| [**claude-guardian**](https://github.com/ihsanwanda-pro/claude-guardian) | Claude-based automation tooling | Python |
+| [**claude-guardian**](https://github.com/ihsanwanda-pro/claude-guardian) | Claude-based automation tooling (work account) | Python |
 
 ---
 
@@ -76,7 +76,7 @@ ColdStart is the same instinct applied to computer-use agents: the model can "un
 
 - **GitHub:** [github.com/itw-code](https://github.com/itw-code)
 - **LinkedIn:** [linkedin.com/in/ihsan3wanda](https://www.linkedin.com/in/ihsan3wanda/)
-- **Email:** ihsan.wanda@sawitpro.com (or add personal email)
+- **Email:** `294145681+itw-code@users.noreply.github.com` (GitHub-verified noreply — forwards to my inbox)
 - **Portfolio:** [itw-code.github.io/palm-analytics-dbt](https://itw-code.github.io/palm-analytics-dbt/)
 
 ---
