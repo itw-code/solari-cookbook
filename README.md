@@ -98,20 +98,9 @@ honest:
 | **P4 · Nav order/grouping** | reorder/group the header/sidebar nav (labels unchanged) | affects the *scan path* for the first action; labels stable, so a strong agent recovers. |
 | **P5 · Theme/CSS** | color palette, font, button style, spacing/borders/radius — the honesty **control** | a *genuinely* vision-first agent should be near-invariant to skin. If a CSS-only change collapses it, the agent was secretly DOM-caching or text-scraping. |
 
-### Real-World Use Cases, Pain Points & Unit Economics
+### Real-World Use Cases, Pain Points & The Build Story
 
-> *"Tbh, we aren't looking for specifics. What we want to see is people create genuine uses that solve problems.*
->
-> 1. *Build something that solves a problem you have and makes your life easier (e.g. a personal assistant, a news scraper, a code reviewer agent).*
-> 2. *Or build something that solves someone else's problems (you can then turn this into your own product and sell it and use Solari to kickstart your own business).*
->
-> *Where do I find problems?*
-> - *Everyday struggles: Things that make life slightly annoying (e.g. you constantly have to organize Google Photos bc you have too many photos -> build an agent that clears duplicate photos and deletes redundant screenshots).*
-> - *Scroll X or Reddit: See what friction real people are facing.*
-> - *Talk to the people around you: What challenges do they face everyday — they can be your first user.*
->
-> *Ultimately, we hope Solari solves a problem you have."*
-> — *Solari Founder's Philosophy*
+> *"We don’t care how you ship, we care that you can ship something great, and if you can ship it faster with AI, even better."*
 
 #### 1. The Core Pain Points & Why Solari + ColdStart
 
@@ -150,6 +139,13 @@ honest:
 - Solari + LLM Compute Cost (15,000 × $0.032): **-$480 / month**.
 - **Net Monthly Profit: $10,770 / month (95.7% Gross Margin)**.
 - *Or save 120+ internal engineering/operations hours per month ($4,000+/mo saved).*
+
+#### 4. The Engineering Timeline: Struggles & Breakthroughs
+
+- **Steps 00–02 (Seeded PRNG & 5 Axes)**: Defined the 5 perturbation axes (`P1–P5`) and built a seeded procedural engine with a strict invariant (`same seed -> same variant`).
+- **Step 03 (Fast-Fork Sandboxes)**: Orchestrated Solari Firecracker microVM snapshot fast-forks booting in ~10 seconds with strict `finally` blocks guaranteeing 0 leaked zombie sandboxes.
+- **Steps 04 & 04b (The Click-Lock Struggle)**: General chat models failed by click-locking 24 times on one field without typing. We built harness-side hybrid grounding to snap coordinates to active bounding boxes and calibrated vision-first models to 3/3 baseline reliability.
+- **Steps 05–07 (Fail-Closed Verification & Causal Discovery)**: Built direct SQLite microVM verification (C1–C7) and proved causally that vision agents are 100% invariant to theme restyling and synonyms, but collapse on procedural wizard flows (0%).
 
 ---
 

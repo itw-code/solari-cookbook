@@ -120,7 +120,7 @@
         <a href="#variants" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Variants</a>
         <a href="#scorecard" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Scorecard</a>
         <a href="#traces" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Trace Replay</a>
-        <a href="#use-cases" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Use Cases &amp; ROI</a>
+        <a href="#use-cases" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Use Cases &amp; Build Story</a>
         <a href="#quickstart" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Quickstart</a>
       </div>
 
@@ -537,19 +537,18 @@
 
   </section>
 
-  <!-- REAL-WORLD USE CASES, PAIN POINTS & UNIT ECONOMICS ROI -->
+  <!-- REAL-WORLD USE CASES, PAIN POINTS, UNIT ECONOMICS & THE BUILD STORY -->
   <section id="use-cases" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
     
     <div class="text-center max-w-3xl mx-auto mb-14">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pine-950/80 text-pine-300 border border-pine-500/30 text-xs font-mono font-medium mb-3">
-        <span>💼 Real-World Value &amp; Economics</span>
+        <span>💼 Real-World Value &amp; The Build Story</span>
         <span class="text-slate-500">•</span>
         <span class="text-emerald-400">Why Solari &amp; ColdStart</span>
       </div>
-      <h3 class="text-3xl sm:text-4xl font-black text-white">Solving Real Problems &amp; Unlocking 95%+ Margin ROI</h3>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">Solving Real Problems &amp; The Story Behind Building It</h3>
       <p class="text-slate-300 text-sm sm:text-base mt-3 leading-relaxed max-w-2xl mx-auto">
-        &ldquo;Tbh, we aren't looking for specifics. What we want to see is people create genuine uses that solve problems.&rdquo;
-        <span class="block text-xs text-pine-400 font-mono mt-1">— Solari Founder Philosophy</span>
+        &ldquo;We don’t care how you ship, we care that you can ship something great, and if you can ship it faster with AI, even better.&rdquo;
       </p>
     </div>
 
@@ -690,7 +689,7 @@
     </div>
 
     <!-- PART 3: UNIT ECONOMICS & ROI CALCULATOR -->
-    <div class="p-6 sm:p-8 rounded-2xl glass-card border border-pine-500/40 glow-emerald mb-10">
+    <div class="p-6 sm:p-8 rounded-2xl glass-card border border-pine-500/40 glow-emerald mb-14">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 border-b border-white/10 pb-4">
         <div>
           <span class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Unit Economics &amp; ROI</span>
@@ -762,32 +761,60 @@
       </div>
     </div>
 
-    <!-- PART 4: WHERE TO FIND PROBLEMS (FOUNDER'S FRAMEWORK) -->
+    <!-- PART 4: THE BUILD STORY & TIMELINE (STRUGGLES, PROCESS & BREAKTHROUGHS) -->
     <div class="p-6 sm:p-8 rounded-2xl glass-card-subtle border border-white/10">
-      <h4 class="text-sm font-bold text-white uppercase font-mono tracking-wider mb-6 flex items-center gap-2">
-        <span>🔍</span> Where Do You Find Your Next Problem to Solve?
-      </h4>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase tracking-wider">The Engineering Timeline</span>
+          <h4 class="text-xl sm:text-2xl font-black text-white mt-1">How We Built ColdStart: The Struggles &amp; Breakthroughs</h4>
+        </div>
+        <span class="text-xs font-mono text-slate-400 hidden sm:inline-block">From Idea to 100% Verified CI</span>
+      </div>
+
+      <div class="space-y-6">
         
-        <div class="space-y-2">
-          <div class="font-mono font-bold text-pine-400 uppercase">1. Everyday Struggles</div>
-          <p class="leading-relaxed">
-            Think about things that make life slightly annoying. Redundant photo organization, manual receipt filing, or cross-posting content. Build an agent that solves your own bottleneck first.
-          </p>
+        <!-- Step 1 Timeline Item -->
+        <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+          <div class="sm:w-44 shrink-0 font-mono">
+            <span class="px-2 py-0.5 rounded bg-pine-950 text-pine-300 border border-pine-500/30 text-[10px] uppercase font-bold">Steps 00 – 02</span>
+            <div class="text-xs text-slate-400 mt-1">Seeded PRNG &amp; 5 Axes</div>
+          </div>
+          <div class="text-xs text-slate-300 leading-relaxed">
+            <strong class="text-white">The Clean-Slate Architecture:</strong> We defined the 5 perturbation axes (<code class="text-pine-300">P1–P5</code>) and built a seeded procedural engine. The strict rule: <code class="text-pine-300">same seed -&gt; same variant</code>, enforced deterministically across 14 variants so tests are 100% reproducible.
+          </div>
         </div>
 
-        <div class="space-y-2">
-          <div class="font-mono font-bold text-teal-400 uppercase">2. Scroll X &amp; Reddit</div>
-          <p class="leading-relaxed">
-            Observe what communities complain about daily. Frustrated users openly broadcast broken manual workflows, missing API integrations, and tedious multi-step tasks waiting for an agent.
-          </p>
+        <!-- Step 2 Timeline Item -->
+        <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+          <div class="sm:w-44 shrink-0 font-mono">
+            <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-[10px] uppercase font-bold">Step 03</span>
+            <div class="text-xs text-slate-400 mt-1">Fast-Fork Sandboxes</div>
+          </div>
+          <div class="text-xs text-slate-300 leading-relaxed">
+            <strong class="text-white">The MicroVM Orchestration:</strong> Orchestrated Solari Firecracker microVM snapshot fast-forks. Booting pristine browser instances in ~10 seconds with sub-second VM forks, wired with strict <code class="text-emerald-300">finally</code> cleanup blocks to guarantee 0 leaked zombie sandboxes.
+          </div>
         </div>
 
-        <div class="space-y-2">
-          <div class="font-mono font-bold text-emerald-400 uppercase">3. Talk to People Around You</div>
-          <p class="leading-relaxed">
-            What challenges do your colleagues, accountants, or friends face everyday? What are their common repetitive chores? They can be your very first design partners and paying customers.
-          </p>
+        <!-- Step 3 Timeline Item -->
+        <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+          <div class="sm:w-44 shrink-0 font-mono">
+            <span class="px-2 py-0.5 rounded bg-rose-950 text-rose-300 border border-rose-500/30 text-[10px] uppercase font-bold">Steps 04 &amp; 04b</span>
+            <div class="text-xs text-slate-400 mt-1">The "Click-Lock" Wall</div>
+          </div>
+          <div class="text-xs text-slate-300 leading-relaxed">
+            <strong class="text-white">The Biggest Struggle (Model Calibration):</strong> General chat models completely stalled — repeatedly clicking the same input box 24 times without typing, or drifting 30–60px off target. We engineered harness-side hybrid grounding to snap visual coordinate predictions to active interactive bounding boxes, and calibrated vision-first models to achieve a repeatable 16-step flow (3/3).
+          </div>
+        </div>
+
+        <!-- Step 4 Timeline Item -->
+        <div class="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-black/40 border border-white/5">
+          <div class="sm:w-44 shrink-0 font-mono">
+            <span class="px-2 py-0.5 rounded bg-teal-950 text-teal-300 border border-teal-500/30 text-[10px] uppercase font-bold">Steps 05 – 07</span>
+            <div class="text-xs text-slate-400 mt-1">Fail-Closed Discovery</div>
+          </div>
+          <div class="text-xs text-slate-300 leading-relaxed">
+            <strong class="text-white">Fail-Closed Verification &amp; Causal Result:</strong> Ignored agent self-reporting ("done") and verified ground truth directly against the SQLite database inside the microVM (C1–C7). Proved causally that agents are 100% invariant to skin changes, but completely break (0%) on two-step wizard flows.
+          </div>
         </div>
 
       </div>
