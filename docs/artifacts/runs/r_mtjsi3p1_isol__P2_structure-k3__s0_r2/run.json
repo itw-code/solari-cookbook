@@ -1,0 +1,84 @@
+{
+  "run_id": "r_mtjsi3p1_isol__P2_structure-k3__s0_r2",
+  "variant_id": "inv__isol__P2_structure:3__s0",
+  "seed": 0,
+  "intensity_by_axis": {
+    "P1_relabel": 0,
+    "P2_structure": 3,
+    "P3_field_order": 0,
+    "P4_nav_order": 0,
+    "P5_theme": 0
+  },
+  "agent": {
+    "model": "opencode-go-responses-gpt-5-6-luna",
+    "steps_taken": 40,
+    "max_steps": 40,
+    "terminated_by": "step_cap",
+    "status": "step_cap",
+    "error": null
+  },
+  "outcome": {
+    "status": "step_cap",
+    "task_completed": false,
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
+    "verifier": {
+      "task_completed": false,
+      "field_errors": [],
+      "checks_run": [
+        {
+          "check": "C1",
+          "passed": false,
+          "detail": "no POSTED invoice found (0 invoice(s) total)"
+        },
+        {
+          "check": "C2",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C3",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C4",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C5",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C6",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C7",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        }
+      ],
+      "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
+    }
+  },
+  "session": {
+    "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/6494cc35-490c-423f-b8ea-a9c98ad48d10.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+    "recording_id": "ip-10-0-11-211:6494cc35-490c-423f-b8ea-a9c98ad48d10:cmtj5qdco00y2o6018m04ewvp:1788335038093.o31kHU1PRYcRQKsZKwp4_A",
+    "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODQ5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTAyNzU1Mg.P5wsxzip7ZIZ3k3vEN8RBTsYhg9bpPWn519QJvilxdY",
+    "snapshot_id": null,
+    "fixture_path": null
+  },
+  "cost": {
+    "credits": null,
+    "hours": 0.09482981947222223,
+    "sandbox_seconds": 183.2510987,
+    "browser_seconds": 158.13626520000003,
+    "model_tokens_in": 71440,
+    "model_tokens_out": 1680,
+    "model_request_count": 40,
+    "llm_calls": 40
+  }
+}

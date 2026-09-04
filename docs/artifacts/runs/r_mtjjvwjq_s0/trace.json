@@ -1,0 +1,220 @@
+{
+  "run_id": "r_mtjjvwjq_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 19,
+  "max_steps": 28,
+  "model": "gemini-2.5-pro",
+  "base_url": "https://4ae0e3a3219dccc8da38-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": null,
+  "final_screenshot": null,
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 281,
+        "y": 283
+      },
+      "ok": true,
+      "rationale": "The first step is to fill out the customer field. I will click on the input box under 'Customer' to focus it.",
+      "screenshot": "step-01.jpg"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Customer' field and now I will type the customer's name as instructed.",
+      "screenshot": "step-02.jpg"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 420,
+        "y": 283
+      },
+      "ok": true,
+      "rationale": "I have filled the customer name and now need to fill the invoice date. I will click on the 'Invoice Date' field to focus it.",
+      "screenshot": "step-03.jpg"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Invoice Date' field and now need to type the date '2026-10-01' as specified in the task.",
+      "screenshot": "step-04.jpg"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 560,
+        "y": 283
+      },
+      "ok": true,
+      "rationale": "I have filled the Customer and Invoice Date fields. Now I will click the Due Date field to enter the due date.",
+      "screenshot": "step-05.jpg"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Due Date' field, and now I will type the value '2026-10-31' as specified in the task.",
+      "screenshot": "step-06.jpg"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 700,
+        "y": 283
+      },
+      "ok": true,
+      "rationale": "I have filled the customer, invoice date, and due date. The next field to fill is the tax rate, which is 8% according to the task.",
+      "screenshot": "step-07.jpg"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "8"
+      },
+      "ok": true,
+      "rationale": "I have clicked the Tax Rate field. Now I will type the value '8' as specified in the task (8%).",
+      "screenshot": "step-08.jpg"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 300,
+        "y": 545
+      },
+      "ok": true,
+      "rationale": "I need to fill out the line item details. The next step is to click on the 'Description' field to focus it before typing.",
+      "screenshot": "step-09.jpg"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "type",
+        "text": "Consulting"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Description' field, and now I will type the value 'Consulting' as specified in the task.",
+      "screenshot": "step-10.jpg"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "click",
+        "x": 480,
+        "y": 545
+      },
+      "ok": true,
+      "rationale": "I have filled in the description for the line item. The next step is to fill in the quantity, so I will click on the 'Qty' input field.",
+      "screenshot": "step-11.jpg"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "type",
+        "text": "3"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Qty' field, and now I will type the quantity '3' as specified in the task.",
+      "screenshot": "step-12.jpg"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "click",
+        "x": 660,
+        "y": 545
+      },
+      "ok": true,
+      "rationale": "The next step is to fill in the unit price. I will click on the 'Unit Price' input field to focus it.",
+      "screenshot": "step-13.jpg"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "type",
+        "text": "120.00"
+      },
+      "ok": true,
+      "rationale": "I have clicked the 'Unit Price' field and now I will type the value '120.00' as specified in the task.",
+      "screenshot": "step-14.jpg"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "click",
+        "x": 245,
+        "y": 645
+      },
+      "ok": true,
+      "rationale": "All form fields have been filled according to the task instructions. The next step is to submit the form by clicking the 'Submit' button.",
+      "screenshot": "step-15.jpg"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "click",
+        "x": 45,
+        "y": 28
+      },
+      "ok": true,
+      "rationale": "I have submitted the form to create the invoice. To confirm its creation as required by the task, I will now navigate to the list of invoices by clicking the 'Invoices' link.",
+      "screenshot": "step-16.jpg"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "click",
+        "x": 120,
+        "y": 28
+      },
+      "ok": true,
+      "rationale": "I have not successfully created the invoice yet. I need to go back to the 'New Invoice' page to fill out the form again.",
+      "screenshot": "step-17.jpg"
+    },
+    {
+      "step": 18,
+      "action": {
+        "kind": "click",
+        "x": 281,
+        "y": 283
+      },
+      "ok": true,
+      "rationale": "The form was reset in a previous step. I need to start over by filling in the 'Customer' field first.",
+      "screenshot": "step-18.jpg"
+    },
+    {
+      "step": 19,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "The previous action was to click the 'Customer' field. Now I will type the customer's name, 'ACMECORP', into the focused field.",
+      "screenshot": "step-19.jpg"
+    }
+  ],
+  "error": "fetch failed",
+  "generated_at": "2026-09-02T03:50:03.985Z"
+}

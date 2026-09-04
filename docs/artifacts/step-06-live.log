@@ -1,0 +1,72 @@
+[scorecard] browser launch (recording=true, viewport 1280x800)
+(node:22988) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[scorecard] 
+=== VARIANT seed=0 (inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0) run_id=r_mtjqb0xr_s0 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDMzOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTMzODA2Mg.nucgpwmoMj4HxDOOgWFc-EIUTkjSR0zSybLJtXk8D_M [direct] booted 12226ms; healthz=true; invoices=0
+[scorecard] preview (redacted): https://0c793e52a94745b18931-3000.preview.getsolari.com/?pt_token=************
+[scorecard] verifier: task_completed=true field_errors=0 checks=7 hash=c28b80ba4c25
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDMzOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTMzODA2Mg.nucgpwmoMj4HxDOOgWFc-EIUTkjSR0zSybLJtXk8D_M killed
+[scorecard] reap-wait 6000ms
+[scorecard] RESULT seed=0: status=ok terminatedBy=done task_completed=true steps=16/40 llm_calls=16 sandbox=69s browser=48s
+[scorecard] SUCCESS=YES
+[scorecard] 
+=== VARIANT seed=17 (inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0) run_id=r_mtjqchve_s17 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM0OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQwNjg2MQ.8MfvjlEBfNWtoerai42eO1y6RtOtT6cKvt4s45Gp3nc [direct] booted 12134ms; healthz=true; invoices=0
+[scorecard] preview (redacted): https://09ec1c82b35c51a7b498-3000.preview.getsolari.com/?pt_token=************
+[scorecard] verifier: task_completed=true field_errors=0 checks=7 hash=d0db28d7779e
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM0OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQwNjg2MQ.8MfvjlEBfNWtoerai42eO1y6RtOtT6cKvt4s45Gp3nc killed
+[scorecard] reap-wait 6000ms
+[scorecard] RESULT seed=17: status=ok terminatedBy=done task_completed=true steps=16/40 llm_calls=16 sandbox=69s browser=49s
+[scorecard] SUCCESS=YES
+[scorecard] 
+=== VARIANT seed=9 (inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0) run_id=r_mtjqdzgn_s9 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM2OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQ3NjU0Ng.tqA13aHUCWXOp8T-MWdEEk0NcPnPxnhVo_eph-XVKfc [direct] booted 11752ms; healthz=true; invoices=0
+[scorecard] preview (redacted): https://c11d1b0ba33e1799a469-3000.preview.getsolari.com/?pt_token=************
+[scorecard] verifier: task_completed=false field_errors=0 checks=7 hash=2ae4c5ac4869
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM2OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQ3NjU0Ng.tqA13aHUCWXOp8T-MWdEEk0NcPnPxnhVo_eph-XVKfc killed
+[scorecard] reap-wait 6000ms
+[scorecard] RESULT seed=9: status=step_cap terminatedBy=step_cap task_completed=false steps=40/40 llm_calls=40 sandbox=177s browser=157s
+[scorecard] SUCCESS=NO
+[scorecard] 
+=== VARIANT seed=21 (inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3) run_id=r_mtjqhrwi_s21 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDQ1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTY1MzEwMA.G0UbehEigIBqIjVuww7cOeRFvVJGAbH5JkZw5zP14Sw [direct] booted 13034ms; healthz=true; invoices=0
+[scorecard] preview (redacted): https://cbc0bdfcb84c92572f71-3000.preview.getsolari.com/?pt_token=************
+[scorecard] verifier: task_completed=false field_errors=0 checks=7 hash=2ae4c5ac4869
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDQ1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTY1MzEwMA.G0UbehEigIBqIjVuww7cOeRFvVJGAbH5JkZw5zP14Sw killed
+[scorecard] reap-wait 6000ms
+[scorecard] RESULT seed=21: status=step_cap terminatedBy=step_cap task_completed=false steps=40/40 llm_calls=40 sandbox=221s browser=200s
+[scorecard] SUCCESS=NO
+[scorecard] 
+=== VARIANT seed=3 (inv__s3__P1:4__P2:2__P3:4__P4:0__P5:3) run_id=r_mtjqmi96_s3 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDUwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTg3Mzg1Ng._jvujrPtCvVM-pLEq7HKV9l0UANDvc_t1RtwliNwTS4 [direct] booted 11718ms; healthz=true; invoices=0
+[scorecard] preview (redacted): https://d46cb621e0366b62c427-3000.preview.getsolari.com/?pt_token=************
+[scorecard] agent loop infra error: agent loop failed: page.screenshot: mouse.click: page.evaluate: Browser closed
+[scorecard] verifier: task_completed=false field_errors=0 checks=7 hash=2ae4c5ac4869
+[scorecard] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDUwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTg3Mzg1Ng._jvujrPtCvVM-pLEq7HKV9l0UANDvc_t1RtwliNwTS4 killed
+[scorecard] RESULT seed=3: status=aborted terminatedBy=abort task_completed=false steps=0/40 llm_calls=16 sandbox=81s browser=67s
+[scorecard] SUCCESS=NO
+[scorecard] 
+=== AGGREGATE + EMIT ===
+[scorecard] scorecard -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\scorecard.json
+[scorecard] curve -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\curve.png
+[scorecard] breaks -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\where-it-breaks.md
+[scorecard] 
+=== FINAL CLEANUP ===
+[scorecard] CLEANUP ATTESTATION: killed=5 liveAfter=0
+[scorecard] CLEANUP: ZERO live resources

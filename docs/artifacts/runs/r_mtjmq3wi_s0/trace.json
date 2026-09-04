@@ -1,0 +1,206 @@
+{
+  "run_id": "r_mtjmq3wi_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 18,
+  "max_steps": 40,
+  "model": "gemini-3.7-flash",
+  "base_url": "https://a519226fa7fdb49f5594-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Focus Customer input field",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type customer name into focused Customer input",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 425,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click Invoice Date input field to focus it",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Type invoice date into the focused field",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 425,
+        "y": 294
+      },
+      "ok": true,
+      "rationale": "Click Invoice Date field to focus it.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Type the invoice date into the focused Invoice Date field.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "press",
+        "keys": "Tab"
+      },
+      "ok": true,
+      "rationale": "Move focus from Customer field to Invoice Date field using Tab key",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Invoice Date field is currently focused, typing 2026-10-01",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 560,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to enter 2026-10-31.",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Type the due date into the focused Due Date field.",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "click",
+        "x": 575,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click Due Date input field to focus it",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Type the due date into the focused Due Date field.",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "press",
+        "keys": "Tab"
+      },
+      "ok": true,
+      "rationale": "Move focus from Invoice Date to Due Date field",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Type the due date into the currently focused Due Date field",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "click",
+        "x": 720,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Focus the Tax Rate input field.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "type",
+        "text": "8"
+      },
+      "ok": true,
+      "rationale": "Type the tax rate into the focused Tax Rate field.",
+      "screenshot": "step-16.png"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "click",
+        "x": 305,
+        "y": 552
+      },
+      "ok": true,
+      "rationale": "Click Description field in line items to focus it",
+      "screenshot": "step-17.png"
+    },
+    {
+      "step": 18,
+      "action": {
+        "kind": "abort",
+        "reason": "The form was submitted with missing/invalid fields and navigated to an unrecoverable error page with no navigation controls or form elements."
+      },
+      "ok": true,
+      "rationale": "Form submission failed and resulted in an error page without any input fields or links to return.",
+      "screenshot": "step-18.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T05:04:58.941Z"
+}

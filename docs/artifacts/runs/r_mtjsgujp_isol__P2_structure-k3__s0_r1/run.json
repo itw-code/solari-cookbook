@@ -1,0 +1,54 @@
+{
+  "run_id": "r_mtjsgujp_isol__P2_structure-k3__s0_r1",
+  "variant_id": "inv__isol__P2_structure:3__s0",
+  "seed": 0,
+  "intensity_by_axis": {
+    "P1_relabel": 0,
+    "P2_structure": 3,
+    "P3_field_order": 0,
+    "P4_nav_order": 0,
+    "P5_theme": 0
+  },
+  "agent": {
+    "model": "opencode-go-responses-gpt-5-6-luna",
+    "steps_taken": 0,
+    "max_steps": 40,
+    "terminated_by": "abort",
+    "status": "aborted",
+    "error": "agent loop failed: page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+  },
+  "outcome": {
+    "status": "aborted",
+    "task_completed": false,
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsgujp_isol__P2_structure-k3__s0_r1\\trace.json",
+    "verifier": {
+      "task_completed": false,
+      "field_errors": [],
+      "checks_run": [
+        {
+          "check": "C1",
+          "passed": false,
+          "detail": "no artifact captured (variant/sandbox error)"
+        }
+      ],
+      "evidence_hash": ""
+    }
+  },
+  "session": {
+    "replay_url": "https://pinetree-browser-replays.s3.us-west-1.amazonaws.com/52b8b988-2f30-479c-b46f-b5566cf2523a.ndjson.gz?X-Amz-Algorithm=************&X-Amz-Content-Sha256=************&X-Amz-Credential=************&X-Amz-Date=************&X-Amz-Expires=900&X-Amz-Security-Token=************&X-Amz-Signature=************&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=*********",
+    "recording_id": "ip-10-0-11-211:52b8b988-2f30-479c-b46f-b5566cf2523a:cmtj5qdco00y2o6018m04ewvp:1788334979868.EittoWUDiIwUzqW2-zWgLw",
+    "sandbox_id": "ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODAyOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNDk2OTA3MA.0o5yEJ9E_4ntT194r-vwAYwhF6gPYwqBGFVxr_19wHI",
+    "snapshot_id": null,
+    "fixture_path": null
+  },
+  "cost": {
+    "credits": null,
+    "hours": 0.025065739638888886,
+    "sandbox_seconds": 58.51045020000001,
+    "browser_seconds": 31.7262198,
+    "model_tokens_in": 16074,
+    "model_tokens_out": 378,
+    "model_request_count": 9,
+    "llm_calls": 9
+  }
+}

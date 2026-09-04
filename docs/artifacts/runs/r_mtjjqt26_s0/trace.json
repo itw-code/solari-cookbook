@@ -1,0 +1,18 @@
+{
+  "run_id": "r_mtjjqt26_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 0,
+  "max_steps": 26,
+  "model": "gemini-2.5-flash",
+  "base_url": "https://b4adfc69597cbb29e909-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": null,
+  "final_screenshot": null,
+  "actions": [],
+  "error": "fetch failed",
+  "generated_at": "2026-09-02T03:38:53.115Z"
+}

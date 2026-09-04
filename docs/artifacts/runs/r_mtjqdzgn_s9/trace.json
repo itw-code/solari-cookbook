@@ -1,0 +1,452 @@
+{
+  "run_id": "r_mtjqdzgn_s9",
+  "seed": 9,
+  "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Maintenance\", qty 3, unit price $479.00, tax rate 8%, invoice date 2026-10-04, due date 2026-11-08. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "step_cap",
+  "terminated_by": "step_cap",
+  "steps_taken": 40,
+  "max_steps": 40,
+  "model": "opencode-go-responses-gpt-5-6-luna",
+  "base_url": "https://c11d1b0ba33e1799a469-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 351,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Tax Rate field to change the default rate.",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "press",
+        "keys": "ArrowDown"
+      },
+      "ok": true,
+      "rationale": "Select the 8% tax option in the open tax-rate dropdown.",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 544,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Move to the Due Date field while leaving the already-selected 8% tax rate unchanged.",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-11-08"
+      },
+      "ok": true,
+      "rationale": "Due Date is focused; enter the requested due date.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 733,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Fill the required invoice date field next.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-04"
+      },
+      "ok": true,
+      "rationale": "Invoice Date field is focused and needs the requested date.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 920,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Customer field to enter the required customer.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "STARK"
+      },
+      "ok": true,
+      "rationale": "Customer field is focused; enter the required customer name.",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 294,
+        "y": 466
+      },
+      "ok": true,
+      "rationale": "All required Step 1 fields are filled; proceed with the Next button to enter the line-item step.",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "click",
+        "x": 391,
+        "y": 312
+      },
+      "ok": true,
+      "rationale": "Focus the first line item's quantity field.",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "type",
+        "text": "3"
+      },
+      "ok": true,
+      "rationale": "The first quantity field is already focused; enter the requested quantity.",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "click",
+        "x": 637,
+        "y": 312
+      },
+      "ok": true,
+      "rationale": "Focus the first line-item description field.",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "type",
+        "text": "Maintenance"
+      },
+      "ok": true,
+      "rationale": "Fill the focused first-row description field.",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "click",
+        "x": 886,
+        "y": 312
+      },
+      "ok": true,
+      "rationale": "Focus the first line item's Unit Price field.",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "type",
+        "text": "479.00"
+      },
+      "ok": true,
+      "rationale": "The first line item's Unit Price field is focused; enter the required price.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "click",
+        "x": 305,
+        "y": 730
+      },
+      "ok": true,
+      "rationale": "All required invoice and line-item fields are filled; submit the invoice.",
+      "screenshot": "step-16.png"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "The submission failed because the tax rate was missing; return to the form to complete it.",
+      "screenshot": "step-17.png"
+    },
+    {
+      "step": 18,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the missing tax rate can be filled.",
+      "screenshot": "step-18.png"
+    },
+    {
+      "step": 19,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form after the validation error so the missing tax field can be filled.",
+      "screenshot": "step-19.png"
+    },
+    {
+      "step": 20,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page.",
+      "screenshot": "step-20.png"
+    },
+    {
+      "step": 21,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the missing tax rate can be corrected.",
+      "screenshot": "step-21.png"
+    },
+    {
+      "step": 22,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the missing tax rate.",
+      "screenshot": "step-22.png"
+    },
+    {
+      "step": 23,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the invalid tax rate.",
+      "screenshot": "step-23.png"
+    },
+    {
+      "step": 24,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the missing tax rate.",
+      "screenshot": "step-24.png"
+    },
+    {
+      "step": 25,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the invalid tax-rate field.",
+      "screenshot": "step-25.png"
+    },
+    {
+      "step": 26,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the missing tax rate can be corrected.",
+      "screenshot": "step-26.png"
+    },
+    {
+      "step": 27,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the tax rate can be corrected.",
+      "screenshot": "step-27.png"
+    },
+    {
+      "step": 28,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the missing tax rate.",
+      "screenshot": "step-28.png"
+    },
+    {
+      "step": 29,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the tax rate can be corrected.",
+      "screenshot": "step-29.png"
+    },
+    {
+      "step": 30,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the tax rate can be corrected.",
+      "screenshot": "step-30.png"
+    },
+    {
+      "step": 31,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the missing tax rate can be filled.",
+      "screenshot": "step-31.png"
+    },
+    {
+      "step": 32,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the invalid tax rate.",
+      "screenshot": "step-32.png"
+    },
+    {
+      "step": 33,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the missing numeric tax rate.",
+      "screenshot": "step-33.png"
+    },
+    {
+      "step": 34,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page.",
+      "screenshot": "step-34.png"
+    },
+    {
+      "step": 35,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form so the missing tax rate can be corrected.",
+      "screenshot": "step-35.png"
+    },
+    {
+      "step": 36,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the missing tax rate can be corrected.",
+      "screenshot": "step-36.png"
+    },
+    {
+      "step": 37,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the invalid tax rate.",
+      "screenshot": "step-37.png"
+    },
+    {
+      "step": 38,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the missing numeric tax rate.",
+      "screenshot": "step-38.png"
+    },
+    {
+      "step": 39,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form to correct the invalid tax rate.",
+      "screenshot": "step-39.png"
+    },
+    {
+      "step": 40,
+      "action": {
+        "kind": "press",
+        "keys": "Alt+Left"
+      },
+      "ok": false,
+      "error": "keyboard.press: Unknown key: \"Left\"",
+      "rationale": "Return to the invoice form from the validation error page so the tax rate can be corrected.",
+      "screenshot": "step-40.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T06:47:27.317Z"
+}

@@ -1,0 +1,196 @@
+{
+  "run_id": "r_mtjsp83o_isol__P3_field_order-k4__s0_r1",
+  "seed": 0,
+  "variant_id": "inv__isol__P3_field_order:4__s0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "done",
+  "terminated_by": "done",
+  "steps_taken": 17,
+  "max_steps": 40,
+  "model": "opencode-go-responses-gpt-5-6-luna",
+  "base_url": "https://dae4fbe5642c3c79c638-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "Invoice Created",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 349,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the invoice date field.",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Fill the focused Invoice Date field with the requested date.",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 544,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to enter the requested date.",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Fill the focused Due Date field with the requested date.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 236
+      },
+      "ok": true,
+      "rationale": "Focus the Customer field to enter the requested customer.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Customer field is focused; enter ACMECORP.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 925,
+        "y": 236
+      },
+      "ok": true,
+      "rationale": "Select the tax rate field to set it to 8%.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "press",
+        "keys": "ArrowDown"
+      },
+      "ok": true,
+      "rationale": "Select the 8% tax option in the currently open tax-rate dropdown.",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "press",
+        "keys": "Enter"
+      },
+      "ok": true,
+      "rationale": "Confirm the selected 8% tax rate and close the dropdown.",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "click",
+        "x": 391,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the first line-item description field.",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "type",
+        "text": "Consulting"
+      },
+      "ok": true,
+      "rationale": "The first line-item description field is focused; enter the required description.",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "click",
+        "x": 640,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the unit price field for the first line item.",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "type",
+        "text": "120.00"
+      },
+      "ok": true,
+      "rationale": "Fill the focused unit price field for the Consulting line item.",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "click",
+        "x": 885,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the quantity field for the first line item.",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "type",
+        "text": "3"
+      },
+      "ok": true,
+      "rationale": "Enter the required quantity for the existing line item.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "click",
+        "x": 304,
+        "y": 747
+      },
+      "ok": true,
+      "rationale": "All required invoice fields are filled; submit the invoice.",
+      "screenshot": "step-16.png"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "done"
+      },
+      "ok": true,
+      "rationale": "Invoice Created confirmation page is visible with the requested customer, dates, line item, and posted status.",
+      "screenshot": "step-17.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T07:50:26.631Z"
+}

@@ -1,0 +1,54 @@
+{
+  "run_id": "r_mtjsqyft_isol__P3_field_order-k4__s0_r2",
+  "variant_id": "inv__isol__P3_field_order:4__s0",
+  "seed": 0,
+  "intensity_by_axis": {
+    "P1_relabel": 0,
+    "P2_structure": 0,
+    "P3_field_order": 4,
+    "P4_nav_order": 0,
+    "P5_theme": 0
+  },
+  "agent": {
+    "model": "opencode-go-responses-gpt-5-6-luna",
+    "steps_taken": 0,
+    "max_steps": 40,
+    "terminated_by": "abort",
+    "status": "aborted",
+    "error": "Control channel closed (1005)"
+  },
+  "outcome": {
+    "status": "aborted",
+    "task_completed": false,
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsqyft_isol__P3_field_order-k4__s0_r2\\trace.json",
+    "verifier": {
+      "task_completed": false,
+      "field_errors": [],
+      "checks_run": [
+        {
+          "check": "C1",
+          "passed": false,
+          "detail": "no artifact captured (variant/sandbox error)"
+        }
+      ],
+      "evidence_hash": ""
+    }
+  },
+  "session": {
+    "replay_url": null,
+    "recording_id": null,
+    "sandbox_id": null,
+    "snapshot_id": null,
+    "fixture_path": null
+  },
+  "cost": {
+    "credits": null,
+    "hours": 0,
+    "sandbox_seconds": 0,
+    "browser_seconds": 0,
+    "model_tokens_in": 0,
+    "model_tokens_out": 0,
+    "model_request_count": 0,
+    "llm_calls": 0
+  }
+}

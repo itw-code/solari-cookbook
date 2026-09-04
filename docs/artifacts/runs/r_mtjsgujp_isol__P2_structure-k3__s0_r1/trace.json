@@ -1,0 +1,114 @@
+{
+  "run_id": "r_mtjsgujp_isol__P2_structure-k3__s0_r1",
+  "seed": 0,
+  "variant_id": "inv__isol__P2_structure:3__s0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 9,
+  "max_steps": 40,
+  "model": "opencode-go-responses-gpt-5-6-luna",
+  "base_url": "https://9820227bb9614618ab53-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": null,
+  "final_screenshot": null,
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Customer field.",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Customer field is focused; enter the requested customer.",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 543,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Invoice Date field to enter the requested date.",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Invoice Date field is focused; enter the requested invoice date.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Due Date field is focused and needs the requested date.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 923,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Tax Rate field to enter the required 8%.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "8%"
+      },
+      "ok": true,
+      "rationale": "Tax Rate field is focused and needs the requested 8% value.",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 295,
+        "y": 310
+      },
+      "ok": true,
+      "rationale": "All Step 1 fields are filled; proceed to the line-item step.",
+      "screenshot": "step-09.png"
+    }
+  ],
+  "error": "page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n",
+  "generated_at": "2026-09-02T07:43:35.648Z"
+}

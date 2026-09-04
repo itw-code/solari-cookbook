@@ -1,0 +1,106 @@
+{
+  "run_id": "r_mtjiu0r9_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "stuck",
+  "terminated_by": "stuck",
+  "steps_taken": 8,
+  "max_steps": 24,
+  "model": "gemini-2.5-flash",
+  "base_url": "https://e284ae0f8cf675b18565-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "Create Invoice",
+  "final_screenshot": "final.jpg",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 278,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "I need to fill in the customer name, so I will click on the customer input field first.",
+      "screenshot": "step-01.jpg"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "click",
+        "x": 278,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "Click on the Customer input field to enter the customer name.",
+      "screenshot": "step-02.jpg"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 346,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "Click on the Customer input field to enter the customer name.",
+      "screenshot": "step-03.jpg"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type 'ACMECORP' into the Customer field.",
+      "screenshot": "step-04.jpg"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 494,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "Click on the Invoice Date input field to enter the date.",
+      "screenshot": "step-05.jpg"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "click",
+        "x": 494,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "Click the Invoice Date field to focus it.",
+      "screenshot": "step-06.jpg"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 494,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "The next field to fill is 'Invoice Date', so I need to click on the input field next to it.",
+      "screenshot": "step-07.jpg"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "click",
+        "x": 494,
+        "y": 290
+      },
+      "ok": true,
+      "rationale": "The previous action was clicking on the Invoice Date field. Now I need to type the invoice date.",
+      "screenshot": "step-08.jpg"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T03:13:39.364Z"
+}

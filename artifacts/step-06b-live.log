@@ -1,0 +1,98 @@
+[scorecard:isolated] 
+=== ISOLATED point=P2_structure:3 rep=1/2 variant=inv__isol__P2_structure:3__s0 run_id=r_mtjsgujp_isol__P2_structure-k3__s0_r1 ===
+(node:37216) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODAyOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNDk2OTA3MA.0o5yEJ9E_4ntT194r-vwAYwhF6gPYwqBGFVxr_19wHI [direct] booted 10768ms; healthz=true; invoices=0; axes={"P1_relabel":0,"P2_structure":3,"P3_field_order":0,"P4_nav_order":0,"P5_theme":0}
+[scorecard:isolated] preview (redacted): https://9820227bb9614618ab53-3000.preview.getsolari.com/?pt_token=************
+[scorecard:isolated] browser launch (recording=true)
+[scorecard:isolated] agent loop infra error: agent loop failed: page.screenshot: Protocol error (Page.captureScreenshot): Unable to capture screenshot
+Call log:
+[2m  - taking page screenshot[22m
+[2m  - waiting for fonts to load...[22m
+[2m  - fonts loaded[22m
+
+[scorecard:isolated] DB capture / verify failed: Not connected — call connect() first
+[scorecard:isolated] replay: captured
+[scorecard:isolated] browser session closed
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODAyOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNDk2OTA3MA.0o5yEJ9E_4ntT194r-vwAYwhF6gPYwqBGFVxr_19wHI killed
+[scorecard:isolated] reap-wait 6000ms
+[scorecard:isolated] RESULT point=P2_structure:3 rep=1: status=aborted terminatedBy=abort task_completed=false steps=0/40 llm_calls=9 sandbox=59s browser=32s replay=yes
+[scorecard:isolated] SUCCESS=NO
+[scorecard:isolated] 
+=== ISOLATED point=P2_structure:3 rep=2/2 variant=inv__isol__P2_structure:3__s0 run_id=r_mtjsi3p1_isol__P2_structure-k3__s0_r2 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODQ5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTAyNzU1Mg.P5wsxzip7ZIZ3k3vEN8RBTsYhg9bpPWn519QJvilxdY [direct] booted 10714ms; healthz=true; invoices=0; axes={"P1_relabel":0,"P2_structure":3,"P3_field_order":0,"P4_nav_order":0,"P5_theme":0}
+[scorecard:isolated] preview (redacted): https://d7644e6ab206a5a1ecda-3000.preview.getsolari.com/?pt_token=************
+[scorecard:isolated] browser launch (recording=true)
+[scorecard:isolated] verifier: task_completed=false field_errors=0 checks=7 hash=2ae4c5ac4869
+[scorecard:isolated] replay: captured
+[scorecard:isolated] browser session closed
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODQ5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTAyNzU1Mg.P5wsxzip7ZIZ3k3vEN8RBTsYhg9bpPWn519QJvilxdY killed
+[scorecard:isolated] reap-wait 6000ms
+[scorecard:isolated] RESULT point=P2_structure:3 rep=2: status=step_cap terminatedBy=step_cap task_completed=false steps=40/40 llm_calls=40 sandbox=183s browser=158s replay=yes
+[scorecard:isolated] SUCCESS=NO
+[scorecard:isolated] 
+=== ISOLATED point=P5_theme:3 rep=1/2 variant=inv__isol__P5_theme:3__s0 run_id=r_mtjsm13e_isol__P5_theme-k3__s0_r1 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDY1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTIxMDc3Ng.3csv5tNWn3k5Ch-lNdvryLqEwUvDZ-NGmmuezm_taXY [direct] booted 11148ms; healthz=true; invoices=0; axes={"P1_relabel":0,"P2_structure":0,"P3_field_order":0,"P4_nav_order":0,"P5_theme":3}
+[scorecard:isolated] preview (redacted): https://1c59661400c95b0828f8-3000.preview.getsolari.com/?pt_token=************
+[scorecard:isolated] browser launch (recording=true)
+[scorecard:isolated] verifier: task_completed=true field_errors=0 checks=7 hash=b2c9b5c38c38
+[scorecard:isolated] replay: captured
+[scorecard:isolated] browser session closed
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDY1OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTIxMDc3Ng.3csv5tNWn3k5Ch-lNdvryLqEwUvDZ-NGmmuezm_taXY killed
+[scorecard:isolated] reap-wait 6000ms
+[scorecard:isolated] RESULT point=P5_theme:3 rep=1: status=ok terminatedBy=done task_completed=true steps=16/40 llm_calls=16 sandbox=71s browser=45s replay=yes
+[scorecard:isolated] SUCCESS=YES
+[scorecard:isolated] 
+=== ISOLATED point=P5_theme:3 rep=2/2 variant=inv__isol__P5_theme:3__s0 run_id=r_mtjsnjob_isol__P5_theme-k3__s0_r2 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODg5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTI4MTU5NA.hvclc3oCuzldDCr6GFEtljUTMb2yYr49TRhz30TgjSo [direct] booted 10692ms; healthz=true; invoices=0; axes={"P1_relabel":0,"P2_structure":0,"P3_field_order":0,"P4_nav_order":0,"P5_theme":3}
+[scorecard:isolated] preview (redacted): https://6605d8558f1c0a31d02f-3000.preview.getsolari.com/?pt_token=************
+[scorecard:isolated] browser launch (recording=true)
+[scorecard:isolated] verifier: task_completed=true field_errors=0 checks=7 hash=01a0195597b0
+[scorecard:isolated] replay: captured
+[scorecard:isolated] browser session closed
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODg5OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTI4MTU5NA.hvclc3oCuzldDCr6GFEtljUTMb2yYr49TRhz30TgjSo killed
+[scorecard:isolated] reap-wait 6000ms
+[scorecard:isolated] RESULT point=P5_theme:3 rep=2: status=ok terminatedBy=done task_completed=true steps=16/40 llm_calls=16 sandbox=78s browser=51s replay=yes
+[scorecard:isolated] SUCCESS=YES
+[scorecard:isolated] 
+=== ISOLATED point=P3_field_order:4 rep=1/2 variant=inv__isol__P3_field_order:4__s0 run_id=r_mtjsp83o_isol__P3_field_order-k4__s0_r1 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODkwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTM1OTgyNw.SRulBrO802blDf20iXoPVIOOz7a6RJRg95fzG5QuWD8 [direct] booted 10795ms; healthz=true; invoices=0; axes={"P1_relabel":0,"P2_structure":0,"P3_field_order":4,"P4_nav_order":0,"P5_theme":0}
+[scorecard:isolated] preview (redacted): https://dae4fbe5642c3c79c638-3000.preview.getsolari.com/?pt_token=************
+[scorecard:isolated] browser launch (recording=true)
+[scorecard:isolated] verifier: task_completed=true field_errors=0 checks=7 hash=a79e274dd324
+[scorecard:isolated] replay: null (unobtainable)
+[scorecard:isolated] browser session closed
+[scorecard:isolated] sandbox ZGVza3RvcC1wb29sLWktMGZkOWVkN2RjMDNhNzlkYjI6dm1fMDUzODkwOmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzNTM1OTgyNw.SRulBrO802blDf20iXoPVIOOz7a6RJRg95fzG5QuWD8 killed
+[scorecard:isolated] reap-wait 6000ms
+[scorecard:isolated] RESULT point=P3_field_order:4 rep=1: status=ok terminatedBy=done task_completed=true steps=17/40 llm_calls=17 sandbox=81s browser=52s replay=null
+[scorecard:isolated] SUCCESS=YES
+[scorecard:isolated] 
+=== ISOLATED point=P3_field_order:4 rep=2/2 variant=inv__isol__P3_field_order:4__s0 run_id=r_mtjsqyft_isol__P3_field_order-k4__s0_r2 ===
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[scorecard:isolated] run setup failed: Control channel closed (1005)
+[scorecard:isolated] RESULT point=P3_field_order:4 rep=2: status=aborted terminatedBy=abort task_completed=false steps=0/40 llm_calls=0 sandbox=0s browser=0s replay=null
+[scorecard:isolated] SUCCESS=NO
+[scorecard:isolated] 
+=== AGGREGATE + EMIT ===
+[scorecard:isolated] scorecard -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\scorecard.json
+[scorecard:isolated] curve -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\curve.png
+[scorecard:isolated] breaks -> C:\Users\oneda\Projects\Research - General\coldstart\solari-cookbook\artifacts\where-it-breaks.md
+[scorecard:isolated] 
+=== FINAL CLEANUP ===
+[scorecard:isolated] CLEANUP ATTESTATION: killed=6 liveAfter=0
+[scorecard:isolated] CLEANUP: ZERO live resources

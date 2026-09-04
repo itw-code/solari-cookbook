@@ -1,0 +1,23 @@
+[step-04] browser launch (viewport 1280x800)
+[step-04] create base sandbox (seed=0) + upload compiled app + ensure Node 22
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] base system: node=v22.23.1 (found=true) python=Python 3.11.2
+[orchestrate] uploaded 6 compiled file(s) to /app/dist
+[step-04] preview (redacted): https://76228651912378d82848-3000.preview.getsolari.com/?pt_token=************
+[step-04] /healthz -> status 200 ok=true
+[step-04] navigate to /new entry (token preserved)
+[step-04] run agent loop: task seed=0, max_steps=22
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 1209ms (attempt 1/6)
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 2002ms (attempt 2/6)
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 4257ms (attempt 3/6)
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 8020ms (attempt 4/6)
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 15000ms (attempt 5/6)
+[model] LLM HTTP 429 ({"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429); retrying in 15000ms (attempt 6/6)
+[step-04] cleanup: kill sandbox, close browser + solari client
+[step-04] sandbox killed
+[step-04] browser session closed
+[step-04] solari client closed
+[step-04] CLEANUP ATTESTATION: live ColdStart resources after cleanup = 0
+[step-04] CLEANUP: ZERO live resources
+[step-04] FATAL: agent loop failed: LLM request failed after 6 attempts (last HTTP 429): {"error":{"message":"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429

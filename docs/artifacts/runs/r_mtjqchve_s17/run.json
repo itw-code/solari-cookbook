@@ -1,0 +1,84 @@
+{
+  "run_id": "r_mtjqchve_s17",
+  "variant_id": "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0",
+  "seed": 17,
+  "intensity_by_axis": {
+    "P1_relabel": 4,
+    "P2_structure": 0,
+    "P3_field_order": 3,
+    "P4_nav_order": 0,
+    "P5_theme": 0
+  },
+  "agent": {
+    "model": "opencode-go-responses-gpt-5-6-luna",
+    "steps_taken": 16,
+    "max_steps": 40,
+    "terminated_by": "done",
+    "status": "ok",
+    "error": null
+  },
+  "outcome": {
+    "status": "ok",
+    "task_completed": true,
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqchve_s17\\trace.json",
+    "verifier": {
+      "task_completed": true,
+      "field_errors": [],
+      "checks_run": [
+        {
+          "check": "C1",
+          "passed": true,
+          "detail": "exactly one POSTED invoice (id=1)"
+        },
+        {
+          "check": "C7",
+          "passed": true,
+          "detail": "invoice_no=\"INV-2026-0001\" matches ^INV-\\d{4}-\\d{4}$; unique=yes"
+        },
+        {
+          "check": "C2",
+          "passed": true,
+          "detail": "customer \"INITECH\" vs expected \"INITECH\""
+        },
+        {
+          "check": "C3",
+          "passed": true,
+          "detail": "items count 1 vs expected 1; in-order (description,qty,unit_price_cents) compared"
+        },
+        {
+          "check": "C4",
+          "passed": true,
+          "detail": "tax_rate_bps 750 vs expected 750"
+        },
+        {
+          "check": "C5",
+          "passed": true,
+          "detail": "invoice_date 2026-06-10 due_date 2026-07-10 vs expected 2026-06-10 / 2026-07-10"
+        },
+        {
+          "check": "C6",
+          "passed": true,
+          "detail": "stored subtotal=149200 tax=11190 total=160390 vs recomputed subtotal=149200 tax=11190 total=160390"
+        }
+      ],
+      "evidence_hash": "d0db28d7779e04ff0ccc75c75ed03ac80ed232443d3e6bff59e1d70d19e7abec"
+    }
+  },
+  "session": {
+    "replay_url": null,
+    "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
+    "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM0OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQwNjg2MQ.8MfvjlEBfNWtoerai42eO1y6RtOtT6cKvt4s45Gp3nc",
+    "snapshot_id": null,
+    "fixture_path": null
+  },
+  "cost": {
+    "credits": null,
+    "hours": 0.03295531888888888,
+    "sandbox_seconds": 69.4494355,
+    "browser_seconds": 49.18971619999999,
+    "model_tokens_in": 28576,
+    "model_tokens_out": 672,
+    "model_request_count": 16,
+    "llm_calls": 16
+  }
+}

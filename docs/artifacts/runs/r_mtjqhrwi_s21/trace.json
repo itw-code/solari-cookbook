@@ -1,0 +1,442 @@
+{
+  "run_id": "r_mtjqhrwi_s21",
+  "seed": 21,
+  "variant_id": "inv__s21__P1:1__P2:0__P3:3__P4:0__P5:3",
+  "task": "Open the billing app and create an invoice for customer \"STARK\" with one line item: description \"Licensing\", qty 5, unit price $120.00, tax rate 12.50%, invoice date 2026-04-04, due date 2026-04-30. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "step_cap",
+  "terminated_by": "step_cap",
+  "steps_taken": 40,
+  "max_steps": 40,
+  "model": "opencode-go-responses-gpt-5-6-luna",
+  "base_url": "https://cbc0bdfcb84c92572f71-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "Create Invoice",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field first.",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Enter the requested due date in the already focused Due Date field.",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 545,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Fill the invoice date field next.",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-04"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Invoice Date field.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Select the tax rate field to set the requested 12.50% rate.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "click",
+        "x": 688,
+        "y": 345
+      },
+      "ok": true,
+      "rationale": "Select the requested 12.5% tax rate from the open dropdown.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field before entering the required date.",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Due Date field before entering the required date.",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field before entering the required date.",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "The due date field is currently focused and needs the requested date.",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field.",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the due date field to enter the requested date.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "The due-date field is focused and needs the requested due date.",
+      "screenshot": "step-16.png"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "The due-date field is already focused, so enter the requested due date.",
+      "screenshot": "step-17.png"
+    },
+    {
+      "step": 18,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Due Date is already focused and blank, so enter the requested due date.",
+      "screenshot": "step-18.png"
+    },
+    {
+      "step": 19,
+      "action": {
+        "kind": "click",
+        "x": 352,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Due Date field before entering the required date.",
+      "screenshot": "step-19.png"
+    },
+    {
+      "step": 20,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field.",
+      "screenshot": "step-20.png"
+    },
+    {
+      "step": 21,
+      "action": {
+        "kind": "click",
+        "x": 351,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Due Date field.",
+      "screenshot": "step-21.png"
+    },
+    {
+      "step": 22,
+      "action": {
+        "kind": "click",
+        "x": 352,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field before entering the required date.",
+      "screenshot": "step-22.png"
+    },
+    {
+      "step": 23,
+      "action": {
+        "kind": "click",
+        "x": 352,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Due Date field.",
+      "screenshot": "step-23.png"
+    },
+    {
+      "step": 24,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field first.",
+      "screenshot": "step-24.png"
+    },
+    {
+      "step": 25,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-25.png"
+    },
+    {
+      "step": 26,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "The due date field is currently focused and appears empty, so enter the required due date.",
+      "screenshot": "step-26.png"
+    },
+    {
+      "step": 27,
+      "action": {
+        "kind": "click",
+        "x": 351,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field before entering the required date.",
+      "screenshot": "step-27.png"
+    },
+    {
+      "step": 28,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-28.png"
+    },
+    {
+      "step": 29,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-29.png"
+    },
+    {
+      "step": 30,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the focused Due Date field with the requested date.",
+      "screenshot": "step-30.png"
+    },
+    {
+      "step": 31,
+      "action": {
+        "kind": "click",
+        "x": 352,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field to enter the requested date.",
+      "screenshot": "step-31.png"
+    },
+    {
+      "step": 32,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field.",
+      "screenshot": "step-32.png"
+    },
+    {
+      "step": 33,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Due Date field first.",
+      "screenshot": "step-33.png"
+    },
+    {
+      "step": 34,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-34.png"
+    },
+    {
+      "step": 35,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Complete the focused Due Date field.",
+      "screenshot": "step-35.png"
+    },
+    {
+      "step": 36,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Due Date field.",
+      "screenshot": "step-36.png"
+    },
+    {
+      "step": 37,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused Due Date field.",
+      "screenshot": "step-37.png"
+    },
+    {
+      "step": 38,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to begin filling the invoice.",
+      "screenshot": "step-38.png"
+    },
+    {
+      "step": 39,
+      "action": {
+        "kind": "type",
+        "text": "2026-04-30"
+      },
+      "ok": true,
+      "rationale": "The due-date field is focused; enter the requested due date.",
+      "screenshot": "step-39.png"
+    },
+    {
+      "step": 40,
+      "action": {
+        "kind": "click",
+        "x": 350,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to begin filling the invoice.",
+      "screenshot": "step-40.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T06:51:08.168Z"
+}

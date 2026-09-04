@@ -1,0 +1,114 @@
+[orchestrate] STEP 1: create base sandbox + probe system
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] base system: node=v22.23.1 (found=true) python=Python 3.11.2
+[orchestrate] uploaded 6 compiled file(s) to /app/dist
+[orchestrate] base system: node=v22.23.1 python=Python 3.11.2
+[orchestrate] STEP 2: serve base /healthz through the preview URL
+[orchestrate] base preview (redacted): https://437350b528c7b6e8a171-3000.preview.getsolari.com/?pt_token=************
+[orchestrate] base /healthz through preview -> OK (status 200) [queryString=true]
+[orchestrate] STEP 3: snapshot + promote base (best effort)
+[orchestrate] snapshot attempt 1/4 failed ([status=409][code=?] Not snapshottable); retrying in 2000ms
+[orchestrate] snapshot attempt 2/4 failed ([status=409][code=?] Not snapshottable); retrying in 4000ms
+[orchestrate] snapshot attempt 3/4 failed ([status=409][code=?] Not snapshottable); retrying in 6000ms
+[orchestrate] snapshot FAILED ([status=409][code=?] Not snapshottable) — will fall back to direct forking (no template)
+[orchestrate] base sandbox killed (template owns the prepared environment if snapshot succeeded)
+[orchestrate] STEP 5: fork 2 variants + boot timing + empty-DB check (serial)
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 6 compiled file(s) to /app/dist
+[orchestrate] fork seed=11 [direct]: boot=10583ms healthz=OK invoices=0 preview=https://4ee3cc5b4455edf03783-3000.preview.getsolari.com/?pt_token=************
+[orchestrate] fork seed=11 killed
+[orchestrate] waiting 6000ms for the host slot to reap before forking the next variant
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] uploaded 6 compiled file(s) to /app/dist
+[orchestrate] fork seed=42 [direct]: boot=10381ms healthz=OK invoices=0 preview=https://931287559618437fb9da-3000.preview.getsolari.com/?pt_token=************
+[orchestrate] fork seed=42 killed
+
+
+======================================================================
+COLDSTART STEP 03 — LIVE SANDBOX ORCHESTRATION PROOF
+======================================================================
+
+— TIMING TABLE —
+  base create (built-in template → connect)  1329 ms
+  base prepare (upload+launch+healthz)       4477 ms
+  snapshot + promote                         13649 ms (FAILED)
+  fork seed=11 (create→/healthz) [direct]    10583 ms (create 9089 / serve 1494)
+  fork seed=42 (create→/healthz) [direct]    10381 ms (create 8876 / serve 1505)
+
+— DESIGN §8 risk #2: Node in base template —
+  node found: true
+  node version: v22.23.1
+  node:sqlite supported: true
+  python3: Python 3.11.2
+
+— PREVIEW URL / healthz —
+  base preview URL: https://437350b528c7b6e8a171-3000.preview.getsolari.com/?pt_token=************
+  base /healthz through preview: status=200 ok=true body=ok
+  preview query-string caution (hasQueryString): true
+  fork seed=11 [direct] preview URL: https://4ee3cc5b4455edf03783-3000.preview.getsolari.com/?pt_token=************
+  fork seed=11 /healthz: status=200 ok=true invoices=0
+  fork seed=42 [direct] preview URL: https://931287559618437fb9da-3000.preview.getsolari.com/?pt_token=************
+  fork seed=42 /healthz: status=200 ok=true invoices=0
+
+— SNAPSHOT / FORK —
+  snapshot: (none) — FAILED: [status=409][code=?] Not snapshottable
+  template: (none)
+
+— DESIGN §8 risk #1: fork API verdict —
+  create({template: snapshotId}) UNKNOWN; promoteSnapshot->create({template}) NOT VERIFIED
+  detail: Negative control (isolated live probe this session): [status=400] template: unknown template "snap_…" — built-in sandbox templates are base; custom templates are tpl_… ids. Positive control (this run): forkVariant used create({template: }) and its /healthz served 200 — so the working fork path is promoteSnapshot -> create({template}).
+
+— CLEANUP LOG —
+  cleanup not run
+======================================================================
+
+[orchestrate] STEP 5: cleanup (kill all sandboxes + delete snapshot/template)
+[orchestrate] CLEANUP DONE: live ColdStart resources after cleanup = 0
+[orchestrate] CLEANUP ATTESTATION: ZERO live resources
+
+
+======================================================================
+COLDSTART STEP 03 — LIVE SANDBOX ORCHESTRATION PROOF
+======================================================================
+
+— TIMING TABLE —
+  base create (built-in template → connect)  1329 ms
+  base prepare (upload+launch+healthz)       4477 ms
+  snapshot + promote                         13649 ms (FAILED)
+  fork seed=11 (create→/healthz) [direct]    10583 ms (create 9089 / serve 1494)
+  fork seed=42 (create→/healthz) [direct]    10381 ms (create 8876 / serve 1505)
+
+— DESIGN §8 risk #2: Node in base template —
+  node found: true
+  node version: v22.23.1
+  node:sqlite supported: true
+  python3: Python 3.11.2
+
+— PREVIEW URL / healthz —
+  base preview URL: https://437350b528c7b6e8a171-3000.preview.getsolari.com/?pt_token=************
+  base /healthz through preview: status=200 ok=true body=ok
+  preview query-string caution (hasQueryString): true
+  fork seed=11 [direct] preview URL: https://4ee3cc5b4455edf03783-3000.preview.getsolari.com/?pt_token=************
+  fork seed=11 /healthz: status=200 ok=true invoices=0
+  fork seed=42 [direct] preview URL: https://931287559618437fb9da-3000.preview.getsolari.com/?pt_token=************
+  fork seed=42 /healthz: status=200 ok=true invoices=0
+
+— SNAPSHOT / FORK —
+  snapshot: (none) — FAILED: [status=409][code=?] Not snapshottable
+  template: (none)
+
+— DESIGN §8 risk #1: fork API verdict —
+  create({template: snapshotId}) UNKNOWN; promoteSnapshot->create({template}) NOT VERIFIED
+  detail: Negative control (isolated live probe this session): [status=400] template: unknown template "snap_…" — built-in sandbox templates are base; custom templates are tpl_… ids. Positive control (this run): forkVariant used create({template: }) and its /healthz served 200 — so the working fork path is promoteSnapshot -> create({template}).
+
+— CLEANUP LOG —
+  killed sandbox ids: 3
+  deleted snapshot: (none)
+  deleted template: (none)
+  live ColdStart resources after: 0
+  ✓ ZERO live resources
+======================================================================
+

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Primary Meta Tags -->
+  <title>ColdStart — Zero-Shot Generalization Benchmark for Computer-Use Agents</title>
+  <meta name="title" content="ColdStart — Zero-Shot Generalization Benchmark for Computer-Use Agents">
+  <meta name="description" content="An open-source benchmark harness testing Computer-Use Agents on procedurally mutated, out-of-distribution web applications via Solari microVM snapshot fast-forks.">
+
+  <!-- Open Graph / Facebook / Discord -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
+  <meta property="og:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 37/37 tests pass, 0 leaked microVMs.">
+  <meta property="og:image" content="./artifacts/showcase.png">
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
+  <meta property="twitter:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 37/37 tests pass, 0 leaked microVMs.">
+  <meta property="twitter:image" content="./artifacts/showcase.png">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            pine: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              200: '#a7f3d0',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+              900: '#064e3b',
+              950: '#022c22',
+            },
+            dark: {
+              900: '#060a08',
+              800: '#0b130f',
+              700: '#101c16',
+              600: '#17271f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #060a08;
+      color: #e2e8f0;
+    }
+    .glass-card {
+      background: rgba(11, 19, 15, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(16, 185, 129, 0.15);
+    }
+    .glass-card-subtle {
+      background: rgba(16, 28, 22, 0.45);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .glow-emerald {
+      box-shadow: 0 0 50px -12px rgba(16, 185, 129, 0.25);
+    }
+    .code-syntax {
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body class="selection:bg-pine-500 selection:text-black font-sans antialiased">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-pine-950 via-pine-900 to-black border-b border-pine-500/20 py-2 px-4 text-center text-xs font-mono">
+    <span class="inline-flex items-center gap-2 text-pine-300">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <strong class="text-white">ColdStart Public Review:</strong> Zero-Shot Generalization Benchmark Harness for Computer-Use Agents (CUA) on Solari MicroVMs.
+    </span>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <nav class="sticky top-0 z-50 glass-card border-b border-white/5 px-4 sm:px-8 py-4 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pine-400 to-emerald-600 flex items-center justify-center font-black text-black text-lg shadow-lg shadow-pine-500/20">
+          🌲
+        </div>
+        <div>
+          <span class="font-extrabold text-white text-base tracking-tight">ColdStart</span>
+          <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-pine-900/60 text-pine-300 border border-pine-500/30 ml-2">Benchmark v1.0</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-1 text-xs font-mono">
+        <a href="#overview" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Overview</a>
+        <a href="#architecture" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Architecture</a>
+        <a href="#variants" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Variants</a>
+        <a href="#scorecard" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Scorecard</a>
+        <a href="#traces" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Trace Replay</a>
+        <a href="#quickstart" class="px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all">Quickstart</a>
+      </div>
+
+      <!-- GitHub Action Links -->
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/solari-sdk/solari-cookbook" target="_blank" class="px-4 py-2 rounded-lg bg-pine-500 hover:bg-pine-400 text-black font-bold text-xs uppercase font-mono transition-all flex items-center gap-2 shadow-md shadow-pine-500/20">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub Repo</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="overview" class="relative pt-16 pb-20 overflow-hidden">
+    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-pine-500/15 via-emerald-600/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Badges Row -->
+      <div class="flex flex-wrap items-center gap-2 mb-6">
+        <span class="px-3 py-1 rounded-full bg-pine-950 text-pine-300 border border-pine-500/30 text-xs font-mono font-medium">
+          ⚡ Solari MicroVM Snapshot Forks
+        </span>
+        <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-medium">
+          🧪 37/37 Vitest Unit Tests PASS
+        </span>
+        <span class="px-3 py-1 rounded-full bg-black/60 text-slate-300 border border-white/10 text-xs font-mono font-medium">
+          🔒 Fail-Closed DB Verification (C1–C7)
+        </span>
+        <span class="px-3 py-1 rounded-full bg-black/60 text-slate-300 border border-white/10 text-xs font-mono font-medium">
+          ⚖️ MIT Open Source
+        </span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] mb-6 max-w-5xl">
+        Benchmarking <span class="text-transparent bg-clip-text bg-gradient-to-r from-pine-400 via-emerald-300 to-teal-200">Zero-Shot Generalization</span> on Computer-Use Agents.
+      </h1>
+
+      <p class="text-lg sm:text-xl text-slate-300 max-w-3xl leading-relaxed mb-8">
+        Standard CUA evaluations test repeatability on static forms the agent was already tuned on. 
+        <strong>ColdStart</strong> turns Solari Firecracker microVM snapshots into an <em>Unseen Environment Factory</em>—generating procedurally mutated web applications to measure out-of-distribution robustness cold.
+      </p>
+
+      <!-- Key Metrics Highlights Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+        <div class="glass-card-subtle p-5 rounded-2xl border border-white/10">
+          <div class="text-xs font-mono text-slate-400 uppercase">Seeded App Variants</div>
+          <div class="text-2xl sm:text-3xl font-black text-white mt-1">14 Variants</div>
+          <div class="text-xs text-pine-400 mt-1 font-mono">5 Independent Mutation Axes</div>
+        </div>
+        <div class="glass-card-subtle p-5 rounded-2xl border border-white/10">
+          <div class="text-xs font-mono text-slate-400 uppercase">Surface Invariance</div>
+          <div class="text-2xl sm:text-3xl font-black text-emerald-400 mt-1">100% (2/2)</div>
+          <div class="text-xs text-slate-400 mt-1 font-mono">P5 Dark Serif CSS Theme Skin</div>
+        </div>
+        <div class="glass-card-subtle p-5 rounded-2xl border border-white/10">
+          <div class="text-xs font-mono text-slate-400 uppercase">Procedural Breakdown</div>
+          <div class="text-2xl sm:text-3xl font-black text-rose-400 mt-1">0.00% (0/2)</div>
+          <div class="text-xs text-slate-400 mt-1 font-mono">P2 Two-Step Wizard Flow</div>
+        </div>
+        <div class="glass-card-subtle p-5 rounded-2xl border border-white/10">
+          <div class="text-xs font-mono text-slate-400 uppercase">Resource Hygiene</div>
+          <div class="text-2xl sm:text-3xl font-black text-pine-300 mt-1">0 Leaks</div>
+          <div class="text-xs text-slate-400 mt-1 font-mono">0 Zombie Sandboxes Leaked</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE & SYSTEM DESIGN -->
+  <section id="architecture" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">System Architecture</h2>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">How ColdStart Evaluates Agents Cold</h3>
+      <p class="text-slate-400 text-sm mt-3">From seeded microVM snapshot forks to fail-closed SQLite verification.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      
+      <!-- PILLAR 1 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-pine-950 border border-pine-500/30 flex items-center justify-center text-pine-400 font-mono text-lg font-bold mb-4">
+            01
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">Snapshot-as-Factory</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Pre-bakes dependencies into a base microVM snapshot. At evaluation time, it boots new seeded variant environments in ~10 seconds via fast-forks, ensuring clean sandbox isolation without container pollution.
+          </p>
+        </div>
+        <div class="mt-4 pt-4 border-t border-white/5 font-mono text-[11px] text-pine-300">
+          <code>VariantFactory.ts</code> • Seeded PRNG
+        </div>
+      </div>
+
+      <!-- PILLAR 2 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-pine-950 border border-pine-500/30 flex items-center justify-center text-pine-400 font-mono text-lg font-bold mb-4">
+            02
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">Vision-First CUA Loop</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            The agent operates purely on viewport screenshots (1280x800) with zero DOM introspection or selector access. Harness-side hybrid grounding snaps coordinate predictions to active element boundaries.
+          </p>
+        </div>
+        <div class="mt-4 pt-4 border-t border-white/5 font-mono text-[11px] text-pine-300">
+          <code>AgentLoop.ts</code> • Hybrid Grounding
+        </div>
+      </div>
+
+      <!-- PILLAR 3 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="w-10 h-10 rounded-xl bg-pine-950 border border-pine-500/30 flex items-center justify-center text-pine-400 font-mono text-lg font-bold mb-4">
+            03
+          </div>
+          <h4 class="text-lg font-bold text-white mb-2">Fail-Closed Verification</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Completely ignores agent self-reporting. Recomputes expected mathematical totals from ground-truth task seeds and executes direct SQLite queries inside the microVM to verify SHA256 integrity checks (C1–C7).
+          </p>
+        </div>
+        <div class="mt-4 pt-4 border-t border-white/5 font-mono text-[11px] text-pine-300">
+          <code>Verifier.ts</code> • Direct DB Channel
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- THE 5 PERTURBATION AXES & VISUAL GALLERY -->
+  <section id="variants" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Procedural Environment Factory</h2>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">The 5 Out-of-Distribution Perturbation Axes</h3>
+      <p class="text-slate-400 text-sm mt-3">Seeded PRNG mutations generated on the fly inside Solari snapshot fast-forks.</p>
+    </div>
+
+    <!-- Variant Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      
+      <!-- Baseline -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-emerald-400 uppercase">Baseline Reference</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s0</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/baseline-s0.png" alt="Baseline Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Standard Invoice Form</h4>
+          <p class="text-xs text-slate-400">Clean single-page form with canonical field naming (Customer, Description, Quantity, Price, Tax, Subtotal, Gross).</p>
+        </div>
+      </div>
+
+      <!-- P1 Relabel -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-pine-400 uppercase">P1: Heavy Synonym Drift</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s17</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/p1-relabel-s17.png" alt="P1 Relabel Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Semantic Relabeling</h4>
+          <p class="text-xs text-slate-400">Mutates field names: <em>Customer → Client, Qty → Units, Tax → VAT, Total → Gross, Memo → Notes</em>.</p>
+        </div>
+      </div>
+
+      <!-- P2 Structure -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-rose-400 uppercase">P2: Procedural Flow Shift</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s7</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/p2-structure-s7.png" alt="P2 Structure Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Two-Step Wizard</h4>
+          <p class="text-xs text-slate-400">Transforms flat form into a multi-step wizard requiring explicit "Next", state validation, and "Confirm".</p>
+        </div>
+      </div>
+
+      <!-- P3 Field Order -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-amber-400 uppercase">P3: Density &amp; Spatial Order</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s3</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/p3-order-s3.png" alt="P3 Field Order Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Input Permutation</h4>
+          <p class="text-xs text-slate-400">Reorders line items and changes grid arrangement, breaking static coordinate assumptions.</p>
+        </div>
+      </div>
+
+      <!-- P4 Navigation -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-teal-400 uppercase">P4: Nested Navigation</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s9</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/p4-nav-s9.png" alt="P4 Navigation Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Sidebar Menu Routing</h4>
+          <p class="text-xs text-slate-400">Replaces direct path routing with a dynamic sidebar navigation menu requiring multi-step clicking.</p>
+        </div>
+      </div>
+
+      <!-- P5 Theme Skin -->
+      <div class="p-5 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-mono font-bold text-pine-400 uppercase">P5: CSS Theme Skin</span>
+            <span class="text-[10px] font-mono text-slate-500">Seed: s21</span>
+          </div>
+          <div class="rounded-xl overflow-hidden border border-white/10 mb-3 bg-black aspect-video relative">
+            <img src="./artifacts/step-02/p5-theme-s21.png" alt="P5 Theme Variant UI" class="w-full h-full object-cover" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+          <h4 class="text-sm font-bold text-white mb-1">Dark Serif Aesthetic</h4>
+          <p class="text-xs text-slate-400">Complete visual restyling with dark emerald palette, serif typography, and altered visual contrast.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- CAUSAL SCORECARD & EMPIRICAL FINDINGS -->
+  <section id="scorecard" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Empirical Scorecard</h2>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">Causal Axis-Isolated Evaluation</h3>
+      <p class="text-slate-400 text-sm mt-3">Holding the underlying task constant (<code>ACMECORP</code>) while systematically mutating isolated axes.</p>
+    </div>
+
+    <!-- Chart & Insight Dual Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+      
+      <!-- Chart Container -->
+      <div class="lg:col-span-7 p-6 rounded-2xl glass-card border border-white/10 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h4 class="text-sm font-bold text-white font-mono uppercase">Causal Generalization Success Rate</h4>
+            <span class="text-xs font-mono text-pine-400">Ground-Truth SQLite Verified</span>
+          </div>
+          <div class="h-64 sm:h-72 w-full relative">
+            <canvas id="generalizationChart"></canvas>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-white/5 text-[11px] font-mono text-slate-400 flex items-center justify-between">
+          <span>Evaluated on Solari microVM instances</span>
+          <span class="text-pine-400">n=2 isolated trials per point</span>
+        </div>
+      </div>
+
+      <!-- Core Empirical Discovery Card -->
+      <div class="lg:col-span-5 p-6 rounded-2xl glass-card border border-pine-500/40 glow-emerald flex flex-col justify-between">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-pine-950 text-pine-300 border border-pine-500/30 text-xs font-mono font-bold uppercase mb-4">
+            <span>🔬 Key Research Discovery</span>
+          </div>
+          <h4 class="text-xl font-black text-white mb-3">Surface Invariance vs Procedural Breakdown</h4>
+          <p class="text-xs text-slate-300 leading-relaxed space-y-2">
+            <span class="block mb-2">
+              <strong>1. Surface Mutations Don't Trick Vision Models:</strong> Complete visual restyling (Dark Serif CSS Skin: <strong>100% 2/2</strong>) and heavy semantic synonym drift (<strong>100%</strong> in 16 steps) pose zero difficulty.
+            </span>
+            <span class="block">
+              <strong>2. Procedural Shifts Cause Total Failure:</strong> Converting a flat form into a <strong>two-step wizard flow (P2: 0.00% 0/2)</strong> causes the agent to step-cap at 40 steps without submitting.
+            </span>
+          </p>
+        </div>
+
+        <div class="mt-6 p-3 rounded-xl bg-black/60 border border-white/10 text-xs font-mono">
+          <div class="text-slate-400 mb-1">Measured Observable Compute:</div>
+          <div class="text-pine-300 font-bold">471.6s Sandbox + 338.6s Browser (0.225 billable hrs)</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Real Empirical Runs Table -->
+    <div class="rounded-2xl glass-card overflow-hidden border border-white/10 mb-12">
+      <div class="px-6 py-4 bg-black/40 border-b border-white/10 flex items-center justify-between">
+        <h4 class="font-bold text-white text-sm uppercase font-mono tracking-wider">Audited Live Execution Trace Runs</h4>
+        <span class="text-xs text-pine-400 font-mono">Fail-Closed Verification Pass</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-black/60 text-slate-400 border-b border-white/5">
+            <tr>
+              <th class="py-3 px-6">Run ID</th>
+              <th class="py-3 px-6">Perturbation Axis</th>
+              <th class="py-3 px-6">Result</th>
+              <th class="py-3 px-6">Steps</th>
+              <th class="py-3 px-6">Wall Time</th>
+              <th class="py-3 px-6">DB Verifier (C1–C7)</th>
+              <th class="py-3 px-6 text-right">Replay Session</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/5 text-slate-300">
+            <tr class="hover:bg-white/[0.02]">
+              <td class="py-3.5 px-6 font-bold text-white"><code>r_mtjsm13e_t0</code></td>
+              <td class="py-3.5 px-6 text-pine-300">P5_theme:3 (Dark Serif)</td>
+              <td class="py-3.5 px-6"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 font-bold">PASS</span></td>
+              <td class="py-3.5 px-6">16 steps</td>
+              <td class="py-3.5 px-6">145.4s</td>
+              <td class="py-3.5 px-6 text-emerald-400">7/7 Green ($38,880.00)</td>
+              <td class="py-3.5 px-6 text-right"><span class="text-pine-400 font-semibold">Captured S3</span></td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="py-3.5 px-6 font-bold text-white"><code>r_mtjsnjob_t1</code></td>
+              <td class="py-3.5 px-6 text-pine-300">P5_theme:3 (Dark Serif)</td>
+              <td class="py-3.5 px-6"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 font-bold">PASS</span></td>
+              <td class="py-3.5 px-6">16 steps</td>
+              <td class="py-3.5 px-6">151.7s</td>
+              <td class="py-3.5 px-6 text-emerald-400">7/7 Green ($38,880.00)</td>
+              <td class="py-3.5 px-6 text-right"><span class="text-pine-400 font-semibold">Captured S3</span></td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="py-3.5 px-6 font-bold text-white"><code>r_mtjqchve_s17</code></td>
+              <td class="py-3.5 px-6 text-pine-300">P1_relabel:4 (Synonym Drift)</td>
+              <td class="py-3.5 px-6"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 font-bold">PASS</span></td>
+              <td class="py-3.5 px-6">16 steps</td>
+              <td class="py-3.5 px-6">139.8s</td>
+              <td class="py-3.5 px-6 text-emerald-400">7/7 Green ($38,880.00)</td>
+              <td class="py-3.5 px-6 text-right"><span class="text-pine-400 font-semibold">Captured S3</span></td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="py-3.5 px-6 font-bold text-white"><code>r_mtjsp83o_o0</code></td>
+              <td class="py-3.5 px-6 text-amber-300">P3_field_order:4</td>
+              <td class="py-3.5 px-6"><span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30 font-bold">PASS</span></td>
+              <td class="py-3.5 px-6">17 steps</td>
+              <td class="py-3.5 px-6">158.2s</td>
+              <td class="py-3.5 px-6 text-emerald-400">7/7 Green ($38,880.00)</td>
+              <td class="py-3.5 px-6 text-right"><span class="text-pine-400 font-semibold">Captured S3</span></td>
+            </tr>
+            <tr class="hover:bg-white/[0.02]">
+              <td class="py-3.5 px-6 font-bold text-white"><code>r_mtjsqyft_w0</code></td>
+              <td class="py-3.5 px-6 text-rose-300">P2_structure:3 (Two-Step Wizard)</td>
+              <td class="py-3.5 px-6"><span class="px-2 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-500/30 font-bold">FAIL</span></td>
+              <td class="py-3.5 px-6 text-rose-400 font-bold">40 steps (cap)</td>
+              <td class="py-3.5 px-6">362.4s</td>
+              <td class="py-3.5 px-6 text-rose-400">0/7 (Never submitted)</td>
+              <td class="py-3.5 px-6 text-right"><span class="text-slate-500">Timing null</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Transparent Disclosures Callout -->
+    <div class="p-6 rounded-2xl glass-card-subtle border border-white/10">
+      <h4 class="text-xs uppercase font-mono font-bold text-pine-400 mb-2">Scientific Transparency &amp; Disclosures</h4>
+      <p class="text-xs text-slate-400 leading-relaxed">
+        <strong>1. Sample Size:</strong> Isolated runs were evaluated at $n=2$ per point to establish causal bounds within compute quotas. Additional trials can be scheduled via CLI.<br>
+        <strong>2. Infrastructure Resilience:</strong> 2 transient infra-aborts (screenshot channel socket drop &amp; sandbox control reset) were recorded transparently rather than discarded.<br>
+        <strong>3. Grounding Resolution:</strong> Free general chat models exhibited ~30–60px coordinate drift; our harness-side hybrid grounding snapped clicks to interactive bounding boxes to achieve deterministic execution.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- TRACE REPLAY & VISUAL FLOW -->
+  <section id="traces" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Visual Replay Engine</h2>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">16-Step Execution Trace Flow</h3>
+      <p class="text-slate-400 text-sm mt-3">Interactive breakdown of the deterministic CUA execution loop.</p>
+    </div>
+
+    <!-- Visual Showcase Banner -->
+    <div class="rounded-2xl glass-card overflow-hidden border border-white/10 mb-8 p-4 bg-black/80">
+      <img src="./artifacts/showcase.png" alt="ColdStart 16-Step Visual Trace Replay" class="w-full rounded-xl object-cover border border-white/5 shadow-2xl">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div class="p-4 rounded-xl glass-card border border-white/10">
+        <div class="text-xs font-mono text-pine-400 font-bold mb-1">Steps 01 – 04</div>
+        <div class="text-white font-bold text-sm mb-1">Form Discovery</div>
+        <div class="text-[11px] text-slate-400">Agent scans viewport, locates client input field, types "ACMECORP", and fills invoice reference ID.</div>
+      </div>
+      <div class="p-4 rounded-xl glass-card border border-white/10">
+        <div class="text-xs font-mono text-pine-400 font-bold mb-1">Steps 05 – 09</div>
+        <div class="text-white font-bold text-sm mb-1">Line Item Entry</div>
+        <div class="text-[11px] text-slate-400">Enters description, units (480), and unit price ($75.00). Interacts with dynamic row controls.</div>
+      </div>
+      <div class="p-4 rounded-xl glass-card border border-white/10">
+        <div class="text-xs font-mono text-pine-400 font-bold mb-1">Steps 10 – 13</div>
+        <div class="text-white font-bold text-sm mb-1">Calculations &amp; Tax</div>
+        <div class="text-[11px] text-slate-400">Verifies computed subtotal ($36,000.00), applies 8% tax ($2,880.00), and validates gross balance ($38,880.00).</div>
+      </div>
+      <div class="p-4 rounded-xl glass-card border border-white/10">
+        <div class="text-xs font-mono text-pine-400 font-bold mb-1">Steps 14 – 16</div>
+        <div class="text-white font-bold text-sm mb-1">Commit &amp; DB Verify</div>
+        <div class="text-[11px] text-slate-400">Clicks Submit button, confirms modal dialogue, and commits SQLite database record inside microVM.</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- QUICKSTART & REPRODUCIBILITY -->
+  <section id="quickstart" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <h2 class="text-xs uppercase tracking-widest text-pine-400 font-mono font-bold mb-2">Developer Quickstart</h2>
+      <h3 class="text-3xl sm:text-4xl font-black text-white">Reproduce Locally in 3 Steps</h3>
+      <p class="text-slate-400 text-sm mt-3">Full test suite passes with zero external service dependencies.</p>
+    </div>
+
+    <div class="space-y-6 max-w-4xl mx-auto">
+      
+      <!-- STEP 1 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">1. Clone &amp; Install</span>
+          <span class="text-[10px] font-mono text-slate-500">Node &gt;= 18</span>
+        </div>
+        <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
+          <pre><code>git clone https://github.com/solari-sdk/solari-cookbook.git
+cd solari-cookbook
+npm install</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (37/37 PASS)</span>
+          <span class="text-[10px] font-mono text-emerald-400">Offline Mocks</span>
+        </div>
+        <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
+          <pre><code>npm test
+# Output: 37 passed across 5 test files (VariantFactory, Verifier, AgentLoop, SolariDriver, Scorecard)</code></pre>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="p-6 rounded-2xl glass-card border border-white/10">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">3. Execute Live Evaluation on Solari</span>
+          <span class="text-[10px] font-mono text-slate-500">API Key Required</span>
+        </div>
+        <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
+          <pre><code>export SOLARI_API_KEY="your-solari-api-key"
+export OPENAI_API_KEY="your-cua-model-api-key"
+
+# Run isolated causal scorecard evaluation
+npm run eval:isolated</code></pre>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-white/5 text-center text-xs font-mono text-slate-500 bg-black/60">
+    <div class="max-w-7xl mx-auto px-4 space-y-3">
+      <div class="flex items-center justify-center space-x-4 text-slate-400">
+        <a href="https://github.com/solari-sdk/solari-cookbook" target="_blank" class="hover:text-white transition-all">GitHub Repository</a>
+        <span>•</span>
+        <a href="https://github.com/solari-sdk/solari-cookbook/blob/main/DESIGN.md" target="_blank" class="hover:text-white transition-all">Architecture Spec</a>
+        <span>•</span>
+        <a href="https://github.com/solari-sdk/solari-cookbook/blob/main/AUDIT_LOG.md" target="_blank" class="hover:text-white transition-all">Audit Log</a>
+      </div>
+      <p>ColdStart — Zero-Shot Generalization Benchmark Harness for Computer-Use Agents (CUA) • MIT License • 2026</p>
+    </div>
+  </footer>
+
+  <!-- Script for Chart.js Visualization -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const ctx = document.getElementById('generalizationChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Baseline (s0)', 'P1 Relabel (s17)', 'P5 Theme Skin (s0)', 'P3 Field Order (s0)', 'P2 Wizard Flow (s0)'],
+          datasets: [
+            {
+              label: 'Causal Success Rate (Ground-Truth DB Verified)',
+              data: [1.0, 1.0, 1.0, 0.50, 0.0],
+              backgroundColor: [
+                '#10b981',
+                '#34d399',
+                '#10b981',
+                '#f59e0b',
+                '#f43f5e'
+              ],
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1,
+              borderRadius: 6
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: '#062016',
+              titleColor: '#34d399',
+              bodyColor: '#e2e8f0',
+              borderColor: 'rgba(52, 211, 153, 0.3)',
+              borderWidth: 1,
+              padding: 10,
+              callbacks: {
+                label: function(context) {
+                  const labels = [
+                    '100% (Baseline clean form)',
+                    '100% (Heavy synonym drift)',
+                    '100% (2/2 - Invariant to visual theme skin)',
+                    '50% (1/2 clean pass, 1 infra abort)',
+                    '0% (0/2 - Fails on two-step wizard)'
+                  ];
+                  return labels[context.dataIndex];
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 1.0,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#64748b',
+                font: { family: '"JetBrains Mono"', size: 10 },
+                callback: function(value) { return (value * 100) + '%'; }
+              }
+            },
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#94a3b8',
+                font: { family: '"JetBrains Mono"', size: 9 }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

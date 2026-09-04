@@ -1,0 +1,26 @@
+[step-04] browser launch (viewport 1280x800)
+[step-04] create base sandbox (seed=0) + upload compiled app + ensure Node 22
+[orchestrate] Node 22 absent/too old — attempting official tarball install (v22.23.1) to /usr/local
+[orchestrate] node --version -> v22.23.1
+[orchestrate] base system: node=v22.23.1 (found=true) python=Python 3.11.2
+[orchestrate] uploaded 7 compiled file(s) to /app/dist
+[step-04] preview (redacted): https://153a452a76d8f0492d50-3000.preview.getsolari.com/?pt_token=************
+[step-04] /healthz -> status 200 ok=true
+[step-04] navigate to /new entry (token preserved)
+[step-04] run agent loop: task seed=0, max_steps=40
+[step-04] ================================================================
+[step-04] STEP 04 LIVE BASELINE RESULT (seed=0)
+[step-04]   status           : done
+[step-04]   steps taken      : 17/40
+[step-04]   final page title : Invoice Created
+[step-04]   invoice rows     : 1 (sanity only; verifier is Step 05)
+[step-04]   terminated by    : done
+[step-04]   last action      : {"kind":"done"}
+[step-04]   trace            : artifacts/runs/r_mtjpakli_s0/trace.json
+[step-04] ================================================================
+[step-04] cleanup: kill sandbox, close browser + solari client
+[step-04] sandbox killed
+[step-04] browser session closed
+[step-04] solari client closed
+[step-04] CLEANUP ATTESTATION: live ColdStart resources after cleanup = 0
+[step-04] CLEANUP: ZERO live resources

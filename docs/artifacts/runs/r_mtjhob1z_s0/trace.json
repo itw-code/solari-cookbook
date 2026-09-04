@@ -1,0 +1,51 @@
+{
+  "run_id": "r_mtjhob1z_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 3,
+  "max_steps": 22,
+  "model": "aistudio-gemini-3.7-flash",
+  "base_url": "https://76228651912378d82848-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": null,
+  "final_screenshot": null,
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 292
+      },
+      "ok": true,
+      "rationale": "Focus the Customer input field",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type ACMECORP into the focused Customer input field",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 260,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click the Customer input field to ensure focus before typing",
+      "screenshot": "step-03.png"
+    }
+  ],
+  "error": "LLM request failed after 6 attempts (last HTTP 429): {\"error\":{\"message\":\"litellm.RateLimitError: RateLimitError: OpenAIException - Error code: 429 - [{'error': {'code': 429",
+  "generated_at": "2026-09-02T02:42:39.281Z"
+}

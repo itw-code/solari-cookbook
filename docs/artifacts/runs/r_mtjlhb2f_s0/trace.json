@@ -1,0 +1,283 @@
+{
+  "run_id": "r_mtjlhb2f_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 25,
+  "max_steps": 34,
+  "model": "gemini-3.7-flash",
+  "base_url": "https://dcdc026ca646931bf4d7-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "Create Invoice",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click customer input field to focus it",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type customer name into the focused Customer field",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 425,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click Invoice Date field to focus it",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Type the invoice date into the focused Invoice Date field.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 575,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to enter 2026-10-31",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-31"
+      },
+      "ok": true,
+      "rationale": "Type the due date into the focused Due Date field.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 725,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click the Tax Rate input field to focus it.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "8"
+      },
+      "ok": true,
+      "rationale": "Type 8 into the focused Tax Rate field",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 305,
+        "y": 552
+      },
+      "ok": true,
+      "rationale": "Focus the line item Description field",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "type",
+        "text": "Consulting"
+      },
+      "ok": true,
+      "rationale": "Type 'Consulting' into the focused Description field",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "click",
+        "x": 500,
+        "y": 552
+      },
+      "ok": true,
+      "rationale": "Click the Qty input field to focus it.",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "type",
+        "text": "3"
+      },
+      "ok": true,
+      "rationale": "Type quantity 3 into the focused Qty field",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "click",
+        "x": 695,
+        "y": 552
+      },
+      "ok": true,
+      "rationale": "Click the Unit Price input field to focus it.",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "type",
+        "text": "120.00"
+      },
+      "ok": true,
+      "rationale": "Type the unit price into the focused Unit Price field",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "click",
+        "x": 238,
+        "y": 647
+      },
+      "ok": true,
+      "rationale": "Click the Submit button to submit the invoice form.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "click",
+        "x": 43,
+        "y": 26
+      },
+      "ok": true,
+      "rationale": "Navigate to Invoices list to verify if the invoice was created.",
+      "screenshot": "step-16.png"
+    },
+    {
+      "step": 17,
+      "action": {
+        "kind": "click",
+        "x": 263,
+        "y": 133
+      },
+      "ok": true,
+      "rationale": "Click Create Invoice button to open invoice creation form",
+      "screenshot": "step-17.png"
+    },
+    {
+      "step": 18,
+      "action": {
+        "kind": "click",
+        "x": 124,
+        "y": 26
+      },
+      "ok": true,
+      "rationale": "Navigate to New Invoice page",
+      "screenshot": "step-18.png"
+    },
+    {
+      "step": 19,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Focus the Customer input field",
+      "screenshot": "step-19.png"
+    },
+    {
+      "step": 20,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type customer name ACMECORP into the focused Customer field",
+      "screenshot": "step-20.png"
+    },
+    {
+      "step": 21,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Click customer input to focus it",
+      "screenshot": "step-21.png"
+    },
+    {
+      "step": 22,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type customer name into focused Customer input",
+      "screenshot": "step-22.png"
+    },
+    {
+      "step": 23,
+      "action": {
+        "kind": "click",
+        "x": 425,
+        "y": 295
+      },
+      "ok": true,
+      "rationale": "Move onward to focus the Invoice Date field.",
+      "screenshot": "step-23.png"
+    },
+    {
+      "step": 24,
+      "action": {
+        "kind": "type",
+        "text": "2026-10-01"
+      },
+      "ok": true,
+      "rationale": "Type invoice date into focused field",
+      "screenshot": "step-24.png"
+    },
+    {
+      "step": 25,
+      "action": {
+        "kind": "abort",
+        "reason": "Form input fields do not accept text input; unable to fill or submit the form."
+      },
+      "ok": true,
+      "rationale": "Form inputs have remained completely non-functional and empty despite repeated clicks and typing.",
+      "screenshot": "step-25.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T04:29:55.491Z"
+}

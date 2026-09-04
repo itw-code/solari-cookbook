@@ -1,0 +1,40 @@
+{
+  "run_id": "r_mtjhkmzm_s0",
+  "seed": 0,
+  "variant_id": "inv__s0__P1:0__P2:0__P3:0__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"ACMECORP\" with one line item: description \"Consulting\", qty 3, unit price $120.00, tax rate 8%, invoice date 2026-10-01, due date 2026-10-31. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "aborted",
+  "terminated_by": "aborted",
+  "steps_taken": 2,
+  "max_steps": 24,
+  "model": "aistudio-gemini-3.7-flash",
+  "base_url": "https://82e680eb40d5af20777e-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": null,
+  "final_screenshot": null,
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 275,
+        "y": 293
+      },
+      "ok": true,
+      "rationale": "Click Customer input field to focus it",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "ACMECORP"
+      },
+      "ok": true,
+      "rationale": "Type the customer name into the focused customer field.",
+      "screenshot": "step-02.png"
+    }
+  ],
+  "error": "LLM request failed: HTTP 503 {\"error\":{\"message\":\"litellm.ServiceUnavailableError: ServiceUnavailableError: OpenAIException - Error code: 503 - [{'error': {'code': 503, 'message': 'This model is currently experiencing high demand",
+  "generated_at": "2026-09-02T02:39:16.695Z"
+}

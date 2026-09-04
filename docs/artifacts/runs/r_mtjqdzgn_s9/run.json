@@ -1,0 +1,84 @@
+{
+  "run_id": "r_mtjqdzgn_s9",
+  "variant_id": "inv__s9__P1:0__P2:3__P3:4__P4:1__P5:0",
+  "seed": 9,
+  "intensity_by_axis": {
+    "P1_relabel": 0,
+    "P2_structure": 3,
+    "P3_field_order": 4,
+    "P4_nav_order": 1,
+    "P5_theme": 0
+  },
+  "agent": {
+    "model": "opencode-go-responses-gpt-5-6-luna",
+    "steps_taken": 40,
+    "max_steps": 40,
+    "terminated_by": "step_cap",
+    "status": "step_cap",
+    "error": null
+  },
+  "outcome": {
+    "status": "step_cap",
+    "task_completed": false,
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqdzgn_s9\\trace.json",
+    "verifier": {
+      "task_completed": false,
+      "field_errors": [],
+      "checks_run": [
+        {
+          "check": "C1",
+          "passed": false,
+          "detail": "no POSTED invoice found (0 invoice(s) total)"
+        },
+        {
+          "check": "C2",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C3",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C4",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C5",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C6",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        },
+        {
+          "check": "C7",
+          "passed": false,
+          "detail": "no POSTED invoice to evaluate against expected"
+        }
+      ],
+      "evidence_hash": "2ae4c5ac48694c0da217d16f16a519faa42de6b57218c1320bfcd20a83bcf48e"
+    }
+  },
+  "session": {
+    "replay_url": null,
+    "recording_id": "ip-10-0-11-211:7968cc8a-87d3-4247-b482-1174d8fa24f7:cmtj5qdco00y2o6018m04ewvp:1788331335368.eFqDFfFQr49eRogT8u4PkA",
+    "sandbox_id": "ZGVza3RvcC1wb29sLWktMGI2MjBhMzgzN2Y4MDdhZjY6dm1fMDAwNDM2OmNtdGo1cWRjbzAweTJvNjAxOG0wNGV3dnA6MTc4ODMzMTQ3NjU0Ng.tqA13aHUCWXOp8T-MWdEEk0NcPnPxnhVo_eph-XVKfc",
+    "snapshot_id": null,
+    "fixture_path": null
+  },
+  "cost": {
+    "credits": null,
+    "hours": 0.09283999288888888,
+    "sandbox_seconds": 176.82454179999996,
+    "browser_seconds": 157.39943649999998,
+    "model_tokens_in": 71440,
+    "model_tokens_out": 1680,
+    "model_request_count": 40,
+    "llm_calls": 40
+  }
+}

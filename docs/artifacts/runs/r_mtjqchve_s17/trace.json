@@ -1,0 +1,187 @@
+{
+  "run_id": "r_mtjqchve_s17",
+  "seed": 17,
+  "variant_id": "inv__s17__P1:4__P2:0__P3:3__P4:0__P5:0",
+  "task": "Open the billing app and create an invoice for customer \"INITECH\" with one line item: description \"Development\", qty 4, unit price $373.00, tax rate 7.50%, invoice date 2026-06-10, due date 2026-07-10. Leave everything else at its default. Submit and confirm the invoice is created, then report done.",
+  "status": "done",
+  "terminated_by": "done",
+  "steps_taken": 16,
+  "max_steps": 40,
+  "model": "opencode-go-responses-gpt-5-6-luna",
+  "base_url": "https://09ec1c82b35c51a7b498-3000.preview.getsolari.com/?pt_token=************",
+  "viewport": "1280x800",
+  "final_title": "Recorded",
+  "final_screenshot": "final.png",
+  "actions": [
+    {
+      "step": 1,
+      "action": {
+        "kind": "click",
+        "x": 349,
+        "y": 236
+      },
+      "ok": true,
+      "rationale": "Focus the Due Date field to enter the requested due date.",
+      "screenshot": "step-01.png"
+    },
+    {
+      "step": 2,
+      "action": {
+        "kind": "type",
+        "text": "2026-07-10"
+      },
+      "ok": true,
+      "rationale": "Enter the requested due date in the already focused field.",
+      "screenshot": "step-02.png"
+    },
+    {
+      "step": 3,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 236
+      },
+      "ok": true,
+      "rationale": "Focus the empty Invoice Date field.",
+      "screenshot": "step-03.png"
+    },
+    {
+      "step": 4,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the blank Invoice Date field.",
+      "screenshot": "step-04.png"
+    },
+    {
+      "step": 5,
+      "action": {
+        "kind": "click",
+        "x": 735,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Invoice Date field before entering the required date.",
+      "screenshot": "step-05.png"
+    },
+    {
+      "step": 6,
+      "action": {
+        "kind": "type",
+        "text": "2026-06-10"
+      },
+      "ok": true,
+      "rationale": "Fill the currently focused invoice date field.",
+      "screenshot": "step-06.png"
+    },
+    {
+      "step": 7,
+      "action": {
+        "kind": "click",
+        "x": 923,
+        "y": 235
+      },
+      "ok": true,
+      "rationale": "Focus the empty Client field to enter INITECH.",
+      "screenshot": "step-07.png"
+    },
+    {
+      "step": 8,
+      "action": {
+        "kind": "type",
+        "text": "INITECH"
+      },
+      "ok": true,
+      "rationale": "Client field is focused; enter the required customer name.",
+      "screenshot": "step-08.png"
+    },
+    {
+      "step": 9,
+      "action": {
+        "kind": "click",
+        "x": 391,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the empty Memo field for the line item.",
+      "screenshot": "step-09.png"
+    },
+    {
+      "step": 10,
+      "action": {
+        "kind": "type",
+        "text": "Development"
+      },
+      "ok": true,
+      "rationale": "The Memo field is focused; enter the required line-item description.",
+      "screenshot": "step-10.png"
+    },
+    {
+      "step": 11,
+      "action": {
+        "kind": "click",
+        "x": 640,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the empty Price field for the line item.",
+      "screenshot": "step-11.png"
+    },
+    {
+      "step": 12,
+      "action": {
+        "kind": "type",
+        "text": "373.00"
+      },
+      "ok": true,
+      "rationale": "The Price field is focused; enter the required unit price.",
+      "screenshot": "step-12.png"
+    },
+    {
+      "step": 13,
+      "action": {
+        "kind": "click",
+        "x": 883,
+        "y": 445
+      },
+      "ok": true,
+      "rationale": "Focus the Units field for the required quantity.",
+      "screenshot": "step-13.png"
+    },
+    {
+      "step": 14,
+      "action": {
+        "kind": "type",
+        "text": "4"
+      },
+      "ok": true,
+      "rationale": "The Units field is focused and needs the required quantity 4.",
+      "screenshot": "step-14.png"
+    },
+    {
+      "step": 15,
+      "action": {
+        "kind": "click",
+        "x": 308,
+        "y": 674
+      },
+      "ok": true,
+      "rationale": "All required invoice fields are filled; submit with Confirm.",
+      "screenshot": "step-15.png"
+    },
+    {
+      "step": 16,
+      "action": {
+        "kind": "done"
+      },
+      "ok": true,
+      "rationale": "Confirmation page shows invoice INV-2026-0001 for INITECH with the requested dates, Development line item, quantity 4, unit price $373.00, and POSTED status.",
+      "screenshot": "step-16.png"
+    }
+  ],
+  "error": null,
+  "generated_at": "2026-09-02T06:44:30.175Z"
+}
