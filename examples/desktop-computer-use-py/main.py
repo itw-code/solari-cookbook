@@ -42,16 +42,22 @@ async def main() -> None:
 
             width, height = 1280, 720
 
-            # Open an app by name and give it a moment to map its window.
-            pid = await desktop.open("xterm")
-            print("opened xterm, pid", pid)
-            await asyncio.sleep(3)
+            # Open an app by name and give it a moment to map its window. The
+            # `default` template ships mousepad, thunar, Chrome, VS Code and
+            # LibreOffice — `open()` fails if the binary isn't in the image, so
+            # check with `exec("command", args=["-v", name])` if unsure.
+            pid = await desktop.open("mousepad")
+            print("opened mousepad, pid", pid)
+            await asyncio.sleep(4)
 
-            # `humanize` adds human-like acceleration to the pointer path
-            # instead of teleporting the cursor.
-            await desktop.mouse.click(width // 2, height // 2, humanize=True)
-            await desktop.keyboard.type("echo hello from the desktop")
-            await desktop.keyboard.press("Return")
+            # Click INSIDE the editor's text area before typing. Mousepad opens
+            # in the top-left quadrant, so screen-centre (640, 360) is already
+            # past its right edge — clicking there focuses whatever is behind
+            # it and your keystrokes go to the wrong window, silently. Nothing
+            # errors; you just get an empty document. Always confirm with a
+            # screenshot rather than trusting that a click landed.
+            await desktop.mouse.click(320, 300, humanize=True)
+            await desktop.keyboard.type("hello from a Solari desktop")
             await asyncio.sleep(2)
 
             shot = await desktop.screenshot(format="png")
