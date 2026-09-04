@@ -60,53 +60,57 @@ Generate the generalization curve as a smooth function, not isolated points.
 
 ## Medium-term (Month 2)
 
-### 5. Integration with Pinetree Agent
+### 🧠 Cost-Optimized Multi-Model Evaluation Pipeline (The "Slop-Catcher" Router)
 
-Wire ColdStart as a **continuous benchmark** for Pinetree Agent:
+Intelligence is no longer the bottleneck—**compute cost is**. The next evolution of ColdStart decouples **Action** from **Perception**. Right now, we use heavy frontier CUAs to test everything. In a production CI/CD pipeline, this is cost-prohibitive. 
 
-- Run on every agent commit
-- Track generalization score over time
-- Alert on regressions (e.g., "P2 structure sensitivity increased")
-- Publish to internal leaderboard
+To scale Zero-Shot QA, ColdStart will implement a **Multi-Model Router**:
 
-This makes ColdStart a **production tool**, not just a demo.
+#### Layer 1: The "Slop-Catcher" (Perception Only)
+- **The Problem:** Developers push code that works functionally but fails experientially (bad spacing, poor contrast, generic AI slop).
+- **The Solution:** We don't need a CUA to check alignment. We need a high-fidelity **Vision-Language Model (VLM)**.
+- **Model Stack:** `Gemini 1.5 Flash` or `GPT-4o`.
+- **Workflow:** Solari takes a screenshot of the sandboxed app. The VLM compares it against a Design System reference and flags aesthetic deviations. 
+- **Cost Impact:** Reduced by 95%. No complex multi-step execution loop required.
 
-### 6. Failure mode taxonomy
+#### Layer 2: Adversarial Red-Team Testing (Action & Reasoning)
+- **The Problem:** Frontier models are brittle against dark patterns and structural shifts (like our P2 Two-Step Wizard).
+- **The Solution:** An asymmetrical Agent-vs-Agent architecture.
+- **Model Stack:** `Claude 3.5 Sonnet` (Attacker) vs. `UI-TARS` or `GPT-5.6 Luna` (Defender).
+- **Workflow:** The Attacker model dynamically generates adversarial UI traps (e.g., honeypot modals, deceptive flows). The Defender CUA must navigate them. 
 
-From the "where it breaks" analysis, build a classifier:
+#### Layer 3: The CI/CD Triage Gate
+- **The Workflow:** When a PR is pushed, a lightweight text model triages the diff. If UI components are touched, Solari boots the microVM in ~10s. Layer 1 (VLM) checks for "slop". If it passes, Layer 2 (CUA) runs the structural generalization tests. 
+- **The Result:** Enterprise-grade, zero-shot UX testing for pennies, saving heavy compute for when it actually matters.
 
-| Failure Mode | Signature | Root Cause | Mitigation |
-|--------------|-----------|------------|------------|
-| Click-lock | Same coordinate 3+ times | Visual grounding issue | Coordinate snapping |
-| Step cap burn | 40 steps, no `done` | Flow confusion | Better task decomposition |
-| Premature `done` | Claims done, verifier fails | Hallucination | Stricter grounding |
+### 6. Continuous Integration with Pinetree Agent
 
-This becomes a diagnostic tool for agent developers.
+Wire ColdStart as a **cost-governed continuous benchmark** for Pinetree Agent:
+
+- Run Layer 1 (VLM) on every UI pull request; trigger Layer 2 (CUA) on sensitive workflow changes
+- Track generalization score over time on internal leaderboards
+- Alert instantly on regressions (e.g., "P2 structure sensitivity increased")
 
 ---
 
 ## Long-term (Month 3+)
 
-### 7. Real-world environment sampling
+### 7. Real-world Enterprise Environment Sampling
 
-Instead of procedural variants, sample from **real enterprise apps**:
+Scale the multi-model pipeline from synthetic variants to **real enterprise apps**:
 
-- Salesforce configurations
-- SAP screens
-- Custom internal tools (with permission)
+- Salesforce custom objects and flows
+- SAP GUI and web screens
+- Custom enterprise intranet tooling (under test sandboxes)
 
-Measure generalization to *actual* unseen environments, not synthetic ones.
+Measure generalization and adversarial robustness on *actual* unseen business software.
 
-### 8. Procedural environment hardening
+### 8. Closed-Loop Procedural Hardening
 
-Use ColdStart's findings to **automatically harden** agents:
-
-- Identify the weakest perturbation axis
-- Generate adversarial variants
-- Fine-tune or prompt-engineer for robustness
-- Re-measure
-
-This creates a **generalization improvement loop**.
+Feed ColdStart failure telemetry back into training:
+- Automated generation of targeted adversarial variants matching detected weakness axes
+- Agent fine-tuning / grounding prompt adaptation for zero-shot resilience
+- Continuous re-evaluation through the Layer 1–3 triage gate
 
 ---
 

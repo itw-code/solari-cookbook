@@ -54,7 +54,7 @@ ColdStart is the same instinct applied to computer-use agents: the model can "un
 
 | Strength | Evidence |
 |----------|----------|
-| **Ship fast** | ColdStart: ~4 hours from blank repo to working harness with 37 passing tests |
+| **Ship fast** | ColdStart: 4-hour AI coding sprint (within 48-hour total lifecycle including audit & architecture) from blank repo to working harness with 37 passing tests |
 | **Keep it simple** | One task app, one agent, one clear insight — not a sprawling demo |
 | **First-principles thinking** | Audited the first proposal, found the crowded cluster, pivoted to the open gap |
 | **Testing culture** | 53 pytest tests in sawit-field-crm, Playwright tests in Kids-Learning-Hub, 37 vitest tests in ColdStart |

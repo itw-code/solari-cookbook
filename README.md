@@ -13,6 +13,11 @@
 > matters for real computer-use agents: **do they complete a task in an environment
 > they have never seen?**
 
+> [!IMPORTANT]
+> **🎥 See the Interactive Replay & Perturbation Simulator**
+> Don't just read the code—watch the agent execute the 16-step invoice flow and toggle the mutation axes yourself. 
+> 👉 **[View the Interactive Live Showcase](https://itw-code.github.io/solari-cookbook/)**
+
 ![A vision-first agent completing the Create-Invoice task in a variant it has never seen: empty relabeled form, filling, coordinates in, the POSTED confirmation](artifacts/showcase.gif)
 
 <sub>Run <code>r_mtjqchve_s17</code> — the P1:4 relabel + P3:3 variant. The agent has never seen
@@ -98,7 +103,7 @@ honest:
 | **P4 · Nav order/grouping** | reorder/group the header/sidebar nav (labels unchanged) | affects the *scan path* for the first action; labels stable, so a strong agent recovers. |
 | **P5 · Theme/CSS** | color palette, font, button style, spacing/borders/radius — the honesty **control** | a *genuinely* vision-first agent should be near-invariant to skin. If a CSS-only change collapses it, the agent was secretly DOM-caching or text-scraping. |
 
-### Real-World Use Cases, Pain Points & The 4-Hour Build Story
+### Real-World Use Cases, Pain Points & The Build Story (48h Lifecycle / 4h Coding Sprint)
 
 > *"We don’t care how you ship, we care that you can ship something great, and if you can ship it faster with AI, even better."*
 
@@ -150,13 +155,30 @@ honest:
 | **Cost Per Execution** | $1.20–$2.00 + $15k license | $0.10–$0.30 (Dev time) | $0.10–$0.25 (Token bloat) | 🟢 **~$0.032 / task** (98.9% savings) |
 | **Verification Integrity** | Self-reported status | DOM assertions | LLM self-reported 'done' | 🔒 **Fail-Closed SQLite Direct Channel** |
 
-#### 5. The 4-Hour Build Story: From Idea to Verified Production
+#### 5. From Architecture to Verified Production: The 4-Hour AI Coding Sprint
 
-- **14:00 – 14:30 (Hour 0 · The Idea & Architecture)**: Defined the 5 perturbation axes (`P1–P5`) and built a seeded procedural engine with a strict invariant (`same seed -> same variant`).
-- **14:30 – 15:00 (Hour 1 · Fast-Fork Sandboxes on Solari)**: Connected Solari Firecracker microVM snapshot fast-forks booting in ~10 seconds with strict cleanup guaranteeing 0 leaked zombie sandboxes.
-- **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! We engineered smart coordinate snapping to fix its visual aim and achieved 3/3 clean completions.
-- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, set up automated CI, and deployed the live showcase.
+> **Reconciling the Two Timeframes: 48-Hour Project Lifecycle vs. 4-Hour Coding Sprint**
+>
+> "48 hours of total project lifecycle (including strategic auditing, competitor analysis, and proposal pivots), capped off by a highly focused 4-hour AI-accelerated coding sprint to actually build, test, and deploy the harness."
+>
+> The *coding and deployment* took under 4 hours on September 2nd, while the *research and architecture* took the rest of the 48-hour weekend (auditing 13 competitor challenge repos, rejecting the crowded verification cluster, and designing the 5-axis perturbation engine). This proves both deep thinking and rapid execution.
+>
+> 💡 **AI Tooling Acceleration**:
+> *"By leveraging an agentic multi-tool stack (**Google Antigravity**, **Claude Code**, and **Pi Coding Agent** via **OpenCode Go**) paired with frontier models (**Gemini 3.8 Flash**, **DeepSeek V4 Flash**, **GPT 5.6 Luna**, **Kimi K3**, and **GLM 5**) for rapid TypeScript scaffolding, Vitest generation, and boilerplate orchestration, I compressed weeks of typical benchmarking harness development into a 4-hour focused engineering sprint."*
+
+##### The 4-Hour AI Coding Sprint (Sep 02)
+- **14:00 – 14:30 (Hour 0 · Harness Scaffolding & Mutation Engine)**: Translating the architectural spec into code: leveraged **Google Antigravity** and **Claude Code** (running **Gemini 3.8 Flash** and **DeepSeek V4 Flash**) to scaffold the 5 perturbation axes (`P1–P5`) and build a seeded procedural engine with a strict invariant (`same seed -> same variant`).
+- **14:30 – 15:00 (Hour 1 · Fast-Fork Sandboxes on Solari)**: Connected Solari Firecracker microVM snapshot fast-forks booting in ~10 seconds with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**, guaranteeing 0 leaked zombie sandboxes.
+- **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** (reasoning across **Kimi K3** and **GLM 5**) to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
+- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and rapidly generated 37/37 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
 - *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 11 step reports in [`reports/`](reports/).*
+
+##### The 48-Hour Build Timeline Overview
+| Phase | Timeframe | Focus | Deliverables & Milestones |
+| :--- | :--- | :--- | :--- |
+| **Phase 0** | Aug 31 • Evening | **The Spark & Strategic Audit** | Scanned all 13 challenge repos; self-rejected v1 ("Witness" in crowded verification cluster); discovered uncrowded zero-shot generalization gap. |
+| **Phase 1** | Sep 01 • Day 1 | **Research & System Architecture** | Solari API environment validation (0 resource leaks); locked 5-axis perturbation spec; designed procedural variant engine and fast-fork architecture. |
+| **Phase 2–4** | Sep 02 • Day 2 | **The 4-Hour AI Coding Sprint** | Accelerated with **Antigravity**, **Claude Code**, **Pi Coding Agent**, and **OpenCode Go** (models: **Gemini 3.8 Flash**, **DeepSeek V4 Flash**, **GPT 5.6 Luna**, **Kimi K3**, **GLM 5**): vision agent loop, hybrid coordinate snapping, SQLite fail-closed verifier, causal axis-isolated runs, 37/37 passing unit tests, and live showcase deployment. |
 
 ---
 
@@ -430,7 +452,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | [`artifacts/scorecard.json`](artifacts/scorecard.json) | The raw data — per-variant success rates, cost, replay URLs |
 | [`artifacts/where-it-breaks.md`](artifacts/where-it-breaks.md) | Failure attribution by axis |
 
-**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. It took ~4 hours to build, has 37 passing tests, and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
+**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. It was delivered across a **48-hour total project lifecycle** (including strategic auditing, competitor analysis, and proposal pivots), capped off by a focused **4-hour AI-accelerated coding sprint** to build, test, and deploy the harness. It has 37 passing unit tests and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
 
 **Process artifacts:**
 
@@ -438,7 +460,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | --- | --- |
 | [`docs/proposals/v1-witness.md`](docs/proposals/v1-witness.md) | First proposal — rejected after audit (crowded cluster, would have copied competitors) |
 | [`docs/proposals/v2-coldstart.md`](docs/proposals/v2-coldstart.md) | Final proposal — validated the uncrowded gap, aligned with Pinetree's thesis |
-| [`NEXT_STEPS.md`](NEXT_STEPS.md) | What I'd build next if hired |
+| [`NEXT_STEPS.md`](NEXT_STEPS.md) | What I'd build next if hired (including the 3-Layer Cost-Optimized Multi-Model Evaluation Pipeline) |
 | [`reports/`](reports/) | The 11 audited build reports showing incremental progress |
 
 ---
@@ -460,7 +482,7 @@ challenge.
 
 - [`PITCH.md`](PITCH.md) — the strategic pitch: why this, why me, why now
 - [`ABOUT.md`](ABOUT.md) — about the author: background, projects, and why Pinetree
-- [`NEXT_STEPS.md`](NEXT_STEPS.md) — what I'd build next if hired
+- [`NEXT_STEPS.md`](NEXT_STEPS.md) — what I'd build next if hired (the "Slop-Catcher" multi-model router & compute economics)
 - [`DESIGN.md`](DESIGN.md) — the locked design contract (task app, axes, action space, verifier, scorecard schema, sandbox strategy)
 - [`docs/proposals/`](docs/proposals/) — the proposal iteration (v1 Witness → v2 ColdStart)
 - [`reports/`](reports/) — the audited per-step build reports, Steps 00-07, each with commands, deliverables, evidence pointers, and a self-check against acceptance criteria

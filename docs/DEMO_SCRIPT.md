@@ -48,7 +48,7 @@
 
 **[Screen: PITCH.md or your face if recording with camera]**
 
-> "I built this in about four hours because I think this is what Pinetree actually needs: the benchmark that keeps your core claim honest. I'd love to join the team and turn it into a production tool. The code's clean, the tests pass, and the insight is real. Thanks for watching."
+> "I built this harness in a focused 4-hour AI coding sprint following a weekend of deep competitive research and architectural design — a 48-hour total lifecycle that proves both deep strategic thinking and rapid execution. The code's clean, the tests pass, and the insight is real. Thanks for watching."
 
 ---
 

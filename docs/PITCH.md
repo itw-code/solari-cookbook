@@ -79,7 +79,8 @@ Every competitor used sandboxes for **verification/CI**. ColdStart uses **snapsh
 2. **Desktop variants** — test generalization to native GUI apps, not just web
 3. **Model comparison** — run the same variant matrix across multiple vision-capable models
 4. **Procedural hardness dial** — generate variants along a continuous novelty axis instead of discrete points
-5. **Integration with Pinetree Agent** — use ColdStart as a continuous generalization benchmark for the production agent
+5. **🧠 Cost-Optimized Multi-Model Evaluation Pipeline (The "Slop-Catcher" Router)** — decouple action from perception: use high-speed VLMs (Gemini 1.5 Flash / GPT-4o) to catch UX "slop" for &lt; $0.002, gate adversarial agent-vs-agent red teaming (Claude 3.5 vs. UI-TARS / GPT-5.6 Luna) to UI diffs, and save 95% compute in CI/CD.
+6. **Continuous benchmark for Pinetree Agent** — wire directly into CI leaderboards to prevent generalization regressions on commit.
 
 ---
 
