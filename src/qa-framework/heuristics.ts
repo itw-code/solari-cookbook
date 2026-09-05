@@ -1,9 +1,9 @@
 /**
- * heuristics.ts — "I Think It Should Be Enhanced, Because..." Heuristic Generator
+ * heuristics.ts — deterministic UX report templates
  *
- * Post-Audit UX & Friction Analyzer:
- * Discovered defects are not limited to hard exceptions or crashes. Latent UX defects,
- * cognitive friction, and missing guards degrade agent and human efficiency.
+ * This module formats explicitly supplied findings into UX enhancement notes. It does not
+ * inspect pages, screenshots, DOM state, or application behavior, so its output is a report
+ * template rather than an autonomous defect detector.
  *
  * Evaluates 4 Critical Vectors:
  * 1. Form validation states (missing debounced pre-validation)

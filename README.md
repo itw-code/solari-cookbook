@@ -5,7 +5,7 @@
 [![CI](https://github.com/itw-code/solari-cookbook/actions/workflows/ci.yml/badge.svg)](https://github.com/itw-code/solari-cookbook/actions/workflows/ci.yml)
 [![Node](https://img.shields.io/badge/node-22%2B-5FA04E?logo=node.js&logoColor=white)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tests](https://img.shields.io/badge/tests-86%20passing-brightgreen)](test/)
+[![Tests](https://img.shields.io/badge/tests-110%20passing-brightgreen)](test/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 > **Cold generalizes. Warm reliability does not.**
@@ -22,19 +22,20 @@
 
 <sub>Run <code>r_mtjqchve_s17</code> — the P1:4 relabel + P3:3 variant. The agent has never seen
 these labels (<code>Client</code>, <code>VAT</code>, <code>Units</code>, <code>Memo</code>,
-<code>Confirm</code>). <b>Pixels in, coordinates out</b> — no DOM, no selectors, no accessibility
-tree. 16 steps, all 7 verifier checks green.</sub>
+<code>Confirm</code>). <b>Pixels in, coordinates out</b> — the model sees no DOM, selectors, or
+accessibility tree; the harness uses <code>page.evaluate</code> only to snap clicks to visible
+controls. 16 steps, all 7 verifier checks green.</sub>
 
 ---
 
 ## The finding, in one paragraph
 
-Across axis-isolated runs, this vision-first agent **generalizes across surface variation**
-but **breaks on procedural change**. Swap every label for a synonym it has never seen paired
-with that role (P1) — it completes the task. Re-skin the entire app (P5, the honesty control)
-— it completes the task, 2/2. Shuffle and pad the fields (P3) — it completes the task. But
-split the same form into a **two-step wizard** (P2) — it never submits, burning the full step
-budget. *Recognizing every element is not the same as knowing the order of operations.*
+Across the measured runs, this vision-first agent shows **surface variation resilience** but
+**breaks on procedural change**. A maximum-intensity relabel passed once in the mixed set (P1),
+the themed control passed 2/2 when isolated (P5), and the field-order point passed 1/1 when
+isolated (P3; its second run was an infrastructure abort). The two-step wizard (P2) produced
+0/1 clean evidence and 0/2 raw success. *Recognizing every element is not the same as knowing
+the order of operations.*
 
 Every outcome here is confirmed by a **fail-closed verifier** that recomputes ground truth
 from the seed and reads the resulting SQLite row out of the sandbox. The agent's `done` is a
@@ -53,7 +54,7 @@ git clone https://github.com/itw-code/solari-cookbook.git
 cd solari-cookbook
 npm install
 
-npm run verify          # tsc --noEmit -> 0 errors; vitest run -> 86 passed
+npm run verify          # tsc --noEmit -> 0 errors; vitest run -> 110 passed
 npm run gen:variants    # deterministic variant matrix -> variants.json
 ```
 
@@ -87,8 +88,9 @@ honest:
   memorized, driven by a **seeded PRNG** so every variant is reproducible
   (`same seed -> same variant`, enforced in CI).
 - A **vision-first action space** (screenshot -> `{click(x,y), type, press, nav, done, abort}`)
-  that structurally **forbids** the anti-pattern this is built to expose — the model can never
-  read the DOM, innerText, `locator()`, or element boxes.
+  that keeps DOM data out of the model. The harness may use a small `page.evaluate` grounding
+  step for click precision, but the model never receives DOM text, selectors, accessibility
+  nodes, or element boxes.
 - A **fail-closed verifier** that reads the SQLite record via the **sandbox file/DB channel**,
   recomputes the expected values from the seed, and returns `task_completed=false` on *any*
   ambiguity.
@@ -160,7 +162,7 @@ labor, placeholders for illustration only.
 | Feature / Dimension | Legacy RPA (UiPath) | Scripted Headless (Playwright) | DOM-Scraping AI (Browserbase) | **Solari + ColdStart (Our Stack)** |
 | :--- | :--- | :--- | :--- | :--- |
 | **Action Space** | OS Selectors | DOM CSS Selectors | DOM Tree Parsing | **Visual Pixels & Coordinates** (`pixels in -> clicks out`) |
-| **UI Change Resilience** | 🔴 **0%** (Crashes on refactor) | 🔴 **0%** (Fails on ID/CSS change) | 🟡 **Partial** (Fails on shadow DOM) | 🟢 **100% Surface Invariance** (P1/P5 proven) |
+| **UI Change Resilience** | 🔴 **0%** (Crashes on refactor) | 🔴 **0%** (Fails on ID/CSS change) | 🟡 **Partial** (Fails on shadow DOM) | 🟡 **Measured directional results** (P5 2/2 isolated; P1 1/1 mixed; n=2) |
 | **Sandbox Boot Time** | 60–180s (Full Windows VM) | ~5–10s (Local Node) | ~15–30s (Container) | ⚡ **~10s MicroVM Boot (measured)** |
 | **OOD Robustness Testing** | None (Warm app only) | None (Hardcoded) | None (Live site only) | 🧪 **ColdStart 5-Axis Engine** (14 seeded variants) |
 | **Cost Per Execution** | $1.20–$2.00 + $15k license | $0.10–$0.30 (Dev time) | $0.10–$0.25 (Token bloat) | 🟡 **not measured** - no $ rate is exposed; see `artifacts/scorecard.json` for the observable envelope |
@@ -181,7 +183,7 @@ labor, placeholders for illustration only.
 - **14:00 – 14:30 (Hour 0 · Harness Scaffolding & Mutation Engine)**: Translating the architectural spec into code: leveraged **Google Antigravity** and **Claude Code** to scaffold the 5 perturbation axes (`P1–P5`) and build a seeded procedural engine with a strict invariant (`same seed -> same variant`).
 - **14:30 – 15:00 (Hour 1 · Sandboxes on Solari)**: Wired the harness to Solari Firecracker microVMs with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**. Measured boot was ~10s (create queue plus serve); the snapshot fast-fork path returned 409 on 7 of 8 attempts in our runs, so direct provisioning is the working path. 0 leaked zombie sandboxes.
 - **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
-- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and rapidly generated 86 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
+- **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and generated 110 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
 - *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 10 step reports in [`reports/`](reports/).*
 
 ##### The 48-Hour Build Timeline Overview
@@ -189,7 +191,7 @@ labor, placeholders for illustration only.
 | :--- | :--- | :--- | :--- |
 | **Phase 0** | Aug 31 • Evening | **The Spark & Strategic Audit** | Scanned the public challenge forks (manual scan, not archived in this repo); self-rejected v1 ("Witness" in crowded verification cluster); discovered uncrowded zero-shot generalization gap. |
 | **Phase 1** | Sep 01 • Day 1 | **Research & System Architecture** | Solari API environment validation (0 resource leaks); locked 5-axis perturbation spec; designed the procedural variant engine and fork orchestration (snapshot best-effort, direct provisioning fallback). |
-| **Phase 2–4** | Sep 02 14:24 - Sep 03 ~03:00 | **Build Session + Evening Polish** | Accelerated with **Antigravity**, **Claude Code**, **Pi Coding Agent**, and **OpenCode Go**: vision agent loop, hybrid coordinate snapping, SQLite fail-closed verifier, causal axis-isolated runs, and 86 passing unit tests in the afternoon session; showcase media and docs followed that evening. |
+| **Phase 2–4** | Sep 02 14:24 - Sep 03 ~03:00 | **Build Session + Evening Polish** | Accelerated with **Antigravity**, **Claude Code**, **Pi Coding Agent**, and **OpenCode Go**: vision agent loop, hybrid coordinate snapping, SQLite fail-closed verifier, causal axis-isolated runs, and 110 passing unit tests in the afternoon session; showcase media and docs followed that evening. |
 
 ---
 
@@ -208,6 +210,8 @@ as the task, `verifyAgainstPath({seed:0, dbPath})` as ground truth). Three isola
 | **`P2_structure`** (two-step wizard) | **0.00** | 2 | 0/1 |
 | `P3_field_order` (order & density) | 0.50 | 2 | 1/1 |
 | **`P5_theme`** (CSS skin — the control) | **1.00** | 2 | 2/2 |
+| `P1_relabel` | mixed-only: 1/1 at P1:4 + P3:3 | 1 | 1/1 |
+| `P4_nav_order` | not isolated | 0 | unverified |
 
 <details>
 <summary>Per-run detail (6 runs)</summary>
@@ -230,9 +234,9 @@ as the task, `verifyAgainstPath({seed:0, dbPath})` as ground truth). Three isola
   and the other hit `step_cap`; neither produced a `POSTED` invoice. The two-step wizard
   defeats an agent that handles every *other* perturbation on the same task, though note that
   only one of the two runs actually exercised the wizard.
-- **The P5 theme control HOLDS — 2/2, 16 steps each.** A CSS-only re-theme (dark serif pill)
-  does not break the agent, so it **is** skin-invariant. This is the honesty check passing:
-  the agent is not secretly text-scraping.
+- **The P5 theme control passes 2/2, 16 steps each.** A CSS-only re-theme (dark serif pill)
+  did not break these runs. This is directional control evidence, not proof of universal
+  skin invariance.
 - **P3 field order & density passes when isolated** (17 steps, 7/7 verifier checks green).
 - **`session.replay_url` is wired and captured** (`recording:true` + `releaseAndWait` +
   `getReplayUrl` per run): 4 of 6 live sessions returned a real presigned replay; the two
@@ -317,7 +321,7 @@ flowchart TB
         direction LR
         A["<b>Seeded variant factory</b><br/>src/generate-variants/*<br/>prng · axes · task-spec · variants<br/>same seed → same variant"]
         B["<b>Solari sandbox</b><br/>src/solari/orchestrate.ts<br/>fork · install Node 22 · serve app · previewUrl"]
-        C["<b>Solari cloud browser</b><br/>src/solari/driver.ts<br/>LiveSolari | MockSolari<br/>locator() never called"]
+        C["<b>Solari cloud browser</b><br/>src/solari/driver.ts<br/>LiveSolari | MockSolari<br/>harness-side click snap"]
         D["<b>Vision-first agent loop</b><br/>src/agent/*<br/>screenshot 1280×800 → click(x,y) | type | press | nav | done | abort<br/><b>pixels in, coordinates out</b>"]
         E["<b>Fail-closed verifier</b><br/>src/verify/*<br/>reads /app/data/invoice.db via sandbox channel<br/>recomputes expected from seed · checks C1–C7 · sha256 evidence hash<br/><b>false on ANY ambiguity</b>"]
         F["<b>Scorecard · curve · breaks</b><br/>src/scorecard/*<br/>scorecard.json · curve.png · where-it-breaks.md"]
@@ -353,7 +357,7 @@ flowchart TB
 
 - **Phase 1 (top, blue/violet) — ColdStart.** The same linear A→B→C→D→E→F pipeline as before, ending in `scorecard.json` + `curve.png` + `where-it-breaks.md`. The vision-first agent loop (D) is the part that proves zero-shot generalization, and the fail-closed verifier (E) is the part that keeps it honest — both are highlighted.
 - **Phase 2 (bottom, blue/violet) — Slop-Catcher.** Boots a demo/target site, scans it via a microVM, runs the Slop-Catcher VLM, combines deterministic CSS metrics with VLM scoring through the hybrid engine, and the orchestrator gates the result as `PASS` / `WARN` / `BLOCK` into a persistent report.
-- **Shared backbone (orange) — Multi-Model Router.** One config module (`src/config/model-router.ts`) feeds both the heavy `ACTION` model used by the ColdStart agent (D) and the lightweight `PERCEPTION` VLM used by the Slop-Catcher (S2). This is the cost-optimization backbone: the heavy model only runs when the light one lets it through.
+- **Configuration (orange) — Model roles.** One config module (`src/config/model-router.ts`) names `ACTION` and `PERCEPTION` roles. The router is configuration only; no gating or cost optimization is measured.
 
 **The task app** ([`src/variant-app/`](src/variant-app/)) is a dependency-free Node 22
 `node:http` + `node:sqlite` server with exactly four routes (`/`, `/new`, `/invoices` POST,
@@ -368,21 +372,21 @@ raw line-item columns, then compares against the stored row. Only an unambiguous
 fully-matching, internally-consistent `POSTED` invoice flips `task_completed` to `true`. The
 raw artifact bytes are sha256-bound, so any swap is detectable.
 
-### Phase 2 Architecture: The "Slop-Catcher" & Multi-Model Router
+### Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY)
 
-The codebase features a decoupled perception layer (VLM) and action layer (CUA) driven by [`src/config/model-router.ts`](src/config/model-router.ts):
-- **Layer 1: The "Slop-Catcher" (Perception)** — Fast VLMs (Gemini 1.5 Flash / GPT-4o) detect design defects, low contrast, and off-grid spacing variance for < $0.002.
-- **Layer 2: Adversarial Red-Team (Action)** — Targeted agent-vs-agent structural evaluation (Claude 3.5 Sonnet vs. UI-TARS / GPT-5.6 Luna).
-- **Layer 3: CI/CD Triage Gate** — PR diff inspection gating deep CUA tests behind fast VLM scans, saving up to 95% compute.
+The repository contains an offline prototype of a decoupled perception layer (VLM) and action layer (CUA), with configuration in [`src/config/model-router.ts`](src/config/model-router.ts). The default Slop-Catcher client is MOCK; no live VLM trace or dollar cost is committed.
+- **Layer 1: The "Slop-Catcher" (Perception)** — prototype wiring for screenshot analysis; cost not measured.
+- **Layer 2: Adversarial Red-Team (Action)** — future research, not implemented.
+- **Layer 3: CI/CD Triage Gate** — future research; compute savings are not measured.
 
-Run `npm run demo:all` to reproduce the evaluation and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html). See the animated action replay at [`artifacts/slop-catcher-replay.gif`](artifacts/slop-catcher-replay.gif).
+Run `npm run demo:all` to reproduce the scripted MOCK demo and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html). It is not a live VLM evaluation.
 
-### Phase 3 Architecture: The Autonomous QA Framework
+### Phase 3: QA dogfooding evidence (not a shipped product)
 
-The Slop-Catcher asks **"does it look right?"** — the QA Framework asks **"does it work?"** ([`src/qa-framework/`](src/qa-framework/)):
+The Nakama batches document real QA service work and ColdStart dogfooding; they are not a separate shipped QA product ([`src/qa-framework/`](src/qa-framework/)):
 - **Guards (anti-flake)** — `expectInteractive()` / `expectVisual()` reject invisible 0×0 elements; `fuzzyRoleLocator()` absorbs copy drift via normalized accessibility matching.
 - **Lifecycle (zero zombies)** — `withSessionGuard()` tears down cloud sessions in `finally`; `TunnelDaemon` exposes localhost via Cloudflare (`npx coldstart tunnel 4310`); `SmartReset` reseeds fixtures idempotently.
-- **Verdict (trust nothing)** — `DatabaseDiffEngine` verifies every UI claim against SQLite (fail-closed, D1–D3 style); `ArtifactArchiver` preserves evidence; `HeuristicEngine` files UX enhancements ("I think it should be enhanced, because…").
+- **Verdict (trust nothing)** — `DatabaseDiffEngine` verifies every UI claim against SQLite (fail-closed, D1–D3 style); `ArtifactArchiver` preserves evidence. `HeuristicEngine` is a deterministic reporting template, not a page inspector.
 - **Live runners** — `scripts/test-nakama-b1..b5.ts` drive 30 functional checks (auth, chat, history, profiles, workers) on real cloud Chromium. Fully env-based config (`TARGET_URL`, `QA_ADMIN_EMAIL`/`QA_ADMIN_PASSWORD`) — no hardcoded creds.
 
 See the animated QA replay at [`artifacts/qa-framework-replay.gif`](artifacts/qa-framework-replay.gif) (`npm run build:qa-gif`, 1280×720 to match the Slop-Catcher replay).
@@ -395,7 +399,7 @@ See the animated QA replay at [`artifacts/qa-framework-replay.gif`](artifacts/qa
 
 ```bash
 npm install
-npm run verify           # typecheck + 86 unit tests, MOCK mode
+npm run verify           # typecheck + 110 unit tests, MOCK mode
 npm run gen:variants     # deterministic variant matrix -> variants.json
 ```
 
@@ -448,7 +452,7 @@ src/
   agent/                    vision-first loop (action, model, loop, trace, screenshot)
   verify/                   fail-closed verifier (verifier, checks C1-C7)
   scorecard/                scorecard + curve + cost + axis-isolated runner
-test/                       vitest unit tests — 86, offline (prng, axes, verifier, agent-loop, model-router, slop-scoring, slop-catcher, render-demo-report, scan-url, demo-site, design-qa-orchestrator)
+test/                       vitest unit tests — 110, offline (prng, axes, verifier, agent-loop, model-router, slop-scoring, slop-catcher, render-demo-report, scan-url, demo-site, design-qa-orchestrator)
 reports/                    the 10 audited per-step build reports (Steps 00-07)
 artifacts/                  scorecard.json, curve.png, where-it-breaks.md, showcase.*, runs/
 scripts/                    live run wrappers (source .env, never echo keys)
@@ -523,7 +527,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | [`artifacts/scorecard.json`](artifacts/scorecard.json) | The raw data — per-variant success rates, cost, replay URLs |
 | [`artifacts/where-it-breaks.md`](artifacts/where-it-breaks.md) | Failure attribution by axis |
 
-**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. The initial harness, verifier, and CI landed in one ~4-hour afternoon session on Sep 2 (first commit 14:24, showcase deployed the same day); docs, media, and polish continued that evening through ~03:00 Sep 3, all inside a **48-hour total project lifecycle** of research, auditing, and architecture. It has 86 passing unit tests and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
+**The short version:** This project measures zero-shot generalization — the one thing Pinetree claims that no other applicant tested. The initial harness, verifier, and CI landed in one ~4-hour afternoon session on Sep 2 (first commit 14:24, showcase deployed the same day); docs, media, and polish continued that evening through ~03:00 Sep 3, all inside a **48-hour total project lifecycle** of research, auditing, and architecture. It has 110 passing unit tests and produced a real insight: agents that recognize every label can still fail when the order of operations changes.
 
 **Process artifacts:**
 

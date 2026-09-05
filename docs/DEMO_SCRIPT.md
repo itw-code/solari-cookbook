@@ -24,7 +24,7 @@
 
 **[Screen: Architecture diagram, then quick cuts to code]**
 
-> "ColdStart procedurally generates never-before-seen variants of a task app. Five perturbation axes: relabel every field, shuffle the layout, split the form into a wizard, reorder the nav, re-theme the CSS. A vision-first agent — pixels in, coordinates out, no DOM — has to complete the same task cold in each variant."
+> "ColdStart procedurally generates never-before-seen variants of a task app. Five perturbation axes: relabel every field, shuffle the layout, split the form into a wizard, reorder the nav, re-theme the CSS. A vision-first agent — pixels in, coordinates out — has to complete the same task cold in each variant. The harness may snap imprecise clicks to visible controls, but no DOM data is returned to the model."
 
 **[Screen: Terminal running `npm run verify`]**
 

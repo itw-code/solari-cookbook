@@ -145,9 +145,9 @@
         <br><br>
         I didn't just build a benchmark. I built <strong class="text-white">ColdStart</strong> to measure zero-shot generalization, and the <strong class="text-white">Slop-Catcher</strong> to solve the incoming wave of AI-generated UI.
         <br><br>
-        By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs.
+        The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
         <br><br>
-        The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+        The code runs. The tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
       </blockquote>
     </div>
   </div>
@@ -594,7 +594,7 @@
     <div class="p-6 rounded-2xl glass-card border border-white/10">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
         <h4 class="text-lg font-bold text-white">Compute Economics &amp; Cost Projections</h4>
-        <span class="text-xs font-mono text-emerald-400">⚡ Router saves 95% compute on PR triage</span>
+        <span class="text-xs font-mono text-emerald-400">⚡ Router prototype: savings unmeasured</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs">
@@ -611,7 +611,7 @@
               <td class="py-2 font-medium">Layer 1: "Slop-Catcher" (Perception)</td>
               <td class="text-center font-mono text-slate-400">Gemini 1.5 Flash / GPT-4o</td>
               <td class="text-center font-mono text-emerald-400">&lt; $0.002</td>
-              <td class="text-center font-mono text-emerald-300">-95% vs. CUA loop</td>
+              <td class="text-center font-mono text-emerald-300">unmeasured vs. CUA loop</td>
             </tr>
             <tr class="border-b border-white/5">
               <td class="py-2 font-medium">Layer 2: Adversarial Red-Team (Action)</td>

@@ -11,7 +11,8 @@
 
 ColdStart measures **zero-shot generalization**: it procedurally generates
 never-before-seen variants of a small task app, lets a **vision-first** agent complete
-the same task *cold* in each one (pixels in, coordinates out — no DOM), verifies the
+the same task *cold* in each one (pixels in, coordinates out, with harness-side click
+grounding), verifies the
 outcome against ground truth via the **DB/files channel** (never the agent's narration),
 and emits a **generalization scorecard** (success % by perturbation axis, a
 success-vs-novelty curve, replay links, cost). It operationalizes Pinetree's actual
@@ -19,7 +20,7 @@ thesis — generalization to unseen environments, *not* reliability on a known a
 is the one claim no other applicant touched.
 
 **Decisions locked in this file:** the task app (Create-Invoice), 5 perturbation axes,
-the vision-only action space, the fail-closed verifier contract, the scorecard schema,
+the vision-first action space, the fail-closed verifier contract, the scorecard schema,
 TypeScript + source layout, the sandbox/snapshot strategy, and the risk register.
 
 > This step produces **no software**. It is a design doc. `Mode: N/A (design, no code)`.

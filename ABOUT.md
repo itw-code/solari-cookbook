@@ -54,10 +54,10 @@ ColdStart is the same instinct applied to computer-use agents: the model can "un
 
 | Strength | Evidence |
 |----------|----------|
-| **Ship fast** | ColdStart: working harness from a ~4-hour build session (within a 48-hour total lifecycle including audit & architecture), polish over the following evening, 86 passing tests |
+| **Ship fast** | ColdStart: working harness from a ~4-hour build session (within a 48-hour total lifecycle including audit & architecture), polish over the following evening, 110 passing tests |
 | **Keep it simple** | One task app, one agent, one clear insight — not a sprawling demo |
 | **First-principles thinking** | Audited the first proposal, found the crowded cluster, pivoted to the open gap |
-| **Testing culture** | 53 pytest tests in sawit-field-crm, Playwright tests in Kids-Learning-Hub, 86 vitest tests in ColdStart |
+| **Testing culture** | 53 pytest tests in sawit-field-crm, Playwright tests in Kids-Learning-Hub, 110 vitest tests in ColdStart |
 | **Full-stack capability** | Backend (Python, TypeScript, SQL), frontend (React, Streamlit), infra (Cloudflare, Supabase, GitHub Actions) |
 | **Domain expertise** | Agritech / palm oil industry — operational workflows, not just analytics |
 
@@ -84,9 +84,9 @@ ColdStart is the same instinct applied to computer-use agents: the model can "un
 ## The ask
 
 > "You don't want my resume — you want to know if I can close the gap you care about.
-> 
-> I didn't just build a benchmark. I built **ColdStart** to measure zero-shot generalization, and the **Slop-Catcher** to solve the incoming wave of AI-generated UI. 
-> 
-> By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs. 
-> 
-> The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+>
+> I built **ColdStart** to measure zero-shot generalization. The Slop-Catcher is an offline mock prototype and future research direction, not a shipped product.
+>
+> The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
+>
+> The core code runs and the tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."

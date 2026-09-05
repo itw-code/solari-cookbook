@@ -79,7 +79,7 @@ Every competitor used sandboxes for **verification/CI**. ColdStart uses Solari m
 2. **Desktop variants** — test generalization to native GUI apps, not just web
 3. **Model comparison** — run the same variant matrix across multiple vision-capable models
 4. **Procedural hardness dial** — generate variants along a continuous novelty axis instead of discrete points
-5. **🧠 Cost-Optimized Multi-Model Evaluation Pipeline (The "Slop-Catcher" Router)** — decouple action from perception: use high-speed VLMs (Gemini 1.5 Flash / GPT-4o) to catch UX "slop" for &lt; $0.002, gate adversarial agent-vs-agent red teaming (Claude 3.5 vs. UI-TARS / GPT-5.6 Luna) to UI diffs, and save 95% compute in CI/CD.
+5. **🧠 Prototype perception routing** — decouple action from perception: use high-speed VLMs (Gemini 1.5 Flash / GPT-4o) to catch UX "slop" with cost and savings unmeasured; validate a live path before proposing CI/CD triage.
 6. **Continuous benchmark for Pinetree Agent** — wire directly into CI leaderboards to prevent generalization regressions on commit.
 
 ---
@@ -87,9 +87,9 @@ Every competitor used sandboxes for **verification/CI**. ColdStart uses Solari m
 ## The ask
 
 > "You don't want my resume — you want to know if I can close the gap you care about.
-> 
-> I didn't just build a benchmark. I built **ColdStart** to measure zero-shot generalization, and the **Slop-Catcher** to solve the incoming wave of AI-generated UI. 
-> 
-> By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs. 
-> 
-> The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+>
+> I built **ColdStart** to measure zero-shot generalization. The Slop-Catcher is an offline mock prototype and future research direction, not a shipped product.
+>
+> The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
+>
+> The code runs. The tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."

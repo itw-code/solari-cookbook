@@ -1,6 +1,7 @@
 node_modules/
 package-lock.json
 .env
+.env.*
 __pycache__/
 *.pyc
 .venv/
@@ -13,3 +14,34 @@ dist/
 artifacts/runs/
 artifacts/ipc/
 qa-evidence/
+
+# Submission workspace hygiene: ignore editor/tool caches when this fork is
+# nested inside a broader working tree.
+.BigNox/
+.Ld9VirtualBox/
+.adal/
+.agents/
+.aider-desk/
+.android/
+.antigravity/
+.augment/
+.bob/
+.bun/
+.cache/
+.cagent/
+.claude/
+.continue/
+.codex/
+.config/
+.gemini/
+.gitconfig
+.local/
+.npm/
+.ollama/
+.openclaw/
+.qoder/
+.qwen/
+.roo/
+.vscode/
+.idea/
+*.log

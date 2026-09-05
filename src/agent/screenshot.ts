@@ -3,7 +3,8 @@
  *
  * DESIGN.md §3: the ONE legitimate observation channel is `page.screenshot()`
  * → PNG bytes. We pin a fixed viewport (default 1280×800, no device scale) and
- * clip to the full viewport so the model's `(x,y)` stays stable. No DOM access.
+ * clip to the full viewport so the model's `(x,y)` stays stable. The model receives
+ * no DOM data; harness-side click grounding is implemented separately in action.ts.
  */
 
 export interface Viewport {

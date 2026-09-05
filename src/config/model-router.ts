@@ -7,10 +7,9 @@
  * Supports role-based configuration with graceful backwards compatibility
  * falling back to single-model environment variables (OPENAI_API_KEY, LLM_API_KEY, etc.).
  *
- * Consumption (audit W10): the ACTION chain is consumed by the live agent path
- * (src/agent/model.ts postChat resolves via getModelConfig("ACTION")); the
- * PERCEPTION chain is consumed by the VLM clients (src/design-qa/slop-catcher.ts).
- * Both roles are wired into running code — not config scaffolding.
+ * The ACTION and PERCEPTION roles are consumed by their respective live code paths.
+ * This module resolves configuration only; it does not route requests, gate stages,
+ * or measure cost. The perception path defaults to a mock client for offline runs.
  */
 
 export type ModelRole = "ACTION" | "PERCEPTION"

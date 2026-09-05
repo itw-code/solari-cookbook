@@ -1,29 +1,29 @@
 # Next Steps & Architecture
 
-> ColdStart has evolved from a proof-of-concept to a production generalization benchmark featuring a decoupled perception and action architecture.
+> ColdStart is an evidence-backed generalization benchmark. The perception/router and QA sections below are prototypes and dogfooding notes, not shipped products.
 
 ## System Architecture
 
-### 🧠 Phase 2 Architecture: The "Slop-Catcher" & Multi-Model Router
+### Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY)
 
 Intelligence is no longer the bottleneck—**compute cost is**. The ColdStart architecture decouples **Action** from **Perception**. Instead of relying on heavy frontier CUAs to evaluate every aspect of an application—which is cost-prohibitive in a production CI/CD pipeline—the codebase now features a decoupled perception layer (VLM) and action layer (CUA) driven by `src/config/model-router.ts`.
 
-#### Layer 1: The "Slop-Catcher" (Perception Only) — Implemented
+#### Layer 1: The "Slop-Catcher" (Perception Only) — Prototype (MOCK ONLY)
 - **The Problem:** Developers push code that works functionally but fails experientially (bad spacing, poor contrast, generic AI slop).
 - **The Solution:** We don't need a CUA to check alignment. We use a high-fidelity **Vision-Language Model (VLM)** combined with deterministic CSS metric audits (`src/design-qa/slop-catcher.ts`).
 - **Model Stack:** `Gemini 1.5 Flash` or `GPT-4o` (resolved via `getModelConfig("PERCEPTION")`).
-- **Workflow:** Solari takes a screenshot of the sandboxed app. The VLM compares it against a Design System reference, detects off-grid spacing variance and low contrast, and flags aesthetic deviations for < $0.002.
-- **Cost Impact:** Reduced by 95%. No complex multi-step execution loop required.
+- **Workflow:** Solari takes a screenshot of the sandboxed app. The VLM compares it against a Design System reference, detects off-grid spacing variance and low contrast, and flags aesthetic deviations; cost is unmeasured.
+- **Cost impact:** Unmeasured. No live VLM trace is committed.
 
-#### Layer 2: Adversarial Red-Team Testing (Action & Reasoning) — Implemented
+#### Layer 2: Adversarial Red-Team Testing (Action & Reasoning) — Future research
 - **The Problem:** Frontier models are brittle against dark patterns and structural shifts (like our P2 Two-Step Wizard).
 - **The Solution:** An asymmetrical Agent-vs-Agent architecture.
 - **Model Stack:** `Claude 3.5 Sonnet` (Attacker) vs. `UI-TARS` or `GPT-5.6 Luna` (Defender) (resolved via `getModelConfig("ACTION")`).
 - **Workflow:** The Attacker model dynamically generates adversarial UI traps (e.g., honeypot modals, deceptive flows). The Defender CUA must navigate them.
 
-#### Layer 3: The CI/CD Triage Gate — Integrated
+#### Layer 3: The CI/CD Triage Gate — Future research
 - **The Workflow:** When a PR is pushed, a lightweight text model triages the diff. If UI components are touched, Solari boots the microVM in ~10s. Layer 1 (VLM) checks for "slop". If it passes, Layer 2 (CUA) runs the structural generalization tests.
-- **The Result:** Enterprise-grade, zero-shot UX testing for pennies, saving heavy compute for when it actually matters.
+- **The Result:** A proposed workflow whose reliability and savings require a live implementation and measurement.
 
 ## Slop-Catcher Demo: Clean vs. AI Slop
 

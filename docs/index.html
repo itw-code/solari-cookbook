@@ -13,14 +13,14 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://itw-code.github.io/solari-cookbook/">
   <meta property="og:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
-  <meta property="og:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 86 tests pass, 0 leaked microVMs.">
+  <meta property="og:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 110 tests pass, 0 leaked microVMs.">
   <meta property="og:image" content="https://itw-code.github.io/solari-cookbook/artifacts/showcase.png">
 
   <!-- Twitter / X -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://itw-code.github.io/solari-cookbook/">
   <meta property="twitter:title" content="ColdStart — Zero-Shot Generalization Benchmark for CUA">
-  <meta property="twitter:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 86 tests pass, 0 leaked microVMs.">
+  <meta property="twitter:description" content="Tested vision-first agents cold across 5 perturbation axes with fail-closed SQLite verification. 110 tests pass, 0 leaked microVMs.">
   <meta property="twitter:image" content="https://itw-code.github.io/solari-cookbook/artifacts/showcase.png">
 
   <!-- Tailwind CSS CDN -->
@@ -148,7 +148,7 @@
           ⚡ Solari MicroVM Snapshot Forks
         </span>
         <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-medium">
-          🧪 86 Vitest Unit Tests PASS
+          🧪 110 Vitest Unit Tests PASS
         </span>
         <span class="px-3 py-1 rounded-full bg-black/60 text-slate-300 border border-white/10 text-xs font-mono font-medium">
           🔒 Fail-Closed DB Verification (C1–C7)
@@ -1128,7 +1128,7 @@
                 <td class="py-3 px-4 text-rose-400">0% (Breaks on refactor)</td>
                 <td class="py-3 px-4 text-rose-400">0% (Fails on ID/CSS change)</td>
                 <td class="py-3 px-4 text-amber-400">Partial (Fails on shadow DOM)</td>
-                <td class="py-3 px-4 text-emerald-300 font-bold bg-pine-950/30 border-l border-r border-pine-500/30">100% Surface Invariance (P1/P5)</td>
+                <td class="py-3 px-4 text-emerald-300 font-bold bg-pine-950/30 border-l border-r border-pine-500/30">Measured directional results (P5 2/2 isolated; P1 1/1 mixed)</td>
               </tr>
               <tr class="hover:bg-white/[0.02]">
                 <td class="py-3 px-4 font-bold text-white">Sandbox Boot Time</td>
@@ -1230,7 +1230,7 @@
             <div class="text-xs text-slate-400 mt-1">Verification &amp; Shipped Live</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 86 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
+            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 110 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
           </div>
         </div>
 
@@ -1324,23 +1324,23 @@
               🧠
             </div>
             <div>
-              <!-- ### 🧠 Phase 2 Architecture: The "Slop-Catcher" & Multi-Model Router -->
-              <h3 class="text-xl sm:text-2xl font-black text-white">🧠 Phase 2 Architecture: The "Slop-Catcher" &amp; Multi-Model Router</h3>
-              <div class="text-xs font-mono text-purple-400">Decoupled Perception (VLM) &amp; Action (CUA) via <code>src/config/model-router.ts</code></div>
+              <!-- ### 🧠 Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY) -->
+              <h3 class="text-xl sm:text-2xl font-black text-white">🧠 Phase 2 Prototype: Slop-Catcher &amp; Model Configuration (MOCK ONLY)</h3>
+              <div class="text-xs font-mono text-purple-400">Prototype perception/action configuration via <code>src/config/model-router.ts</code></div>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
-              ✓ Fully Implemented
+              ✓ Prototype / evidence-backed core
             </span>
             <span class="px-2.5 py-1 rounded bg-purple-950 text-purple-300 border border-purple-500/30 text-xs font-mono font-bold">
-              ⚡ 95% Compute Reduction
+              ⚡ Compute savings: unmeasured
             </span>
           </div>
         </div>
 
         <p class="text-sm text-slate-300 leading-relaxed mb-6">
-          Intelligence is no longer the bottleneck—<strong>compute cost is</strong>. ColdStart has evolved to decouple <strong>Action</strong> from <strong>Perception</strong>. Right now, testing everything with heavy frontier CUAs in a production CI/CD pipeline is cost-prohibitive. The codebase now features a decoupled perception layer (VLM) and action layer (CUA) driven by <code class="text-purple-300 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-500/30">src/config/model-router.ts</code>.
+          The core benchmark separates <strong>Action</strong> from <strong>Perception</strong> at a configuration boundary. The VLM path is an offline prototype; live reliability and compute economics remain unmeasured. Configuration lives in <code class="text-purple-300 bg-purple-950/60 px-1.5 py-0.5 rounded border border-purple-500/30">src/config/model-router.ts</code>.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -1349,7 +1349,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-purple-300 uppercase">Layer 1: Perception Only</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">BUILT</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">MOCK</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">The "Slop-Catcher"</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Developers push code that works functionally but fails experientially (bad spacing, poor contrast, generic AI slop).</p>
@@ -1358,7 +1358,7 @@
               <p class="text-xs text-slate-400 leading-relaxed"><strong>Workflow:</strong> Takes a screenshot of the sandboxed app. The VLM compares it against Design System references, calculates contrast &amp; spacing variance, and flags aesthetic deviations.</p>
             </div>
             <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-emerald-400 font-bold">
-              💰 Cost Impact: Reduced by 95% (&lt; $0.002 / scan)
+              💰 Cost impact: unmeasured (MOCK prototype)
             </div>
           </div>
 
@@ -1367,7 +1367,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-rose-300 uppercase">Layer 2: Action &amp; Reasoning</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-500/30">WIRED</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-950 text-rose-400 border border-rose-500/30">FUTURE</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">Adversarial Red-Team</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Frontier models are brittle against dark patterns and structural shifts (like our P2 Two-Step Wizard).</p>
@@ -1390,7 +1390,7 @@
               <h5 class="text-sm font-bold text-white mb-2">The CI/CD Triage Gate</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> When a PR is pushed, a lightweight text model triages the diff. If UI components are touched, Solari boots the microVM in ~10s.</p>
               <p class="text-xs text-slate-300 mb-2">Layer 1 (VLM) checks for "slop". If it passes, Layer 2 (CUA) runs the structural generalization tests.</p>
-              <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> Enterprise-grade, zero-shot UX testing for pennies, saving heavy compute for when it actually matters.</p>
+              <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> Proposed workflow; reliability and compute savings require a live implementation and measurement.</p>
             </div>
             <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-emerald-400 font-bold">
               ⚡ Enterprise CI/CD at Penny Scale
@@ -1459,14 +1459,14 @@
               🛡️
             </div>
             <div>
-              <!-- ### 🛡️ Phase 3 Architecture: The Autonomous QA Framework -->
-              <h3 class="text-xl sm:text-2xl font-black text-white">🛡️ Phase 3 Architecture: The Autonomous QA Framework</h3>
+              <!-- ### 🛡️ Phase 3: QA dogfooding evidence -->
+              <h3 class="text-xl sm:text-2xl font-black text-white">🛡️ Phase 3: QA dogfooding evidence</h3>
               <div class="text-xs font-mono text-emerald-400">Live functional QA via <code>src/qa-framework/</code> — <code>npx coldstart tunnel</code></div>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
-              ✓ Fully Implemented
+              ✓ Prototype / evidence-backed core
             </span>
             <span class="px-2.5 py-1 rounded bg-sky-950 text-sky-300 border border-sky-500/30 text-xs font-mono font-bold">
               ⚡ 30 Live Functional Checks
@@ -1484,7 +1484,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-emerald-300 uppercase">Guards: Anti-Flake</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">BUILT</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">MOCK</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">Zero-Pixel Trap &amp; Copy Drift</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Tests pass on invisible 0×0 elements, and break every time a designer renames a button.</p>
@@ -1500,7 +1500,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-sky-300 uppercase">Lifecycle: Zero Zombies</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-500/30">WIRED</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-500/30">FUTURE</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">Session Guard + Tunnel + SmartReset</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Cloud browser sessions leak, localhost isn’t reachable from microVMs, and dirty state makes reruns flaky.</p>
@@ -1906,7 +1906,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed border-l md:border-l border-white/10 pl-4 md:pl-6 space-y-1.5">
             <p><strong class="text-white">Packaging &amp; Verification (Step 07):</strong> Generated showcase gif (16 keyframes), cleaned secrets, and compiled full test harness.</p>
-            <p><strong class="text-emerald-400 font-bold">Final Orchestrator Sign-off (Step 08): PASS.</strong> Automated 86 passing Vitest unit tests with zero TypeScript errors and zero leaked microVMs using <strong>Claude Code</strong> and <strong>OpenCode Go</strong> (evaluating against <strong>GPT 5.6 Luna</strong>), deploying the live showcase the same afternoon.</p>
+            <p><strong class="text-emerald-400 font-bold">Final Orchestrator Sign-off (Step 08): PASS.</strong> Automated 110 passing Vitest unit tests with zero TypeScript errors and zero leaked microVMs using <strong>Claude Code</strong> and <strong>OpenCode Go</strong> (evaluating against <strong>GPT 5.6 Luna</strong>), deploying the live showcase the same afternoon.</p>
           </div>
         </div>
 
@@ -1924,9 +1924,9 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
         <br><br>
         I didn't just build a benchmark. I built <strong class="text-white">ColdStart</strong> to measure zero-shot generalization, and the <strong class="text-white">Slop-Catcher</strong> to solve the incoming wave of AI-generated UI.
         <br><br>
-        By decoupling Action (CUA) from Perception (VLM) in a Multi-Model Router, I've proven how to scale evaluation pipelines without bankrupting compute costs.
+        The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
         <br><br>
-        The code runs. The tests pass. The architecture is production-ready. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+        The code runs. The tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
       </blockquote>
     </div>
   </div>
@@ -2373,7 +2373,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
     <div class="p-6 rounded-2xl glass-card border border-white/10">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
         <h4 class="text-lg font-bold text-white">Compute Economics &amp; Cost Projections</h4>
-        <span class="text-xs font-mono text-emerald-400">⚡ Router saves 95% compute on PR triage</span>
+        <span class="text-xs font-mono text-emerald-400">⚡ Router prototype: savings unmeasured</span>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-xs">
@@ -2390,7 +2390,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
               <td class="py-2 font-medium">Layer 1: "Slop-Catcher" (Perception)</td>
               <td class="text-center font-mono text-slate-400">Gemini 1.5 Flash / GPT-4o</td>
               <td class="text-center font-mono text-emerald-400">&lt; $0.002</td>
-              <td class="text-center font-mono text-emerald-300">-95% vs. CUA loop</td>
+              <td class="text-center font-mono text-emerald-300">unmeasured vs. CUA loop</td>
             </tr>
             <tr class="border-b border-white/5">
               <td class="py-2 font-medium">Layer 2: Adversarial Red-Team (Action)</td>
@@ -2452,7 +2452,7 @@ const metricData = {
     body: "ColdStart procedural variant factory uses a deterministic Mersenne Twister PRNG initialized with seed 42. It renders 14 distinct variants across 5 independent perturbation axes (P1 relabeling, P2 wizard structure, P3 field permutations, P4 navigation, and P5 CSS theme). Every variant is served inside an isolated Solari cloud microVM without container cache leakage."
   },
   surface: {
-    title: "100% Surface Invariance (2/2 Isolated Passes)",
+    title: "Measured directional results (P5 2/2 isolated)",
     body: "Across isolated runs on P5_theme:3 (Dark Serif CSS Skin) and P1_relabel:4 (Synonym Remapping), the pure vision-first agent scored a flawless 100% pass rate. Pure pixel grounding is resilient to visual reskinning: it correctly identifies inputs regardless of background contrast, font family, or synonym labels."
   },
   procedural: {
@@ -2832,12 +2832,12 @@ npm install</code></pre>
       <!-- STEP 2 -->
       <div class="p-6 rounded-2xl glass-card border border-white/10">
         <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (86 Tests PASS)</span>
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (110 Tests PASS)</span>
           <span class="text-[10px] font-mono text-emerald-400">Offline Mocks</span>
         </div>
         <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
           <pre><code>npm test
-# Output: 86 passed across 11 test files (agent-loop, axes, demo-site, design-qa-orchestrator, model-router, prng, render-demo-report, scan-url, slop-catcher, slop-scoring, verifier)</code></pre>
+# Output: 110 passed across 11 test files (agent-loop, axes, demo-site, design-qa-orchestrator, model-router, prng, render-demo-report, scan-url, slop-catcher, slop-scoring, verifier)</code></pre>
         </div>
       </div>
 

@@ -26,3 +26,10 @@ This document records the master audit trail for the ColdStart engineering lifec
 
 - **Zero Secrets**: All API tokens (`SOLARI_API_KEY`, `LLM_API_KEY`) are dynamically injected via environment variables and checked with regex scanners in CI.
 - **Zero Resource Leaks**: All sandbox sessions are wrapped in strict `try ... finally` shutdown hooks, guaranteeing `0` orphaned microVMs.
+
+## Grounding disclosure
+
+The model receives screenshots and emits pixel coordinates. The harness then performs a
+small `page.evaluate` query to snap an imprecise click to the nearest visible interactive
+element. No DOM text, selectors, accessibility tree, or element boxes are returned to the
+model. This is **vision plus harness grounding**, not a pure no-DOM implementation.

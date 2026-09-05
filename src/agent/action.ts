@@ -3,10 +3,11 @@
  *
  * DESIGN.md §3 doctrine: the agent is **pixels in, coordinates out**. It may act
  * ONLY through this bounded action set and observe ONLY screenshots. This module
- * is the ONE place that touches the browser page, and it uses ONLY
- * `mouse.click` / `keyboard.type` / `keyboard.press` / `goto`. There is no
- * `locator()`, no `innerText`, no `$eval`, no accessibility tree, no bounding
- * boxes returned to the model anywhere in the agent.
+ * is the ONE place that touches the browser page. The model never receives DOM
+ * data, selectors, accessibility nodes, or element boxes. The harness does use a
+ * small `page.evaluate` grounding step to snap an imprecise pixel click to the
+ * nearest visible interactive element; that DOM access is harness-only and is
+ * never exposed to the model.
  *
  * `type` targets the CURRENTLY FOCUSED element (the agent must `click` a field
  * first to focus it), mirroring real computer-use.

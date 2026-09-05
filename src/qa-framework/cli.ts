@@ -65,7 +65,7 @@ async function main() {
     const content = JSON.parse(readFileSync(reportPath, "utf8"))
 
     const engine = new HeuristicEngine()
-    // Run automated heuristics on report findings
+    // Format supplied findings; this command does not inspect the target application.
     for (const f of content.findings || []) {
       if (f.action.toLowerCase().includes("delete") || f.action.toLowerCase().includes("cleanup")) {
         engine.inspectDestructiveGuard({
@@ -132,7 +132,7 @@ ColdStart Autonomous QA Automation CLI
 
 Usage:
   coldstart tunnel <port>                       Boot autonomous Cloudflare quick tunnel & export TARGET_URL
-  coldstart heuristics --report <file.json>     Run UX heuristic analyzer on QA report
+  coldstart heuristics --report <file.json>     Format UX enhancement notes from findings (template only)
   coldstart diff --before <img1> --after <img2> Generate visual comparison reel
   coldstart --help                              Show this help message
 `)
