@@ -54,10 +54,10 @@ Their research page says the moat is **vision-first + true generalization**. Nob
 
 | What it tests | How it works | What we learned |
 |---------------|--------------|-----------------|
-| **Surface variation** | Relabel every field, re-theme the entire app | Agent generalizes (P1, P5 pass) |
-| **Procedural change** | Split the form into a two-step wizard | Agent breaks (P2 fails 0/2) |
+| **Surface variation** | Relabel every field, re-theme the entire app | Directional evidence: P1 1/1 mixed; P5 2/2 isolated |
+| **Procedural change** | Split the form into a two-step wizard | P2 0/2 raw success; only 0/1 clean evidence |
 | **Ground truth** | Read SQLite directly, recompute expected values | Fail-closed verification works |
-| **Vision-first honesty** | No DOM, no selectors, no accessibility tree | The P5 theme control proves it |
+| **Vision-first honesty** | Model sees screenshots only; harness-side click snap is disclosed | P5 is a directional control, not proof of pure no-DOM execution |
 
 **The insight:** *Recognizing every element is not the same as knowing the order of operations.* This is a genuine, measurable finding that would matter to Pinetree's research.
 
@@ -90,6 +90,6 @@ Every competitor used sandboxes for **verification/CI**. ColdStart uses Solari m
 >
 > I built **ColdStart** to measure zero-shot generalization. The Slop-Catcher is an offline mock prototype and future research direction, not a shipped product.
 >
-> The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
+> The ColdStart harness runs with reproducible variants, harness-side grounding, and fail-closed verification; its cost envelope is reported in observable seconds, calls, and tokens because the SDK exposes no dollar rate.
 >
-> The code runs. The tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."
+> The core code runs and the tests pass. The prototype layers remain explicitly unverified. I'd ship it, learn your stack fast, and contribute to Pinetree Agent's reliability story from day one."

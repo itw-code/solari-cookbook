@@ -215,9 +215,9 @@ task spec (the Step 02 audit re-runs the generator twice on one seed and diffs o
 The agent is **pixels in, coordinates out.** It may observe the rendered page **only** as an
 image, and may act **only** through the bounded action set below. It is **explicitly
 FORBIDDEN** from using any DOM-selector / element-handle / accessibility-tree access. This is
-Pinetree's vision-first moat and the entire point of the submission. Note: the underlying
-Solari browser is Playwright-compatible (`patchright-core`) and *does* expose `locator()` —
-the harness simply **never calls it**. We make this a hard rule, not a preference.
+Pinetree's vision-first moat and the entire point of the submission. The model never receives
+DOM data. The harness may use a small `page.evaluate` grounding step to snap an imprecise click
+to the nearest visible interactive element (`src/agent/action.ts`). That DOM access is harness-only.
 
 **Allowed observation channels (exactly three):**
 1. `page.screenshot()` → PNG bytes (the current viewport, rendered).
@@ -608,7 +608,7 @@ export interface SolariDriver {
 | MASTER_PLAN Step 01 criterion | Where satisfied |
 | --- | --- |
 | Every axis is seeded-reproducible | §2 determinism rule (single PRNG, domain-separated sub-streams, `sameSeed→sameVariant`) |
-| Action space forbids selectors | §3 doctrine — only screenshot/mouse/keyboard/goto; `locator()` never called |
+| Action space forbids selectors | §3 doctrine — model sees screenshots only; harness-side click snap is disclosed |
 | Verifier contract includes negative tests | §4 — NEG-1…NEG-4 (≥2 required), fail-closed |
 | Scorecard has cost + replay fields | §5 — `session.replay_url` + `cost.{credits,hours,…}` |
 | Language decision locked | §6 — TypeScript, with root `package.json`/`tsconfig` |

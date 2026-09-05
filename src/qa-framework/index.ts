@@ -1,5 +1,5 @@
 /**
- * index.ts — ColdStart Autonomous QA Automation Framework
+ * index.ts — ColdStart QA dogfooding helpers
  *
  * Exporting all architectural enhancements:
  * 1. Visual & Interactive Assertion Wrapper (Zero-Pixel Trap Prevention)
@@ -9,7 +9,7 @@
  * 5. Smart Reset & Idempotent Data Fixture Seeding
  * 6. Dual-Layer State Verification (UI + Direct Database Diffing)
  * 7. Automated Visual Difference & Artifact Archiving
- * 8. "I Think It Should Be Enhanced, Because..." Heuristic Generator
+ * 8. Deterministic UX report templates (not a page inspector)
  */
 
 export * from "./assertions.js"

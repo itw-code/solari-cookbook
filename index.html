@@ -148,7 +148,7 @@
           ⚡ Solari MicroVM Snapshot Forks
         </span>
         <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-medium">
-          🧪 37/37 Vitest Unit Tests PASS
+          🧪 110 Vitest Unit Tests PASS
         </span>
         <span class="px-3 py-1 rounded-full bg-black/60 text-slate-300 border border-white/10 text-xs font-mono font-medium">
           🔒 Fail-Closed DB Verification (C1–C7)
@@ -325,7 +325,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-emerald-300 uppercase">Layer 3: Production Gate</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-500/30">INTEGRATED</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-500/30">FUTURE</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">The CI/CD Triage Gate</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> When a PR is pushed, a lightweight text model triages the diff. If UI components are touched, Solari boots the microVM in ~10s.</p>
@@ -333,7 +333,7 @@
               <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> Proposed workflow; reliability and compute savings require a live implementation and measurement.</p>
             </div>
             <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-emerald-400 font-bold">
-              ⚡ Enterprise CI/CD at Penny Scale
+              ⚡ Proposed workflow — unmeasured
             </div>
           </div>
         </div>
@@ -1044,7 +1044,7 @@
             <div class="text-xs text-slate-400 mt-1">Verification &amp; Shipped Live</div>
           </div>
           <div class="text-xs text-slate-300 leading-relaxed">
-            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 37/37 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
+            <strong class="text-white">Direct DB Verification &amp; Deployment:</strong> Instead of taking the AI's word for it, our verifier checked the real database behind the scenes to confirm every line item was saved. Running benchmark evals against <strong>GPT 5.6 Luna</strong> via <strong>OpenCode Go</strong> and generating 110 passing Vitest unit tests via <strong>Claude Code</strong>, we achieved green CI and deployed the live showcase.
           </div>
         </div>
 
@@ -1059,7 +1059,7 @@
           </a>
           <span>•</span>
           <a href="https://github.com/itw-code/solari-cookbook/tree/main/reports" target="_blank" class="text-emerald-400 hover:text-white font-bold transition-all">
-            Explore 11 Step Reports →
+            Explore 10 Step Reports →
           </a>
         </div>
       </div>
@@ -1095,12 +1095,12 @@ npm install</code></pre>
       <!-- STEP 2 -->
       <div class="p-6 rounded-2xl glass-card border border-white/10">
         <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (37/37 PASS)</span>
+          <span class="text-xs font-mono font-bold text-pine-400 uppercase">2. Run Full Unit Test Suite (110 Tests PASS)</span>
           <span class="text-[10px] font-mono text-emerald-400">Offline Mocks</span>
         </div>
         <div class="bg-black/80 rounded-xl p-4 border border-white/5 font-mono text-xs text-pine-200 overflow-x-auto">
           <pre><code>npm test
-# Output: 37 passed across 5 test files (VariantFactory, Verifier, AgentLoop, SolariDriver, Scorecard)</code></pre>
+# Output: 110 passed across 12 test files (agent-loop, axes, demo-site, design-qa-orchestrator, model-router, prng, qa-framework, render-demo-report, scan-url, slop-catcher, slop-scoring, verifier)</code></pre>
         </div>
       </div>
 

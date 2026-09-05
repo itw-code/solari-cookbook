@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * cli.ts — ColdStart Autonomous QA Automation CLI
+ * cli.ts — ColdStart QA helper CLI
  *
  * Usage:
  *   npx tsx src/qa-framework/cli.ts tunnel <port>
@@ -128,7 +128,7 @@ async function main() {
 
 function printHelp() {
   console.log(`
-ColdStart Autonomous QA Automation CLI
+ColdStart QA helper CLI
 
 Usage:
   coldstart tunnel <port>                       Boot autonomous Cloudflare quick tunnel & export TARGET_URL

@@ -173,7 +173,7 @@ const steps: StepConfig[] = [
           <div style="background:#064e3b; color:#a7f3d0; font-size:12px; font-weight:bold; padding:6px 12px; border-radius:6px; font-family:monospace;">APPROVED</div>
         </div>
         <div style="text-align:center; margin-top:22px; color:#38bdf8; font-family:monospace; font-size:13px; font-weight:bold;">
-          💰 Economic Impact: Saved 95% Compute Cost (&lt; $0.002 vs $0.08 CUA)
+          💰 Cost impact: unmeasured (MOCK prototype)
         </div>
       </div>
     `,
@@ -181,7 +181,7 @@ const steps: StepConfig[] = [
     actionDetail: "Auto-Block Degradation",
     targetElement: "GitHub Actions PR Gate",
     rationaleTitle: "Cost Optimization Doctrine",
-    rationaleBadge: "95% Savings",
+    rationaleBadge: "Unmeasured",
     rationaleText: "Bad PRs rejected at the VLM perception stage. Heavy frontier CUA agent is only dispatched on visually validated code.",
     verifierType: "Production Gate",
     verifierStatus: "TRIAGE COMPLETE",
@@ -309,10 +309,10 @@ const steps: StepConfig[] = [
     targetElement: "Multi-Model Router",
     rationaleTitle: "Strategic Summary",
     rationaleBadge: "Ready for Pinetree",
-    rationaleText: "ColdStart measures zero-shot CUA generalization. Slop-Catcher protects user experience at 95% reduced cost.",
+    rationaleText: "ColdStart measures zero-shot CUA generalization. Slop-Catcher is an offline mock prototype; cost is unmeasured.",
     verifierType: "Production Readiness",
     verifierStatus: "PASS • DEPLOYED",
-    verifierDetails: "All 86 Vitest tests passing • 0 leaked microVMs",
+    verifierDetails: "All 110 Vitest tests passing • 0 leaked microVMs",
     stepColor: "emerald"
   }
 ];

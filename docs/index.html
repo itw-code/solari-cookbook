@@ -1245,7 +1245,7 @@
           </a>
           <span>•</span>
           <a href="https://github.com/itw-code/solari-cookbook/tree/main/reports" target="_blank" class="text-emerald-400 hover:text-white font-bold transition-all">
-            Explore 11 Step Reports →
+            Explore 10 Step Reports →
           </a>
         </div>
       </div>
@@ -1385,7 +1385,7 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-emerald-300 uppercase">Layer 3: Production Gate</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-500/30">INTEGRATED</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-950 text-purple-400 border border-purple-500/30">FUTURE</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">The CI/CD Triage Gate</h5>
               <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> When a PR is pushed, a lightweight text model triages the diff. If UI components are touched, Solari boots the microVM in ~10s.</p>
@@ -1393,7 +1393,7 @@
               <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> Proposed workflow; reliability and compute savings require a live implementation and measurement.</p>
             </div>
             <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-emerald-400 font-bold">
-              ⚡ Enterprise CI/CD at Penny Scale
+              ⚡ Proposed workflow — unmeasured
             </div>
           </div>
         </div>
@@ -1516,11 +1516,11 @@
             <div>
               <div class="flex items-center justify-between mb-1">
                 <div class="text-xs font-mono font-bold text-amber-300 uppercase">Verdict: Trust Nothing</div>
-                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/30">INTEGRATED</span>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/30">TEMPLATE</span>
               </div>
               <h5 class="text-sm font-bold text-white mb-2">DB Diff + Archiver + Heuristics</h5>
-              <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> <code class="text-amber-300">DatabaseDiffEngine</code> verifies every UI claim against SQLite (fail-closed D1–D3 style); <code class="text-amber-300">ArtifactArchiver</code> preserves evidence; <code class="text-amber-300">HeuristicEngine</code> files UX enhancements.</p>
-              <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> “I think it should be enhanced, because…” — latent friction shipped as actionable findings, not silent passes.</p>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> <code class="text-amber-300">DatabaseDiffEngine</code> verifies every UI claim against SQLite (fail-closed D1–D3 style); <code class="text-amber-300">ArtifactArchiver</code> preserves evidence; <code class="text-amber-300">HeuristicEngine</code> formats supplied findings into enhancement notes (template only).</p>
+              <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> Heuristic output is a report template, not an autonomous page inspector.</p>
             </div>
             <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-amber-400 font-bold">
               ⚡ Run it: <code>npx coldstart tunnel 4310</code>
@@ -1922,7 +1922,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
       <blockquote class="text-slate-300 text-sm leading-relaxed italic border-l-4 border-pine-500 pl-4">
         "You don't want my resume — you want to know if I can close the gap you care about.
         <br><br>
-        I didn't just build a benchmark. I built <strong class="text-white">ColdStart</strong> to measure zero-shot generalization, and the <strong class="text-white">Slop-Catcher</strong> to solve the incoming wave of AI-generated UI.
+        I built <strong class="text-white">ColdStart</strong> to measure zero-shot generalization. The Slop-Catcher is an offline mock prototype and future research direction, not a shipped product.
         <br><br>
         The ColdStart harness uses reproducible variants, harness-side grounding, and fail-closed verification; cost is reported in observable seconds, calls, and tokens because no dollar rate is exposed.
         <br><br>
@@ -2272,7 +2272,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
             <ul class="text-xs text-slate-400 space-y-2">
               <li class="flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
-                Run Layer 1 (VLM) triage on every agent commit (&lt; $0.002)
+                Run Layer 1 (VLM) triage on every agent commit (cost unmeasured)
               </li>
               <li class="flex items-center gap-2">
                 <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
@@ -2389,7 +2389,7 @@ npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
             <tr class="border-b border-white/5">
               <td class="py-2 font-medium">Layer 1: "Slop-Catcher" (Perception)</td>
               <td class="text-center font-mono text-slate-400">Gemini 1.5 Flash / GPT-4o</td>
-              <td class="text-center font-mono text-emerald-400">&lt; $0.002</td>
+              <td class="text-center font-mono text-emerald-400">unmeasured</td>
               <td class="text-center font-mono text-emerald-300">unmeasured vs. CUA loop</td>
             </tr>
             <tr class="border-b border-white/5">
@@ -2453,7 +2453,7 @@ const metricData = {
   },
   surface: {
     title: "Measured directional results (P5 2/2 isolated)",
-    body: "Across isolated runs on P5_theme:3 (Dark Serif CSS Skin) and P1_relabel:4 (Synonym Remapping), the pure vision-first agent scored a flawless 100% pass rate. Pure pixel grounding is resilient to visual reskinning: it correctly identifies inputs regardless of background contrast, font family, or synonym labels."
+    body: "Isolated P5 theme runs passed 2/2. P1 is mixed-only (1/1 at P1:4 + P3:3). Treat rates as directional at n=2; P1/P4 are not causally isolated."
   },
   procedural: {
     title: "0.00% Procedural Collapse (P2 Wizard Flow Shift)",

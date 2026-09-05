@@ -6,14 +6,14 @@
 
 ### Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY)
 
-Intelligence is no longer the bottleneck—**compute cost is**. The ColdStart architecture decouples **Action** from **Perception**. Instead of relying on heavy frontier CUAs to evaluate every aspect of an application—which is cost-prohibitive in a production CI/CD pipeline—the codebase now features a decoupled perception layer (VLM) and action layer (CUA) driven by `src/config/model-router.ts`.
+The core benchmark separates **Action** from **Perception** at the configuration boundary. The prototype below explores whether a lightweight VLM could complement the CUA; compute economics and CI gating remain unmeasured.
 
 #### Layer 1: The "Slop-Catcher" (Perception Only) — Prototype (MOCK ONLY)
 - **The Problem:** Developers push code that works functionally but fails experientially (bad spacing, poor contrast, generic AI slop).
 - **The Solution:** We don't need a CUA to check alignment. We use a high-fidelity **Vision-Language Model (VLM)** combined with deterministic CSS metric audits (`src/design-qa/slop-catcher.ts`).
 - **Model Stack:** `Gemini 1.5 Flash` or `GPT-4o` (resolved via `getModelConfig("PERCEPTION")`).
-- **Workflow:** Solari takes a screenshot of the sandboxed app. The VLM compares it against a Design System reference, detects off-grid spacing variance and low contrast, and flags aesthetic deviations; cost is unmeasured.
-- **Cost impact:** Unmeasured. No live VLM trace is committed.
+- **Workflow:** The prototype can send a screenshot to a configured VLM, but the default client is mock. No live VLM trace or dollar cost is committed.
+- **Cost impact:** Unmeasured. No compute-savings claim is made.
 
 #### Layer 2: Adversarial Red-Team Testing (Action & Reasoning) — Future research
 - **The Problem:** Frontier models are brittle against dark patterns and structural shifts (like our P2 Two-Step Wizard).
@@ -33,13 +33,13 @@ Below is the live diagnostic output of the demo runner (`npm run demo:all`). It 
 
 [👉 View Full Slop-Catcher Report](./artifacts/combined-demo-report.html)
 
-## QA Framework Demo: Live Functional Batches
+## QA dogfooding evidence: Nakama functional batches
 
-The Slop-Catcher asks **"does it look right?"** — the QA Framework asks **"does it work?"** (`src/qa-framework/`, 24 unit tests green, `npm run verify` 110/110).
+These batches document real Nakama QA service work and ColdStart dogfooding; they are not a standalone QA product (`src/qa-framework/`, 24 unit tests green, `npm run verify` 110/110).
 
 ![QA Framework Action Replay](./artifacts/qa-framework-replay.gif)
 
-Seven replay stages (`npm run build:qa-gif`, 1280×720): tunnel bootstrap → fixture seeding → resilient selectors → zero-pixel trap → live E2E run (batches B1–B5, 30 checks) → DB-diff verification → heuristic verdict.
+Seven replay stages (`npm run build:qa-gif`, 1280×720): tunnel bootstrap → fixture seeding → resilient selectors → zero-pixel trap → live E2E run (batches B1–B5, 30 checks) → DB-diff verification → formatted enhancement notes.
 
 ```bash
 npx coldstart tunnel 4310                      # expose localhost to Solari cloud
