@@ -11,3 +11,5 @@ screenshot.png
 dist/
 *.db
 artifacts/runs/
+artifacts/ipc/
+qa-evidence/

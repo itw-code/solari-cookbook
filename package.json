@@ -16,7 +16,9 @@
     "run:isolated": "bash scripts/run-step-06b.sh",
     "demo:all": "tsx scripts/run-combined-demo.ts && tsx scripts/render-demo-report.ts",
     "build:slop-gif": "tsx scripts/build-slop-gif.ts",
-    "serve": "tsx scripts/preview.ts"
+    "serve": "tsx scripts/preview.ts",
+    "coldstart": "tsx src/qa-framework/cli.ts",
+    "coldstart:tunnel": "tsx src/qa-framework/cli.ts tunnel"
   },
   "dependencies": {
     "@solarisdk/browser": "^0.1.1",
