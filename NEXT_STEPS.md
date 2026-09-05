@@ -33,6 +33,20 @@ Below is the live diagnostic output of the demo runner (`npm run demo:all`). It 
 
 [👉 View Full Slop-Catcher Report](./artifacts/combined-demo-report.html)
 
+## QA Framework Demo: Live Functional Batches
+
+The Slop-Catcher asks **"does it look right?"** — the QA Framework asks **"does it work?"** (`src/qa-framework/`, 24 unit tests green, `npm run verify` 110/110).
+
+![QA Framework Action Replay](./artifacts/qa-framework-replay.gif)
+
+Seven replay stages (`npm run build:qa-gif`, 1280×720): tunnel bootstrap → fixture seeding → resilient selectors → zero-pixel trap → live E2E run (batches B1–B5, 30 checks) → DB-diff verification → heuristic verdict.
+
+```bash
+npx coldstart tunnel 4310                      # expose localhost to Solari cloud
+TARGET_URL=<url> npx tsx scripts/test-nakama-b1.ts   # run Batch B1 (auth & guards)
+npx coldstart heuristics --report qa-evidence/solari-b1/report.json
+```
+
 ---
 
 # Future Roadmap

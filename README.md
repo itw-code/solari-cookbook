@@ -377,6 +377,16 @@ The codebase features a decoupled perception layer (VLM) and action layer (CUA) 
 
 Run `npm run demo:all` to reproduce the evaluation and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html). See the animated action replay at [`artifacts/slop-catcher-replay.gif`](artifacts/slop-catcher-replay.gif).
 
+### Phase 3 Architecture: The Autonomous QA Framework
+
+The Slop-Catcher asks **"does it look right?"** — the QA Framework asks **"does it work?"** ([`src/qa-framework/`](src/qa-framework/)):
+- **Guards (anti-flake)** — `expectInteractive()` / `expectVisual()` reject invisible 0×0 elements; `fuzzyRoleLocator()` absorbs copy drift via normalized accessibility matching.
+- **Lifecycle (zero zombies)** — `withSessionGuard()` tears down cloud sessions in `finally`; `TunnelDaemon` exposes localhost via Cloudflare (`npx coldstart tunnel 4310`); `SmartReset` reseeds fixtures idempotently.
+- **Verdict (trust nothing)** — `DatabaseDiffEngine` verifies every UI claim against SQLite (fail-closed, D1–D3 style); `ArtifactArchiver` preserves evidence; `HeuristicEngine` files UX enhancements ("I think it should be enhanced, because…").
+- **Live runners** — `scripts/test-nakama-b1..b5.ts` drive 30 functional checks (auth, chat, history, profiles, workers) on real cloud Chromium. Fully env-based config (`TARGET_URL`, `QA_ADMIN_EMAIL`/`QA_ADMIN_PASSWORD`) — no hardcoded creds.
+
+See the animated QA replay at [`artifacts/qa-framework-replay.gif`](artifacts/qa-framework-replay.gif) (`npm run build:qa-gif`, 1280×720 to match the Slop-Catcher replay).
+
 ---
 
 ## How to run

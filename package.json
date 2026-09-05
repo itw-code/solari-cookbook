@@ -16,6 +16,7 @@
     "run:isolated": "bash scripts/run-step-06b.sh",
     "demo:all": "tsx scripts/run-combined-demo.ts && tsx scripts/render-demo-report.ts",
     "build:slop-gif": "tsx scripts/build-slop-gif.ts",
+    "build:qa-gif": "tsx scripts/build-qa-gif.ts",
     "serve": "tsx scripts/preview.ts",
     "coldstart": "tsx src/qa-framework/cli.ts",
     "coldstart:tunnel": "tsx src/qa-framework/cli.ts tunnel"

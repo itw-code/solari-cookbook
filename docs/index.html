@@ -1450,6 +1450,118 @@
           </a>
         </div>
       </div>
+
+      <!-- PHASE 3: AUTONOMOUS QA FRAMEWORK -->
+      <div class="p-6 sm:p-8 rounded-2xl glass-card border border-emerald-500/40 bg-emerald-950/10 mt-12">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-xl">
+              🛡️
+            </div>
+            <div>
+              <!-- ### 🛡️ Phase 3 Architecture: The Autonomous QA Framework -->
+              <h3 class="text-xl sm:text-2xl font-black text-white">🛡️ Phase 3 Architecture: The Autonomous QA Framework</h3>
+              <div class="text-xs font-mono text-emerald-400">Live functional QA via <code>src/qa-framework/</code> — <code>npx coldstart tunnel</code></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
+              ✓ Fully Implemented
+            </span>
+            <span class="px-2.5 py-1 rounded bg-sky-950 text-sky-300 border border-sky-500/30 text-xs font-mono font-bold">
+              ⚡ 30 Live Functional Checks
+            </span>
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-300 leading-relaxed mb-6">
+          The Slop-Catcher asks <strong>“does it look right?”</strong> — the QA Framework asks <strong>“does it work?”</strong> Real cloud Chromium sessions drive auth, chat, history, profiles, and workers end-to-end (batches B1–B5), with every claim backed by direct SQLite reads. If it isn’t in the database, it didn’t happen.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          <!-- Anti-flake guards -->
+          <div class="p-4 rounded-xl bg-black/50 border border-emerald-500/30 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-mono font-bold text-emerald-300 uppercase">Guards: Anti-Flake</div>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-500/30">BUILT</span>
+              </div>
+              <h5 class="text-sm font-bold text-white mb-2">Zero-Pixel Trap &amp; Copy Drift</h5>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Tests pass on invisible 0×0 elements, and break every time a designer renames a button.</p>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Solution:</strong> <code class="text-emerald-300">expectInteractive()</code> demands visibility + positive dimensions; <code class="text-emerald-300">fuzzyRoleLocator()</code> absorbs copy drift via normalized matching.</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-emerald-400 font-bold">
+              🎯 False passes blocked at the assertion layer
+            </div>
+          </div>
+
+          <!-- Lifecycle -->
+          <div class="p-4 rounded-xl bg-black/50 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-mono font-bold text-sky-300 uppercase">Lifecycle: Zero Zombies</div>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-500/30">WIRED</span>
+              </div>
+              <h5 class="text-sm font-bold text-white mb-2">Session Guard + Tunnel + SmartReset</h5>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Problem:</strong> Cloud browser sessions leak, localhost isn’t reachable from microVMs, and dirty state makes reruns flaky.</p>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Solution:</strong> <code class="text-sky-300">withSessionGuard()</code> tears down in <code>finally</code>; <code class="text-sky-300">TunnelDaemon</code> exposes localhost via Cloudflare; <code class="text-sky-300">SmartReset</code> reseeds fixtures idempotently.</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-sky-400 font-bold">
+              🛡️ 0 leaked microVMs — same seed, same state
+            </div>
+          </div>
+
+          <!-- Verdict -->
+          <div class="p-4 rounded-xl bg-black/50 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <div class="text-xs font-mono font-bold text-amber-300 uppercase">Verdict: Trust Nothing</div>
+                <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-500/30">INTEGRATED</span>
+              </div>
+              <h5 class="text-sm font-bold text-white mb-2">DB Diff + Archiver + Heuristics</h5>
+              <p class="text-xs text-slate-300 mb-2"><strong>The Workflow:</strong> <code class="text-amber-300">DatabaseDiffEngine</code> verifies every UI claim against SQLite (fail-closed D1–D3 style); <code class="text-amber-300">ArtifactArchiver</code> preserves evidence; <code class="text-amber-300">HeuristicEngine</code> files UX enhancements.</p>
+              <p class="text-xs text-slate-400 leading-relaxed"><strong>The Result:</strong> “I think it should be enhanced, because…” — latent friction shipped as actionable findings, not silent passes.</p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-white/5 text-[11px] font-mono text-amber-400 font-bold">
+              ⚡ Run it: <code>npx coldstart tunnel 4310</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- QA Framework Action Replay Media Banner -->
+        <div class="text-center max-w-3xl mx-auto mb-8">
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">QA Framework Demo: Live Functional Batches</h2>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Below is the action replay of the QA pipeline (<code>npm run build:qa-gif</code>). Seven stages: tunnel bootstrap → fixture seeding → resilient selectors → zero-pixel trap → live E2E run → DB-diff verification → heuristic verdict.
+          </p>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden border border-emerald-500/30 shadow-2xl bg-black/80 mb-8 max-w-4xl mx-auto">
+          <div class="p-3 bg-slate-900/90 border-b border-white/10 flex items-center justify-between text-xs font-mono text-slate-400">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-rose-500/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+              <span class="ml-2 text-slate-300 font-bold">artifacts/qa-framework-replay.gif</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-[11px] text-emerald-400 font-semibold">Action Replay (7 Steps • 1280×720)</span>
+              <a href="./artifacts/qa-framework-replay.mp4" download class="text-[10px] text-sky-400 hover:text-sky-300 font-mono">↓ MP4</a>
+            </div>
+          </div>
+          <div class="p-2 bg-black flex items-center justify-center">
+            <img src="./artifacts/qa-framework-replay.gif" alt="ColdStart QA Framework Action Replay" class="w-full h-auto rounded-lg shadow-xl" onerror="this.src='./artifacts/showcase.png'">
+          </div>
+        </div>
+
+        <!-- QA CLI snippet -->
+        <div class="rounded-2xl overflow-hidden border border-white/10 bg-black/70 mb-2 max-w-4xl mx-auto">
+          <div class="p-3 bg-slate-900/90 border-b border-white/10 text-xs font-mono text-slate-400 font-bold">Try the QA Framework locally</div>
+          <pre class="p-4 text-xs font-mono text-emerald-300 overflow-x-auto">npx coldstart tunnel 4310                      # expose localhost to Solari cloud
+TARGET_URL=&lt;url&gt; npx tsx scripts/test-nakama-b1.ts   # run Batch B1 (auth &amp; guards)
+npx coldstart heuristics --report qa-evidence/solari-b1/report.json</pre>
+        </div>
+      </div>
     </div>
 
   </section>
