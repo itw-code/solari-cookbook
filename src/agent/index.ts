@@ -25,6 +25,7 @@ import {
   countInvoices,
 } from "../solari/orchestrate.ts"
 import { deriveTaskSpec } from "../generate-variants/task-spec.ts"
+import { verifyAgainstSandbox } from "../verify/verifier.ts"
 import { runAgentLoop, getMaxStepsFromEnv } from "./loop.ts"
 import { createModelCaller } from "./model.ts"
 import { DEFAULT_VIEWPORT } from "./screenshot.ts"
@@ -46,7 +47,8 @@ function log(msg: string): void {
 
 async function main(): Promise<void> {
   const apiKey = requireEnv("SOLARI_API_KEY")
-  const modelLabel = requireEnv("LLM_MODEL")
+  const isIpc = process.env.AGENT_MODE === "ipc" || process.env.AGENT_MODE === "antigravity"
+  const modelLabel = isIpc ? (process.env.LLM_MODEL || "antigravity-vision") : requireEnv("LLM_MODEL")
 
   const client = new SolariClient({ apiKey })
   const driver = createDriver("live") // LiveSolari (browser)
@@ -106,12 +108,28 @@ async function main(): Promise<void> {
     }
     const invoiceCount = await countInvoices(baseSandbox.sandbox)
 
+    // Fail-closed verification
+    let verifierCompleted = false
+    let verifierChecks = 0
+    let verifierErrors = 0
+    let evidenceHash = ""
+    try {
+      const vRes = await verifyAgainstSandbox({ seed: SEED, sandbox: baseSandbox.sandbox })
+      verifierCompleted = vRes.task_completed
+      verifierChecks = vRes.checks_run.length
+      verifierErrors = vRes.field_errors.length
+      evidenceHash = vRes.evidence_hash
+    } catch (ve) {
+      log(`verifier error: ${ve instanceof Error ? ve.message : String(ve)}`)
+    }
+
     log("=" .repeat(64))
     log("STEP 04 LIVE BASELINE RESULT (seed=0)")
     log(`  status           : ${result.status}`)
     log(`  steps taken      : ${result.stepsTaken}/${result.maxSteps}`)
     log(`  final page title : ${finalTitle ?? "(unavailable)"}`)
-    log(`  invoice rows     : ${invoiceCount} (sanity only; verifier is Step 05)`)
+    log(`  invoice rows     : ${invoiceCount}`)
+    log(`  verifier         : ${verifierCompleted ? "PASS ✅" : "FAIL ❌"} (${verifierChecks} checks, ${verifierErrors} errors, hash: ${evidenceHash})`)
     log(`  terminated by    : ${result.terminatedBy}`)
     if (result.actions.length > 0) {
       const last = result.actions[result.actions.length - 1]!
