@@ -20,7 +20,7 @@
   "outcome": {
     "status": "step_cap",
     "task_completed": false,
-    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqhrwi_s21\\trace.json",
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqhrwi_s21\\trace.json",
     "verifier": {
       "task_completed": false,
       "field_errors": [],

@@ -20,7 +20,7 @@
   "outcome": {
     "status": "aborted",
     "task_completed": false,
-    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqmi96_s3\\trace.json",
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqmi96_s3\\trace.json",
     "verifier": {
       "task_completed": false,
       "field_errors": [],

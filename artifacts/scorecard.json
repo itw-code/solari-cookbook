@@ -99,7 +99,7 @@
       "outcome": {
         "status": "aborted",
         "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsgujp_isol__P2_structure-k3__s0_r1\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsgujp_isol__P2_structure-k3__s0_r1\\trace.json",
         "verifier": {
           "task_completed": false,
           "field_errors": [],
@@ -153,7 +153,7 @@
       "outcome": {
         "status": "step_cap",
         "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
         "verifier": {
           "task_completed": false,
           "field_errors": [],
@@ -237,7 +237,7 @@
       "outcome": {
         "status": "ok",
         "task_completed": true,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsm13e_isol__P5_theme-k3__s0_r1\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsm13e_isol__P5_theme-k3__s0_r1\\trace.json",
         "verifier": {
           "task_completed": true,
           "field_errors": [],
@@ -321,7 +321,7 @@
       "outcome": {
         "status": "ok",
         "task_completed": true,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsnjob_isol__P5_theme-k3__s0_r2\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsnjob_isol__P5_theme-k3__s0_r2\\trace.json",
         "verifier": {
           "task_completed": true,
           "field_errors": [],
@@ -405,7 +405,7 @@
       "outcome": {
         "status": "ok",
         "task_completed": true,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsp83o_isol__P3_field_order-k4__s0_r1\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsp83o_isol__P3_field_order-k4__s0_r1\\trace.json",
         "verifier": {
           "task_completed": true,
           "field_errors": [],
@@ -489,7 +489,7 @@
       "outcome": {
         "status": "aborted",
         "task_completed": false,
-        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsqyft_isol__P3_field_order-k4__s0_r2\\trace.json",
+        "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsqyft_isol__P3_field_order-k4__s0_r2\\trace.json",
         "verifier": {
           "task_completed": false,
           "field_errors": [],

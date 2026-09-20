@@ -20,7 +20,7 @@
   "outcome": {
     "status": "ok",
     "task_completed": true,
-    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqchve_s17\\trace.json",
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjqchve_s17\\trace.json",
     "verifier": {
       "task_completed": true,
       "field_errors": [],

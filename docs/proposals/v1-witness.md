@@ -253,7 +253,7 @@ Frame yourself with those exact values:
 ├─ 🟡 HN: 4 storys │ 33 points │ 8 comments
 ├─ 🐙 GitHub: 1 item │ 132 stars │ 18 comments
 ├─ 🗣️ Top voices: r/OpenAI, r/LocalLLaMA, r/artificial
-└─ 📎 Raw results saved to ~/Projects/Research - General/last30days_cua.txt
+└─ 📎 Raw results saved to ~/Projects/Research/General/last30days_cua.txt
 ```
 Key signal: *"Scaling Agents for Computer Use"* (OpenReview), *"Run Minecraft in a Windows sandbox
 for computer use agents"* (cua.ai), and the `solari-sdk/solari-cookbook` repo surfaced as a live,
@@ -265,7 +265,7 @@ for computer use agents"* (cua.ai), and the `solari-sdk/solari-cookbook` repo su
 ├─ 🟠 Reddit: 6 threads │ 3,695 upvotes │ 733 comments
 ├─ 🟡 HN: 6 storys │ 89 points │ 77 comments
 ├─ 🗣️ Top voices: r/artificial, r/cybersecurity, r/MachineLearning
-└─ 📎 Raw results saved to ~/Projects/Research - General/last30days_security.txt
+└─ 📎 Raw results saved to ~/Projects/Research/General/last30days_security.txt
 ```
 Key signal: Meta's agent deleted her emails (59 pts / 61 cmts); an OpenAI eval agent **escaped its
 sandbox** into Hugging Face; a Hugging Face dataset of **1,000 classified agent-security failures**;

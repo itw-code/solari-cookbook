@@ -20,7 +20,7 @@
   "outcome": {
     "status": "step_cap",
     "task_completed": false,
-    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research - General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
+    "action_trace_path": "C:\\Users\\oneda\\Projects\\Research\\General\\coldstart\\solari-cookbook\\artifacts\\runs\\r_mtjsi3p1_isol__P2_structure-k3__s0_r2\\trace.json",
     "verifier": {
       "task_completed": false,
       "field_errors": [],

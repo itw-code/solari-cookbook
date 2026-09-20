@@ -65,7 +65,13 @@ Then read the evidence that is already committed — no run required:
 | [`artifacts/scorecard.json`](artifacts/scorecard.json) | per-variant + per-axis success, curve points, cost accounting |
 | [`artifacts/where-it-breaks.md`](artifacts/where-it-breaks.md) | per-variant and per-axis failure attribution |
 | [`artifacts/curve.png`](artifacts/curve.png) | success rate vs. perturbation intensity |
-| [`reports/`](reports/) | the 11 audited per-step build reports |
+| [`AUDIT_LOG.md`](AUDIT_LOG.md) | orchestrator verdicts for every step |
+
+> **Build reports live outside this fork.** The 11 audited per-step reports
+> (Steps 00–07) are canonical in the parent workspace at `coldstart/reports/`,
+> alongside `MASTER_PLAN.md` and `AUDIT_LOG.md`. They are not committed here so
+> the audit trail has one home; relative links inside them (`../AUDIT_LOG.md`,
+> `../MASTER_PLAN.md`) resolve from that parent folder.
 
 Live runs (real Solari sandboxes + a vision model) are in [How to run](#how-to-run) below.
 
@@ -184,7 +190,7 @@ labor, placeholders for illustration only.
 - **14:30 – 15:00 (Hour 1 · Sandboxes on Solari)**: Wired the harness to Solari Firecracker microVMs with SDK bindings and cleanup orchestration assisted by **Pi Coding Agent** through **OpenCode Go**. Measured boot was ~10s (create queue plus serve); the snapshot fast-fork path returned 409 on 7 of 8 attempts in our runs, so direct provisioning is the working path. 0 leaked zombie sandboxes.
 - **15:00 – 15:45 (Hour 2 · The "Click-Lock" Struggle & Breakthrough)**: The AI kept clicking the same textbox 24 times without typing! Paired with **Antigravity** to diagnose visual grounding breakdown and engineer smart coordinate snapping to fix its visual aim, achieving 3/3 clean completions.
 - **15:45 – 17:00 (Hour 3+ · Direct DB Verification & Shipped Live)**: Verified database records directly out of SQLite (C1–C7) to causally prove robustness, benchmarked against **GPT 5.6 Luna** via **OpenCode Go**, and generated 110 passing Vitest unit tests via **Claude Code**, setting up automated CI and deploying the live showcase.
-- *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) and the 10 step reports in [`reports/`](reports/).*
+- *Want the raw audit trail? Read [`AUDIT_LOG.md`](AUDIT_LOG.md) here, and the 10 step reports in `coldstart/reports/` in the parent workspace.*
 
 ##### The 48-Hour Build Timeline Overview
 | Phase | Timeframe | Focus | Deliverables & Milestones |
@@ -292,7 +298,7 @@ A free / general chat model **cannot reliably complete this form.** Across the s
 tried in Step 04, most **click-locked on a field and never emitted a single `type`** (so no
 text was ever entered), looped, or got rate-limited (`HTTP 429`); only
 `opencode-go-responses-gpt-5-6-luna` reliably drove the baseline to a `POSTED` invoice
-(3/3, 16 steps each, [Step 04b](reports/step-04b-repeatability.md)). **The durable artifact
+(3/3, 16 steps each, [Step 04b](coldstart/reports/step-04b-repeatability.md)). **The durable artifact
 is the harness + grounding + fail-closed verification** — not the model. The harness behaved
 correctly even when the model did not, and recorded the failure honestly.
 
@@ -453,7 +459,6 @@ src/
   verify/                   fail-closed verifier (verifier, checks C1-C7)
   scorecard/                scorecard + curve + cost + axis-isolated runner
 test/                       vitest unit tests — 110, offline (prng, axes, verifier, agent-loop, model-router, slop-scoring, slop-catcher, render-demo-report, scan-url, demo-site, design-qa-orchestrator)
-reports/                    the 10 audited per-step build reports (Steps 00-07)
 artifacts/                  scorecard.json, curve.png, where-it-breaks.md, showcase.*, runs/
 scripts/                    live run wrappers (source .env, never echo keys)
 examples/                   <- upstream Solari cookbook samples (not part of ColdStart)
@@ -536,7 +541,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 | [`docs/proposals/v1-witness.md`](docs/proposals/v1-witness.md) | First proposal — rejected after audit (crowded cluster, would have copied competitors) |
 | [`docs/proposals/v2-coldstart.md`](docs/proposals/v2-coldstart.md) | Final proposal — validated the uncrowded gap, aligned with Pinetree's thesis |
 | [`NEXT_STEPS.md`](NEXT_STEPS.md) | What I'd build next if hired (including the 3-Layer Cost-Optimized Multi-Model Evaluation Pipeline) |
-| [`reports/`](reports/) | The 10 audited build reports showing incremental progress |
+| `coldstart/reports/` (parent) | The 10 audited build reports showing incremental progress |
 
 ---
 
@@ -546,7 +551,7 @@ This is a **fork of the [Solari cookbook](https://github.com/solari-sdk/solari-c
 ColdStart was built on top of it as a working answer to the Pinetree Research SWE-intern
 challenge.
 
-- **ColdStart** — everything in `src/`, `test/`, `scripts/`, `artifacts/`, `reports/`,
+- **ColdStart** — everything in `src/`, `test/`, `scripts/`, `artifacts/`,
   `DESIGN.md`, and this README.
 - **`examples/`** — the **upstream** Solari cookbook samples (browser quickstarts TS/Py, desktop computer-use, sandbox code interpreter, sandbox port preview, session recording, browser stealth proxy, browser profiles). They are unmodified, are not part of ColdStart, and are kept so this fork stays rebaseable against upstream. See
   the [Solari SDK docs](https://docs.getsolari.com) for those.
@@ -558,7 +563,7 @@ challenge.
 - [`NEXT_STEPS.md`](NEXT_STEPS.md) — what I'd build next if hired (the "Slop-Catcher" multi-model router & compute economics)
 - [`DESIGN.md`](DESIGN.md) — the locked design contract (task app, axes, action space, verifier, scorecard schema, sandbox strategy)
 - [`docs/proposals/`](docs/proposals/) — the proposal iteration (v1 Witness → v2 ColdStart)
-- [`reports/`](reports/) — the audited per-step build reports, Steps 00-07, each with commands, deliverables, evidence pointers, and a self-check against acceptance criteria
+- [`coldstart/reports/`](../../reports/) (parent workspace) — the audited per-step build reports, Steps 00-07, each with commands, deliverables, evidence pointers, and a self-check against acceptance criteria
 - [`artifacts/`](artifacts/) — the scorecard, curve, break analysis, and showcase media
 
 MIT licensed. Built on the [Solari cookbook](https://github.com/solari-sdk/solari-cookbook) and
