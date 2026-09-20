@@ -17,6 +17,8 @@
 >    **Metrics:** **99.69% Cost Reduction** ($0.0015 vs $0.4820/task) · **2.31ms Avg Latency** · **155/155 Tests Passing** · **100% WebArena & OSWorld Pass**.  
 >    👉 **[Explore Live ARC Showcase & Simulator](https://itw-code.github.io/arc-cua/)** | **[Watch Kinetic Motion Explainer](https://itw-code.github.io/arc-cua/explain.html)** | **[Standalone Repo](https://github.com/itw-code/arc-cua)**
 >
+>    ![ARC Action Replay — 2.31ms Sub-Millisecond Reflex Execution inside Solari MicroVM](artifacts/arc-action-replay.gif)
+>
 > 2. ❄️ **[ColdStart](./src/) — The Generalization Harness:**  
 >    Never shows an agent the same app twice. Procedurally mutates task apps along 5 orthogonal axes to measure whether vision-first agents generalize to unseen environments cold, backed by fail-closed SQLite verification.  
 >    **Metrics:** 110/110 Tests Passing · Procedural Variant Matrix · Causal Failure Attribution.  
