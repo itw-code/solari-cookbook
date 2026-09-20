@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arc-cua"
+version = "0.1.0"
+description = "Arc-Native Hybrid Computer Use Agent (CUA)"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+    { name = "Arc AI Research Team" }
+]
+dependencies = [
+    "playwright>=1.40.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

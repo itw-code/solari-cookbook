@@ -1,0 +1,73 @@
+{
+  "environment": "Windows 11 (AMD64), Python 3.12.10",
+  "sample_size": 1000,
+  "integration_mode": "mock",
+  "metrics": {
+    "trajectory_collector_latency_ms": {
+      "metric_name": "trajectory_collector_latency_ms",
+      "count": 1000,
+      "mean": 0.0034,
+      "min": 0.0022,
+      "max": 0.1013,
+      "p50": 0.0027,
+      "p95": 0.0048,
+      "p99": 0.0183
+    },
+    "feature_builder_latency_ms": {
+      "metric_name": "feature_builder_latency_ms",
+      "count": 1000,
+      "mean": 0.0203,
+      "min": 0.0055,
+      "max": 0.2351,
+      "p50": 0.0164,
+      "p95": 0.041,
+      "p99": 0.1135
+    },
+    "heuristic_monitor_latency_ms": {
+      "metric_name": "heuristic_monitor_latency_ms",
+      "count": 1000,
+      "mean": 0.0381,
+      "min": 0.0061,
+      "max": 0.1569,
+      "p50": 0.0378,
+      "p95": 0.0475,
+      "p99": 0.0911
+    },
+    "learned_monitor_latency_ms_or_null": null,
+    "labeler_throughput_records_per_sec": {
+      "records_per_sec": 231213.87,
+      "total_windows": 1000,
+      "total_time_sec": 0.0043
+    },
+    "mock_cortex_recovery_latency_ms": {
+      "metric_name": "mock_cortex_recovery_latency_ms",
+      "count": 1000,
+      "mean": 0.0044,
+      "min": 0.0031,
+      "max": 0.0814,
+      "p50": 0.0035,
+      "p95": 0.0045,
+      "p99": 0.0298
+    },
+    "dry_run_cortex_payload_latency_ms": {
+      "metric_name": "dry_run_cortex_payload_latency_ms",
+      "count": 1000,
+      "mean": 0.0113,
+      "min": 0.0099,
+      "max": 0.094,
+      "p50": 0.0107,
+      "p95": 0.0124,
+      "p99": 0.0183
+    },
+    "live_browser_hybrid_step_latency_ms": {
+      "metric_name": "live_browser_hybrid_step_latency_ms",
+      "count": 10,
+      "mean": 206.8549,
+      "min": 206.8549,
+      "max": 206.8549,
+      "p50": 206.8549,
+      "p95": 206.8549,
+      "p99": 206.8549
+    }
+  }
+}

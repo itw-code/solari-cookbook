@@ -1,0 +1,244 @@
+{
+  "total_tasks": 13,
+  "successful_tasks": 12,
+  "success_rate": 0.9231,
+  "avg_duration_ms": 1656.4,
+  "p50_duration_ms": 1205.35,
+  "p95_duration_ms": 6661.66,
+  "p99_duration_ms": 6661.66,
+  "total_steps": 43,
+  "avg_steps_per_task": 3.31,
+  "reflex_step_share": 0.6512,
+  "escalation_rate": 0.4615,
+  "recovery_attempt_rate": 0.4615,
+  "recovery_success_rate": 0.6667,
+  "milestone_detection_count": 8,
+  "abort_rate": 0.0,
+  "total_cost_usd": 0.000106,
+  "avg_cost_per_task_usd": 8e-06,
+  "assertion_failure_count": 1,
+  "mode": "hybrid",
+  "details": {
+    "is_mocked": false,
+    "category_stats": {
+      "healthy_form": {
+        "total": 1,
+        "success": 1
+      },
+      "healthy_navigation": {
+        "total": 1,
+        "success": 1
+      },
+      "healthy_dropdown": {
+        "total": 1,
+        "success": 1
+      },
+      "healthy_scroll": {
+        "total": 1,
+        "success": 1
+      },
+      "healthy_input_validation": {
+        "total": 1,
+        "success": 1
+      },
+      "stuck_noop": {
+        "total": 1,
+        "success": 1
+      },
+      "stuck_missing_locator": {
+        "total": 1,
+        "success": 1
+      },
+      "recovery_after_noop": {
+        "total": 1,
+        "success": 1
+      },
+      "recovery_after_timeout": {
+        "total": 1,
+        "success": 1
+      },
+      "milestone_multi_step": {
+        "total": 2,
+        "success": 2
+      },
+      "readiness_blocked_element": {
+        "total": 1,
+        "success": 1
+      },
+      "assertion_failure": {
+        "total": 1,
+        "success": 0
+      }
+    },
+    "min_duration_ms": 889.62,
+    "max_duration_ms": 6661.66,
+    "total_recovery_attempts": 6,
+    "total_recovery_successes": 4
+  },
+  "comparison": {
+    "reflex_only": {
+      "total_tasks": 13,
+      "successful_tasks": 6,
+      "success_rate": 0.4615,
+      "avg_duration_ms": 1137.98,
+      "p50_duration_ms": 867.92,
+      "p95_duration_ms": 4029.22,
+      "p99_duration_ms": 4029.22,
+      "total_steps": 22,
+      "avg_steps_per_task": 1.69,
+      "reflex_step_share": 1.0,
+      "escalation_rate": 0.4615,
+      "recovery_attempt_rate": 0.0,
+      "recovery_success_rate": 0.0,
+      "milestone_detection_count": 0,
+      "abort_rate": 0.4615,
+      "total_cost_usd": 7.4e-05,
+      "avg_cost_per_task_usd": 6e-06,
+      "assertion_failure_count": 3,
+      "mode": "reflex_only",
+      "details": {
+        "is_mocked": false,
+        "category_stats": {
+          "healthy_form": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_navigation": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_dropdown": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_scroll": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_input_validation": {
+            "total": 1,
+            "success": 1
+          },
+          "stuck_noop": {
+            "total": 1,
+            "success": 0
+          },
+          "stuck_missing_locator": {
+            "total": 1,
+            "success": 0
+          },
+          "recovery_after_noop": {
+            "total": 1,
+            "success": 0
+          },
+          "recovery_after_timeout": {
+            "total": 1,
+            "success": 0
+          },
+          "milestone_multi_step": {
+            "total": 2,
+            "success": 1
+          },
+          "readiness_blocked_element": {
+            "total": 1,
+            "success": 0
+          },
+          "assertion_failure": {
+            "total": 1,
+            "success": 0
+          }
+        },
+        "min_duration_ms": 750.73,
+        "max_duration_ms": 4029.22,
+        "total_recovery_attempts": 0,
+        "total_recovery_successes": 0
+      },
+      "comparison": null
+    },
+    "hybrid": {
+      "total_tasks": 13,
+      "successful_tasks": 12,
+      "success_rate": 0.9231,
+      "avg_duration_ms": 1656.4,
+      "p50_duration_ms": 1205.35,
+      "p95_duration_ms": 6661.66,
+      "p99_duration_ms": 6661.66,
+      "total_steps": 43,
+      "avg_steps_per_task": 3.31,
+      "reflex_step_share": 0.6512,
+      "escalation_rate": 0.4615,
+      "recovery_attempt_rate": 0.4615,
+      "recovery_success_rate": 0.6667,
+      "milestone_detection_count": 8,
+      "abort_rate": 0.0,
+      "total_cost_usd": 0.000106,
+      "avg_cost_per_task_usd": 8e-06,
+      "assertion_failure_count": 1,
+      "mode": "hybrid",
+      "details": {
+        "is_mocked": false,
+        "category_stats": {
+          "healthy_form": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_navigation": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_dropdown": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_scroll": {
+            "total": 1,
+            "success": 1
+          },
+          "healthy_input_validation": {
+            "total": 1,
+            "success": 1
+          },
+          "stuck_noop": {
+            "total": 1,
+            "success": 1
+          },
+          "stuck_missing_locator": {
+            "total": 1,
+            "success": 1
+          },
+          "recovery_after_noop": {
+            "total": 1,
+            "success": 1
+          },
+          "recovery_after_timeout": {
+            "total": 1,
+            "success": 1
+          },
+          "milestone_multi_step": {
+            "total": 2,
+            "success": 2
+          },
+          "readiness_blocked_element": {
+            "total": 1,
+            "success": 1
+          },
+          "assertion_failure": {
+            "total": 1,
+            "success": 0
+          }
+        },
+        "min_duration_ms": 889.62,
+        "max_duration_ms": 6661.66,
+        "total_recovery_attempts": 6,
+        "total_recovery_successes": 4
+      },
+      "comparison": null
+    },
+    "deltas": {
+      "success_rate_diff": 0.4615,
+      "recovery_success_rate_diff": 0.6667,
+      "p50_duration_ms_diff": 337.43,
+      "hybrid_outperforms_reflex": true
+    }
+  }
+}

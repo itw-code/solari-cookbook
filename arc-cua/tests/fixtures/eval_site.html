@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARC Evaluation Suite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 20px;
+            color: #24292e;
+            background-color: #f6f8fa;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 16px;
+            border-bottom: 1px solid #eaecef;
+            padding-bottom: 8px;
+        }
+        .form-row {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 130px;
+            font-weight: 600;
+        }
+        input[type="text"], select {
+            padding: 6px 10px;
+            border: 1px solid #d1d5da;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 250px;
+        }
+        button {
+            padding: 6px 14px;
+            background-color: #2ea44f;
+            color: white;
+            border: 1px solid rgba(27,31,35,.15);
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2c974b;
+        }
+        button.secondary {
+            background-color: #fafbfc;
+            color: #24292e;
+            border-color: #d1d5da;
+        }
+        button.secondary:hover {
+            background-color: #f3f4f6;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .status-box {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            background-color: #f1f8ff;
+            border: 1px solid #c8e1ff;
+            display: inline-block;
+        }
+        .error-box {
+            background-color: #ffeef0;
+            border-color: #fdb8c0;
+            color: #cb2431;
+        }
+        .success-box {
+            background-color: #dcffe4;
+            border-color: #bef5cb;
+            color: #22863a;
+        }
+        .spacer-tall {
+            height: 200px;
+            background: linear-gradient(180deg, #f1f8ff 0%, #ffffff 100%);
+            border: 1px dashed #c8e1ff;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #586069;
+        }
+        /* Hidden & trap test elements */
+        .display-none {
+            display: none;
+        }
+        .visibility-hidden {
+            visibility: hidden;
+        }
+        .zero-pixel-trap {
+            width: 0px;
+            height: 0px;
+            overflow: hidden;
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        nav.tab-bar button {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="suite-title">ARC Evaluation Suite</h1>
+        <p id="suite-description">Deterministic local test bench for Phase 4A evaluation harness.</p>
+    </header>
+
+    <!-- 1. Simple Form Task -->
+    <section class="card" id="section-form">
+        <h2>1. Simple Form Task</h2>
+        <div class="form-row">
+            <label for="user-name">User Name:</label>
+            <input type="text" id="user-name" name="username" placeholder="Enter username" />
+        </div>
+        <div class="form-row">
+            <label for="user-email">User Email:</label>
+            <input type="text" id="user-email" name="email" placeholder="Enter email" />
+        </div>
+        <button id="submit-form-btn" onclick="submitForm()">Submit Form</button>
+        <div id="form-result" class="status-box">Form ready</div>
+    </section>
+
+    <!-- 2. Navigation Task -->
+    <section class="card" id="section-nav">
+        <h2>2. Navigation Task</h2>
+        <nav class="tab-bar">
+            <button id="nav-to-overview" class="secondary" onclick="switchNav('Overview', '#overview')">Overview</button>
+            <button id="nav-to-details" class="secondary" onclick="switchNav('Details', '#details')">Details</button>
+            <button id="nav-to-settings" class="secondary" onclick="switchNav('Settings', '#settings')">Settings</button>
+        </nav>
+        <div id="current-view-title" class="status-box" style="margin-top: 10px;">View: Overview</div>
+        <div id="view-content" style="margin-top: 8px;">Active section content for Overview</div>
+    </section>
+
+    <!-- 3. Select Dropdown Task -->
+    <section class="card" id="section-dropdown">
+        <h2>3. Select Dropdown Task</h2>
+        <div class="form-row">
+            <label for="priority-select">Task Priority:</label>
+            <select id="priority-select" onchange="onPriorityChange()">
+                <option value="none">-- Select Priority --</option>
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+                <option value="critical">Critical Priority</option>
+            </select>
+        </div>
+        <button id="apply-priority-btn" onclick="applyPriority()">Apply Priority</button>
+        <div id="dropdown-selected-value" class="status-box">Selected: none</div>
+        <div id="priority-status" class="status-box">Status: Pending</div>
+    </section>
+
+    <!-- 4. Scroll-to-Reveal Task -->
+    <section class="card" id="section-scroll">
+        <h2>4. Scroll-to-Reveal Task</h2>
+        <p>Scroll down past the spacer block to reveal and click the button.</p>
+        <div class="spacer-tall" id="scroll-container">
+            <span>[Spacer Area (1200px) - Scroll down to find target]</span>
+        </div>
+        <button id="revealed-target-btn" onclick="clickRevealed()">Reveal Action Completed</button>
+        <div id="scroll-status" class="status-box">Scroll status: Unclicked</div>
+    </section>
+
+    <!-- 5. Input Validation Task -->
+    <section class="card" id="section-validation">
+        <h2>5. Input Validation Task</h2>
+        <div class="form-row">
+            <label for="validated-input">Access Token:</label>
+            <input type="text" id="validated-input" placeholder="Min 6 characters" />
+        </div>
+        <button id="validate-btn" onclick="validateInput()">Validate Input</button>
+        <div id="validation-result" class="status-box">Awaiting validation</div>
+    </section>
+
+    <!-- 6. No-op Stuck Task -->
+    <section class="card" id="section-noop">
+        <h2>6. No-op Stuck Task</h2>
+        <p>This button is intentionally inert. Clicking produces no DOM or text mutations.</p>
+        <button id="noop-action-btn" class="secondary" onclick="/* intentionally no-op */">Inert No-Op Button</button>
+        <div id="noop-status" class="status-box">No-op State Unchanged</div>
+    </section>
+
+    <!-- 7. Recovery Task -->
+    <section class="card" id="section-recovery">
+        <h2>7. Recovery Task</h2>
+        <p>Simulates recovering from a stuck state via an explicit recovery button.</p>
+        <button id="stuck-trigger-btn" class="secondary" onclick="/* no state change */">Trigger Loop</button>
+        <button id="recovery-action-btn" onclick="executeRecovery()">Execute Recovery Action</button>
+        <div id="recovery-status" class="status-box">Recovery Status: Idle</div>
+    </section>
+
+    <!-- 8. Milestone Progression Task -->
+    <section class="card" id="section-milestones">
+        <h2>8. Milestone Progression Task</h2>
+        <p>Multi-step pipeline advancing through milestones.</p>
+        <button id="milestone-step-1" class="secondary" onclick="advanceMilestone(1)">Advance to Milestone 1</button>
+        <button id="milestone-step-2" class="secondary" onclick="advanceMilestone(2)">Advance to Milestone 2</button>
+        <button id="milestone-step-3" class="secondary" onclick="advanceMilestone(3)">Complete Workflow</button>
+        <div id="milestone-indicator" class="status-box">Milestone Progress: Step 0</div>
+    </section>
+
+    <!-- 9. Hidden, Disabled & Trap Elements for Readiness Testing -->
+    <section class="card" id="section-readiness-guards">
+        <h2>9. Readiness Guard Test Elements</h2>
+        <button id="hidden-element" class="display-none">Hidden By Display None</button>
+        <button id="invisible-element" class="visibility-hidden">Hidden By Visibility Hidden</button>
+        <button id="zero-pixel-element" class="zero-pixel-trap">Zero Pixel Trap Button</button>
+        <button id="disabled-submit-btn" disabled>Disabled Button</button>
+        <div id="readiness-log" class="status-box">Guards active</div>
+    </section>
+
+    <script>
+        function submitForm() {
+            var u = document.getElementById('user-name').value;
+            var e = document.getElementById('user-email').value;
+            var res = document.getElementById('form-result');
+            res.innerText = 'Form submitted: ' + u + ' (' + e + ')';
+            res.className = 'status-box success-box';
+        }
+
+        function switchNav(name, hash) {
+            window.location.hash = hash;
+            document.getElementById('current-view-title').innerText = 'View: ' + name;
+            document.getElementById('view-content').innerText = 'Active section content for ' + name;
+        }
+
+        function onPriorityChange() {
+            var val = document.getElementById('priority-select').value;
+            document.getElementById('dropdown-selected-value').innerText = 'Selected: ' + val;
+        }
+
+        function applyPriority() {
+            var val = document.getElementById('priority-select').value;
+            document.getElementById('priority-status').innerText = 'Priority set to ' + val;
+            document.getElementById('priority-status').className = 'status-box success-box';
+        }
+
+        function clickRevealed() {
+            var st = document.getElementById('scroll-status');
+            st.innerText = 'Revealed button clicked successfully';
+            st.className = 'status-box success-box';
+        }
+
+        function validateInput() {
+            var val = document.getElementById('validated-input').value;
+            var res = document.getElementById('validation-result');
+            if (val && val.length >= 6) {
+                res.innerText = 'Validation Passed: ' + val;
+                res.className = 'status-box success-box';
+            } else {
+                res.innerText = 'Validation Failed: Input must be at least 6 characters';
+                res.className = 'status-box error-box';
+            }
+        }
+
+        function executeRecovery() {
+            var st = document.getElementById('recovery-status');
+            st.innerText = 'Recovery Succeeded: State Resumed';
+            st.className = 'status-box success-box';
+        }
+
+        function advanceMilestone(step) {
+            var ind = document.getElementById('milestone-indicator');
+            if (step === 3) {
+                ind.innerText = 'Milestone 3 Completed - Workflow Done';
+                ind.className = 'status-box success-box';
+            } else {
+                ind.innerText = 'Milestone ' + step + ' Completed';
+                ind.className = 'status-box';
+            }
+        }
+    </script>
+</body>
+</html>

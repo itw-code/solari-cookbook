@@ -1,0 +1,9 @@
+{
+  "total_windows": 15,
+  "stuck_positive": 6,
+  "stuck_negative": 9,
+  "milestone_positive": 8,
+  "milestone_negative": 7,
+  "label_source": "heuristic",
+  "metadata": {}
+}

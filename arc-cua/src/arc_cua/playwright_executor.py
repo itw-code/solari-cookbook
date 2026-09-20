@@ -1,0 +1,391 @@
+"""Deterministic Playwright Executor for Phase 2 Reflex Automation.
+
+Implements Task 2.1:
+- Implements the ActionExecutor interface defined in executor_interface.py.
+- Implements methods: click, type_text, select, scroll, press_key, goto, wait.
+- Ensures all actions use strict element-readiness contracts via public Playwright APIs.
+- Catches Playwright timeouts and DOM exceptions, returning structured ActionResult schemas.
+- Strictly adheres to public Playwright APIs, zero usage of private internals.
+"""
+
+from __future__ import annotations
+
+import logging
+import time
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+try:
+    from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
+    from playwright.sync_api import Error as PlaywrightError
+except ImportError:
+    PlaywrightTimeoutError = TimeoutError  # type: ignore
+    PlaywrightError = RuntimeError  # type: ignore
+
+from .executor_interface import (
+    ActionExecutor,
+    ActionPayload,
+    ActionVerb,
+    audit_public_api_compliance,
+)
+from .schemas import ActionResult
+
+logger = logging.getLogger("arc_cua.playwright_executor")
+
+
+class PlaywrightExecutor(ActionExecutor):
+    """Deterministic local execution engine using strictly public Playwright APIs."""
+
+    def __init__(self, default_timeout_ms: float = 5000.0, audit_compliance: bool = True):
+        """Initialize the deterministic Playwright executor.
+
+        Args:
+            default_timeout_ms: Fallback timeout in milliseconds for element interactions.
+            audit_compliance: If True, audits page objects for forbidden private internals.
+        """
+        self.default_timeout_ms = default_timeout_ms
+        self.audit_compliance = audit_compliance
+
+    def _pre_action_audit(self, page: Any) -> None:
+        """Verify target page object does not access forbidden private attributes."""
+        if self.audit_compliance:
+            is_clean, violations = audit_public_api_compliance(page)
+            if not is_clean:
+                logger.warning(
+                    f"Public API Audit Warning: page target exposes private internals: {violations}"
+                )
+
+    def execute(self, page: Any, action: ActionPayload) -> ActionResult:
+        """Route ActionPayload to respective public Playwright method.
+
+        Args:
+            page: Public Playwright Page object.
+            action: ActionPayload command with verb and parameters.
+
+        Returns:
+            ActionResult with timing, success status, and error diagnostics.
+        """
+        self._pre_action_audit(page)
+        timeout_ms = action.timeout_ms or self.default_timeout_ms
+
+        if action.verb in (ActionVerb.CLICK, ActionVerb.DBLCLICK):
+            if action.coordinates is not None:
+                x, y = action.coordinates
+                return self.click(page, f"coords:{x},{y}", timeout_ms=timeout_ms)
+            if action.target_selector:
+                return self.click(page, action.target_selector, timeout_ms=timeout_ms)
+            return ActionResult(
+                success=False,
+                verb=action.verb.value,
+                error_message="CLICK requires target_selector or coordinates",
+                action=action,
+            )
+
+        elif action.verb in (ActionVerb.TYPE, ActionVerb.FILL):
+            if not action.target_selector:
+                return ActionResult(
+                    success=False,
+                    verb=action.verb.value,
+                    error_message="TYPE/FILL requires target_selector",
+                    action=action,
+                )
+            return self.type_text(
+                page, action.target_selector, action.value or "", timeout_ms=timeout_ms
+            )
+
+        elif action.verb == ActionVerb.SELECT_OPTION:
+            if not action.target_selector or action.value is None:
+                return ActionResult(
+                    success=False,
+                    verb=action.verb.value,
+                    error_message="SELECT_OPTION requires target_selector and value",
+                    action=action,
+                )
+            return self.select(
+                page, action.target_selector, action.value, timeout_ms=timeout_ms
+            )
+
+        elif action.verb == ActionVerb.PRESS_KEY:
+            if not action.value:
+                return ActionResult(
+                    success=False,
+                    verb=action.verb.value,
+                    error_message="PRESS_KEY requires key value",
+                    action=action,
+                )
+            return self.press_key(page, action.value)
+
+        elif action.verb == ActionVerb.SCROLL:
+            dx, dy = action.scroll_delta or (0, 300)
+            return self.scroll(page, dx, dy)
+
+        elif action.verb == ActionVerb.NAVIGATE:
+            if not action.value:
+                return ActionResult(
+                    success=False,
+                    verb=action.verb.value,
+                    error_message="NAVIGATE requires URL value",
+                    action=action,
+                )
+            return self.goto(page, action.value, timeout_ms=timeout_ms)
+
+        elif action.verb == ActionVerb.WAIT_FOR_SELECTOR:
+            if action.target_selector:
+                start = time.perf_counter()
+                try:
+                    page.locator(action.target_selector).wait_for(
+                        state="visible", timeout=timeout_ms
+                    )
+                    lat = (time.perf_counter() - start) * 1000.0
+                    return ActionResult(
+                        success=True,
+                        verb="WAIT_FOR_SELECTOR",
+                        target_selector=action.target_selector,
+                        latency_ms=lat,
+                        resulting_url=getattr(page, "url", None),
+                        action=action,
+                    )
+                except Exception as e:
+                    lat = (time.perf_counter() - start) * 1000.0
+                    return ActionResult(
+                        success=False,
+                        verb="WAIT_FOR_SELECTOR",
+                        target_selector=action.target_selector,
+                        latency_ms=lat,
+                        error_message=str(e),
+                        resulting_url=getattr(page, "url", None),
+                        action=action,
+                    )
+            else:
+                wait_dur = int(action.value) if (action.value and str(action.value).isdigit()) else timeout_ms
+                return self.wait(page, timeout_ms=wait_dur)
+        else:
+            return ActionResult(
+                success=False,
+                verb=str(action.verb),
+                error_message=f"Unsupported action verb: {action.verb}",
+                action=action,
+            )
+
+    def click(self, page: Any, selector: str, timeout_ms: float = 3000.0) -> ActionResult:
+        """Click an element via public `page.locator(selector).click()` or coordinate click."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            # Check for coordinate-based click string
+            if selector.startswith("coords:"):
+                raw_coords = selector[len("coords:"):]
+                cx, cy = [float(c.strip()) for c in raw_coords.split(",")]
+                page.mouse.click(cx, cy)
+                lat = (time.perf_counter() - start) * 1000.0
+                return ActionResult(
+                    success=True,
+                    verb="CLICK",
+                    target_selector=selector,
+                    latency_ms=lat,
+                    resulting_url=getattr(page, "url", None),
+                    metadata={"click_type": "coordinates", "x": cx, "y": cy},
+                )
+
+            # Public Playwright locator click: auto-waits for visible, stable, enabled, non-occluded
+            loc = page.locator(selector)
+            loc.click(timeout=timeout_ms)
+
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="CLICK",
+                target_selector=selector,
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+                metadata={"click_type": "locator"},
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Click failed on '{selector}': {exc}")
+            return ActionResult(
+                success=False,
+                verb="CLICK",
+                target_selector=selector,
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )
+
+    def type_text(
+        self, page: Any, selector: str, text: str, timeout_ms: float = 3000.0
+    ) -> ActionResult:
+        """Type or fill text into an element via public `page.locator(selector).fill(text)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            loc = page.locator(selector)
+            # Public Playwright fill: auto-waits for visible, stable, enabled
+            loc.fill(text, timeout=timeout_ms)
+
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="TYPE",
+                target_selector=selector,
+                value=text,
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Type failed on '{selector}': {exc}")
+            return ActionResult(
+                success=False,
+                verb="TYPE",
+                target_selector=selector,
+                value=text,
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )
+
+    def select(
+        self, page: Any, selector: str, value: str, timeout_ms: float = 3000.0
+    ) -> ActionResult:
+        """Select dropdown option via public `page.locator(selector).select_option(value=value)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            loc = page.locator(selector)
+            # Public Playwright select_option
+            loc.select_option(value=value, timeout=timeout_ms)
+
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="SELECT",
+                target_selector=selector,
+                value=value,
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Select failed on '{selector}': {exc}")
+            return ActionResult(
+                success=False,
+                verb="SELECT",
+                target_selector=selector,
+                value=value,
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )
+
+    def scroll(self, page: Any, delta_x: int, delta_y: int) -> ActionResult:
+        """Scroll page via public `page.mouse.wheel(delta_x, delta_y)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            page.mouse.wheel(delta_x, delta_y)
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="SCROLL",
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+                metadata={"delta_x": delta_x, "delta_y": delta_y},
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Scroll failed ({delta_x}, {delta_y}): {exc}")
+            return ActionResult(
+                success=False,
+                verb="SCROLL",
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+                metadata={"delta_x": delta_x, "delta_y": delta_y},
+            )
+
+    def press_key(self, page: Any, key: str) -> ActionResult:
+        """Dispatch keyboard event via public `page.keyboard.press(key)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            page.keyboard.press(key)
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="PRESS_KEY",
+                value=key,
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Press key failed '{key}': {exc}")
+            return ActionResult(
+                success=False,
+                verb="PRESS_KEY",
+                value=key,
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )
+
+    def goto(self, page: Any, url: str, timeout_ms: float = 30000.0) -> ActionResult:
+        """Navigate via public `page.goto(url)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            page.goto(url, timeout=timeout_ms)
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="GOTO",
+                value=url,
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Goto failed on '{url}': {exc}")
+            return ActionResult(
+                success=False,
+                verb="GOTO",
+                value=url,
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )
+
+    def wait(self, page: Any, timeout_ms: float = 1000.0) -> ActionResult:
+        """Wait via public `page.wait_for_timeout(timeout_ms)`."""
+        self._pre_action_audit(page)
+        start = time.perf_counter()
+
+        try:
+            if hasattr(page, "wait_for_timeout"):
+                page.wait_for_timeout(timeout_ms)
+            else:
+                time.sleep(timeout_ms / 1000.0)
+
+            lat = (time.perf_counter() - start) * 1000.0
+            return ActionResult(
+                success=True,
+                verb="WAIT",
+                latency_ms=lat,
+                resulting_url=getattr(page, "url", None),
+            )
+        except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+            lat = (time.perf_counter() - start) * 1000.0
+            logger.debug(f"Wait failed: {exc}")
+            return ActionResult(
+                success=False,
+                verb="WAIT",
+                latency_ms=lat,
+                error_message=str(exc),
+                resulting_url=getattr(page, "url", None),
+            )

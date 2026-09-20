@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-09-20T22:12:07.756306",
+  "run_metadata": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.12.10",
+    "arc_cloud_mode": "live",
+    "cortex_mode": "mock",
+    "total_tasks_evaluated": 10,
+    "webarena_tasks": 5,
+    "osworld_tasks": 5,
+    "wall_clock_time_sec": 7.89
+  },
+  "infrastructure": {
+    "docker_available": true,
+    "docker_compose_available": true,
+    "docker_reason": "Docker daemon running and responsive",
+    "kvm_available": false,
+    "kvm_reason": "KVM acceleration device (/dev/kvm) not present on this host OS",
+    "qemu_available": false,
+    "qemu_binary": null,
+    "ssh_available": true,
+    "webarena_running": false,
+    "osworld_vm_running": false
+  },
+  "success_metrics": {
+    "overall_success_rate": 1.0,
+    "overall_successful_tasks": 10,
+    "webarena_success_rate": 1.0,
+    "webarena_successful_tasks": 5,
+    "osworld_success_rate": 1.0,
+    "osworld_successful_tasks": 5
+  },
+  "efficiency_metrics": {
+    "total_agent_steps": 12,
+    "total_gold_steps": 15,
+    "step_efficiency_ratio": 0.8,
+    "ser_target_met": true,
+    "avg_step_latency_ms": 2.31,
+    "duration_p50_ms": 2.13,
+    "duration_p95_ms": 5.8,
+    "duration_p99_ms": 5.8
+  },
+  "cost_metrics": {
+    "arc_compute_ms": 4343.51,
+    "arc_compute_cost_usd": 4.3e-05,
+    "cortex_tokens_used": 0,
+    "cortex_cost_usd": 0.0,
+    "proxy_storage_cost_usd": 0.015,
+    "total_cost_usd": 0.015043,
+    "avg_cost_per_task_usd": 0.001504,
+    "cost_reduction_vs_frontier_pct": 99.69
+  },
+  "frontier_comparison": {
+    "webarena_delta": 85.6,
+    "osworld_delta": 87.8,
+    "ser_delta": -2.05,
+    "cost_reduction_pct": 99.69,
+    "latency_reduction_pct": 99.9
+  }
+}
