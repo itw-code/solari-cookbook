@@ -36,7 +36,6 @@ I'm an **Analytics Engineer** at **SawitPRO** (palm oil industry) based in **Ind
 | Project | What it is | Stack |
 |---------|------------|-------|
 | [**ColdStart**](https://github.com/itw-code/solari-cookbook) | Zero-shot generalization harness for computer-use agents — this submission | TypeScript, Solari SDK, vision-first agents |
-| [**claude-guardian**](https://github.com/ihsanwanda-pro/claude-guardian) | Claude-based automation tooling (work account) | Python |
 
 ---
 

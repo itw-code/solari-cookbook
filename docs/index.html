@@ -1016,12 +1016,12 @@
             <span class="px-2.5 py-0.5 rounded bg-purple-900/60 text-purple-300 border border-purple-500/30 text-[11px] font-mono font-bold uppercase">Software Teams &amp; Design Ops</span>
             <span class="text-xl">🎨</span>
           </div>
-          <h5 class="text-lg font-bold text-white mb-2">Automated PR Gatekeeping &amp; "Slop" Filtering</h5>
+          <h5 class="text-lg font-bold text-white mb-2">Automated PR Gatekeeping &amp; "Slop" Filtering <span class="align-middle text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-700">IDEA · MOCK EXPERIMENT ONLY</span></h5>
           <p class="text-xs text-slate-300 leading-relaxed mb-3">
             <strong>The Problem:</strong> Developers are drowning in AI-generated pull requests. The bottleneck is no longer writing code; it's reviewing it for "AI Slop" (bad contrast, generic layouts, poor spacing). Running heavy CUAs to check UI aesthetics is cost-prohibitive.
           </p>
           <div class="text-xs text-purple-300 font-mono bg-black/60 p-3 rounded-xl border border-white/5">
-            <strong>The Fix:</strong> The ColdStart Multi-Model Router spins up a Solari microVM in 10s. The lightweight VLM layer checks the PR for accessibility and brand compliance for pennies. If it passes, the heavy CUA verifies the structural flow. Bad PRs are auto-blocked before a human ever reviews them.
+            <strong>The idea:</strong> a lightweight VLM checks the PR's UI for accessibility and brand compliance, and only if it passes does a heavier CUA verify the flow. Explored as the Slop-Catcher mock below; nothing is auto-blocked today and the cost is not measured.
           </div>
         </div>
 
@@ -1315,7 +1315,7 @@
 
     </div>
 
-    <!-- PHASE 2 ARCHITECTURE: THE SLOP-CATCHER & MULTI-MODEL ROUTER -->
+    <!-- SIDE EXPERIMENT: SLOP-CATCHER (MOCK) -->
     <div class="mt-16 pt-12 border-t border-white/10">
       <div class="p-6 sm:p-8 rounded-2xl glass-card border border-purple-500/40 bg-purple-950/20 mb-12">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
@@ -1325,13 +1325,13 @@
             </div>
             <div>
               <!-- ### 🧠 Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY) -->
-              <h3 class="text-xl sm:text-2xl font-black text-white">🧠 Phase 2 Prototype: Slop-Catcher &amp; Model Configuration (MOCK ONLY)</h3>
+              <h3 class="text-xl sm:text-2xl font-black text-white">🧪 Side experiment: Slop-Catcher (MOCK ONLY, not a product)</h3>
               <div class="text-xs font-mono text-purple-400">Prototype perception/action configuration via <code>src/config/model-router.ts</code></div>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
-              ✓ Prototype / evidence-backed core
+              🧪 Experiment, not a product
             </span>
             <span class="px-2.5 py-1 rounded bg-purple-950 text-purple-300 border border-purple-500/30 text-xs font-mono font-bold">
               ⚡ Compute savings: unmeasured
@@ -1405,7 +1405,7 @@
           <!-- ## Slop-Catcher Demo: Clean vs. AI Slop -->
           <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">Slop-Catcher Demo: Clean vs. AI Slop</h2>
           <p class="text-slate-300 text-sm leading-relaxed">
-            Below is the live diagnostic output of the demo runner (<code>npm run demo:all</code>). It evaluates the exact same landing page codebase in two states: a human-grade clean design, and an injected 'AI Slop' state.
+            Below is the output of the scripted mock demo (<code>npm run demo:all</code>); the VLM score is a fixture, not a live model. It evaluates the exact same landing page codebase in two states: a human-grade clean design, and an injected 'AI Slop' state.
           </p>
         </div>
 
@@ -1451,7 +1451,7 @@
         </div>
       </div>
 
-      <!-- PHASE 3: AUTONOMOUS QA FRAMEWORK -->
+      <!-- SIDE EXPERIMENT: SCRIPTED QA ON NAKAMA -->
       <div class="p-6 sm:p-8 rounded-2xl glass-card border border-emerald-500/40 bg-emerald-950/10 mt-12">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div class="flex items-center gap-3">
@@ -1460,13 +1460,13 @@
             </div>
             <div>
               <!-- ### 🛡️ Phase 3: QA dogfooding evidence -->
-              <h3 class="text-xl sm:text-2xl font-black text-white">🛡️ Phase 3: QA dogfooding evidence</h3>
-              <div class="text-xs font-mono text-emerald-400">Live functional QA via <code>src/qa-framework/</code> — <code>npx coldstart tunnel</code></div>
+              <h3 class="text-xl sm:text-2xl font-black text-white">🧪 Side experiment: scripted QA on Nakama (not a product)</h3>
+              <div class="text-xs font-mono text-emerald-400">Scripted functional checks on Solari cloud browsers via <code>src/qa-framework/</code> — <code>npx coldstart tunnel</code></div>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
-              ✓ Prototype / evidence-backed core
+              🧪 Experiment, not a product
             </span>
             <span class="px-2.5 py-1 rounded bg-sky-950 text-sky-300 border border-sky-500/30 text-xs font-mono font-bold">
               ⚡ 30 Live Functional Checks
@@ -1530,7 +1530,7 @@
 
         <!-- QA Framework Action Replay Media Banner -->
         <div class="text-center max-w-3xl mx-auto mb-8">
-          <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">QA Framework Demo: Live Functional Batches</h2>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mb-3">Nakama QA experiment: functional batches</h2>
           <p class="text-slate-300 text-sm leading-relaxed">
             Below is the action replay of the QA pipeline (<code>npm run build:qa-gif</code>). Seven stages: tunnel bootstrap → fixture seeding → resilient selectors → zero-pixel trap → live E2E run → DB-diff verification → heuristic verdict.
           </p>

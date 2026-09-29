@@ -155,9 +155,9 @@ honest:
 4. **Autonomous Web App Testing (Software Teams & QA)**:
    - *Problem*: SaaS apps break across different customer themes, custom fields, and updated checkout flows.
    - *Fix*: ColdStart procedurally generates 14+ mutated app variants in CI to stress-test workflows automatically before release.
-5. **Automated PR Gatekeeping & "Slop" Filtering (Software Teams & Design Ops 🎨)**:
+5. **Automated PR Gatekeeping & "Slop" Filtering (Software Teams & Design Ops 🎨)**, *an idea explored only as a mock experiment, not built*:
    - *Problem*: Developers are drowning in AI-generated pull requests. The bottleneck is no longer writing code; it's reviewing it for "AI Slop" (bad contrast, generic layouts, poor spacing). Running heavy CUAs to check UI aesthetics is cost-prohibitive.
-   - *Fix*: The ColdStart Multi-Model Router spins up a Solari microVM in 10s. The lightweight VLM layer checks the PR for accessibility and brand compliance for pennies. If it passes, the heavy CUA verifies the structural flow. Bad PRs are auto-blocked before a human ever reviews them.
+   - *Idea*: a lightweight VLM checks the PR's UI for accessibility and brand compliance, and only if it passes does a heavier CUA verify the flow. Explored as the Slop-Catcher mock below; nothing is auto-blocked today and the cost is not measured.
 
 #### 3. Dual ROI: Measured Time + Illustrative Economics
 
@@ -396,7 +396,7 @@ raw line-item columns, then compares against the stored row. Only an unambiguous
 fully-matching, internally-consistent `POSTED` invoice flips `task_completed` to `true`. The
 raw artifact bytes are sha256-bound, so any swap is detectable.
 
-### Phase 2 Prototype: Slop-Catcher & Model Configuration (MOCK ONLY)
+### Side experiment: Slop-Catcher (MOCK ONLY, not a product)
 
 The repository contains an offline prototype of a decoupled perception layer (VLM) and action layer (CUA), with configuration in [`src/config/model-router.ts`](src/config/model-router.ts). The default Slop-Catcher client is MOCK; no live VLM trace or dollar cost is committed.
 - **Layer 1: The "Slop-Catcher" (Perception)** — prototype wiring for screenshot analysis; cost not measured.
@@ -405,9 +405,9 @@ The repository contains an offline prototype of a decoupled perception layer (VL
 
 Run `npm run demo:all` to reproduce the scripted MOCK demo and view the report at [`artifacts/combined-demo-report.html`](artifacts/combined-demo-report.html). It is not a live VLM evaluation.
 
-### Phase 3: QA dogfooding evidence (not a shipped product)
+### Side experiment: scripted QA on Nakama (not a product)
 
-The Nakama batches document real QA service work and ColdStart dogfooding; they are not a separate shipped QA product ([`src/qa-framework/`](src/qa-framework/)):
+A test of whether ColdStart's pieces hold up on a real open-source app ([Nakama](https://github.com/ahmadrosid/nakama)). The runs are scripted selector checks, not an autonomous agent, and this is not a shipped QA product ([`src/qa-framework/`](src/qa-framework/)):
 - **Guards (anti-flake)** — `expectInteractive()` / `expectVisual()` reject invisible 0×0 elements; `fuzzyRoleLocator()` absorbs copy drift via normalized accessibility matching.
 - **Lifecycle (zero zombies)** — `withSessionGuard()` tears down cloud sessions in `finally`; `TunnelDaemon` exposes localhost via Cloudflare (`npx coldstart tunnel 4310`); `SmartReset` reseeds fixtures idempotently.
 - **Verdict (trust nothing)** — `DatabaseDiffEngine` verifies every UI claim against SQLite (fail-closed, D1–D3 style); `ArtifactArchiver` preserves evidence. `HeuristicEngine` is a deterministic reporting template, not a page inspector.
