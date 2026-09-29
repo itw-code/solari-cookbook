@@ -824,19 +824,11 @@ class CDP_AXTree_Extractor:
         handlers: Set[int],
         hidden: Set[int],
         dom_attrs: Dict[int, Dict[str, str]],
-        path: str = "",
     ) -> None:
-        """Traverse DOM hierarchy to index event listeners, display properties, and attributes.
-
-        `path` is the element's exact `tag:nth-child(k)` chain from the document root, so
-        in-page JS can find the node without a CDP round trip. Only the main document's
-        `children` are walked, so iframe and shadow-root content gets no path.
-        """
+        """Traverse DOM hierarchy to index event listeners, display properties, and attributes."""
         b_id = node.get("backendNodeId")
         if b_id:
             attr_dict: Dict[str, str] = {"tag": str(node.get("nodeName", "")).lower()}
-            if path:
-                attr_dict["dom_path"] = path
             attrs = node.get("attributes", [])
             for i in range(0, len(attrs), 2):
                 if i + 1 < len(attrs):
@@ -851,14 +843,8 @@ class CDP_AXTree_Extractor:
                         hidden.add(b_id)
             dom_attrs[b_id] = attr_dict
 
-        k = 0
         for child in node.get("children", []):
-            child_path = ""
-            if child.get("nodeType") == 1:
-                k += 1
-                step = f"{str(child.get('nodeName', '')).lower()}:nth-child({k})"
-                child_path = f"{path} > {step}" if path else step
-            self._index_dom_node(child, handlers, hidden, dom_attrs, child_path)
+            self._index_dom_node(child, handlers, hidden, dom_attrs)
 
     def _prune_node(
         self,
@@ -989,10 +975,8 @@ class CDP_AXTree_Extractor:
         if is_actionable:
             self._action_counter += 1
             action_idx = self._action_counter
+            tag = "button" if "button" in role.lower() else ("input" if "box" in role.lower() or "field" in role.lower() else ("a" if role == "link" else role.lower()))
             attrs = dom_attrs.get(b_id, {}) if b_id else {}
-            # The DOM's own tag when known: guessing from the role wrote input[name=..] for
-            # a <textarea> or <select>, a selector that matches nothing.
-            tag = attrs.get("tag") or ("button" if "button" in role.lower() else ("input" if "box" in role.lower() or "field" in role.lower() else ("a" if role == "link" else role.lower())))
 
             if attrs.get("id"):
                 css_sel = f"#{attrs['id']}"
@@ -1031,7 +1015,6 @@ class CDP_AXTree_Extractor:
                 "backend_dom_id": b_id,
                 "css": css_sel,
                 "xpath": xpath_sel,
-                "dom_path": attrs.get("dom_path"),
                 "text": name,
                 "aria_label": desc or name,
                 "bbox": bbox_coords,

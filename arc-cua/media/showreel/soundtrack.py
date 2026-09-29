@@ -1,16 +1,8 @@
-"""Synthesize a 15 s soundtrack locked to reel.html's timeline (150 BPM, cuts on beats).
-
-Usage: python soundtrack.py [variant] [out.wav]   (race finish times come from reel.html's variant)
-"""
+"""Synthesize a 15 s soundtrack locked to reel.html's timeline (150 BPM, cuts on beats)."""
 import pathlib
-import sys
 import wave
 
 import numpy as np
-from playwright.sync_api import sync_playwright
-
-HERE = pathlib.Path(__file__).parent
-VARIANT = sys.argv[1] if len(sys.argv) > 1 else "opus"
 
 SR = 48000
 DUR = 15.0
@@ -20,20 +12,9 @@ R = np.zeros(N)
 rng = np.random.default_rng(7)
 
 CUTS = [1.6, 3.2, 8.4, 10.8, 13.2]
-
-
-def race_data(variant):
-    """(tasks, RACE_T0, RACE_SPEED) as reel.html computes them, so sound and picture share one source."""
-    with sync_playwright() as p:
-        b = p.chromium.launch()
-        pg = b.new_page()
-        pg.goto((HERE / "reel.html").resolve().as_uri() + f"?v={variant}")
-        tasks, t0, speed = pg.evaluate("[window.TASKS.map(r => r.slice(1)), window.RACE_T0, window.RACE_SPEED]")
-        b.close()
-    return tasks, t0, speed
-
-
-TASKS, RACE_T0, RACE_SPEED = race_data(VARIANT)
+TASKS = [(31.6, True, 10.6), (43.1, True, 10.5), (55.6, True, 28.7), (59.0, True, 21.4),
+         (33.6, True, 15.9), (34.6, True, 12.8), (31.5, True, 10.7), (33.7, False, 61.3)]
+RACE_T0, RACE_SPEED = 3.4, 13
 
 
 def add(sig, t, gain=1.0, pan=0.0):
@@ -125,14 +106,12 @@ while t < 13.19:
     n = int(SR * 0.38); tt = np.arange(n) / SR
     add(np.sin(2 * np.pi * 55 * tt) * env(n, 0.005, 0.25), t, 0.35)
     t += beat * 2
-# Race finishes: A lower, B higher; a buzz as a failed run's stamp lands (1/13 of the race clock later).
-for sa, ok_a, sb, ok_b in TASKS:
+# Race finishes: A lower, B higher; wrong page buzz.
+for sa, ok, sb in TASKS:
     add(blip(660), RACE_T0 + sa / RACE_SPEED, 0.35, pan=-0.4)
     add(blip(990), RACE_T0 + sb / RACE_SPEED, 0.35, pan=0.4)
-    if not ok_a:
-        add(buzz(), RACE_T0 + sa / RACE_SPEED + 1 / 13, 0.6, pan=-0.2)
-    if not ok_b:
-        add(buzz(), RACE_T0 + sb / RACE_SPEED + 1 / 13, 0.6, pan=0.2)
+    if not ok:
+        add(buzz(), RACE_T0 + (sa + 1) / RACE_SPEED, 0.6, pan=-0.2)
 # Token counters: ticks that slow down as the numbers settle, then the 39x slam.
 for i in range(60):
     add(tick(), 8.55 + 1.5 * (i / 60) ** 1.8, 0.5, pan=(-0.5 if i % 2 else 0.5))
@@ -149,7 +128,7 @@ mix = np.tanh(mix * 1.2)  # gentle limiting
 mix /= np.max(np.abs(mix)) / 0.89
 fade = np.ones(N); fade[-int(0.3 * SR):] = np.linspace(1, 0, int(0.3 * SR))
 mix *= fade[:, None]
-out = pathlib.Path(sys.argv[2]) if len(sys.argv) > 2 else HERE / "soundtrack.wav"
+out = pathlib.Path(__file__).parent / "soundtrack.wav"
 with wave.open(str(out), "wb") as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
     w.writeframes((mix * 32767).astype(np.int16).tobytes())

@@ -141,35 +141,6 @@ Setup and scoring:
   - The free Kenari models (`laguna-xs-2-1`, `glm-4-7-flash`) failed mostly on `429`/`503`; `agnes-3-0-flash` passed 7/8 but took 1–40 s per decision.
   - Kenari's paid fast models measured 1.3–2.8 s per decision in a latency probe, slower than Gemini direct.
 
-## Part E — same model, two harnesses
-
-Part D's comparison against Opus changed the model and the harness at once. Here the model is held fixed: **Gemini 3.8 Flash** (thinking off) drives a Solari browser either through Solari's own MCP or through ARC.
-- **Solari MCP side:** a standard tool-calling agent (`scripts/benchmark_gemini_solari_mcp.py`). The model gets Solari's six page tools (`navigate`, `read_page`, `click`, `type`, `key`, `evaluate`) as functions, keeps the whole conversation, and works until it answers DONE. The harness injects the Solari `sessionId`, so the model provider never sees it.
-- **ARC side:** the reflex policy from Part D, on the Solari backend (`reflex_policy_20260927-062541`).
-- **Both:** the same 8 tasks, 3 runs each, one warm Solari browser, the start page opened by the harness inside the timed window, and the same `judge` (the `tfs` check for Flights).
-- **Artifacts:** `artifacts/benchmarks/gemini_solari_mcp_20260927-144808.json`. Video: `artifacts/gemini-harness-showreel.mp4` (`media/showreel`, variant `gemini`).
-
-| Task (median of 3) | Solari MCP | ARC |
-|---|---:|---:|
-| HN: click "new" | **8.4 s** | 10.6 s |
-| HN: 2nd comments link | **9.8 s** | 10.5 s |
-| Wikipedia: search | 51.8 s | **28.7 s** |
-| httpbin: fill + submit | 23.6 s | **21.4 s** |
-| GitHub: Issues tab | **14.2 s** | 15.9 s |
-| Python docs: follow link | **11.1 s** | 12.8 s |
-| TodoMVC: add item | 14.8 s | **10.7 s** |
-| Google Flights | ❌ 0/3 | ✅ 3/3, 61.3 s |
-| **Success** | 21/24 | **24/24** |
-| **Sum of medians, 7 tasks both pass** | 133.7 s | **110.6 s** (1.2×) |
-| **Input tokens, 24 runs** | 458,546 | **122,034** (3.8×) |
-| **Output tokens, 24 runs** | 5,354 | **762** |
-| **Model + browser, per 1,000 tasks** | $16.01 | **$4.84** (3.3×) |
-
-- **Speed is close on simple pages.** The tool-calling agent often clicks a guessed CSS selector without reading the page, which wins 4 of the 7 simple tasks by 0.7–2.2 s. ARC wins overall on the pages where reading matters: Wikipedia's search took the Solari MCP agent 13 turns.
-- **Google Flights failed on all 3 Solari MCP runs.** Twice it navigated to a `?q=` text-search URL instead of filling the form; once it spent all 20 turns on the "Where from?" autocomplete, mostly probing the DOM with `evaluate`. ARC completed it every time, at 61 s.
-- **Tokens:** the tool-calling agent resends tool schemas, every page read and the full history on each turn (up to 131k tokens on one Flights run). ARC sends the goal, one budgeted tree and the last 4 actions.
-- **Cost** uses Gemini 3.8 Flash's $0.75 / $3.75 per 1M tokens and Solari's $0.15 per browser-hour.
-
 ## Caveats
 
 - **Parts A and B are scripted policies, not agents.** I wrote both policies. The Solari side assumes an agent that can parse HTML and pick the right link among duplicates. The token and CDP counts are what each tool *hands* the agent or sends to the browser, which holds regardless of the policy.

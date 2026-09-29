@@ -17,7 +17,7 @@ import concurrent.futures
 import contextlib
 import json
 import logging
-from typing import Any, Callable, Iterable, Literal, Optional, Tuple
+from typing import Any, Callable, Literal, Optional, Tuple
 
 from mcp.server.mcpserver import Image, MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
@@ -71,15 +71,6 @@ class BrowserWorker:
             # Config errors (e.g. missing SOLARI_API_KEY), Solari API errors, Playwright timeouts.
             raise ToolError(f"{type(e).__name__}: {e}") from e
 
-    async def run(self, fn: Callable[[BrowserSession], Any]) -> Any:
-        """Run `fn(session)` on the worker thread (for multi-call sequences like the index bridge)."""
-        try:
-            return await asyncio.wrap_future(self._pool.submit(lambda: fn(self._get())))
-        except ToolError:
-            raise
-        except Exception as e:
-            raise ToolError(f"{type(e).__name__}: {e}") from e
-
     async def shutdown(self) -> None:
         """Close the browser (releasing any Solari session) and stop the worker thread."""
         if self._session is not None:
@@ -92,29 +83,8 @@ def _json(obj: Any) -> str:
     return json.dumps(obj, indent=2, default=str)
 
 
-Plugin = Callable[..., None]
-
-
-def _default_plugins() -> list:
-    """Tool plugins loaded when present. ARC Index (documents -> verified actions) builds on ARC CUA
-    and registers its tools here; ARC CUA itself does not depend on it."""
-    try:
-        from arc_index.mcp_tools import register
-    except ImportError:
-        return []
-    return [register]
-
-
-def build_server(
-    worker: Optional[BrowserWorker] = None,
-    pageindex_factory: Optional[Callable[[str], Any]] = None,
-    plugins: Optional[Iterable[Plugin]] = None,
-) -> Tuple[MCPServer, BrowserWorker]:
-    """Create the MCP server and the worker that owns its browser.
-
-    plugins: callables `(server, worker, pageindex_factory=...)` that add tools; by default the
-    ones `_default_plugins` finds (ARC Index's document tools when `arc_index` is importable).
-    """
+def build_server(worker: Optional[BrowserWorker] = None) -> Tuple[MCPServer, BrowserWorker]:
+    """Create the MCP server and the worker that owns its browser."""
     worker = worker or BrowserWorker()
 
     @contextlib.asynccontextmanager
@@ -201,8 +171,6 @@ def build_server(
         """Close the browser. Releases a Solari session (stops billing); safe to call twice."""
         return _json(await worker.call("close"))
 
-    for plugin in (_default_plugins() if plugins is None else plugins):
-        plugin(server, worker, pageindex_factory=pageindex_factory)
     return server, worker
 
 

@@ -25,47 +25,12 @@ from urllib.parse import urlparse
 from arc_cua.cdp_extractor import CDP_AXTree_Extractor
 from arc_cua.executor_interface import ActionPayload, ActionVerb
 from arc_cua.playwright_executor import PlaywrightExecutor
-from arc_cua.schemas import ActionResult
 from arc_cua.state_verifier import StateVerifier
 
 logger = logging.getLogger("arc_cua.browser_session")
 
 # Consecutive mutating no-op actions on one target before a stall is reported.
 ACT_STALL_THRESHOLD = 3
-
-# In-page batch fill: one round trip for any number of fields. Uses the native value setter
-# plus input/change events (what React/Vue listen for), then reads each value back. It sends
-# no keystrokes, so pages that only react to keydown need the per-field act path instead.
-FILL_MANY_JS = """
-(items) => items.map(({index, path, value}) => {
-  const el = document.querySelector(path);
-  if (!el) return {index, ok: false, error: 'element not found'};
-  const cs = getComputedStyle(el), r = el.getBoundingClientRect();
-  if (cs.display === 'none' || cs.visibility === 'hidden' || (r.width === 0 && r.height === 0))
-    return {index, ok: false, error: 'not visible'};
-  if (el.disabled || el.readOnly) return {index, ok: false, error: 'disabled or read-only'};
-  const tag = el.tagName;
-  if (tag === 'INPUT' && /^(checkbox|radio|file|submit|button|reset|image|hidden)$/i.test(el.type))
-    return {index, ok: false, error: 'not a text input: ' + el.type};
-  const proto = {INPUT: HTMLInputElement, TEXTAREA: HTMLTextAreaElement, SELECT: HTMLSelectElement}[tag];
-  let want = value;
-  if (tag === 'SELECT') {
-    const opt = [...el.options].find(o => o.value === value || o.text.trim() === value);
-    if (!opt) return {index, ok: false, error: 'no option ' + JSON.stringify(value)};
-    want = opt.value;
-  }
-  const before = proto ? el.value : el.textContent;
-  el.focus();
-  if (proto) Object.getOwnPropertyDescriptor(proto.prototype, 'value').set.call(el, want);
-  else if (el.isContentEditable) el.textContent = want;
-  else return {index, ok: false, error: 'not fillable: ' + tag.toLowerCase()};
-  el.dispatchEvent(new Event('input', {bubbles: true}));
-  el.dispatchEvent(new Event('change', {bubbles: true}));
-  const after = proto ? el.value : el.textContent;
-  return {index, ok: after === want, before, after,
-          error: after === want ? null : 'value did not stick (' + JSON.stringify(after) + ')'};
-})
-"""
 SOFT_NAVIGATION_WAIT_MS = 2000
 SETTLE_POLL_MS = 300
 ALLOWED_URL_SCHEMES = frozenset({"http", "https", "file", "about"})
@@ -602,43 +567,6 @@ class BrowserSession:
             out["url"] = self.page.url
             out["url_changed"] = out["url"] != url_before
         return out
-
-    def fill_many(self, items: List[Tuple[int, str]]) -> Dict[str, Any]:
-        """Fill several [#N] fields in one in-page call and verify each by reading it back.
-
-        Costs one tree snapshot before, one JS call, and one snapshot after, however many
-        fields there are (a per-field `act` costs about ten CDP round trips each, ~2 s per
-        field on a remote Solari browser). Refuses with `stale` when the page has moved on
-        since the last inspect, because the stored DOM paths may then point elsewhere.
-        """
-        self._require_open()
-        known = {**self._evicted_map, **self._index_map}
-        tree_before = extract_page_tree(self.page, self._extractor)
-        if self._inspected_yaml is not None and tree_before.yaml_linearized != self._inspected_yaml:
-            return {"stale": True, "results": [], "state_changed": False, "hamming_distance": 0,
-                    "latency_ms": 0.0}
-        payload, results = [], []
-        for idx, value in items:
-            path = (known.get(idx) or {}).get("dom_path")
-            if path:
-                payload.append({"index": idx, "path": path, "value": value})
-            else:
-                results.append({"index": idx, "ok": False, "error": "no DOM path (iframe/shadow or unknown index)"})
-        start = time.perf_counter()
-        if payload:
-            results += self.page.evaluate(FILL_MANY_JS, payload)
-        elapsed_ms = (time.perf_counter() - start) * 1000.0
-        tree_after = extract_page_tree(self.page, self._extractor)
-        before, after = tree_before.yaml_linearized, tree_after.yaml_linearized
-        batch = ActionResult(success=all(r.get("ok") for r in results), verb="FILL",
-                             resulting_url=self.page.url)
-        ver = self._verifier.verify(batch, before, after)
-        # Fills don't re-index the page; later [#N] still resolve against the same inspect.
-        self._inspected_yaml = after
-        for r in results:
-            r["state_changed"] = bool(r.get("ok")) and r.get("before") != r.get("after")
-        return {"stale": False, "results": results, "state_changed": ver.state_changed,
-                "hamming_distance": ver.hamming_distance, "latency_ms": round(elapsed_ms, 2)}
 
     def _await_soft_navigation(self, url_before: str) -> bool:
         """Give a clicked link a moment to navigate before the page is shown to the agent.

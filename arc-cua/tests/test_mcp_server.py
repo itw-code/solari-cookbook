@@ -27,8 +27,7 @@ def text_of(result) -> str:
 async def test_tool_surface():
     server, _ = build_server()
     names = {t.name for t in await server.list_tools()}
-    assert names == {"arc_open", "arc_inspect", "arc_act", "arc_screenshot", "arc_close",
-                     "arc_index_document", "arc_index_query", "arc_doc_to_action"}
+    assert names == {"arc_open", "arc_inspect", "arc_act", "arc_screenshot", "arc_close"}
 
 
 async def test_act_before_open_returns_tool_error():
