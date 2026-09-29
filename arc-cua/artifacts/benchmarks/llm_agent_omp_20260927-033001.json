@@ -1,0 +1,132 @@
+{
+  "model": "kenari_2/laguna-xs-2-1:free",
+  "runs": [
+    {
+      "task": "hn_click_new",
+      "success": true,
+      "wall_seconds": 27.2,
+      "model_seconds": 14.9,
+      "tool_seconds": 7.3,
+      "turns": 4,
+      "tool_calls": 3,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 21485,
+      "output_tokens": 208,
+      "final_text": "DONE - Successfully opened https://news.ycombinator.com and clicked the 'new' link in the top bar, navigating to https://news.ycombinator.com/newest which displays the newest stories first.",
+      "error": null
+    },
+    {
+      "task": "hn_second_comments_link",
+      "success": false,
+      "wall_seconds": 6.1,
+      "model_seconds": 2.8,
+      "tool_seconds": 0.0,
+      "turns": 1,
+      "tool_calls": 0,
+      "tools": [],
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "final_text": "",
+      "error": "omp exited 1"
+    },
+    {
+      "task": "wikipedia_search",
+      "success": true,
+      "wall_seconds": 30.7,
+      "model_seconds": 13.1,
+      "tool_seconds": 12.7,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 18241,
+      "output_tokens": 282,
+      "final_text": "The search text has been entered. I can see the search results dropdown with \"Playwright (software) End-to-end testing framework\" as an option. Now I'll click on that result to navigate to the article",
+      "error": "omp exited 1"
+    },
+    {
+      "task": "httpbin_form_submit",
+      "success": true,
+      "wall_seconds": 25.5,
+      "model_seconds": 13.4,
+      "tool_seconds": 7.1,
+      "turns": 6,
+      "tool_calls": 5,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 26983,
+      "output_tokens": 456,
+      "final_text": "DONE - Successfully filled customer name 'Ada Lovelace', selected Medium pizza size, and submitted the order. The form was posted to https://httpbin.org/post and the response shows `\"custname\": \"Ada L",
+      "error": null
+    },
+    {
+      "task": "github_issues_tab",
+      "success": true,
+      "wall_seconds": 23.0,
+      "model_seconds": 8.0,
+      "tool_seconds": 10.9,
+      "turns": 4,
+      "tool_calls": 3,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 19041,
+      "output_tokens": 245,
+      "final_text": "DONE - Successfully opened the Playwright GitHub repository and navigated to the Issues tab (https://github.com/microsoft/playwright/issues). The Issues page shows 157 open issues and 17,884 closed is",
+      "error": null
+    },
+    {
+      "task": "python_docs_link",
+      "success": true,
+      "wall_seconds": 24.7,
+      "model_seconds": 11.0,
+      "tool_seconds": 9.1,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 25175,
+      "output_tokens": 361,
+      "final_text": "DONE - Successfully opened https://docs.python.org/3/library/asyncio.html and clicked the 'Coroutines and tasks' link, which navigated to https://docs.python.org/3/library/asyncio-task.html showing th",
+      "error": null
+    },
+    {
+      "task": "todomvc_add_item",
+      "success": true,
+      "wall_seconds": 20.8,
+      "model_seconds": 10.2,
+      "tool_seconds": 5.6,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 19295,
+      "output_tokens": 417,
+      "final_text": "Perfect! The todo item \"buy milk\" has been successfully added. I can see it appears in the todo list at [#13] with the text \"buy milk\", and the footer shows \"1 item left!\" confirming the addition.\n\nDO",
+      "error": null
+    }
+  ]
+}

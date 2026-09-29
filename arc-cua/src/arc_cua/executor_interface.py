@@ -113,8 +113,15 @@ class ActionExecutor(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def scroll(self, page: Any, delta_x: int, delta_y: int) -> Any:
-        """Scroll page via public `page.mouse.wheel(delta_x, delta_y)`."""
+    def scroll(
+        self,
+        page: Any,
+        delta_x: int,
+        delta_y: int,
+        target_selector: Optional[str] = None,
+        timeout_ms: float = 3000.0,
+    ) -> Any:
+        """Scroll a resolved container element, or the viewport when no target is given."""
         raise NotImplementedError
 
     @abc.abstractmethod
@@ -170,7 +177,7 @@ class BasePlaywrightExecutor(PlaywrightActionExecutorInterface):
                 return self.press_key(page, action.value)
             elif action.verb == ActionVerb.SCROLL:
                 dx, dy = action.scroll_delta or (0, 300)
-                return self.scroll(page, dx, dy)
+                return self.scroll(page, dx, dy, action.target_selector, action.timeout_ms)
             elif action.verb == ActionVerb.NAVIGATE:
                 assert action.value is not None, "NAVIGATE requires URL value"
                 return self.navigate(page, action.value, action.timeout_ms)
@@ -234,14 +241,33 @@ class BasePlaywrightExecutor(PlaywrightActionExecutorInterface):
             resulting_url=getattr(page, "url", None),
         )
 
-    def scroll(self, page: Any, delta_x: int, delta_y: int) -> ExecutionOutcome:
+    def scroll(
+        self,
+        page: Any,
+        delta_x: int,
+        delta_y: int,
+        target_selector: Optional[str] = None,
+        timeout_ms: float = 3000.0,
+    ) -> ExecutionOutcome:
         start = time.perf_counter()
-        # Strictly public Playwright API: mouse.wheel(delta_x, delta_y)
-        page.mouse.wheel(delta_x, delta_y)
+        if target_selector:
+            # Strictly public Playwright API: locator(selector).evaluate(...)
+            page.locator(target_selector).evaluate(
+                "(el, [dx, dy]) => { el.scrollTop += dy; el.scrollLeft += dx; }",
+                [delta_x, delta_y],
+                timeout=timeout_ms,
+            )
+        else:
+            # Strictly public Playwright API: mouse.wheel(delta_x, delta_y)
+            page.mouse.wheel(delta_x, delta_y)
         latency = (time.perf_counter() - start) * 1000.0
         return ExecutionOutcome(
             success=True,
-            action=ActionPayload(verb=ActionVerb.SCROLL, scroll_delta=(delta_x, delta_y)),
+            action=ActionPayload(
+                verb=ActionVerb.SCROLL,
+                target_selector=target_selector,
+                scroll_delta=(delta_x, delta_y),
+            ),
             execution_latency_ms=latency,
             resulting_url=getattr(page, "url", None),
         )

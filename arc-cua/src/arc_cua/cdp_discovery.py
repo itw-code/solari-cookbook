@@ -34,11 +34,30 @@ CANDIDATE_UDS_PATHS: List[str] = [
 CANDIDATE_TCP_PORTS: List[int] = [9222, 9223, 9224]
 
 
+def is_cdp_alive(cdp_url: str, timeout: float = 1.5) -> bool:
+    """Return True iff a real CDP endpoint at cdp_url responds with HTTP 200.
+
+    Normalizes ws:// and wss:// debugger URLs to http:// and https:// and probes /json/version.
+    """
+    from urllib.parse import urlparse
+    try:
+        parsed = urlparse(cdp_url)
+        scheme = "https" if parsed.scheme in ("wss", "https") else "http"
+        netloc = parsed.netloc or parsed.path
+        if not netloc:
+            netloc = cdp_url
+        url = f"{scheme}://{netloc.rstrip('/')}/json/version"
+        with urllib.request.urlopen(url, timeout=timeout) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+
 @dataclasses.dataclass(frozen=True)
 class CDPEndpointSpec:
     """Resolved descriptor for a Chrome DevTools Protocol endpoint."""
     endpoint_url: str
-    transport_type: str  # "explicit", "env", "arc_cloud", "uds", "tcp_localhost", "tunnel", "mock"
+    transport_type: str  # "explicit", "env", "arc_cloud", "uds", "tcp_localhost", "omp_relay", "tunnel", "mock"
     is_mock: bool
     description: str
 
@@ -119,15 +138,20 @@ class CDPDiscovery:
                         description=f"Discovered active local Chromium UDS socket at {uds}",
                     )
 
-        # 5. Localhost TCP probes (9222, 9223)
+        # 5. Localhost live TCP probes (9222, 9223, 9224)
+        omp_relay_detected = False
         for port in CANDIDATE_TCP_PORTS:
-            if self._probe_tcp_port("127.0.0.1", port):
+            if not self._is_tcp_port_open("127.0.0.1", port):
+                continue
+            if is_cdp_alive(f"http://127.0.0.1:{port}", self.timeout):
                 return CDPEndpointSpec(
                     endpoint_url=f"http://127.0.0.1:{port}",
                     transport_type="tcp_localhost",
                     is_mock=False,
                     description=f"Discovered active local Chromium DevTools on 127.0.0.1:{port}",
                 )
+            elif port == 9224:
+                omp_relay_detected = True
 
         # 6. Autonomous Ingress Tunnel fallback (TARGET_URL / Cloudflare Quick Tunnel)
         target_url = os.environ.get("TARGET_URL")
@@ -139,6 +163,17 @@ class CDPDiscovery:
                 description=f"Ingress tunnel bridge active at {target_url}",
             )
 
+        # 7. Discovered omp browser relay (listener open, but not live raw CDP)
+        if omp_relay_detected:
+            return CDPEndpointSpec(
+                endpoint_url="http://127.0.0.1:9224",
+                transport_type="omp_relay",
+                is_mock=False,
+                description=(
+                    "Discovered omp browser relay on 127.0.0.1:9224 "
+                    "(TCP listener active, but /json/version non-200; not a raw CDP endpoint)"
+                ),
+            )
         # 7. Mock fallback for offline/isolated sandbox test environments
         if allow_mock:
             mock_url = "mock://chromium-cdp.local"
@@ -154,7 +189,7 @@ class CDPDiscovery:
             "Set CDP_ENDPOINT, SOLARI_CDP_ENDPOINT, or ARC_CDP_ENDPOINT, or start Chromium with --remote-debugging-port=9222."
         )
 
-    def _probe_tcp_port(self, host: str, port: int) -> bool:
+    def _is_tcp_port_open(self, host: str, port: int) -> bool:
         """Attempt quick TCP socket handshake to verify port listener."""
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(self.timeout)
@@ -164,3 +199,10 @@ class CDPDiscovery:
             return True
         except (OSError, ConnectionRefusedError):
             return False
+
+    def _probe_tcp_port(self, host: str, port: int) -> bool:
+        """Validate the port via TCP handshake followed by CDP HTTP probe."""
+        if not self._is_tcp_port_open(host, port):
+            return False
+        return is_cdp_alive(f"http://{host}:{port}", self.timeout)
+

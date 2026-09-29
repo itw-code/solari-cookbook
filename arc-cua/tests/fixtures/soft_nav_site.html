@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Repo</title></head>
+<body>
+  <!-- Client-routed link (GitHub shape): the URL changes after a delay, the content later still. -->
+  <nav><a id="issues" href="#issues">Issues 159</a></nav>
+  <main id="main"><h1>Repository home</h1></main>
+  <script>
+    document.getElementById('issues').addEventListener('click', (e) => {
+      e.preventDefault();
+      setTimeout(() => history.pushState({}, '', '?tab=issues'), 400);
+      setTimeout(() => {
+        document.getElementById('main').innerHTML = '<h1>Open issues</h1><button>New issue</button>';
+      }, 1100);
+    });
+  </script>
+</body>
+</html>

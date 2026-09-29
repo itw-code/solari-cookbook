@@ -32,6 +32,57 @@ from .schemas import ActionResult
 logger = logging.getLogger("arc_cua.playwright_executor")
 
 
+# Scrolls the nearest scrollable ancestor of the resolved element and reports the
+# measured offset delta, so a delivered no-op is distinguishable from a real scroll.
+# Virtualised containers own their overflow, so a viewport wheel does not move them.
+_SCROLL_ELEMENT_SCRIPT = """
+(el, [dx, dy]) => {
+    const isScrollable = (node, axis) => {
+        const size = axis === 'y' ? node.scrollHeight - node.clientHeight
+                                  : node.scrollWidth - node.clientWidth;
+        if (size <= 1) return false;
+        const overflow = getComputedStyle(node)[axis === 'y' ? 'overflowY' : 'overflowX'];
+        return overflow === 'auto' || overflow === 'scroll' || overflow === 'overlay';
+    };
+
+    let target = null;
+    let fellBackToDocument = false;
+    for (let node = el; node; node = node.parentElement) {
+        if (isScrollable(node, 'y') || isScrollable(node, 'x')) { target = node; break; }
+    }
+    if (!target) {
+        // No scrollable ancestor: the document itself is the only thing that can move.
+        // Report this explicitly - silently scrolling the document while claiming an
+        // element scroll is the same defect class as the viewport-wheel bug this
+        // function exists to fix.
+        target = document.scrollingElement || document.documentElement;
+        fellBackToDocument = true;
+    }
+
+    const topBefore = target.scrollTop;
+    const leftBefore = target.scrollLeft;
+    target.scrollTop = topBefore + dy;
+    target.scrollLeft = leftBefore + dx;
+
+    return {
+        top_before: topBefore,
+        top_after: target.scrollTop,
+        left_before: leftBefore,
+        left_after: target.scrollLeft,
+        scroll_height: target.scrollHeight,
+        client_height: target.clientHeight,
+        fell_back_to_document: fellBackToDocument,
+        scrolled_node: fellBackToDocument
+            ? 'document'
+            : (target.id ? '#' + target.id
+                : (target.getAttribute && target.getAttribute('data-testid')
+                    ? '[data-testid=' + target.getAttribute('data-testid') + ']'
+                    : target.tagName.toLowerCase())),
+    };
+}
+"""
+
+
 class PlaywrightExecutor(ActionExecutor):
     """Deterministic local execution engine using strictly public Playwright APIs."""
 
@@ -116,7 +167,13 @@ class PlaywrightExecutor(ActionExecutor):
 
         elif action.verb == ActionVerb.SCROLL:
             dx, dy = action.scroll_delta or (0, 300)
-            return self.scroll(page, dx, dy)
+            return self.scroll(
+                page,
+                dx,
+                dy,
+                target_selector=action.target_selector,
+                timeout_ms=timeout_ms,
+            )
 
         elif action.verb == ActionVerb.NAVIGATE:
             if not action.value:
@@ -280,10 +337,89 @@ class PlaywrightExecutor(ActionExecutor):
                 resulting_url=getattr(page, "url", None),
             )
 
-    def scroll(self, page: Any, delta_x: int, delta_y: int) -> ActionResult:
-        """Scroll page via public `page.mouse.wheel(delta_x, delta_y)`."""
+    def scroll(
+        self,
+        page: Any,
+        delta_x: int,
+        delta_y: int,
+        target_selector: Optional[str] = None,
+        timeout_ms: float = 3000.0,
+    ) -> ActionResult:
+        """Scroll a resolved container element, or the viewport when no target is given.
+
+        A viewport-level wheel event does nothing to a virtualised container that owns
+        its own overflow (Metabase's results table: scrollHeight 816,408px vs clientHeight
+        169px), yet the old implementation ignored the resolved target and reported
+        `success: true` for a delivered no-op (audit F-04). When a target is supplied the
+        nearest scrollable ancestor is scrolled instead, and the measured scroll offset
+        delta is reported so a no-op is visible to the caller.
+
+        Args:
+            page: Public Playwright Page object.
+            delta_x: Horizontal scroll delta in pixels.
+            delta_y: Vertical scroll delta in pixels.
+            target_selector: Optional container to scroll; falls back to viewport wheel.
+            timeout_ms: Locator resolution timeout.
+
+        Returns:
+            ActionResult with scroll_mode and measured offset deltas in metadata.
+        """
         self._pre_action_audit(page)
         start = time.perf_counter()
+
+        if target_selector:
+            try:
+                loc = page.locator(target_selector)
+                # Walk to the nearest scrollable ancestor: the AXTree target is often an
+                # inner wrapper, while the overflow lives on a parent container.
+                measured = loc.evaluate(
+                    _SCROLL_ELEMENT_SCRIPT, [delta_x, delta_y], timeout=timeout_ms
+                )
+                lat = (time.perf_counter() - start) * 1000.0
+
+                applied = bool(
+                    measured.get("top_after") != measured.get("top_before")
+                    or measured.get("left_after") != measured.get("left_before")
+                )
+                fell_back = bool(measured.get("fell_back_to_document"))
+                metadata = {
+                    "delta_x": delta_x,
+                    "delta_y": delta_y,
+                    # Distinguish a genuine element scroll from a document fallback:
+                    # the caller must not be told an element scrolled when the page did.
+                    "scroll_mode": "document" if fell_back else "element",
+                    "scroll_applied": applied,
+                    "scroll_top_before": measured.get("top_before"),
+                    "scroll_top_after": measured.get("top_after"),
+                    "scroll_height": measured.get("scroll_height"),
+                    "client_height": measured.get("client_height"),
+                    "scrolled_node": measured.get("scrolled_node"),
+                    "target_selector": target_selector,
+                }
+                if fell_back:
+                    metadata["scroll_fallback_reason"] = (
+                        "no scrollable ancestor for the target; the document was scrolled"
+                    )
+                return ActionResult(
+                    success=True,
+                    verb="SCROLL",
+                    target_selector=target_selector,
+                    latency_ms=lat,
+                    resulting_url=getattr(page, "url", None),
+                    metadata=metadata,
+                )
+            except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
+                lat = (time.perf_counter() - start) * 1000.0
+                logger.debug(f"Element scroll failed on '{target_selector}': {exc}")
+                return ActionResult(
+                    success=False,
+                    verb="SCROLL",
+                    target_selector=target_selector,
+                    latency_ms=lat,
+                    error_message=str(exc),
+                    resulting_url=getattr(page, "url", None),
+                    metadata={"delta_x": delta_x, "delta_y": delta_y, "scroll_mode": "element"},
+                )
 
         try:
             page.mouse.wheel(delta_x, delta_y)
@@ -293,7 +429,12 @@ class PlaywrightExecutor(ActionExecutor):
                 verb="SCROLL",
                 latency_ms=lat,
                 resulting_url=getattr(page, "url", None),
-                metadata={"delta_x": delta_x, "delta_y": delta_y},
+                metadata={
+                    "delta_x": delta_x,
+                    "delta_y": delta_y,
+                    "scroll_mode": "viewport",
+                    "scroll_applied": None,
+                },
             )
         except (PlaywrightTimeoutError, PlaywrightError, Exception) as exc:
             lat = (time.perf_counter() - start) * 1000.0
@@ -304,7 +445,7 @@ class PlaywrightExecutor(ActionExecutor):
                 latency_ms=lat,
                 error_message=str(exc),
                 resulting_url=getattr(page, "url", None),
-                metadata={"delta_x": delta_x, "delta_y": delta_y},
+                metadata={"delta_x": delta_x, "delta_y": delta_y, "scroll_mode": "viewport"},
             )
 
     def press_key(self, page: Any, key: str) -> ActionResult:

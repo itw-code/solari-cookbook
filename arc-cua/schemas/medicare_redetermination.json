@@ -1,0 +1,62 @@
+{
+  "schema_id": "medicare_redetermination",
+  "target_url_pattern": "*redetermination*",
+  "submit_affordance_hint": "Submit",
+  "success_indicator_pattern": "Confirmation|Receipt|Accepted|Reference",
+  "fields": [
+    {
+      "field_name": "patient_name",
+      "target_role": "textbox",
+      "label_hints": [
+        "Beneficiary Name",
+        "Patient Name"
+      ],
+      "description": "Patient name as printed on the claim line (remittances print LAST FIRST-INITIAL)"
+    },
+    {
+      "field_name": "mbi",
+      "target_role": "textbox",
+      "label_hints": [
+        "Medicare Beneficiary Identifier",
+        "MBI"
+      ],
+      "description": "Medicare Beneficiary Identifier, 11 characters, shown in the MBI field"
+    },
+    {
+      "field_name": "from_date",
+      "target_role": "textbox",
+      "label_hints": [
+        "Service From Date",
+        "From Date"
+      ],
+      "description": "First date of service (FROM DT)"
+    },
+    {
+      "field_name": "thru_date",
+      "target_role": "textbox",
+      "label_hints": [
+        "Service Through Date",
+        "Through Date"
+      ],
+      "description": "Last date of service (THRU DT)"
+    },
+    {
+      "field_name": "reason_code",
+      "target_role": "textbox",
+      "label_hints": [
+        "Claim Adjustment Reason Code",
+        "Reason Code"
+      ],
+      "description": "Claim adjustment reason code (CARC). Remittance advices print it as a 1-3 digit number in an RC column; give the claim line's first RC value"
+    },
+    {
+      "field_name": "remark_code",
+      "target_role": "textbox",
+      "label_hints": [
+        "Remittance Remark Code",
+        "Remark Code"
+      ],
+      "description": "Remittance remark code (RARC). Printed in the REM column next to the RC value: 1-2 letters followed by 2-3 digits; give the claim line's first REM value"
+    }
+  ]
+}

@@ -228,6 +228,15 @@ class StuckMonitor:
             patterns_detected["mechanical_success_zero_delta"] = zero_delta_score
             evidence["zero_delta"] = zero_delta_detail
 
+        # 8. Verifier-flagged no-op: a mutating verb that reported success but produced
+        # no state transition. The StateVerifier already computes this per step; without
+        # this pattern the signal was recorded and then discarded, so the loop had no rule
+        # treating a successful action with zero state change as a stall (audit F-05).
+        noop_score, noop_detail = self._detect_verifier_noop_streak()
+        if noop_score > 0.0:
+            patterns_detected["verifier_noop_streak"] = noop_score
+            evidence["verifier_noop"] = noop_detail
+
         if not patterns_detected:
             return StuckSignal(
                 stuck_score=0.0,
@@ -356,3 +365,40 @@ class StuckMonitor:
             return 0.40, {"zero_delta_streak": zero_delta_streak}
 
         return 0.0, {}
+
+    def _detect_verifier_noop_streak(self) -> Tuple[float, Dict[str, Any]]:
+        """Detect a trailing run of verifier-flagged no-op actions.
+
+        Consumes the StateVerifier's own judgement (`verification_is_stuck`: a mutating
+        verb reported success but the state hash, URL, and DOM node counts were unchanged)
+        rather than re-deriving it, so an action that succeeds mechanically while changing
+        nothing escalates instead of being accepted as progress.
+
+        Returns:
+            Tuple of (score, evidence). A single no-op scores 0.40 so it is recorded but
+            below the default 0.75 threshold; two consecutive no-ops reach 0.80.
+        """
+        streak = 0
+        targets: List[str] = []
+        for s in reversed(self._window):
+            if s.is_neutral:
+                continue
+            if s.verification_is_stuck:
+                streak += 1
+                if s.target:
+                    targets.append(s.target)
+            else:
+                break
+
+        if streak == 0:
+            return 0.0, {}
+
+        detail: Dict[str, Any] = {"verifier_noop_streak": streak}
+        if targets:
+            detail["targets"] = targets[:5]
+
+        if streak >= 3:
+            return 1.0, detail
+        if streak == 2:
+            return 0.80, detail
+        return 0.40, detail

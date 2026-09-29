@@ -13,6 +13,9 @@
 > - ⚡ **[Kinetic Motion Explainer & Interactive Reflex Race](https://itw-code.github.io/arc-cua/explain.html)**
 
 Monolithic Computer-Using Agents incur a crushing **vision tax**: streaming 4K display rasters over the WAN to frontier multimodal LLMs on every single keystroke and mouse click. ARC decouples perception from reasoning through a dual-tier cascade: **sub-10ms local reflex execution** inside the Solari MicroVM, escalating to cloud reasoning *only* when trajectory anomaly monitors detect an environmental stall.
+
+![ARC Action Replay — 2.31ms Sub-Millisecond Reflex Execution inside Solari MicroVM](./artifacts/arc-action-replay.gif)
+
 ---
 
 ## Architecture Diagram
@@ -110,12 +113,32 @@ Open `showcase.html` in any web browser to view the interactive cost/latency sim
 Open `explain.html` for the high-energy Bang-Motion visual explainer using the Hot Stove reflex analogy!
 ---
 
+## Use with Claude Code (MCP)
+
+ARC ships an MCP server, `arc-cua-mcp`, with five tools: `arc_open`, `arc_inspect`, `arc_act`, `arc_screenshot` (with `[#N]` marks, for canvas and visual checks), and `arc_close`. It complements Solari's own MCP server (`@solarisdk/mcp`): ARC adds a hard-budgeted accessibility tree with `[#N]` indices, verified actions, and stall detection, and it can drive a local Chromium, a Solari cloud browser, or any CDP endpoint.
+
+```bash
+pip install -e ".[mcp]"
+playwright install chromium
+claude mcp add --scope user arc -- arc-cua-mcp
+```
+
+- For `backend="solari"`, set `SOLARI_API_KEY` in the environment Claude Code starts from. The server inherits it, so the key never needs to appear in MCP config. Solari browsers are billed hourly until `arc_close`; the server also releases them on shutdown.
+- For other MCP hosts, use the same command over stdio: `{"command": "arc-cua-mcp"}`.
+- `arc_act` returns the page after the action, with fresh `[#N]` indices, so an agent needs one `arc_inspect` per page rather than one per step.
+- Agent skill: [`skills/solari-hybrid-cua/SKILL.md`](./skills/solari-hybrid-cua/SKILL.md). Benchmarks in [`docs/BENCHMARK_VS_SOLARI_MCP.md`](./docs/BENCHMARK_VS_SOLARI_MCP.md):
+  - **vs Solari's MCP** (scripted policies): 7/7 vs 6/7 tasks, 3.3× fewer perception tokens, 15× fewer DevTools Protocol commands, and 70 s vs 86 s in tool calls on Solari browsers.
+  - **A small, fast LLM driving ARC** through the Oh My Pi agent (see Part C of that doc).
+  - **Reflex policy** (`arc_cua.reflex_policy`, Part D): one small model call per action, Jev-style. Gemini 3.8 Flash completed 24/24 runs including Google Flights; Flash-Lite decides in 0.9 s.
+
+---
+
 ## Documentation Index
 
 | Section | Document | Description |
 |---|---|---|
 | **Changelog** | [`docs/CHANGELOG.md`](./docs/CHANGELOG.md) | Chronological phase history, deliverables, and metrics across all 6 phases |
-| **Checkpoints** | [`docs/checkpoints/INDEX.md`](./docs/checkpoints/INDEX.md) | Timeline index and audit record for all 10 development checkpoints |
+| **Checkpoints** | [`docs/checkpoints/INDEX.md`](./docs/checkpoints/INDEX.md) | Timeline index and audit record for all 11 development checkpoints |
 | **Artifacts** | [`artifacts/INDEX.md`](./artifacts/INDEX.md) | Catalog of evaluation datasets, JSONL streams, and performance scorecards |
 | **Architecture** | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Deep-dive specification covering perception pipelines, monitors, and microVMs |
 | **Implementation** | [`IMPLEMENTATION_PLAN.md`](./IMPLEMENTATION_PLAN.md) | Multi-phase development roadmap, milestone gates, and risk controls |

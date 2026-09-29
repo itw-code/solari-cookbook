@@ -169,6 +169,7 @@
     </a>
     <div class="hidden md:flex items-center gap-5 text-sm text-slate-300 font-medium">
       <a href="#hero" class="hover:text-blue-400 transition-colors">Overview</a>
+      <a href="#mcp" class="hover:text-blue-400 transition-colors">Claude Code</a>
       <a href="#architecture" class="hover:text-blue-400 transition-colors">Architecture</a>
       <a href="#simulator" class="hover:text-blue-400 transition-colors">Simulator</a>
       <a href="#benchmarks" class="hover:text-blue-400 transition-colors">Benchmarks</a>
@@ -177,15 +178,15 @@
       <a href="#roadmap" class="hover:text-blue-400 transition-colors">Roadmap</a>
     </div>
     <div class="flex items-center gap-3">
-      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/30">
+      <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/30">
         <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
-        152/152 PASS
+        234/234 PASS
       </span>
       <a href="explain.html" class="px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 font-mono text-xs font-bold transition flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
         <span>Motion Explainer</span>
       </a>
-      <a href="#simulator" class="px-3.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+      <a href="#simulator" class="hidden sm:block px-3.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">
         Simulate
       </a>
     </div>
@@ -203,7 +204,7 @@
           <span class="w-2 h-2 rounded-full bg-blue-400"></span>
           <span>EMPIRICAL RESEARCH EVALUATION</span>
           <span class="text-slate-500">|</span>
-          <span class="text-blue-400 font-semibold">ALL 6 PHASES COMPLETE</span>
+          <span class="text-blue-400 font-semibold">NOW AN MCP SERVER FOR CLAUDE CODE</span>
         </div>
 
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-white">
@@ -249,10 +250,10 @@
 
           <!-- Stat 3 -->
           <div class="p-5 rounded-2xl glass-card relative overflow-hidden border border-slate-700">
-            <div class="absolute -right-3 -bottom-3 text-slate-500/10 font-mono font-black text-6xl select-none">152</div>
-            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">152 / 152</div>
+            <div class="absolute -right-3 -bottom-3 text-slate-500/10 font-mono font-black text-6xl select-none">234</div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">234 / 234</div>
             <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Verified Tests</div>
-            <div class="text-[11px] text-blue-400 font-mono mt-1">100% full-suite pass rate</div>
+            <div class="text-[11px] text-blue-400 font-mono mt-1">+1 opt-in live Solari test</div>
           </div>
         </div>
       </div>
@@ -296,6 +297,142 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 1b. USE WITH CLAUDE CODE (MCP)                                           -->
+  <!-- ========================================================================= -->
+  <section id="mcp" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Phases 9–13 · Agent Integration</div>
+      <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Use ARC from Claude Code</h2>
+      <p class="mt-3 text-slate-400 text-sm sm:text-base">
+        <code class="text-blue-300 font-mono">arc-cua-mcp</code> gives any MCP host five browser tools. It complements Solari's own MCP server: ARC hands the agent a hard-budgeted accessibility tree where every actionable element carries a <code class="text-blue-300 font-mono">[#N]</code> handle, verifies each action, and flags stalls. It drives a local Chromium, a Solari cloud browser, or any CDP endpoint.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-12 gap-6 mb-10">
+      <!-- Install -->
+      <div class="lg:col-span-5 min-w-0 p-6 rounded-2xl glass-card-primary flex flex-col">
+        <div class="text-xs font-mono font-bold text-blue-400 uppercase tracking-wider mb-3">Install</div>
+        <div class="p-4 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-blue-300 space-y-1 overflow-x-auto">
+          <div><span class="text-slate-500"># Package with the MCP extra</span></div>
+          <div class="whitespace-nowrap">pip install -e ".[mcp]"</div>
+          <div class="whitespace-nowrap">playwright install chromium</div>
+          <div><span class="text-slate-500"># Register with Claude Code</span></div>
+          <div class="whitespace-nowrap">claude mcp add --scope user arc -- arc-cua-mcp</div>
+        </div>
+        <ul class="mt-4 space-y-2 text-xs text-slate-300 leading-relaxed">
+          <li>For <code class="text-blue-300 font-mono">backend="solari"</code>, set <code class="text-blue-300 font-mono">SOLARI_API_KEY</code> in the environment Claude Code starts from. The server inherits it, so the key never appears in MCP config.</li>
+          <li>Solari browsers bill hourly until <code class="text-blue-300 font-mono">arc_close</code>; the server also releases them on shutdown.</li>
+          <li>Other MCP hosts: same command over stdio, <code class="text-blue-300 font-mono">{"command": "arc-cua-mcp"}</code>.</li>
+        </ul>
+      </div>
+
+      <!-- Tools -->
+      <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="p-5 rounded-2xl glass-card border border-white/10">
+          <div class="font-mono text-sm font-bold text-blue-300">arc_open</div>
+          <p class="text-xs text-slate-400 mt-1">Open a URL in a local Chromium, a Solari cloud browser, or an existing CDP endpoint.</p>
+        </div>
+        <div class="p-5 rounded-2xl glass-card border border-white/10">
+          <div class="font-mono text-sm font-bold text-blue-300">arc_inspect</div>
+          <p class="text-xs text-slate-400 mt-1">Accessibility tree capped at ~1,200 tokens. Plain text is evicted before affordances; <code class="font-mono text-blue-300">query</code> reaches evicted elements by name.</p>
+        </div>
+        <div class="p-5 rounded-2xl glass-card border border-white/10">
+          <div class="font-mono text-sm font-bold text-blue-300">arc_act</div>
+          <p class="text-xs text-slate-400 mt-1">Click, type, select, press keys, scroll or navigate by <code class="font-mono text-blue-300">[#N]</code> index. Returns the page after the action with fresh indices, so no re-inspect is needed; repeated no-ops are flagged as a stall.</p>
+        </div>
+        <div class="p-5 rounded-2xl glass-card border border-white/10">
+          <div class="font-mono text-sm font-bold text-blue-300">arc_screenshot</div>
+          <p class="text-xs text-slate-400 mt-1">Screenshot with <code class="font-mono text-blue-300">[#N]</code> marks drawn on elements, for canvas and visual checks.</p>
+        </div>
+        <div class="p-5 rounded-2xl glass-card border border-white/10 sm:col-span-2">
+          <div class="font-mono text-sm font-bold text-blue-300">arc_close</div>
+          <p class="text-xs text-slate-400 mt-1">Close the browser and release the Solari session.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Head-to-head -->
+    <div class="rounded-2xl glass-card border border-white/10 p-6 overflow-x-auto">
+      <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
+        <h3 class="text-xl font-bold text-white">Head-to-head vs Solari's MCP (<code class="font-mono text-base">@solarisdk/mcp</code> v0.4.6)</h3>
+        <span class="text-[11px] font-mono text-slate-400">Both on Solari cloud browsers · 800×600 · 2026-09-27</span>
+      </div>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="p-4 rounded-xl bg-black/40 border border-blue-500/30">
+          <div class="text-2xl font-black text-blue-400">7 / 7 <span class="text-slate-500 text-base font-bold">vs 6 / 7</span></div>
+          <div class="text-xs font-mono text-slate-300 uppercase mt-1">Grounding tasks succeeded</div>
+        </div>
+        <div class="p-4 rounded-xl bg-black/40 border border-blue-500/30">
+          <div class="text-2xl font-black text-blue-400">3.3× <span class="text-slate-500 text-base font-bold">fewer tokens</span></div>
+          <div class="text-xs font-mono text-slate-300 uppercase mt-1">8,438 vs 28,198 perception tokens</div>
+        </div>
+        <div class="p-4 rounded-xl bg-black/40 border border-blue-500/30">
+          <div class="text-2xl font-black text-blue-400">15× <span class="text-slate-500 text-base font-bold">fewer CDP</span></div>
+          <div class="text-xs font-mono text-slate-300 uppercase mt-1">255 vs 3,868 protocol commands</div>
+        </div>
+        <div class="p-4 rounded-xl bg-black/40 border border-blue-500/30">
+          <div class="text-2xl font-black text-blue-400">70 s <span class="text-slate-500 text-base font-bold">vs 86 s</span></div>
+          <div class="text-xs font-mono text-slate-300 uppercase mt-1">Time in tool calls</div>
+        </div>
+      </div>
+      <table class="w-full text-xs font-mono text-left min-w-[640px]">
+        <thead class="text-slate-400 border-b border-white/10">
+          <tr><th class="py-2 pr-4">Task</th><th class="py-2 pr-4 text-center">ARC</th><th class="py-2 pr-4 text-center">Solari</th><th class="py-2 pr-4 text-right">ARC calls / tokens / s / CDP</th><th class="py-2 text-right">Solari calls / tokens / s / CDP</th></tr>
+        </thead>
+        <tbody class="text-slate-300 divide-y divide-white/5">
+          <tr><td class="py-2 pr-4">HN: click "new"</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">3 / 1,237 / 6.9 / 28</td><td class="text-right">3 / 5,575 / 9.0 / 964</td></tr>
+          <tr><td class="py-2 pr-4">HN: 2nd "N comments" link</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">3 / 1,237 / 6.2 / 28</td><td class="text-right">3 / 5,575 / 10.3 / 964</td></tr>
+          <tr><td class="py-2 pr-4">Wikipedia: search</td><td class="text-center">✅</td><td class="text-center">❌</td><td class="text-right pr-4">5 / 2,568 / 21.6 / 51</td><td class="text-right">3 / 7,519 / 16.4 / 70</td></tr>
+          <tr><td class="py-2 pr-4">httpbin: fill form, pick radio, submit</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">5 / 468 / 12.3 / 65</td><td class="text-right">5 / 359 / 18.8 / 84</td></tr>
+          <tr><td class="py-2 pr-4">GitHub: Issues tab</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">3 / 1,223 / 9.0 / 29</td><td class="text-right">3 / 6,160 / 11.2 / 1,395</td></tr>
+          <tr><td class="py-2 pr-4">Python docs: "Coroutines and tasks"</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">3 / 1,239 / 7.9 / 28</td><td class="text-right">3 / 2,255 / 10.1 / 347</td></tr>
+          <tr><td class="py-2 pr-4">TodoMVC: add item</td><td class="text-center">✅</td><td class="text-center">✅</td><td class="text-right pr-4">4 / 466 / 6.3 / 26</td><td class="text-right">3 / 755 / 10.3 / 44</td></tr>
+        </tbody>
+      </table>
+      <p class="mt-4 text-xs text-slate-400 leading-relaxed">
+        <strong class="text-slate-200">Speed:</strong> each message to a Solari browser is a network round trip (0.2–0.5 s). ARC's first timed run was the slower one (99 s vs 78 s); reusing one CDP session per page and merging calls halved its extraction and action times. It is now faster on 6 of 7 tasks; Wikipedia still takes two extra calls.
+      </p>
+      <p class="mt-4 text-xs text-slate-400 leading-relaxed">
+        <strong class="text-slate-200">With a real model:</strong> a small, fast LLM (<code class="font-mono">laguna-xs-2-1</code>) driving ARC through the Oh My Pi agent, with ARC as its only tools, succeeded on all 13 task runs that reached the model, in 3–5 tool calls and about 25 s each.
+      </p>
+      <p class="mt-4 text-xs text-slate-400 leading-relaxed">
+        <strong class="text-slate-200">Why Solari missed Wikipedia:</strong> at 800 px the search box collapses behind a button. The HTML still contains the input, so an HTML-reading policy typed into a box that wasn't visible. The accessibility tree shows visibility, so ARC's policy clicked <em>Search</em> first.
+      </p>
+      <div class="mt-4 inline-flex items-start gap-2 px-3 py-2 rounded-lg bg-blue-500/5 border border-blue-500/25 text-blue-300 text-[11px] font-mono">
+        <span><strong>CAVEATS:</strong> scripted policies stand in for an agent (no LLM), one run each on public sites that change daily. Token counts are what each tool hands the agent; Solari's <code>text</code> read is cheaper on most pages but carries no handles. Full method in <a class="underline decoration-blue-500/50 hover:text-blue-200" href="https://github.com/itw-code/arc-cua/blob/master/docs/BENCHMARK_VS_SOLARI_MCP.md" target="_blank" rel="noopener">BENCHMARK_VS_SOLARI_MCP.md</a>.</span>
+      </div>
+    </div>
+
+    <!-- Showreel: Opus + Solari MCP vs Gemini Flash + ARC -->
+    <div class="mt-8 rounded-2xl glass-card border border-white/10 p-6">
+      <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4">
+        <h3 class="text-xl font-bold text-white">Opus + Solari MCP vs Gemini 3.8 Flash + ARC, in 15 seconds</h3>
+        <span class="text-[11px] font-mono text-slate-400">Same Solari browser · 8 tasks · 2026-09-27</span>
+      </div>
+      <video class="w-full rounded-xl border border-white/10 bg-black" controls playsinline muted loop preload="metadata"
+             poster="artifacts/solari-race-showreel-poster.jpg">
+        <source src="artifacts/solari-race-showreel.mp4" type="video/mp4">
+        <a href="artifacts/solari-race-showreel.mp4">Download the video (MP4, 5 MB)</a>
+      </video>
+      <div class="mt-4 grid grid-cols-2 lg:grid-cols-4 gap-3 text-center">
+        <div class="p-3 rounded-xl bg-black/40 border border-blue-500/30"><div class="text-xl font-black text-blue-400">24/24 <span class="text-slate-500 text-sm font-bold">vs 7/8</span></div><div class="text-[11px] font-mono text-slate-300 uppercase mt-1">Tasks passed</div></div>
+        <div class="p-3 rounded-xl bg-black/40 border border-blue-500/30"><div class="text-xl font-black text-blue-400">1.9×</div><div class="text-[11px] font-mono text-slate-300 uppercase mt-1">Faster · 172 s vs 323 s</div></div>
+        <div class="p-3 rounded-xl bg-black/40 border border-blue-500/30"><div class="text-xl font-black text-blue-400">39×</div><div class="text-[11px] font-mono text-slate-300 uppercase mt-1">Fewer input tokens</div></div>
+        <div class="p-3 rounded-xl bg-black/40 border border-blue-500/30"><div class="text-xl font-black text-blue-400">33×</div><div class="text-[11px] font-mono text-slate-300 uppercase mt-1">Cheaper · $4.83 vs $160 / 1k tasks</div></div>
+      </div>
+      <p class="mt-4 text-xs text-slate-400 leading-relaxed">
+        Lane A is Claude Opus 5.5 in Claude Code using Solari's own MCP tools. Lane B is ARC's reflex policy: Gemini 3.8 Flash picks one action per call from ARC's numbered tree. A is a general-purpose agent and ran once per task; B is a narrow browsing loop and ran three times. A's Google Flights run opened a search URL that lands on the home page, not results. Method and raw data in <a class="underline decoration-blue-500/50 hover:text-blue-200" href="https://github.com/itw-code/arc-cua/blob/master/docs/BENCHMARK_VS_SOLARI_MCP.md" target="_blank" rel="noopener">BENCHMARK_VS_SOLARI_MCP.md</a>.
+      </p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="https://github.com/itw-code/arc-cua/blob/master/skills/solari-hybrid-cua/SKILL.md" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">Agent Skill</a>
+      <a href="https://github.com/itw-code/arc-cua/blob/master/docs/SOLARI_API.md" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">Solari API Contract</a>
+      <a href="https://github.com/itw-code/arc-cua" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">View Source</a>
     </div>
   </section>
 
@@ -1057,7 +1194,7 @@
       <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Development History</div>
       <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Phase-by-Phase Engineering Timeline</h2>
       <p class="mt-3 text-slate-400 text-sm sm:text-base">
-        All 6 phases verified chronologically with zero test regressions, growing from low-level MicroVM sockets to full-scale evaluation whitepapers.
+        Thirteen phases verified chronologically, growing from low-level MicroVM sockets to a live-verified Solari driver and an MCP server that coding agents can drive.
       </p>
     </div>
 
@@ -1165,6 +1302,22 @@
           </div>
         </div>
 
+        <!-- Phases 7-13 -->
+        <div class="relative flex flex-col sm:flex-row items-start sm:items-center">
+          <div class="sm:w-1/2 sm:pr-8 sm:text-right pl-10 sm:pl-0">
+            <span class="text-xs font-mono text-blue-400 font-bold uppercase">Phases 7–13 · Complete</span>
+            <h3 class="text-lg font-bold text-white">Live Solari Driver, MCP Server &amp; Agent Skill</h3>
+            <p class="text-xs text-slate-400 mt-1">Driver verified against the live Solari API, <code class="font-mono">arc-cua-mcp</code> with five tools, budgeted perception on real list pages, marked screenshots, and a head-to-head vs Solari's MCP.</p>
+            <div class="mt-2 inline-flex items-center gap-2 text-xs font-mono text-slate-300">
+              <span class="text-blue-400 font-semibold">7/7 vs 6/7 tasks</span> · <span>3.3× fewer tokens</span>
+            </div>
+          </div>
+          <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-panel border-2 border-blue-400 grid place-items-center text-xs font-mono font-bold text-blue-300 z-10 shadow-[0_0_15px_rgba(37,99,235,0.5)]">13</div>
+          <div class="sm:w-1/2 sm:pl-8 mt-2 sm:mt-0 pl-10">
+            <span class="px-2.5 py-1 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-mono font-bold">234 Tests (100% PASS)</span>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -1178,7 +1331,7 @@
       <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Production Horizons</div>
       <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Roadmap for Live Deployment</h2>
       <p class="mt-3 text-slate-400 text-sm sm:text-base">
-        With the engineering harness 100% complete and validated across 152 tests, the three next milestones execute on live cloud infrastructure.
+        With the engineering harness 100% complete and validated across 234 tests and the Solari driver verified against the live API, the three next milestones execute on live cloud infrastructure.
       </p>
     </div>
 
@@ -1193,12 +1346,12 @@
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Live Cloud Infrastructure</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Provision dedicated Linux KVM hardware instances on Arc Cloud with pre-warmed WebArena multi-container Docker daemons and headless X11/Xvfb display buffers.
+            Browser sessions already run on Solari through a driver verified against the live API. Next: Solari desktops (no accessibility tree exposed yet) and pre-warmed WebArena multi-container environments.
           </p>
         </div>
         <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-muted flex items-center justify-between">
-          <span>Target: Linux KVM /dev/kvm</span>
-          <span class="text-blue-400 font-semibold">Playbook Ready</span>
+          <span>Target: Solari desktops</span>
+          <span class="text-blue-400 font-semibold">Browsers Live</span>
         </div>
       </div>
 
@@ -1227,12 +1380,12 @@
           </div>
           <h3 class="text-lg font-bold text-white mb-2">Enterprise Daemon Integration</h3>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Package the Arc Hybrid CUA driver into a background daemon for continuous QA validation, automated RPA workflows, and secure credentialed desktop interaction.
+            ARC now ships as an MCP server and agent skill for Claude Code and other MCP hosts. Next: a background daemon for continuous QA validation and RPA workflows.
           </p>
         </div>
         <div class="mt-6 pt-4 border-t border-white/10 text-[11px] font-mono text-muted flex items-center justify-between">
-          <span>Target: pip install arc-cua</span>
-          <span class="text-blue-300 font-semibold">v0.1.0 Ready</span>
+          <span>Target: arc-cua-mcp</span>
+          <span class="text-blue-300 font-semibold">MCP Shipped</span>
         </div>
       </div>
 
@@ -1247,11 +1400,13 @@
 
       <div class="mt-6 p-4 rounded-xl bg-black/60 border border-white/10 font-mono text-xs text-blue-300 text-left max-w-lg mx-auto space-y-1">
         <div><span class="text-slate-500"># Install editable package</span></div>
-        <div>pip install -e .</div>
-        <div><span class="text-slate-500"># Verify all 152 unit and integration tests</span></div>
+        <div>pip install -e ".[mcp]"</div>
+        <div><span class="text-slate-500"># Verify all 234 unit and integration tests</span></div>
         <div>pytest tests/</div>
         <div><span class="text-slate-500"># Run production scorecard evaluation</span></div>
         <div>python scripts/report_production.py</div>
+        <div><span class="text-slate-500"># Use it from Claude Code</span></div>
+        <div>claude mcp add --scope user arc -- arc-cua-mcp</div>
       </div>
 
       <div class="mt-6 flex flex-wrap justify-center gap-4">

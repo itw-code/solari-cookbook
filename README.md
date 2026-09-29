@@ -3,7 +3,7 @@
 **Production-grade autonomous agent architecture & zero-shot evaluation on [Solari](https://getsolari.com).**
 
 [![Solari Fork](https://img.shields.io/badge/Fork-solari--sdk%2Fsolari--cookbook-brightgreen.svg)](https://github.com/solari-sdk/solari-cookbook)
-[![ARC Tests](https://img.shields.io/badge/ARC%20Tests-155%20passing-blue.svg)](arc-cua/tests/)
+[![ARC Tests](https://img.shields.io/badge/ARC%20Tests-267%20passing-blue.svg)](arc-cua/tests/)
 [![ColdStart Tests](https://img.shields.io/badge/ColdStart%20Tests-110%20passing-brightgreen.svg)](test/)
 [![ARC Live Showcase](https://img.shields.io/badge/ARC%20Showcase-Live-blue.svg)](https://itw-code.github.io/arc-cua/)
 [![ColdStart Live Showcase](https://img.shields.io/badge/ColdStart%20Showcase-Live-green.svg)](https://itw-code.github.io/solari-cookbook/)
@@ -12,12 +12,20 @@
 > **Built for the Pinetree Research SWE-Intern Challenge ([@harrychow_](https://x.com/harrychow_) & [@getsolari](https://x.com/getsolari)).**  
 > This official fork of [`solari-sdk/solari-cookbook`](https://github.com/solari-sdk/solari-cookbook) contains two complementary engineering solutions answering the challenge:
 >
-> 1. ⚡ **[ARC (Asymmetric Reflex-Cortex)](./arc-cua/) — The Agent Architecture:**  
->    Eliminates the crushing multimodal "vision tax" by running sub-10ms deterministic reflex cycles directly inside the Solari MicroVM (via zero-copy Chromium CDP AXTree & Linux AT-SPI2 D-Bus), escalating to cloud LLMs only on verified anomalies.  
->    **Metrics:** **99.69% Cost Reduction** ($0.0015 vs $0.4820/task) · **2.31ms Avg Latency** · **155/155 Tests Passing** · **100% WebArena & OSWorld Pass**.  
->    👉 **[Explore Live ARC Showcase & Simulator](https://itw-code.github.io/arc-cua/)** | **[Watch Kinetic Motion Explainer](https://itw-code.github.io/arc-cua/explain.html)** | **[Standalone Repo](https://github.com/itw-code/arc-cua)**
+> 1. ⚡ **[ARC](./arc-cua/): two products on one Solari browser harness.**
+>    - **ARC CUA, the browser harness.** A token-budgeted accessibility tree with `[#N]` actions, batched fills and state-change checks, driving Solari cloud browsers (MCP server: `arc-cua-mcp`).
+>      **Measured** against a standard tool-calling agent on Solari's own MCP, with the same model (Gemini 3.8 Flash), 8 tasks × 3 runs:
+>      **24/24 vs 21/24** · **3.8× fewer input tokens** · **3.3× cheaper** per task ($4.84 vs $16.01 per 1,000). [Details](arc-cua/docs/BENCHMARK_VS_SOLARI_MCP.md#part-e--same-model-two-harnesses)
+>    - **ARC Index: documents in, verified actions out.** It reads a denial letter, extracts each field with an evidence quote and a citation, and rejects any value not proven at the cited table row (evidence check, row rules, uniqueness). Then it files the appeal in one batched fill.
+>      **Measured** against a traditional browser agent on the same appeal and portal, Gemini 3.8 Flash, n=10 each:
+>      **8.4× cheaper** ($0.00305 vs $0.02575 per appeal, including browser time) · **7.8× faster** (11.4 s vs 89 s) · **22× fewer input tokens** · same accuracy (49/60 fields, 0 wrong).
+>      When the prompt forces a pick between two denied lines, wrong values let through: **16 → 0** (Claude Sonnet 5.5, n=8). [Details](arc-cua/docs/ARC_INDEX_PLAN.md)
+>    - 🎥 **Reels:** [ARC Index](arc-cua/artifacts/arc-index-showreel.mp4) · [Economics vs a traditional agent](arc-cua/artifacts/arc-index-economics-showreel.mp4) · [Wrong values let through](arc-cua/artifacts/arc-index-benchmark-showreel.mp4) · [Same model, two harnesses](arc-cua/artifacts/gemini-harness-showreel.mp4)
+>    - **Tests:** 267 passing. The earlier figures (99.69% cost reduction, 2.31 ms per step, 100% WebArena/OSWorld) came from mock-execution scorecards; the measured numbers above replace them.
 >
->    ![ARC Action Replay — 2.31ms Sub-Millisecond Reflex Execution inside Solari MicroVM](artifacts/arc-action-replay.gif)
+>    👉 **[Standalone repo with full history](https://github.com/itw-code/arc-cua)** · **[Live ARC showcase](https://itw-code.github.io/arc-cua/)**
+>
+>    [![ARC Index economics reel: 8.4× cheaper per appeal](arc-cua/artifacts/arc-index-economics-showreel-poster.jpg)](arc-cua/artifacts/arc-index-economics-showreel.mp4)
 >
 > 2. ❄️ **[ColdStart](./src/) — The Generalization Harness:**  
 >    Never shows an agent the same app twice. Procedurally mutates task apps along 5 orthogonal axes to measure whether vision-first agents generalize to unseen environments cold, backed by fail-closed SQLite verification.  
@@ -560,7 +568,7 @@ If you're evaluating this submission for the Pinetree Research SWE-intern challe
 This is an **official fork of the [Solari cookbook](https://github.com/solari-sdk/solari-cookbook)**,
 submitting two complementary contributions for the Pinetree Research SWE-intern challenge:
 
-- **`arc-cua/`** — **ARC (Asymmetric Reflex-Cortex)**: Sub-10ms agent runtime built for Solari MicroVMs (155 tests, WebArena & OSWorld suites, live simulator showcase).
+- **`arc-cua/`**: **ARC**, a snapshot of [itw-code/arc-cua](https://github.com/itw-code/arc-cua). ARC CUA (`src/arc_cua`, the Solari browser harness) and ARC Index (`src/arc_index`, documents → verified actions), with 267 tests, the reels in `media/` and `artifacts/`, and the measured benchmarks in `docs/` and `artifacts/benchmarks/`.
 - **`src/` & `test/`** — **ColdStart**: Procedural zero-shot generalization testbed and perturbation matrix (110 tests, fail-closed SQLite verification).
 - **`examples/`** — The **upstream** Solari cookbook samples, preserved so this fork stays cleanly rebaseable against `solari-sdk/solari-cookbook`.
 ## More

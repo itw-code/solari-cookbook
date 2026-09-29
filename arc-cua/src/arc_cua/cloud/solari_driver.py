@@ -1,15 +1,24 @@
-"""Solari Cloud API Driver for Ephemeral MicroVM & Browser Provisioning (Phase 5).
+"""Solari Cloud API driver for ephemeral browser sessions.
 
-Manages remote stealth browsers and desktop sandboxes via the Solari Cloud REST API.
-- Supports provisioning ephemeral stealth browser sessions with CDP endpoints.
-- Supports provisioning desktop sandboxes with VNC and AT-SPI accessibility streams.
-- Automatically captures session recording and replay URLs.
-- Gracefully falls back to local mock mode if SOLARI_API_KEY is not configured.
-- Tracks precise compute duration (ms) per session for cost ledger integration.
+Implements the contract verified against the live API in docs/SOLARI_API.md:
+- `POST /sessions` (201) returns `{sessionId, wsEndpoint, cdpEndpoint, expiresAt}`;
+  `GET /sessions/{id}` names the id `id`, so both are accepted.
+- `DELETE /sessions/{id}` (204) releases. Sessions otherwise live 5 hours and bill hourly,
+  so every provisioned session is released on `terminate_all`, context exit, and process exit.
+- Session ids and CDP/WS endpoints are signed capabilities: they are never logged or repr'd.
+- Only 502/503/504 and network errors are retried; creates reuse one `Idempotency-Key`.
+
+There is no silent mock fallback: without `SOLARI_API_KEY` construction fails, and a failed
+live call raises `SolariAPIError`. Mock mode exists only for offline benchmark scripts and
+must be requested with `mock=True`.
+
+Desktops are not supported live: Solari desktops expose only screenshots and mouse/keyboard
+input, with no accessibility tree for ARC to perceive.
 """
 
 from __future__ import annotations
 
+import atexit
 import dataclasses
 import enum
 import json
@@ -19,19 +28,40 @@ import time
 import urllib.error
 import urllib.request
 import uuid
+import weakref
 from typing import Any, Callable, Dict, List, Optional
 
 logger = logging.getLogger("arc_cua.cloud.solari_driver")
 
+DEFAULT_BASE_URL = "https://api.getsolari.com"
+RETRYABLE_STATUSES = frozenset({502, 503, 504})
+
+HttpRequester = Callable[[urllib.request.Request, float], Optional[Dict[str, Any]]]
+
+
+class SolariConfigError(RuntimeError):
+    """Raised when the driver is constructed without the configuration it needs."""
+
+
+class SolariAPIError(RuntimeError):
+    """A Solari API call failed. `status` is None for network-level failures."""
+
+    def __init__(self, message: str, status: Optional[int] = None, code: Optional[str] = None,
+                 retryable: bool = False):
+        super().__init__(message)
+        self.status = status
+        self.code = code
+        self.retryable = retryable
+
 
 class SessionType(str, enum.Enum):
-    """Supported Solari Cloud ephemeral sandbox types."""
+    """Supported Solari sandbox types."""
     BROWSER = "browser"
     DESKTOP = "desktop"
 
 
 class SessionStatus(str, enum.Enum):
-    """Lifecycle statuses for Solari Cloud sandbox sessions."""
+    """Lifecycle statuses for Solari sessions."""
     PENDING = "pending"
     RUNNING = "running"
     TERMINATING = "terminating"
@@ -39,28 +69,41 @@ class SessionStatus(str, enum.Enum):
     FAILED = "failed"
 
 
-@dataclasses.dataclass
+def _short(secret: Optional[str]) -> str:
+    """Render a signed id/endpoint safely for logs: first 6 characters only."""
+    if not secret:
+        return "<none>"
+    return f"{secret[:6]}…"
+
+
+@dataclasses.dataclass(repr=False)
 class SolariSession:
-    """Represents a provisioned Solari Cloud sandbox session."""
+    """A provisioned Solari session. `session_id` and endpoints are secrets; see `__repr__`."""
     session_id: str
     session_type: SessionType
     status: SessionStatus
     cdp_endpoint: Optional[str] = None
+    ws_endpoint: Optional[str] = None
     vnc_stream: Optional[str] = None
     replay_url: Optional[str] = None
-    region: str = "us-east-1"
+    expires_at: Optional[str] = None
+    region: Optional[str] = None
     is_mock: bool = False
     start_time: float = dataclasses.field(default_factory=time.time)
     end_time: Optional[float] = None
     compute_time_ms: float = 0.0
     metadata: Dict[str, Any] = dataclasses.field(default_factory=dict)
 
+    def __repr__(self) -> str:
+        return (f"SolariSession(id={_short(self.session_id)}, type={self.session_type.value}, "
+                f"status={self.status.value}, mock={self.is_mock}, expires_at={self.expires_at})")
+
     def is_active(self) -> bool:
         """Return True if session is currently provisioned and running."""
         return self.status == SessionStatus.RUNNING
 
     def elapsed_ms(self) -> float:
-        """Calculate elapsed compute time in milliseconds."""
+        """Elapsed compute time in milliseconds (frozen once terminated)."""
         if self.end_time is not None:
             return self.compute_time_ms
         return max(0.0, (time.time() - self.start_time) * 1000.0)
@@ -70,349 +113,306 @@ class SolariSession:
 ArcSession = SolariSession
 
 
+def _release_all_at_exit(ref: "weakref.ReferenceType[SolariCloudDriver]") -> None:
+    driver = ref()
+    if driver is not None:
+        driver.terminate_all()
+
+
 class SolariCloudDriver:
-    """REST driver for managing Solari Cloud browser and desktop sandboxes."""
+    """REST driver for Solari browser sessions."""
 
     def __init__(
         self,
         api_key: Optional[str] = None,
-        region: Optional[str] = None,
         api_url: Optional[str] = None,
         timeout_sec: float = 30.0,
-        http_requester: Optional[Callable[[urllib.request.Request, float], Dict[str, Any]]] = None,
+        http_requester: Optional[HttpRequester] = None,
+        mock: bool = False,
+        max_retries: int = 2,
+        backoff_sec: float = 0.5,
+        sleep: Callable[[float], None] = time.sleep,
+        register_atexit: bool = True,
     ):
-        """Initialize SolariCloudDriver with credentials or fallback to mock mode."""
-        self.api_key = (
-            api_key
-            if api_key is not None
-            else (os.getenv("SOLARI_API_KEY") or os.getenv("ARC_API_KEY", "")).strip()
-        )
-        self.region = (
-            region
-            or os.getenv("SOLARI_REGION")
-            or os.getenv("ARC_REGION", "us-east-1")
-        ).strip()
+        """Create a driver.
+
+        Args:
+            api_key: Solari console key (`slr_live_…`). Defaults to `SOLARI_API_KEY`.
+            api_url: API base URL. Defaults to `SOLARI_BASE_URL`, then `SOLARI_API_URL`.
+            timeout_sec: Per-request timeout.
+            http_requester: Injectable transport `(request, timeout) -> parsed JSON | None`.
+                It must raise `urllib.error.HTTPError` / `URLError` on failure.
+            mock: Offline mode for benchmark scripts; makes no HTTP calls and needs no key.
+            max_retries: Retries for transient failures (502/503/504, network errors).
+            backoff_sec: Base delay for exponential backoff between retries.
+            sleep: Injectable sleep, for tests.
+            register_atexit: Release still-active sessions when the process exits.
+
+        Raises:
+            SolariConfigError: No API key and `mock` is False.
+        """
+        self.is_mock = mock
+        self.api_key = "" if mock else (api_key if api_key is not None else os.getenv("SOLARI_API_KEY", "")).strip()
+        if not mock and not self.api_key:
+            raise SolariConfigError(
+                "SOLARI_API_KEY is not set. Create a key at https://console.getsolari.com and export it, "
+                "or pass mock=True for offline runs."
+            )
         self.api_url = (
-            api_url
-            or os.getenv("SOLARI_API_URL")
-            or os.getenv("ARC_API_URL", "https://api.getsolari.com")
+            api_url or os.getenv("SOLARI_BASE_URL") or os.getenv("SOLARI_API_URL") or DEFAULT_BASE_URL
         ).rstrip("/")
         self.timeout_sec = timeout_sec
+        self.max_retries = max(0, max_retries)
+        self.backoff_sec = backoff_sec
+        self._sleep = sleep
         self._http_requester = http_requester or self._default_http_request
-
-        # Active and historical sessions indexed by session_id
         self._sessions: Dict[str, SolariSession] = {}
-        if not self.api_key:
-            self.is_mock = True
-            logger.info("SOLARI_API_KEY not detected: SolariCloudDriver initialized in MOCK mode.")
-        else:
-            self.is_mock = False
-            masked_key = f"{self.api_key[:4]}...{self.api_key[-4:]}" if len(self.api_key) >= 8 else "***"
-            logger.info(
-                f"SolariCloudDriver initialized in LIVE mode [region={self.region}, "
-                f"api_url={self.api_url}, api_key={masked_key}]"
-            )
 
-    def _default_http_request(self, req: urllib.request.Request, timeout: float) -> Dict[str, Any]:
-        """Perform HTTP request using standard library urllib."""
+        if register_atexit:
+            atexit.register(_release_all_at_exit, weakref.ref(self))
+        logger.info(f"SolariCloudDriver initialized [mode={'mock' if mock else 'live'}, api_url={self.api_url}]")
+
+    def __repr__(self) -> str:
+        return f"SolariCloudDriver(mode={'mock' if self.is_mock else 'live'}, api_url={self.api_url}, active={self.active_sessions_count()})"
+
+    def __enter__(self) -> "SolariCloudDriver":
+        return self
+
+    def __exit__(self, *exc: Any) -> None:
+        self.terminate_all()
+
+    # --- transport ---------------------------------------------------------------------------
+
+    @staticmethod
+    def _default_http_request(req: urllib.request.Request, timeout: float) -> Optional[Dict[str, Any]]:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             data = resp.read().decode("utf-8")
-            return json.loads(data) if data else {}
+            return json.loads(data) if data else None
+
+    def _scrub(self, text: str) -> str:
+        return text.replace(self.api_key, "<redacted>") if self.api_key else text
+
+    def _to_api_error(self, err: urllib.error.HTTPError, what: str) -> SolariAPIError:
+        code = None
+        message = ""
+        try:
+            raw = err.read().decode("utf-8", errors="replace")
+        except Exception:
+            raw = ""
+        try:
+            body = json.loads(raw)
+            if isinstance(body, dict):
+                code = body.get("code")
+                message = body.get("error") or body.get("message") or ""
+        except ValueError:
+            message = raw[:200]
+        detail = f"{what} failed: HTTP {err.code}" + (f" {code}" if code else "") + (f" — {message}" if message else "")
+        return SolariAPIError(self._scrub(detail), status=err.code, code=code,
+                              retryable=err.code in RETRYABLE_STATUSES)
+
+    def _request(self, method: str, path: str, what: str, body: Optional[Dict[str, Any]] = None,
+                 headers: Optional[Dict[str, str]] = None) -> Optional[Dict[str, Any]]:
+        """Send one API call, retrying only transient failures."""
+        all_headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "User-Agent": "arc-cua/0.1",
+            **(headers or {}),
+        }
+        data = None
+        if body is not None:
+            all_headers["Content-Type"] = "application/json"
+            data = json.dumps(body).encode("utf-8")
+
+        attempt = 0
+        while True:
+            req = urllib.request.Request(f"{self.api_url}{path}", data=data, headers=all_headers, method=method)
+            try:
+                return self._http_requester(req, self.timeout_sec)
+            except urllib.error.HTTPError as err:
+                error = self._to_api_error(err, what)
+            except urllib.error.URLError as err:
+                error = SolariAPIError(self._scrub(f"{what} failed: network error {err.reason}"), retryable=True)
+            if not error.retryable or attempt >= self.max_retries:
+                raise error
+            delay = self.backoff_sec * (2 ** attempt)
+            attempt += 1
+            logger.warning(f"{error} — retry {attempt}/{self.max_retries} in {delay:.1f}s")
+            self._sleep(delay)
+
+    # --- lifecycle ---------------------------------------------------------------------------
 
     def provision_browser(
         self,
-        stealth: bool = True,
-        viewport: Optional[Dict[str, int]] = None,
-        timeout_sec: Optional[float] = None,
-        session_id: Optional[str] = None,
-        record_session: bool = True,
+        stealth: bool = False,
+        recording: bool = False,
+        profile_id: Optional[str] = None,
+        proxy: Optional[Any] = None,
+        captcha: bool = False,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> SolariSession:
-        """Provision an ephemeral stealth browser session in Solari Cloud."""
-        sid = session_id or f"solari-brw-{uuid.uuid4().hex[:12]}"
-        vp = viewport or {"width": 1280, "height": 720}
-        now = time.time()
+        """Create a Solari browser session.
 
+        Only documented create fields are sent, and only when set, so a default call posts `{}`.
+        Stealth, proxies, and captcha require a paid plan (the API answers 402 otherwise).
+
+        Raises:
+            SolariAPIError: The API rejected the request or returned no `cdpEndpoint`.
+        """
         if self.is_mock:
-            cdp_port = 9222
-            session = SolariSession(
-                session_id=sid,
+            return self._track(SolariSession(
+                session_id=f"mock-brw-{uuid.uuid4().hex[:12]}",
                 session_type=SessionType.BROWSER,
                 status=SessionStatus.RUNNING,
-                cdp_endpoint=f"ws://127.0.0.1:{cdp_port}/devtools/browser/{sid}",
-                vnc_stream=None,
-                replay_url=f"https://cloud.arc.ai/replay/{sid}" if record_session else None,
-                region=self.region,
+                cdp_endpoint="ws://127.0.0.1:9222/devtools/browser/mock",
                 is_mock=True,
-                start_time=now,
-                metadata={
-                    "stealth": stealth,
-                    "viewport": vp,
-                    "record_session": record_session,
-                    **(metadata or {}),
-                },
-            )
-            self._sessions[sid] = session
-            logger.debug(f"[MOCK] Provisioned Solari stealth browser session {sid}")
-            return session
+                metadata=dict(metadata or {}),
+            ))
 
-        # Real Solari API request
-        payload = {
-            "session_id": sid,
-            "session_type": "browser",
-            "region": self.region,
-            "stealth": stealth,
-            "viewport": vp,
-            "record_session": record_session,
-            "metadata": metadata or {},
-        }
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}",
-            "User-Agent": "ARC-Autonomous-Agent/1.0",
-        }
-        url = f"{self.api_url}/sessions"
-        timeout = timeout_sec or self.timeout_sec
+        payload: Dict[str, Any] = {}
+        if stealth:
+            payload["stealth"] = True
+        if recording:
+            payload["recording"] = True
+        if profile_id:
+            payload["profileId"] = profile_id
+        if proxy is not None:
+            payload["proxy"] = proxy
+        if captcha:
+            payload["captcha"] = True
 
-        try:
-            req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
-            res_data = self._http_requester(req, timeout)
+        res = self._request("POST", "/sessions", "Create browser session", body=payload,
+                            headers={"Idempotency-Key": str(uuid.uuid4())}) or {}
+        sid = res.get("sessionId") or res.get("id")
+        if not sid:
+            raise SolariAPIError("Create browser session returned no session id")
 
-            actual_sid = res_data.get("sessionId") or res_data.get("session_id") or sid
-            cdp_endpoint = (
-                res_data.get("cdpEndpoint")
-                or res_data.get("cdp_endpoint")
-                or res_data.get("wsEndpoint")
-                or f"wss://api.getsolari.com/ws/{actual_sid}"
-            )
-            replay_url = res_data.get("replay_url") or (f"https://replay.getsolari.com/{actual_sid}" if record_session else None)
+        session = self._track(SolariSession(
+            session_id=sid,
+            session_type=SessionType.BROWSER,
+            status=SessionStatus.RUNNING,
+            cdp_endpoint=res.get("cdpEndpoint"),
+            ws_endpoint=res.get("wsEndpoint"),
+            replay_url=res.get("replay"),
+            expires_at=res.get("expiresAt"),
+            region=res.get("region"),
+            metadata={"stealth": stealth, "recording": recording, **(metadata or {})},
+        ))
+        if not session.cdp_endpoint:
+            self.terminate(sid)
+            raise SolariAPIError("Create browser session returned no cdpEndpoint; session released")
 
-            session = SolariSession(
-                session_id=actual_sid,
-                session_type=SessionType.BROWSER,
-                status=SessionStatus.RUNNING,
-                cdp_endpoint=cdp_endpoint,
-                vnc_stream=res_data.get("vnc_stream"),
-                replay_url=replay_url,
-                region=res_data.get("region", self.region),
-                is_mock=False,
-                start_time=now,
-                metadata={
-                    "stealth": stealth,
-                    "viewport": vp,
-                    "record_session": record_session,
-                    **(metadata or {}),
-                },
-            )
-            self._sessions[actual_sid] = session
-            logger.info(f"Provisioned live Solari browser session {actual_sid} on {self.region}")
-            return session
-
-        except Exception as err:
-            logger.warning(f"Live Solari browser provisioning failed ({err}). Falling back to mock.")
-            session = SolariSession(
-                session_id=sid,
-                session_type=SessionType.BROWSER,
-                status=SessionStatus.RUNNING,
-                cdp_endpoint=f"ws://127.0.0.1:9222/devtools/browser/{sid}",
-                replay_url=f"https://cloud.arc.ai/replay/{sid}",
-                region=self.region,
-                is_mock=True,
-                start_time=now,
-                metadata={"error_fallback": str(err), "stealth": stealth},
-            )
-            self._sessions[sid] = session
-            return session
+        logger.info(f"Provisioned Solari browser session {_short(sid)} (expires {session.expires_at})")
+        return session
 
     def provision_desktop(
         self,
         resolution: str = "1920x1080",
         os_flavor: str = "ubuntu",
-        timeout_sec: Optional[float] = None,
-        session_id: Optional[str] = None,
-        record_session: bool = True,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> SolariSession:
-        """Provision an ephemeral desktop sandbox session in Solari Cloud."""
-        sid = session_id or f"solari-desk-{uuid.uuid4().hex[:12]}"
-        now = time.time()
+        """Mock-only desktop session for offline OSWorld benchmark accounting.
 
-        if self.is_mock:
-            session = SolariSession(
-                session_id=sid,
-                session_type=SessionType.DESKTOP,
-                status=SessionStatus.RUNNING,
-                cdp_endpoint=f"ws://127.0.0.1:9222/devtools/browser/{sid}",
-                vnc_stream=f"vnc://127.0.0.1:5900/{sid}",
-                replay_url=f"https://cloud.arc.ai/replay/{sid}" if record_session else None,
-                region=self.region,
-                is_mock=True,
-                start_time=now,
-                metadata={
-                    "resolution": resolution,
-                    "os_flavor": os_flavor,
-                    "record_session": record_session,
-                    **(metadata or {}),
-                },
+        Raises:
+            NotImplementedError: In live mode. Solari desktops expose no accessibility tree,
+                so ARC has nothing to perceive; see docs/SOLARI_API.md.
+        """
+        if not self.is_mock:
+            raise NotImplementedError(
+                "Live Solari desktops are not supported: they expose only screenshots and mouse/keyboard "
+                "input, with no accessibility tree for ARC to perceive. Use mock=True for offline benchmarks."
             )
-            self._sessions[sid] = session
-            logger.debug(f"[MOCK] Provisioned Solari desktop sandbox session {sid}")
-            return session
+        return self._track(SolariSession(
+            session_id=f"mock-desk-{uuid.uuid4().hex[:12]}",
+            session_type=SessionType.DESKTOP,
+            status=SessionStatus.RUNNING,
+            vnc_stream="vnc://127.0.0.1:5900/mock",
+            is_mock=True,
+            metadata={"resolution": resolution, "os_flavor": os_flavor, **(metadata or {})},
+        ))
 
-        # Real Solari API request
-        payload = {
-            "session_id": sid,
-            "session_type": "desktop",
-            "region": self.region,
-            "resolution": resolution,
-            "os_flavor": os_flavor,
-            "record_session": record_session,
-            "metadata": metadata or {},
-        }
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {self.api_key}",
-            "User-Agent": "ARC-Autonomous-Agent/1.0",
-        }
-        url = f"{self.api_url}/sessions/desktop"
-        timeout = timeout_sec or self.timeout_sec
+    def _track(self, session: SolariSession) -> SolariSession:
+        self._sessions[session.session_id] = session
+        return session
 
-        try:
-            req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
-            res_data = self._http_requester(req, timeout)
+    def terminate(self, session_id: str) -> bool:
+        """Release a session. Returns True once it is released (idempotent), False on failure.
 
-            vnc_stream = res_data.get("vnc_stream", f"vnc://{self.region}.cloud.getsolari.com/{sid}")
-            cdp_endpoint = res_data.get("cdp_endpoint", f"wss://{self.region}.cloud.getsolari.com/cdp/{sid}")
-            replay_url = res_data.get("replay_url", f"https://replay.getsolari.com/{sid}")
-
-            session = SolariSession(
-                session_id=sid,
-                session_type=SessionType.DESKTOP,
-                status=SessionStatus.RUNNING,
-                cdp_endpoint=cdp_endpoint,
-                vnc_stream=vnc_stream,
-                replay_url=replay_url,
-                region=res_data.get("region", self.region),
-                is_mock=False,
-                start_time=now,
-                metadata={
-                    "resolution": resolution,
-                    "os_flavor": os_flavor,
-                    "record_session": record_session,
-                    **(metadata or {}),
-                },
-            )
-            self._sessions[sid] = session
-            logger.info(f"Provisioned live Solari desktop session {sid} on {self.region}")
-            return session
-
-        except Exception as err:
-            logger.warning(f"Live Solari desktop provisioning failed ({err}). Falling back to mock.")
-            session = SolariSession(
-                session_id=sid,
-                session_type=SessionType.DESKTOP,
-                status=SessionStatus.RUNNING,
-                cdp_endpoint=f"ws://127.0.0.1:9222/devtools/browser/{sid}",
-                vnc_stream=f"vnc://127.0.0.1:5900/{sid}",
-                replay_url=f"https://cloud.arc.ai/replay/{sid}",
-                region=self.region,
-                is_mock=True,
-                start_time=now,
-                metadata={"error_fallback": str(err), "resolution": resolution},
-            )
-            self._sessions[sid] = session
-            return session
-
-    def get_compute_time_ms(self, session_id: str) -> float:
-        """Get the elapsed or finalized compute time in milliseconds for a session."""
+        A 404 means the session is already gone and counts as released. On any other failure
+        the session stays active so `terminate_all` or process exit can retry it.
+        """
         session = self._sessions.get(session_id)
         if not session:
-            return 0.0
-        return session.elapsed_ms()
+            logger.warning(f"Attempted to terminate unknown session {_short(session_id)}")
+            return False
+        if session.status == SessionStatus.TERMINATED:
+            return True
 
-    def get_total_compute_time_ms(self) -> float:
-        """Sum compute time across all tracked sessions."""
-        return sum(s.elapsed_ms() for s in self._sessions.values())
+        if not session.is_mock:
+            try:
+                self._request("DELETE", f"/sessions/{session_id}", "Release browser session")
+            except SolariAPIError as err:
+                if err.status != 404:
+                    logger.warning(f"Release of session {_short(session_id)} failed: {err}")
+                    return False
+
+        now = time.time()
+        session.end_time = now
+        session.compute_time_ms = max(0.0, (now - session.start_time) * 1000.0)
+        session.status = SessionStatus.TERMINATED
+        logger.info(f"Released session {_short(session_id)} (compute {session.compute_time_ms:.0f} ms)")
+        return True
+
+    def terminate_all(self) -> int:
+        """Release every active session. Returns the number released."""
+        return sum(1 for s in list(self._sessions.values()) if s.is_active() and self.terminate(s.session_id))
+
+    # --- accessors ---------------------------------------------------------------------------
 
     def get_session(self, session_id: str) -> Optional[SolariSession]:
-        """Look up a session by ID."""
+        """Look up a tracked session by id."""
         return self._sessions.get(session_id)
 
     def list_active_sessions(self) -> List[SolariSession]:
         """Return all currently active sessions."""
         return [s for s in self._sessions.values() if s.is_active()]
 
-    def terminate(self, session_id: str) -> bool:
-        """Terminate an active session and freeze its compute duration."""
-        session = self._sessions.get(session_id)
-        if not session:
-            logger.warning(f"Attempted to terminate non-existent session: {session_id}")
-            return False
-
-        if session.status == SessionStatus.TERMINATED:
-            return True
-
-        now = time.time()
-        session.end_time = now
-        session.compute_time_ms = max(0.0, (now - session.start_time) * 1000.0)
-        session.status = SessionStatus.TERMINATED
-
-        if not self.is_mock and self.api_key:
-            try:
-                url = f"{self.api_url}/sessions/{session_id}"
-                headers = {
-                    "Authorization": f"Bearer {self.api_key}",
-                    "User-Agent": "ARC-Autonomous-Agent/1.0",
-                }
-                req = urllib.request.Request(url, headers=headers, method="DELETE")
-                self._http_requester(req, self.timeout_sec)
-                logger.info(f"Terminated live Solari session {session_id} (Compute: {session.compute_time_ms:.1f}ms)")
-            except Exception as err:
-                logger.warning(f"Remote teardown failed for session {session_id}: {err}")
-
-        return True
-
-    def terminate_all(self) -> int:
-        """Terminate all currently active sessions. Returns count of terminated sessions."""
-        count = 0
-        for sid in list(self._sessions.keys()):
-            if self._sessions[sid].is_active():
-                if self.terminate(sid):
-                    count += 1
-        return count
+    def active_sessions_count(self) -> int:
+        """Return count of currently running sessions."""
+        return len(self.list_active_sessions())
 
     def get_cdp_endpoint(self, session_id: str) -> str:
-        """Get the active CDP endpoint URL for a provisioned session."""
+        """Return the CDP endpoint for a session (a secret: do not log it)."""
         session = self._sessions.get(session_id)
         if not session:
-            raise KeyError(f"Session '{session_id}' not found in SolariCloudDriver.")
+            raise KeyError(f"Session {_short(session_id)} not found")
         if not session.cdp_endpoint:
-            raise ValueError(f"Session '{session_id}' has no CDP endpoint configured.")
+            raise ValueError(f"Session {_short(session_id)} has no CDP endpoint")
         return session.cdp_endpoint
 
     def get_vnc_stream(self, session_id: str) -> str:
-        """Get the active VNC stream URL for a desktop session."""
+        """Return the VNC stream URL for a (mock) desktop session."""
         session = self._sessions.get(session_id)
         if not session:
-            raise KeyError(f"Session '{session_id}' not found in SolariCloudDriver.")
+            raise KeyError(f"Session {_short(session_id)} not found")
         if not session.vnc_stream:
-            raise ValueError(f"Session '{session_id}' has no VNC stream configured.")
+            raise ValueError(f"Session {_short(session_id)} has no VNC stream")
         return session.vnc_stream
 
     def get_replay_url(self, session_id: str) -> Optional[str]:
-        """Get the session recording replay URL if available."""
+        """Return the replay URL if the create response included one."""
         session = self._sessions.get(session_id)
-        if not session:
-            return None
-        return session.replay_url
+        return session.replay_url if session else None
 
-    def active_sessions_count(self) -> int:
-        """Return count of currently running sessions."""
-        return sum(1 for s in self._sessions.values() if s.status == SessionStatus.RUNNING)
+    def get_compute_time_ms(self, session_id: str) -> float:
+        """Elapsed or finalized compute time for one session."""
+        session = self._sessions.get(session_id)
+        return session.elapsed_ms() if session else 0.0
 
     def total_compute_ms(self) -> float:
-        """Compute cumulative milliseconds of cloud compute across all sessions."""
+        """Cumulative compute milliseconds across all tracked sessions."""
         return sum(s.elapsed_ms() for s in self._sessions.values())
+
+    get_total_compute_time_ms = total_compute_ms
 
 
 # Backward-compatible alias

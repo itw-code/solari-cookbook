@@ -1,0 +1,33 @@
+# Node & Dependencies
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Python & Virtual Environments
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+build/
+*.egg-info/
+
+# Logs & Telemetry
+*.log
+telemetry.parquet
+*.trace
+.cache/
+# Test & Coverage
+coverage/
+.nyc_output/
+.pytest_cache/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Environment & Secrets
+.env
+.env.*

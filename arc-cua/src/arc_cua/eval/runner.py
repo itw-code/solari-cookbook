@@ -230,6 +230,7 @@ class MockTreeExtractor:
             yaml_linearized=yaml_str,
             json_structured=[],
             action_index_map={},
+            truncated=False,
         )
 
 class MockEvalPage:

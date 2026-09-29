@@ -160,13 +160,66 @@ class TestAXTreeLocatorMetadata:
             assert "aria_label" in item
             assert "backend_dom_id" in item
 
-        # Verify YAML output contains CSS selectors
-        assert 'css="' in res.yaml_linearized
+        # The YAML shows CSS only when it adds information beyond the name: the mock
+        # fixture's locators are all text-derived (:has-text), so none are restated.
+        assert ":has-text(" not in res.yaml_linearized
+        dom = {"backendNodeId": 900, "nodeName": "BUTTON", "attributes": ["id", "save-btn"], "children": []}
+        with_id = extractor.sanitize(
+            [{"nodeId": "1", "role": {"value": "button"}, "name": {"value": "Save"},
+              "backendDOMNodeId": 900, "childIds": []}],
+            dom,
+        )
+        assert 'css="#save-btn"' in with_id.yaml_linearized
 
         # Verify structured JSON output contains rich fields
         first_json = res.json_structured[0]
         assert "role" in first_json
 
+    def test_real_cdp_nested_ignored_wrapper_extraction(self):
+        """Regression test for real Chromium CDP tree with nested ignored layout containers and aria-hidden pruning."""
+        extractor = CDP_AXTree_Extractor()
+        raw_cdp_nodes = [
+            {"nodeId": "1", "role": {"value": "RootWebArea"}, "name": {"value": "Test Page"}, "childIds": ["2"]},
+            {"nodeId": "2", "role": {"value": "none"}, "ignored": True, "ignoredReasons": [{"name": "uninteresting"}], "childIds": ["5"]},
+            {"nodeId": "5", "role": {"value": "none"}, "ignored": True, "ignoredReasons": [{"name": "uninteresting"}], "childIds": ["6", "7", "8", "9"]},
+            {"nodeId": "6", "role": {"value": "heading"}, "name": {"value": "Welcome to ARC"}, "childIds": []},
+            {"nodeId": "7", "role": {"value": "textbox"}, "name": {"value": "Username"}, "backendDOMNodeId": 101, "childIds": []},
+            {"nodeId": "8", "role": {"value": "button"}, "name": {"value": "Log In"}, "backendDOMNodeId": 102, "childIds": []},
+            {"nodeId": "9", "role": {"value": "none"}, "ignored": True, "ignoredReasons": [{"name": "ariaHiddenSubtree"}], "childIds": ["10"]},
+            {"nodeId": "10", "role": {"value": "button"}, "name": {"value": "Secret"}, "backendDOMNodeId": 103, "childIds": []},
+        ]
+        dom_document = {
+            "nodeName": "#document",
+            "children": [
+                {
+                    "nodeName": "html",
+                    "children": [
+                        {
+                            "nodeName": "input",
+                            "backendNodeId": 101,
+                            "attributes": ["id", "user-input", "placeholder", "Username"],
+                        },
+                        {
+                            "nodeName": "button",
+                            "backendNodeId": 102,
+                            "attributes": ["id", "login-btn"],
+                        },
+                    ],
+                }
+            ],
+        }
+
+        res = extractor.sanitize(raw_cdp_nodes, dom_document=dom_document)
+
+        # Verify ignored layout wrappers were hoisted and ariaHiddenSubtree was pruned
+        assert res.actionable_count == 2
+        assert "Secret" not in res.yaml_linearized
+        assert "[#1] textbox" in res.yaml_linearized
+        assert "[#2] button" in res.yaml_linearized
+
+        # Verify locators grounded in real DOM attributes
+        assert res.action_index_map[1]["css"] == "#user-input"
+        assert res.action_index_map[2]["css"] == "#login-btn"
 
 class TestATSPIBridgeQueueDispatch:
     """Verifies non-blocking queue-based dispatch and real vs mock separation."""

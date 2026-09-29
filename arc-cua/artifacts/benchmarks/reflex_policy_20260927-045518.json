@@ -1,0 +1,608 @@
+[
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 0,
+    "success": true,
+    "seconds": 6.5,
+    "model_seconds": 3.3,
+    "act_seconds": 1.4,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1662,
+      1629
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "input_tokens": 4598,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 0,
+    "success": true,
+    "seconds": 6.1,
+    "model_seconds": 3.4,
+    "act_seconds": 1.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1495,
+      1932
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49858513",
+    "input_tokens": 4835,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 12.8,
+    "model_seconds": 2.5,
+    "act_seconds": 6.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#4=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1463,
+      1067
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "input_tokens": 3679,
+    "output_tokens": 26
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 0,
+    "success": true,
+    "seconds": 8.9,
+    "model_seconds": 6.1,
+    "act_seconds": 1.2,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1294,
+      1773,
+      1805,
+      1191
+    ],
+    "final_url": "https://httpbin.org/post",
+    "input_tokens": 3567,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 0,
+    "success": true,
+    "seconds": 13.5,
+    "model_seconds": 4.4,
+    "act_seconds": 5.0,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      2890,
+      1519
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "input_tokens": 3750,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 0,
+    "success": true,
+    "seconds": 10.7,
+    "model_seconds": 5.1,
+    "act_seconds": 4.5,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "query=Coroutines and tasks",
+      "click#74",
+      "done"
+    ],
+    "model_ms_per_step": [
+      2315,
+      1491,
+      1271
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "input_tokens": 5716,
+    "output_tokens": 27
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 0,
+    "success": true,
+    "seconds": 5.3,
+    "model_seconds": 3.4,
+    "act_seconds": 0.3,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1636,
+      1758
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 27.0,
+    "model_seconds": 11.7,
+    "act_seconds": 12.6,
+    "steps": 8,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "click#2",
+      "fill#15=Zurich",
+      "fill#17=London",
+      "fill#18=10/20/2026",
+      "click#19",
+      "scroll",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1612,
+      1502,
+      949,
+      1756,
+      1712,
+      1877,
+      1352,
+      956
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "input_tokens": 15003,
+    "output_tokens": 103
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 1,
+    "success": true,
+    "seconds": 7.0,
+    "model_seconds": 3.7,
+    "act_seconds": 1.4,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1717,
+      2009
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "input_tokens": 4601,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 1,
+    "success": true,
+    "seconds": 5.2,
+    "model_seconds": 3.0,
+    "act_seconds": 1.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1490,
+      1460
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "input_tokens": 4727,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 1,
+    "success": true,
+    "seconds": 11.4,
+    "model_seconds": 3.9,
+    "act_seconds": 5.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#4=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1666,
+      2233
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "input_tokens": 3679,
+    "output_tokens": 26
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 1,
+    "success": true,
+    "seconds": 8.8,
+    "model_seconds": 6.2,
+    "act_seconds": 1.2,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1358,
+      1217,
+      1876,
+      1706
+    ],
+    "final_url": "https://httpbin.org/post",
+    "input_tokens": 3566,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 1,
+    "success": true,
+    "seconds": 11.4,
+    "model_seconds": 3.2,
+    "act_seconds": 4.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1532,
+      1640
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "input_tokens": 3747,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 1,
+    "success": true,
+    "seconds": 9.7,
+    "model_seconds": 4.6,
+    "act_seconds": 4.0,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "query=Coroutines and tasks",
+      "click#74",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1614,
+      1381,
+      1618
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "input_tokens": 5716,
+    "output_tokens": 27
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 1,
+    "success": true,
+    "seconds": 4.3,
+    "model_seconds": 3.2,
+    "act_seconds": 0.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1422,
+      1747
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 1,
+    "success": true,
+    "seconds": 28.6,
+    "model_seconds": 13.1,
+    "act_seconds": 13.5,
+    "steps": 9,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "click#2",
+      "click#15",
+      "fill#1",
+      "fill#15=Zurich",
+      "fill#17=London",
+      "fill#18=10/20/2026",
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1943,
+      1488,
+      1053,
+      1466,
+      1310,
+      1424,
+      1592,
+      1224,
+      1627
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "input_tokens": 15649,
+    "output_tokens": 126
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 2,
+    "success": true,
+    "seconds": 7.2,
+    "model_seconds": 3.7,
+    "act_seconds": 1.9,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1865,
+      1848
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "input_tokens": 4600,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 2,
+    "success": true,
+    "seconds": 5.2,
+    "model_seconds": 3.0,
+    "act_seconds": 1.3,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1634,
+      1340
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "input_tokens": 4727,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 2,
+    "success": true,
+    "seconds": 10.6,
+    "model_seconds": 3.5,
+    "act_seconds": 5.0,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#4=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1994,
+      1555
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "input_tokens": 3679,
+    "output_tokens": 26
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 2,
+    "success": true,
+    "seconds": 9.0,
+    "model_seconds": 6.3,
+    "act_seconds": 1.2,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1438,
+      1923,
+      1511,
+      1445
+    ],
+    "final_url": "https://httpbin.org/post",
+    "input_tokens": 3567,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 2,
+    "success": true,
+    "seconds": 11.9,
+    "model_seconds": 3.5,
+    "act_seconds": 4.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1471,
+      1995
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "input_tokens": 3747,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 2,
+    "success": true,
+    "seconds": 10.2,
+    "model_seconds": 5.0,
+    "act_seconds": 4.3,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "query=Coroutines and tasks",
+      "click#74",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1883,
+      1481,
+      1611
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "input_tokens": 5716,
+    "output_tokens": 27
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 2,
+    "success": true,
+    "seconds": 4.1,
+    "model_seconds": 3.1,
+    "act_seconds": 0.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1556,
+      1570
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 2,
+    "success": true,
+    "seconds": 26.7,
+    "model_seconds": 10.3,
+    "act_seconds": 14.0,
+    "steps": 7,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "click#2",
+      "fill#15=Zurich",
+      "fill#17=London",
+      "fill#18=Oct 20, 2026",
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1607,
+      1470,
+      1593,
+      1372,
+      1155,
+      1475,
+      1601
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "input_tokens": 13300,
+    "output_tokens": 98
+  }
+]

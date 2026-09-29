@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rebrand Comparison — Arc Showcase Themes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { background: #030712; color: #E6EAF2; font-family: 'Inter', system-ui, sans-serif; }
+    .logo-frame { width: 88px; height: 88px; border-radius: 22px; display: grid; place-items: center; }
+    .swatch { width: 100%; aspect-ratio: 1; border-radius: 14px; border: 1px solid rgba(148,163,184,0.18); }
+    .preview-card { border-radius: 18px; padding: 14px; border: 1px solid rgba(148,163,184,0.14); }
+  </style>
+</head>
+<body class="antialiased">
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8">
+      <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Rebrand Comparison</h1>
+      <p class="text-sm text-slate-300 mt-1">Current theme + three new options. Each column shows logo, palette, and a live UI preview card.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+
+      <!-- CURRENT -->
+      <div class="rounded-2xl border border-white/10 bg-panel/70 p-4">
+        <div class="text-xs font-mono font-bold text-slate-300 uppercase tracking-widest mb-3">Current</div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="logo-frame" style="background:#13131F; border:1.5px solid rgba(52,211,153,.45);">
+            <svg viewBox="0 0 44 44" class="w-16 h-16" role="img" aria-label="Current Arc logo">
+              <defs>
+                <linearGradient id="arc-logo-fast-c" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#60A5FA"/>
+                  <stop offset="100%" stop-color="#2563EB"/>
+                </linearGradient>
+                <linearGradient id="arc-logo-think-c" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#60A5FA"/>
+                  <stop offset="100%" stop-color="#2563EB"/>
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="42" height="42" rx="11" fill="#13131F" stroke="rgba(52,211,153,.45)" stroke-width="1.5"/>
+              <path d="M22 8 L32 17 L26 17 L30 27 L22 27 L22 35 L12 20 L19 20 Z" fill="url(#arc-logo-fast-c)"/>
+              <circle cx="31.5" cy="30.5" r="5.2" fill="#13131F" stroke="url(#arc-logo-think-c)" stroke-width="1.8"/>
+              <circle cx="31.5" cy="30.5" r="1.7" fill="#60A5FA"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-black text-white text-sm leading-tight">ARC HYBRID CUA</div>
+            <div class="text-[11px] text-slate-400 font-mono">Current system</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-5 gap-2 mb-4">
+          <div><div class="swatch" style="background:#0A0A0F"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">void</div></div>
+          <div><div class="swatch" style="background:#13131F"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">panel</div></div>
+          <div><div class="swatch" style="background:#2563EB"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">arc</div></div>
+          <div><div class="swatch" style="background:#FF6B6B"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">baseline</div></div>
+          <div><div class="swatch" style="background:#10B981"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">amber</div></div>
+        </div>
+        <div class="preview-card" style="background:rgba(13,20,36,.85); border-color:rgba(16,185,129,.25);">
+          <div class="text-xs font-mono text-blue-300 font-bold mb-1">Tier 1: Local Reflex</div>
+          <div class="text-[11px] text-slate-300">2.31 ms avg · $0.000000 cost</div>
+          <div class="mt-2 h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div class="h-full rounded-full bg-blue-400" style="width:98%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPTION 1: AETHERFLOW -->
+      <div class="rounded-2xl border border-white/10 bg-panel/70 p-4">
+        <div class="text-xs font-mono font-bold text-blue-300 uppercase tracking-widest mb-3">Option 1 — AetherFlow</div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="logo-frame" style="background:#020617; border:1.5px solid rgba(6,182,212,.45);">
+            <svg viewBox="0 0 44 44" class="w-16 h-16" role="img" aria-label="AetherFlow logo">
+              <defs>
+                <linearGradient id="aether-local" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#06B6D4"/>
+                  <stop offset="100%" stop-color="#0891B2"/>
+                </linearGradient>
+                <linearGradient id="aether-cloud" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#8B5CF6"/>
+                  <stop offset="100%" stop-color="#7C3AED"/>
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="42" height="42" rx="11" fill="#020617" stroke="rgba(6,182,212,.4)" stroke-width="1.5"/>
+              <circle cx="16" cy="22" r="7" fill="url(#aether-local)"/>
+              <circle cx="28" cy="22" r="7" fill="none" stroke="url(#aether-cloud)" stroke-width="2.5"/>
+              <path d="M22 19 L28 22 L22 25" fill="none" stroke="#8B5CF6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="16" cy="22" r="2.5" fill="#020617"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-black text-white text-sm leading-tight">AETHERFLOW</div>
+            <div class="text-[11px] text-slate-400 font-mono">Local reflex · Infinite reach</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-5 gap-2 mb-4">
+          <div><div class="swatch" style="background:#020617"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">void</div></div>
+          <div><div class="swatch" style="background:#0F172A"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">surface</div></div>
+          <div><div class="swatch" style="background:#06B6D4"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">primary</div></div>
+          <div><div class="swatch" style="background:#8B5CF6"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">secondary</div></div>
+          <div><div class="swatch" style="background:#10B981"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">accent</div></div>
+        </div>
+        <div class="preview-card" style="background:rgba(15,23,42,.85); border-color:rgba(6,182,212,.28);">
+          <div class="text-xs font-mono text-blue-300 font-bold mb-1">Tier 1: Local Fast Path</div>
+          <div class="text-[11px] text-slate-300">2.31 ms avg · $0.000000 cost</div>
+          <div class="mt-2 h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div class="h-full rounded-full bg-cyan-400" style="width:98%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPTION 2: PRISM -->
+      <div class="rounded-2xl border border-white/10 bg-panel/70 p-4">
+        <div class="text-xs font-mono font-bold text-indigo-300 uppercase tracking-widest mb-3">Option 2 — Prism</div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="logo-frame" style="background:#09090B; border:1.5px solid rgba(99,102,241,.4);">
+            <svg viewBox="0 0 44 44" class="w-16 h-16" role="img" aria-label="Prism logo">
+              <defs>
+                <linearGradient id="prism-beam" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#22D3EE"/>
+                  <stop offset="100%" stop-color="#A855F7"/>
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="42" height="42" rx="11" fill="#09090B" stroke="rgba(99,102,241,.35)" stroke-width="1.5"/>
+              <path d="M8 12 L20 22 L8 32 Z" fill="rgba(168,85,247,.15)" stroke="rgba(168,85,247,.6)" stroke-width="1.5"/>
+              <path d="M8 12 L20 22" stroke="url(#prism-beam)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M20 22 L32 16" stroke="#22D3EE" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
+              <path d="M20 22 L32 28" stroke="#EC4899" stroke-width="2.5" stroke-linecap="round" opacity=".9"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-black text-white text-sm leading-tight">PRISM</div>
+            <div class="text-[11px] text-slate-400 font-mono">One intent · Refracted execution</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-5 gap-2 mb-4">
+          <div><div class="swatch" style="background:#09090B"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">void</div></div>
+          <div><div class="swatch" style="background:#18181B"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">surface</div></div>
+          <div><div class="swatch" style="background:#6366F1"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">primary</div></div>
+          <div><div class="swatch" style="background:#EC4899"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">secondary</div></div>
+          <div><div class="swatch" style="background:#22D3EE"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">accent</div></div>
+        </div>
+        <div class="preview-card" style="background:rgba(24,24,27,.85); border-color:rgba(99,102,241,.28);">
+          <div class="text-xs font-mono text-indigo-300 font-bold mb-1">Tier 1: Local Fast Path</div>
+          <div class="text-[11px] text-slate-300">2.31 ms avg · $0.000000 cost</div>
+          <div class="mt-2 h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div class="h-full rounded-full bg-indigo-400" style="width:98%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPTION 3: ARC -->
+      <div class="rounded-2xl border border-white/10 bg-panel/70 p-4">
+        <div class="text-xs font-mono font-bold text-blue-300 uppercase tracking-widest mb-3">Option 3 — Arc</div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="logo-frame" style="background:#0A0A0F; border:1.5px solid rgba(37,99,235,.4);">
+            <svg viewBox="0 0 44 44" class="w-16 h-16" role="img" aria-label="Arc logo">
+              <defs>
+                <linearGradient id="arc-jump" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#2563EB"/>
+                  <stop offset="100%" stop-color="#60A5FA"/>
+                </linearGradient>
+              </defs>
+              <rect x="1" y="1" width="42" height="42" rx="11" fill="#0A0A0F" stroke="rgba(37,99,235,.4)" stroke-width="1.5"/>
+              <rect x="10" y="28" width="10" height="8" rx="2" fill="#1E293B" stroke="rgba(37,99,235,.5)" stroke-width="1.5"/>
+              <circle cx="32" cy="14" r="6" fill="none" stroke="url(#arc-jump)" stroke-width="2.5"/>
+              <path d="M16 26 Q24 10 32 16" fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="32" cy="16" r="2" fill="#60A5FA"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-black text-white text-sm leading-tight">ARC</div>
+            <div class="text-[11px] text-slate-400 font-mono">Bridging local speed with cloud scale</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-5 gap-2 mb-4">
+          <div><div class="swatch" style="background:#0A0A0F"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">void</div></div>
+          <div><div class="swatch" style="background:#13131F"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">surface</div></div>
+          <div><div class="swatch" style="background:#2563EB"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">primary</div></div>
+          <div><div class="swatch" style="background:#FF6B6B"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">secondary</div></div>
+          <div><div class="swatch" style="background:#2563EB"></div><div class="text-[10px] text-slate-400 mt-1 font-mono">accent</div></div>
+        </div>
+        <div class="preview-card" style="background:rgba(19,19,31,.85); border-color:rgba(37,99,235,.28);">
+          <div class="text-xs font-mono text-blue-300 font-bold mb-1">Tier 1: Local Fast Path</div>
+          <div class="text-[11px] text-slate-300">2.31 ms avg · $0.000000 cost</div>
+          <div class="mt-2 h-2 rounded-full bg-slate-800 overflow-hidden">
+            <div class="h-full rounded-full bg-blue-500" style="width:98%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="mt-8 rounded-2xl border border-white/10 bg-panel/60 p-5">
+      <h2 class="text-lg font-black text-white mb-2">How to choose</h2>
+      <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+        <li><strong>AetherFlow</strong> emphasizes connection and flow; strongest if you want a modern SaaS feel.</li>
+        <li><strong>Prism</strong> emphasizes refraction and clarity; strongest if you want a bold, differentiated gradient brand.</li>
+        <li><strong>Arc</strong> emphasizes bridging two tiers; strongest if you want infrastructure-style trust with a distinctive coral anomaly color.</li>
+      </ul>
+    </div>
+  </div>
+
+</body>
+</html>

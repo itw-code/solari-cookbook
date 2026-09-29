@@ -1,0 +1,438 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;800;900&family=Instrument+Sans:wght@500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>html,body{margin:0;background:#07090D}canvas{display:block}</style>
+</head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Every frame is a pure function of t (seconds), so frames can be rendered in any order.
+const W = 1920, H = 1080;
+const cv = document.getElementById("c");
+const g = cv.getContext("2d");
+
+const C = {
+  bg: "#07090D", ink: "#EEF1F6", mute: "#7C8698", rule: "#1C2330", track: "#131924",
+  a: "#8B6BF2", aDeep: "#4B2FB0", b: "#2FD3B8", bDeep: "#0A7F6E", bad: "#FF5A5A", white: "#FFFFFF",
+};
+const F = {
+  disp: (w, px) => `${w} ${px}px "Big Shoulders Display", "Arial Narrow", sans-serif`,
+  body: (w, px) => `${w} ${px}px "Instrument Sans", "Segoe UI", sans-serif`,
+  mono: (w, px) => `${w} ${px}px "JetBrains Mono", Consolas, monospace`,
+};
+
+// Scene cuts on a 150 BPM grid (0.4 s per beat).
+const CUT = { vs: 1.6, race: 3.2, tok: 8.4, cost: 10.8, end: 13.2, out: 15.0 };
+
+// One timeline, several cuts: ?v=<name> picks the copy and numbers (default: the Opus race).
+const TASK_NAMES = ["HACKER NEWS · CLICK “NEW”", "HACKER NEWS · 2ND COMMENTS", "WIKIPEDIA · SEARCH",
+  "HTTPBIN · FILL + SUBMIT", "GITHUB · ISSUES TAB", "PYTHON DOCS · FOLLOW LINK", "TODOMVC · ADD ITEM",
+  "GOOGLE FLIGHTS · ZRH→LON"];
+const VARIANTS = {
+  // Opus 5.5 via Claude Code + Solari MCP vs Gemini 3.8 Flash + ARC (docs/BENCHMARK_VS_SOLARI_MCP.md).
+  opus: {
+    open: ["ONE BROWSER.", "TWO AGENTS."],
+    a: { title: "OPUS 5.5", size: 170, sub: "+ SOLARI MCP", note: "CLAUDE CODE · GENERAL AGENT", short: "OPUS + SOLARI MCP" },
+    b: { title: "GEMINI 3.8 FLASH", size: 124, sub: "+ ARC", note: "ONE MODEL CALL PER ACTION", short: "GEMINI FLASH + ARC" },
+    // [lane A seconds, lane A passed, lane B seconds, lane B passed]
+    tasks: [[31.6, true, 10.6, true], [43.1, true, 10.5, true], [55.6, true, 28.7, true], [59.0, true, 21.4, true],
+            [33.6, true, 15.9, true], [34.6, true, 12.8, true], [31.5, true, 10.7, true], [33.7, false, 61.3, true]],
+    raceMax: 65, raceVerdict: "1.9× FASTER · 8/8 PASSED",
+    tokens: [1584023, 40661],
+    tokenSubs: ["≈198,000 per task · resends prompt + history", "≈5,100 per task · goal + tree + last 4 actions"],
+    tokenSlam: "39× FEWER",
+    cost: [160, 4.83], costSubs: ["LANE A · $0.160 / TASK", "LANE B · $0.0048 / TASK"], costSlam: ["33×", "CHEAPER"],
+    pills: [["1.9×", "FASTER"], ["39×", "FEWER TOKENS"], ["33×", "CHEAPER"]],
+    credit: "Opus 5.5 via Claude Code + Solari MCP  vs  Gemini 3.8 Flash + ARC · 8 tasks on Solari browsers · 27 Sep 2026",
+  },
+  // Same model both sides: Gemini 3.8 Flash on Solari's MCP tools vs on ARC; medians of 3 runs
+  // (artifacts/benchmarks/gemini_solari_mcp_20260927-*.json vs reflex_policy_20260927-062541.json).
+  gemini: {
+    open: ["ONE MODEL.", "TWO HARNESSES."],
+    a: { title: "GEMINI 3.8 FLASH", size: 124, dy: -150, sub: "+ SOLARI MCP", note: "TOOL CALLING · FULL HISTORY", short: "GEMINI + SOLARI MCP" },
+    b: { title: "GEMINI 3.8 FLASH", size: 124, sub: "+ ARC", note: "ONE MODEL CALL PER ACTION", short: "GEMINI + ARC" },
+    tasks: [[8.4, true, 10.6, true], [9.8, true, 10.5, true], [51.8, true, 28.7, true], [23.6, true, 21.4, true],
+            [14.2, true, 15.9, true], [11.1, true, 12.8, true], [14.8, true, 10.7, true], [11.8, false, 61.3, true]],
+    // Lane A's failed Flights run stops early; totals compare only tasks both lanes passed.
+    tickerShared: true,
+    raceMax: 65, raceVerdict: "1.2× FASTER · 24/24 VS 21/24",
+    tokens: [152849, 40678],
+    tokenSubs: ["≈19,100 per task · tool schemas + full history", "≈5,100 per task · goal + tree + last 4 actions"],
+    tokenSlam: "3.8× FEWER",
+    cost: [16.01, 4.84], costSubs: ["LANE A · $0.0160 / TASK", "LANE B · $0.0048 / TASK"], costSlam: ["3.3×", "CHEAPER"],
+    pills: [["1.2×", "FASTER"], ["3.8×", "FEWER TOKENS"], ["3.3×", "CHEAPER"]],
+    credit: "Gemini 3.8 Flash + Solari MCP  vs  Gemini 3.8 Flash + ARC · 8 tasks × 3 runs on Solari browsers · 27 Sep 2026",
+  },
+};
+const V = VARIANTS[new URLSearchParams(location.search).get("v")] || VARIANTS.opus;
+const TASKS = TASK_NAMES.map((n, i) => [n, ...V.tasks[i]]);
+const RACE_T0 = 3.4, RACE_DUR = 5.0; // the race replays in 5 s of screen time
+const RACE_SPEED = V.raceMax / RACE_DUR; // race clock = (t - 3.4) * RACE_SPEED s
+
+// ---------- helpers ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, k) => a + (b - a) * k;
+const eOutExpo = (k) => (k >= 1 ? 1 : 1 - Math.pow(2, -10 * k));
+const eOutCubic = (k) => 1 - Math.pow(1 - k, 3);
+const eInOut = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const eOutBack = (k, s = 1.9) => 1 + (s + 1) * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2);
+const eInExpo = (k) => (k <= 0 ? 0 : Math.pow(2, 10 * k - 10));
+function rng(seed) { let x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); }
+function text(str, x, y, font, color, align = "left", base = "alphabetic", alpha = 1, spacing = 0) {
+  g.save(); g.globalAlpha *= alpha; g.font = font; g.fillStyle = color; g.textAlign = align; g.textBaseline = base;
+  if (spacing) g.letterSpacing = spacing + "px";
+  g.fillText(str, x, y); g.restore();
+}
+const fmt = (n) => Math.round(n).toLocaleString("en-US");
+
+function grid(alpha, drift) {
+  g.save(); g.globalAlpha = alpha; g.strokeStyle = C.rule; g.lineWidth = 1;
+  const s = 80, off = drift % s;
+  for (let x = -s + off; x < W + s; x += s) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); }
+  for (let y = -s + off * 0.5; y < H + s; y += s) { g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+  g.restore();
+}
+function vignette() {
+  const r = g.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 0.95);
+  r.addColorStop(0, "rgba(0,0,0,0)"); r.addColorStop(1, "rgba(0,0,0,0.55)");
+  g.fillStyle = r; g.fillRect(0, 0, W, H);
+}
+function grain(t) {
+  g.save(); g.globalAlpha = 0.05;
+  const f = Math.floor(t * 30);
+  for (let i = 0; i < 900; i++) {
+    const x = rng(i * 7.1 + f * 131.7) * W, y = rng(i * 3.3 + f * 91.1) * H;
+    g.fillStyle = i % 2 ? "#fff" : "#000"; g.fillRect(x, y, 2, 2);
+  }
+  g.restore();
+}
+function flash(t, at, dur = 0.12) {
+  const k = seg(t, at, at + dur);
+  if (k > 0 && k < 1) { g.save(); g.globalAlpha = (1 - k) * 0.85; g.fillStyle = C.white; g.fillRect(0, 0, W, H); g.restore(); }
+}
+function ring(x, y, k, color, maxR, width) {
+  if (k <= 0 || k >= 1) return;
+  g.save(); g.globalAlpha = 1 - k; g.strokeStyle = color; g.lineWidth = width * (1 - k) + 1;
+  g.beginPath(); g.arc(x, y, maxR * eOutCubic(k), 0, Math.PI * 2); g.stroke(); g.restore();
+}
+function sparks(x, y, k, color, n, seed, dist) {
+  if (k <= 0 || k >= 1) return;
+  g.save(); g.fillStyle = color;
+  for (let i = 0; i < n; i++) {
+    const a = rng(seed + i) * Math.PI * 2, d = dist * eOutExpo(k) * (0.5 + rng(seed + i * 3) * 0.7);
+    g.globalAlpha = (1 - k);
+    g.fillRect(x + Math.cos(a) * d, y + Math.sin(a) * d, 4, 4);
+  }
+  g.restore();
+}
+// Diagonal wipe transition: a slanted band sweeps across, coloured edge streak.
+function wipe(t, at, color) {
+  const k = seg(t, at - 0.22, at + 0.22);
+  if (k <= 0 || k >= 1) return;
+  const x = lerp(-W * 0.6, W * 1.6, eInOut(k));
+  g.save(); g.fillStyle = color; g.beginPath();
+  g.moveTo(x - 520, 0); g.lineTo(x + 140, 0); g.lineTo(x - 140, H); g.lineTo(x - 800, H); g.closePath(); g.fill();
+  g.fillStyle = C.white; g.globalAlpha = 0.9;
+  g.beginPath(); g.moveTo(x + 140, 0); g.lineTo(x + 170, 0); g.lineTo(x - 110, H); g.lineTo(x - 140, H); g.closePath(); g.fill();
+  g.restore();
+}
+
+// ---------- scenes ----------
+function sceneOpen(t) {
+  grid(0.5 * seg(t, 0, 0.6), t * 30);
+  const cy = H / 2;
+  // Line draws, then splits into the two lane colours.
+  const draw = eOutExpo(seg(t, 0.05, 0.45));
+  const split = eOutBack(seg(t, 0.45, 0.9), 1.4);
+  const len = W * 0.72 * draw;
+  g.save(); g.lineCap = "round";
+  g.strokeStyle = C.a; g.lineWidth = 6; g.beginPath(); g.moveTo(W / 2 - len / 2, cy - 130 * split); g.lineTo(W / 2 + len / 2, cy - 130 * split); g.stroke();
+  g.strokeStyle = C.b; g.beginPath(); g.moveTo(W / 2 - len / 2, cy + 130 * split); g.lineTo(W / 2 + len / 2, cy + 130 * split); g.stroke();
+  g.restore();
+  // Kinetic type: slam with overshoot and a chromatic offset that settles.
+  const k1 = seg(t, 0.5, 0.85), k2 = seg(t, 0.95, 1.3);
+  if (k1 > 0) {
+    const s = lerp(2.4, 1, eOutExpo(k1)), off = (1 - eOutExpo(k1)) * 26;
+    g.save(); g.translate(W / 2, cy - 30); g.scale(s, s);
+    text(V.open[0], -off, 0, F.disp(900, 150), C.a, "center", "alphabetic", 0.7);
+    text(V.open[0], off, 0, F.disp(900, 150), C.b, "center", "alphabetic", 0.7);
+    text(V.open[0], 0, 0, F.disp(900, 150), C.ink, "center");
+    g.restore();
+  }
+  if (k2 > 0) {
+    const y = lerp(cy + 200, cy + 130, eOutExpo(k2));
+    g.save(); g.beginPath(); g.rect(0, cy + 20, W, 200); g.clip();
+    text(V.open[1], W / 2, y, F.disp(900, 150), C.ink, "center");
+    g.restore();
+  }
+  text("SOLARI CLOUD BROWSER · 8 REAL TASKS", W / 2, 150, F.mono(700, 24), C.mute, "center", "alphabetic", seg(t, 0.2, 0.6), 6);
+}
+
+function sceneVersus(t) {
+  const k = eOutExpo(seg(t, CUT.vs, CUT.vs + 0.5));
+  const lt = t - CUT.vs;
+  // Diagonal split fields sliding in from opposite sides.
+  g.save();
+  const slant = 180;
+  const ax = lerp(-W, 0, k), bx = lerp(W, 0, k);
+  g.fillStyle = C.aDeep; g.beginPath();
+  g.moveTo(ax, 0); g.lineTo(ax + W / 2 + slant, 0); g.lineTo(ax + W / 2 - slant, H); g.lineTo(ax, H); g.closePath(); g.fill();
+  g.fillStyle = C.bDeep; g.beginPath();
+  g.moveTo(bx + W / 2 + slant, 0); g.lineTo(bx + W, 0); g.lineTo(bx + W, H); g.lineTo(bx + W / 2 - slant, H); g.closePath(); g.fill();
+  // Speed lines drifting through each half.
+  for (let i = 0; i < 26; i++) {
+    const y = rng(i) * H, spd = 600 + rng(i + 9) * 900, l = 80 + rng(i + 4) * 240;
+    const xA = ((lt * spd + rng(i + 2) * W) % (W * 0.55)) - 100;
+    g.globalAlpha = 0.18; g.fillStyle = C.white;
+    g.fillRect(xA, y, l, 3);
+    g.fillRect(W - xA - l, H - y, l, 3);
+  }
+  g.globalAlpha = 1; g.restore();
+  // Lane titles.
+  const ka = eOutExpo(seg(t, CUT.vs + 0.15, CUT.vs + 0.6)), kb = eOutExpo(seg(t, CUT.vs + 0.3, CUT.vs + 0.75));
+  text("LANE A", lerp(-300, 140, ka), 330 + (V.a.dy || 0), F.mono(700, 28), "rgba(255,255,255,.75)", "left", "alphabetic", ka, 8);
+  text(V.a.title, lerp(-500, 132, ka), 470 + (V.a.dy || 0), F.disp(900, V.a.size), C.white, "left", "alphabetic", ka);
+  text(V.a.sub, lerp(-500, 136, ka), 560 + (V.a.dy || 0), F.disp(800, 84), "rgba(255,255,255,.85)", "left", "alphabetic", ka);
+  text(V.a.note, lerp(-500, 140, ka), 620 + (V.a.dy || 0), F.mono(500, 24), "rgba(255,255,255,.7)", "left", "alphabetic", ka, 3);
+  text("LANE B", lerp(W + 300, W - 140, kb), 560, F.mono(700, 28), "rgba(255,255,255,.75)", "right", "alphabetic", kb, 8);
+  text(V.b.title, lerp(W + 500, W - 132, kb), 712, F.disp(900, V.b.size), C.white, "right", "alphabetic", kb);
+  text(V.b.sub, lerp(W + 500, W - 136, kb), 790, F.disp(800, 84), "rgba(255,255,255,.85)", "right", "alphabetic", kb);
+  text(V.b.note, lerp(W + 500, W - 140, kb), 850, F.mono(500, 24), "rgba(255,255,255,.7)", "right", "alphabetic", kb, 3);
+  // VS: spins down from huge, with a ring on landing.
+  const kv = seg(t, CUT.vs + 0.35, CUT.vs + 0.75);
+  if (kv > 0) {
+    g.save(); g.translate(W / 2, H / 2 - 40); g.rotate((1 - eOutExpo(kv)) * -1.4);
+    const s = lerp(6, 1, eOutExpo(kv)); g.scale(s, s);
+    g.fillStyle = C.bg; g.beginPath(); g.arc(0, 0, 118, 0, Math.PI * 2); g.fill();
+    text("VS", 0, 42, F.disp(900, 128), C.white, "center");
+    g.restore();
+    ring(W / 2, H / 2 - 40, seg(t, CUT.vs + 0.72, CUT.vs + 1.2), C.white, 420, 14);
+  }
+}
+
+function raceClock(t) { return clamp((t - RACE_T0) * RACE_SPEED, 0, V.raceMax); }
+function sceneRace(t) {
+  const lt = t - CUT.race;
+  const clock = raceClock(t);
+  const zoom = lerp(1.1, 1.0, eOutCubic(seg(t, CUT.race, CUT.race + 1.2)));
+  g.save(); g.translate(W / 2, H / 2); g.scale(zoom, zoom); g.translate(-W / 2, -H / 2);
+  grid(0.35, lt * 60);
+  // Header.
+  const kh = eOutExpo(seg(t, CUT.race + 0.05, CUT.race + 0.5));
+  text("THE RACE", lerp(40, 90, kh), 120, F.disp(900, 96), C.ink, "left", "alphabetic", kh);
+  text(`SAME SOLARI BROWSER · TIME ON TASK · REPLAY ${Math.round(RACE_SPEED)}×`, 94, 162, F.mono(500, 22), C.mute, "left", "alphabetic", kh, 4);
+  // Clock.
+  text(clock.toFixed(1), W - 150, 128, F.disp(900, 110), C.ink, "right", "alphabetic", kh);
+  text("SEC", W - 92, 128, F.mono(700, 26), C.mute, "center", "alphabetic", kh, 4);
+  // Lanes.
+  const x0 = 520, x1 = W - 120, top = 220, rowH = 100, scale = (x1 - x0) / V.raceMax;
+  for (let s = 15; s < V.raceMax; s += 15) {
+    const x = x0 + s * scale;
+    g.save(); g.strokeStyle = C.rule; g.setLineDash([6, 8]); g.globalAlpha = kh;
+    g.beginPath(); g.moveTo(x, top - 20); g.lineTo(x, top + rowH * 8); g.stroke(); g.restore();
+    text(`${s}s`, x, top - 30, F.mono(500, 20), C.mute, "center", "alphabetic", kh);
+  }
+  TASKS.forEach(([name, sa, okA, sb, okB], i) => {
+    const ky = eOutExpo(seg(t, CUT.race + 0.1 + i * 0.05, CUT.race + 0.55 + i * 0.05));
+    const y = top + i * rowH + lerp(40, 0, ky);
+    g.save(); g.globalAlpha = ky;
+    text(name, 94, y + 42, F.disp(800, 34), C.ink);
+    for (const [lane, s, ok, dy, col] of [["a", sa, okA, 10, C.a], ["b", sb, okB, 50, C.b]]) {
+      const yy = y + dy, h = 30;
+      g.fillStyle = C.track; g.fillRect(x0, yy, x1 - x0, h);
+      const done = Math.min(clock, s), w = done * scale;
+      if (w > 0) {
+        // Bar with a bright leading edge and a streak while moving.
+        g.fillStyle = col; g.fillRect(x0, yy, w, h);
+        if (clock < s) {
+          const gr = g.createLinearGradient(x0 + w - 160, 0, x0 + w, 0);
+          gr.addColorStop(0, "rgba(255,255,255,0)"); gr.addColorStop(1, "rgba(255,255,255,.65)");
+          g.fillStyle = gr; g.fillRect(Math.max(x0, x0 + w - 160), yy, Math.min(160, w), h);
+          g.fillStyle = C.white; g.fillRect(x0 + w - 3, yy - 4, 3, h + 8);
+        }
+      }
+      const fin = (s - clock) <= 0 ? seg(clock, s, s + RACE_SPEED * 5 / 13) : 0; // finish animation in race-seconds
+      if (clock >= s) {
+        const fx = x0 + s * scale;
+        ring(fx, yy + h / 2, fin, col, 70, 6);
+        sparks(fx, yy + h / 2, fin, col, 14, i * 17 + dy, 60);
+        const label = `${s.toFixed(1)}s`;
+        const inside = s / V.raceMax > 0.7;
+        text(label, inside ? fx - 12 : fx + 14, yy + 23, F.mono(700, 22), inside ? C.bg : col, inside ? "right" : "left", "alphabetic", eOutCubic(clamp(fin * 3)));
+        if (!ok) {
+          const ks = seg(clock, s + RACE_SPEED / 13, s + RACE_SPEED * 6 / 13);
+          if (ks > 0) {
+            g.save(); g.translate(fx + 230, yy + 14); g.rotate(-0.08);
+            const sc = lerp(2.2, 1, eOutExpo(ks)); g.scale(sc, sc); g.globalAlpha *= eOutCubic(ks);
+            g.strokeStyle = C.bad; g.lineWidth = 4; g.strokeRect(-110, -26, 220, 52);
+            text("✗ WRONG PAGE", 0, 11, F.disp(900, 34), C.bad, "center");
+            g.restore();
+          }
+        }
+      }
+    }
+    g.restore();
+  });
+  // Totals ticker at the bottom.
+  const counted = V.tickerShared ? TASKS.filter((r) => r[2] && r[4]) : TASKS;
+  const sumA = counted.reduce((s, r) => s + Math.min(clock, r[1]), 0), sumB = counted.reduce((s, r) => s + Math.min(clock, r[3]), 0);
+  const kb = eOutExpo(seg(t, CUT.race + 0.4, CUT.race + 0.9));
+  text(`A  ${sumA.toFixed(1)}s`, 94, H - 38, F.disp(900, 44), C.a, "left", "alphabetic", kb);
+  text(`B  ${sumB.toFixed(1)}s`, 420, H - 38, F.disp(900, 44), C.b, "left", "alphabetic", kb);
+  if (V.tickerShared) text(`${counted.length} TASKS BOTH PASSED`, 746, H - 44, F.mono(700, 20), C.mute, "left", "alphabetic", kb, 3);
+  const kf = eOutBack(seg(t, 7.7, 8.1));
+  if (kf > 0) text(V.raceVerdict, W - 120, H - 38, F.disp(900, 44), C.b, "right", "alphabetic", clamp(kf));
+  g.restore();
+}
+
+function sceneTokens(t) {
+  const lt = t - CUT.tok;
+  grid(0.25, lt * 40);
+  const kIn = eOutExpo(seg(t, CUT.tok, CUT.tok + 0.4));
+  text("TOKENS SENT TO THE MODEL", W / 2, 120, F.mono(700, 26), C.mute, "center", "alphabetic", kIn, 8);
+  // Two emitters: a flood (A) and a trickle (B). Particles are closed-form in t.
+  const colX = [W * 0.3, W * 0.7];
+  // Particle counts keep the real token ratio: ~1,130 tokens per particle, capped for frame time.
+  const counts = V.tokens.map((n) => Math.max(8, Math.min(1400, Math.round(n / 1130))));
+  const cols = [C.a, C.b];
+  const emitK = seg(t, CUT.tok + 0.15, CUT.tok + 1.9);
+  for (let side = 0; side < 2; side++) {
+    const n = counts[side];
+    g.fillStyle = cols[side];
+    for (let i = 0; i < n; i++) {
+      const born = CUT.tok + 0.15 + rng(i * 1.7 + side * 99) * 1.75;
+      const age = t - born;
+      if (age < 0) continue;
+      const vx = (rng(i * 5.3 + side) - 0.5) * 520, vy = 380 + rng(i * 2.9 + side) * 520;
+      const x = colX[side] + vx * age * 0.55, y = 220 + vy * age + 900 * age * age;
+      if (y > H + 20) continue;
+      const sz = side === 0 ? 3 + rng(i) * 3 : 7;
+      g.globalAlpha = side === 0 ? 0.75 : 1;
+      g.fillRect(x, y, sz, sz * (side === 0 ? 2.4 : 1.6));
+    }
+  }
+  g.globalAlpha = 1;
+  // Emitter nozzles.
+  for (let side = 0; side < 2; side++) {
+    g.fillStyle = cols[side]; g.globalAlpha = kIn;
+    g.fillRect(colX[side] - (side ? 22 : 160), 200, side ? 44 : 320, 12);
+  }
+  g.globalAlpha = 1;
+  // Counters roll with an expo ease.
+  const kc = eOutExpo(emitK);
+  const panel = (x, label, val, col, sub) => {
+    g.save(); g.fillStyle = "rgba(7,9,13,.82)"; g.fillRect(x - 330, 430, 660, 250); g.restore();
+    text(label, x, 490, F.mono(700, 24), col, "center", "alphabetic", kIn, 6);
+    text(fmt(val), x, 610, F.disp(900, 128), C.ink, "center", "alphabetic", kIn);
+    text(sub, x, 655, F.mono(500, 22), C.mute, "center", "alphabetic", kIn, 2);
+  };
+  panel(colX[0], `LANE A · ${V.a.short}`, V.tokens[0] * kc, C.a, V.tokenSubs[0]);
+  panel(colX[1], `LANE B · ${V.b.short}`, V.tokens[1] * kc, C.b, V.tokenSubs[1]);
+  // 39× slam with shockwave.
+  const ks = seg(t, 10.0, 10.3);
+  if (ks > 0) {
+    const s = lerp(3.2, 1, eOutExpo(ks));
+    g.save(); g.translate(W / 2, 900); g.scale(s, s);
+    text(V.tokenSlam, 0, 0, F.disp(900, 150), C.b, "center", "alphabetic", eOutCubic(ks));
+    g.restore();
+    ring(W / 2, 850, seg(t, 10.25, 10.8), C.b, 700, 18);
+  }
+}
+
+function sceneCost(t) {
+  const lt = t - CUT.cost;
+  grid(0.25, lt * 40);
+  const kIn = eOutExpo(seg(t, CUT.cost, CUT.cost + 0.4));
+  text("COST PER 1,000 TASKS · MODEL + SOLARI BROWSER", W / 2, 120, F.mono(700, 26), C.mute, "center", "alphabetic", kIn, 6);
+  const base = 900, maxH = 620;
+  const stack = (cx, dollars, col, delay, label) => {
+    const k = eOutExpo(seg(t, CUT.cost + delay, CUT.cost + delay + 1.1));
+    const hgt = maxH * (dollars / Math.max(...V.cost)) * k;
+    const chip = 22, n = Math.ceil(hgt / chip);
+    for (let i = 0; i < n; i++) {
+      const y = base - (i + 1) * chip;
+      const wob = Math.sin(i * 1.7 + lt * 6) * (1 - k) * 18;
+      g.fillStyle = i % 2 ? col : shade(col);
+      g.fillRect(cx - 150 + wob, y + 2, 300, chip - 4);
+    }
+    const top = base - hgt;
+    text(`$${(dollars * k).toFixed(dollars < 10 ? 2 : 0)}`, cx, top - 30, F.disp(900, 110), C.ink, "center", "alphabetic", kIn);
+    text(label, cx, base + 60, F.mono(700, 24), col, "center", "alphabetic", kIn, 5);
+  };
+  stack(W * 0.33, V.cost[0], C.a, 0.1, V.costSubs[0]);
+  stack(W * 0.67, V.cost[1], C.b, 0.35, V.costSubs[1]);
+  g.strokeStyle = C.rule; g.lineWidth = 2; g.beginPath(); g.moveTo(W * 0.15, base); g.lineTo(W * 0.85, base); g.stroke();
+  const ks = seg(t, 12.2, 12.5);
+  if (ks > 0) {
+    g.save(); g.translate(W * 0.67, 420); g.rotate(-0.06);
+    const s = lerp(3, 1, eOutExpo(ks)); g.scale(s, s);
+    text(V.costSlam[0], 0, 0, F.disp(900, 190), C.b, "center", "alphabetic", eOutCubic(ks));
+    text(V.costSlam[1], 0, 70, F.disp(900, 70), C.ink, "center", "alphabetic", eOutCubic(ks));
+    g.restore();
+    sparks(W * 0.67, 360, seg(t, 12.45, 13.1), C.b, 40, 777, 380);
+  }
+}
+function shade(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const r = (n >> 16) * 0.72, gg = ((n >> 8) & 255) * 0.72, b = (n & 255) * 0.72;
+  return `rgb(${r | 0},${gg | 0},${b | 0})`;
+}
+
+function sceneEnd(t) {
+  const lt = t - CUT.end;
+  grid(0.3 * (1 - seg(t, 14.2, 15)), lt * 30);
+  const pills = V.pills;
+  pills.forEach(([big, small], i) => {
+    const k = eOutBack(seg(t, CUT.end + 0.05 + i * 0.12, CUT.end + 0.5 + i * 0.12), 1.6);
+    const x = W / 2 + (i - 1) * 520, y = 330;
+    g.save(); g.translate(x, lerp(y + 80, y, clamp(k))); g.globalAlpha = clamp(k);
+    g.strokeStyle = C.b; g.lineWidth = 3; g.strokeRect(-230, -80, 460, 160);
+    text(big, -40, 34, F.disp(900, 110), C.b, "right");
+    text(small, -20, 22, F.disp(800, 44), C.ink, "left");
+    g.restore();
+  });
+  // Wordmark: the two lane lines converge into one.
+  const kw = eOutExpo(seg(t, CUT.end + 0.5, CUT.end + 1.0));
+  const cy = 620;
+  g.save(); g.lineWidth = 6; g.lineCap = "round";
+  const gap = lerp(130, 0, kw);
+  g.strokeStyle = C.a; g.beginPath(); g.moveTo(W / 2 - 520, cy - gap); g.lineTo(W / 2 + 520, cy - gap); g.stroke();
+  g.strokeStyle = C.b; g.beginPath(); g.moveTo(W / 2 - 520, cy + gap); g.lineTo(W / 2 + 520, cy + gap); g.stroke();
+  g.restore();
+  const kt = eOutExpo(seg(t, CUT.end + 0.75, CUT.end + 1.2));
+  g.save(); g.beginPath(); g.rect(0, cy - 190, W, 180); g.clip();
+  text("ARC × SOLARI", W / 2, lerp(cy + 20, cy - 36, kt), F.disp(900, 170), C.ink, "center");
+  g.restore();
+  text("github.com/itw-code/arc-cua", W / 2, cy + 90, F.mono(700, 34), C.b, "center", "alphabetic", kt);
+  text(V.credit, W / 2, H - 70, F.mono(500, 20), C.mute, "center", "alphabetic", seg(t, CUT.end + 1.0, CUT.end + 1.4));
+}
+
+function render(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.globalAlpha = 1; g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+  if (t < CUT.vs) sceneOpen(t);
+  else if (t < CUT.race) sceneVersus(t);
+  else if (t < CUT.tok) sceneRace(t);
+  else if (t < CUT.cost) sceneTokens(t);
+  else if (t < CUT.end) sceneCost(t);
+  else sceneEnd(t);
+  // Transitions and finishing passes.
+  flash(t, CUT.vs, 0.1);
+  wipe(t, CUT.race, C.a);
+  wipe(t, CUT.tok, C.b);
+  wipe(t, CUT.cost, C.a);
+  flash(t, CUT.end, 0.14);
+  vignette();
+  grain(t);
+  // Fade from/to black.
+  const fade = Math.max(1 - seg(t, 0, 0.12), seg(t, 14.75, 15.0));
+  if (fade > 0) { g.globalAlpha = fade; g.fillStyle = "#000"; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
+}
+window.render = render;
+window.CUT = CUT; window.TASKS = TASKS; window.RACE_T0 = RACE_T0; window.RACE_SPEED = RACE_SPEED; window.V = V;
+window.ready = document.fonts.ready.then(() => Promise.all([
+  document.fonts.load(F.disp(900, 100)), document.fonts.load(F.disp(800, 100)),
+  document.fonts.load(F.mono(700, 20)), document.fonts.load(F.mono(500, 20)), document.fonts.load(F.body(600, 20)),
+])).then(() => { render(0); return true; });
+</script>
+</body></html>

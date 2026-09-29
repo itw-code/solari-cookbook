@@ -18,6 +18,8 @@ Traditional web agents inject heavy JavaScript scripts to serialize the DOM into
   - Eliminates hidden subtrees (`aria-hidden="true"`, `display: none`, `visibility: hidden`).
   - Assigns unique, monotonic numerical indices to every actionable element: `[#12] Button 'Submit Order'`.
 * Output representation: YAML-style linearized string consuming $\le 1,200$ tokens for standard complex web pages (an 84% reduction compared to raw HTML).
+  - The budget is enforced, not merely targeted: when a page exceeds it, nodes are evicted by role tier — high-volume data rows and cells first, interactive affordances last, and `dialog`/`menu`/`listbox`/`tablist` (plus their ancestors) never — so an open modal is not lost to a dense data table.
+  - Every eviction is announced in-band: `truncation_notice` names the evicted roles and the specific dropped `[#N]` affordances, and `dropped_actionable_count` / `dropped_node_count` quantify them. `truncated: true` means *perception is incomplete* — re-inspect, narrow the scope, or escalate to visual perception (§2.3).
 
 ### 2.2 Linux Desktop AT-SPI D-Bus Daemon
 For operating system tasks (OSWorld), the agent attaches to the Linux accessibility bus (`org.a11y.Bus`):

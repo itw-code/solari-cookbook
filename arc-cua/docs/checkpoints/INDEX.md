@@ -15,3 +15,4 @@ Timeline index of all development checkpoints across the ARC project lifecycle.
 | `checkpoint_05.md` | Phase 5: Production Deployment & Orchestration | COMPLETE | 143 | 100% production task pass rate (10/10); SER 0.80; average step latency 2.31 ms; 99.69% cost reduction |
 | `checkpoint_06.md` | Phase 6: Full-Scale Benchmarking & Report | COMPLETE | 152 | Final whitepaper generated; 99.69% cost reduction ($0.0015/task); 99.90% latency reduction; 152/152 tests passed |
 | `checkpoint_07.md` | Phase 7: Codebase Consolidation & HTML Showcase | COMPLETE | 154 | Codebase consolidated into `docs/`; `showcase.html` interactive demo created; 154/154 tests pass |
+| `checkpoint_08.md` | Phase 8: Audit Remediation — Reflex & Perception Layer | COMPLETE | 180 | 5/5 benchmark-report §F defects remediated; 19/23 new regression tests fail pre-fix; sanitizer p50 0.553 ms (target ≤ 0.8 ms); 178 passing, 2 pre-existing timing flakes |

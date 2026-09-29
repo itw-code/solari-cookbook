@@ -28,6 +28,7 @@ from arc_cua.cloud.arc_driver import (
     ArcCloudDriver,
     ArcSession,
 )
+from arc_cua.cloud.solari_driver import SolariConfigError
 from arc_cua.cortex.real_llm_cortex import (
     PROVIDER_PRICING,
     RealLlmCortex,
@@ -54,35 +55,31 @@ from arc_cua.schemas import (
 # =============================================================================
 
 class TestArcCloudDriver:
-    """Tests for ArcCloudDriver."""
+    """Mock-mode ArcCloudDriver behaviour used by offline benchmark scripts.
 
-    def test_missing_api_key_defaults_to_mock(self, monkeypatch):
-        """Driver gracefully defaults to mock mode if ARC_API_KEY is unset."""
-        monkeypatch.delenv("ARC_API_KEY", raising=False)
-        driver = ArcCloudDriver(api_key=None)
-        assert driver.is_mock is True
-        assert driver.api_key == ""
+    Live-API contract tests live in tests/test_solari_driver.py.
+    """
 
-    def test_mock_browser_provisioning(self, monkeypatch):
-        """Driver provisions mock browser session with CDP endpoint and replay URL."""
-        monkeypatch.delenv("ARC_API_KEY", raising=False)
-        driver = ArcCloudDriver()
+    def test_missing_api_key_raises_without_explicit_mock(self, monkeypatch):
+        """No key and no mock=True is a configuration error, not a silent mock."""
+        monkeypatch.delenv("SOLARI_API_KEY", raising=False)
+        with pytest.raises(SolariConfigError):
+            ArcCloudDriver(register_atexit=False)
+
+    def test_mock_browser_provisioning(self):
+        """Explicit mock mode provisions a browser session with a CDP endpoint."""
+        driver = ArcCloudDriver(mock=True, register_atexit=False)
 
         session = driver.provision_browser(stealth=True)
         assert session.is_mock is True
         assert session.session_type == SessionType.BROWSER
         assert session.status == SessionStatus.RUNNING
         assert "devtools/browser" in session.cdp_endpoint
-        assert "https://cloud.arc.ai/replay" in session.replay_url
-
-        # Check accessor
         assert driver.get_cdp_endpoint(session.session_id) == session.cdp_endpoint
-        assert driver.get_replay_url(session.session_id) == session.replay_url
 
-    def test_mock_desktop_provisioning(self, monkeypatch):
-        """Driver provisions mock desktop session with VNC stream."""
-        monkeypatch.delenv("ARC_API_KEY", raising=False)
-        driver = ArcCloudDriver()
+    def test_mock_desktop_provisioning(self):
+        """Explicit mock mode provisions a desktop session with a VNC stream."""
+        driver = ArcCloudDriver(mock=True, register_atexit=False)
 
         session = driver.provision_desktop(resolution="1920x1080", os_flavor="ubuntu")
         assert session.is_mock is True
@@ -91,10 +88,9 @@ class TestArcCloudDriver:
         assert "vnc://" in session.vnc_stream
         assert driver.get_vnc_stream(session.session_id) == session.vnc_stream
 
-    def test_session_compute_duration_and_termination(self, monkeypatch):
-        """Driver accurately tracks compute duration and freezes time upon termination."""
-        monkeypatch.delenv("ARC_API_KEY", raising=False)
-        driver = ArcCloudDriver()
+    def test_session_compute_duration_and_termination(self):
+        """Driver tracks compute duration and freezes it upon termination."""
+        driver = ArcCloudDriver(mock=True, register_atexit=False)
 
         session = driver.provision_browser()
         time.sleep(0.01)
@@ -109,45 +105,17 @@ class TestArcCloudDriver:
         # Re-terminating already terminated session is idempotent
         assert driver.terminate(session.session_id) is True
 
-    def test_terminate_all_active_sessions(self, monkeypatch):
+    def test_terminate_all_active_sessions(self):
         """Driver terminate_all safely terminates all open sessions."""
-        monkeypatch.delenv("ARC_API_KEY", raising=False)
-        driver = ArcCloudDriver()
+        driver = ArcCloudDriver(mock=True, register_atexit=False)
 
-        s1 = driver.provision_browser()
-        s2 = driver.provision_desktop()
+        driver.provision_browser()
+        driver.provision_desktop()
         assert len(driver.list_active_sessions()) == 2
 
         count = driver.terminate_all()
         assert count == 2
         assert len(driver.list_active_sessions()) == 0
-
-    def test_live_mode_with_mocked_http_dispatcher(self):
-        """Driver interacts with Arc Cloud API when API key is present."""
-        calls = []
-
-        def mock_requester(req: urllib.request.Request, timeout: float):
-            calls.append(req)
-            return {
-                "session_id": "remote-sess-001",
-                "cdp_endpoint": "wss://us-east-1.cloud.arc.ai/cdp/remote-sess-001",
-                "vnc_stream": "wss://us-east-1.cloud.arc.ai/vnc/remote-sess-001",
-                "replay_url": "https://cloud.arc.ai/replay/remote-sess-001",
-                "region": "us-east-1",
-            }
-
-        driver = ArcCloudDriver(
-            api_key="sk-arc-live-test-12345",
-            region="us-east-1",
-            http_requester=mock_requester,
-        )
-        assert driver.is_mock is False
-
-        session = driver.provision_browser(stealth=True)
-        assert session.is_mock is False
-        assert session.cdp_endpoint == "wss://us-east-1.cloud.arc.ai/cdp/remote-sess-001"
-        assert len(calls) == 1
-        assert "Authorization" in calls[0].headers
 
 
 # =============================================================================

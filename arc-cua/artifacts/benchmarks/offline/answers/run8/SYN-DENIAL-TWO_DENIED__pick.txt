@@ -1,0 +1,7 @@
+claim_id: CLM-2026-448817 | evidence: Claim number: CLM-2026-448817 <cite doc="synthetic_denial_letter_two_denied.pdf" page="1" block="p1_b9"/>
+patient_name: Dana Whitfield | evidence: Member: Dana Whitfield <cite doc="synthetic_denial_letter_two_denied.pdf" page="1" block="p1_b6"/>
+date_of_service: 2026-06-14 | evidence: 2 2026-06-14 99214 Office visit, established patient, moderate MDM $412.00$0.00 Denied <cite doc="synthetic_denial_letter_two_denied.pdf" page="2" block="p2_b5"/>
+billed_amount: $412.00 | evidence: 2 2026-06-14 99214 Office visit, established patient, moderate MDM $412.00$0.00 Denied <cite doc="synthetic_denial_letter_two_denied.pdf" page="2" block="p2_b6"/>
+denial_code: CO-16 | evidence: Claim adjustment group and reason code: CO-16. Claim/service lacks information or has submission/billing error(s) which is needed for adjudication. <cite doc="synthetic_denial_letter_two_denied.pdf" page="3" block="p3_b2"/>
+cpt_code: 99214 | evidence: 2 2026-06-14 99214 Office visit, established patient, moderate MDM $412.00$0.00 Denied <cite doc="synthetic_denial_letter_two_denied.pdf" page="2" block="p2_b5"/>
+notes: the visit note documents moderate medical decision-making supporting CPT 99214, and the missing medical record will be attached to the appeal. | evidence: Basis for reconsideration noted by the provider: the visit note documents moderate medical decision-making supporting CPT 99214, and the missing medical record will be attached to the appeal. <cite doc="synthetic_denial_letter_two_denied.pdf" page="4" block="p4_b5"/>

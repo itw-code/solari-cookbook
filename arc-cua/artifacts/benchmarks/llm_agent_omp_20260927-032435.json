@@ -1,0 +1,136 @@
+{
+  "model": "kenari_2/laguna-xs-2-1:free",
+  "runs": [
+    {
+      "task": "hn_click_new",
+      "success": true,
+      "wall_seconds": 18.2,
+      "model_seconds": 5.0,
+      "tool_seconds": 7.6,
+      "turns": 4,
+      "tool_calls": 3,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 21374,
+      "output_tokens": 240,
+      "final_text": "DONE - Successfully clicked the 'new' link in the top bar and navigated to https://news.ycombinator.com/newest which displays the \"New Links | Hacker News\" page with currently recent submissions.",
+      "error": null
+    },
+    {
+      "task": "hn_second_comments_link",
+      "success": true,
+      "wall_seconds": 25.5,
+      "model_seconds": 12.9,
+      "tool_seconds": 7.1,
+      "turns": 4,
+      "tool_calls": 3,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 21783,
+      "output_tokens": 262,
+      "final_text": "Successfully opened Hacker News and clicked the second 'N comments' link. The action navigated to the comments page for \"Drawgent: Coding agent on a live Excalidraw canvas\" at https://news.ycombinator",
+      "error": null
+    },
+    {
+      "task": "wikipedia_search",
+      "success": true,
+      "wall_seconds": 34.3,
+      "model_seconds": 15.3,
+      "tool_seconds": 13.9,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 30294,
+      "output_tokens": 396,
+      "final_text": "DONE - Successfully opened the Wikipedia Web browser page, searched for \"Playwright (software)\" using the search box, and navigated to the Playwright (software) Wikipedia article. The current URL is h",
+      "error": null
+    },
+    {
+      "task": "httpbin_form_submit",
+      "success": true,
+      "wall_seconds": 180.3,
+      "model_seconds": 169.4,
+      "tool_seconds": 7.2,
+      "turns": 6,
+      "tool_calls": 5,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 27021,
+      "output_tokens": 391,
+      "final_text": "Order submitted successfully! The response from httpbin confirms that the form was submitted with:\n- **custname**: \"Ada Lovelace\"\n- **size**: \"medium\"\n\nAll other fields are empty as expected since onl",
+      "error": null
+    },
+    {
+      "task": "github_issues_tab",
+      "success": true,
+      "wall_seconds": 23.2,
+      "model_seconds": 7.4,
+      "tool_seconds": 11.7,
+      "turns": 4,
+      "tool_calls": 3,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 19064,
+      "output_tokens": 330,
+      "final_text": "I've successfully opened the Playwright repository and navigated to the Issues tab. The Issues page shows:\n\n- **Total Issues**: 159 (157 open, 17,884 closed)\n- The main issues list with various filter",
+      "error": null
+    },
+    {
+      "task": "python_docs_link",
+      "success": true,
+      "wall_seconds": 26.1,
+      "model_seconds": 12.1,
+      "tool_seconds": 9.6,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_inspect",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 25140,
+      "output_tokens": 326,
+      "final_text": "DONE. Successfully opened https://docs.python.org/3/library/asyncio.html and clicked the \"Coroutines and tasks\" link, which navigated to https://docs.python.org/3/library/asyncio-task.html.",
+      "error": null
+    },
+    {
+      "task": "todomvc_add_item",
+      "success": true,
+      "wall_seconds": 17.8,
+      "model_seconds": 8.4,
+      "tool_seconds": 5.9,
+      "turns": 5,
+      "tool_calls": 4,
+      "tools": [
+        "mcp__arc_open",
+        "mcp__arc_inspect",
+        "mcp__arc_act",
+        "mcp__arc_act"
+      ],
+      "input_tokens": 19297,
+      "output_tokens": 414,
+      "final_text": "The todo item \"buy milk\" has been successfully added. The tree now shows:\n- A new main section with [#12] checkbox \"Toggle All Input\"\n- A listitem with [#13] checkbox and \"buy milk\" as a StaticText la",
+      "error": null
+    }
+  ]
+}

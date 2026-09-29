@@ -1,0 +1,204 @@
+[
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "hn_click_new",
+    "rep": 0,
+    "success": true,
+    "seconds": 6.9,
+    "model_seconds": 2.5,
+    "act_seconds": 1.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1271,
+      1277
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "input_tokens": 3896,
+    "output_tokens": 14
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "hn_second_comments_link",
+    "rep": 0,
+    "success": false,
+    "seconds": 9.5,
+    "model_seconds": 4.3,
+    "act_seconds": 3.8,
+    "steps": 3,
+    "claimed_done": false,
+    "error": "There is only one '13 comments' link (#19) on this page; no second 'N comments' link exists.",
+    "actions": [
+      "click#24",
+      "click#19",
+      "fail=There is only one '13 comments"
+    ],
+    "model_ms_per_step": [
+      1213,
+      1356,
+      1746
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "input_tokens": 5902,
+    "output_tokens": 51
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "wikipedia_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 11.5,
+    "model_seconds": 3.1,
+    "act_seconds": 5.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#4=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1622,
+      1465
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "input_tokens": 3325,
+    "output_tokens": 26
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "httpbin_form_submit",
+    "rep": 0,
+    "success": true,
+    "seconds": 8.7,
+    "model_seconds": 6.2,
+    "act_seconds": 1.1,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1428,
+      1701,
+      1468,
+      1594
+    ],
+    "final_url": "https://httpbin.org/post",
+    "input_tokens": 3384,
+    "output_tokens": 39
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "github_issues_tab",
+    "rep": 0,
+    "success": true,
+    "seconds": 12.2,
+    "model_seconds": 3.1,
+    "act_seconds": 4.8,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1726,
+      1373
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "input_tokens": 3412,
+    "output_tokens": 14
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "python_docs_link",
+    "rep": 0,
+    "success": true,
+    "seconds": 10.0,
+    "model_seconds": 4.8,
+    "act_seconds": 4.1,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "query=Coroutines and tasks",
+      "click#74",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1694,
+      1574,
+      1531
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "input_tokens": 5163,
+    "output_tokens": 26
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "todomvc_add_item",
+    "rep": 0,
+    "success": true,
+    "seconds": 4.4,
+    "model_seconds": 3.0,
+    "act_seconds": 0.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1473,
+      1503
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "input_tokens": 1679,
+    "output_tokens": 23
+  },
+  {
+    "model": "deepseek-v4-1-flash",
+    "task": "google_flights_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 27.9,
+    "model_seconds": 10.7,
+    "act_seconds": 14.9,
+    "steps": 7,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "click#2",
+      "fill#15=Zurich",
+      "fill#17=London",
+      "fill#18=October 20, 2026",
+      "click#19",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1301,
+      1559,
+      1455,
+      1416,
+      1797,
+      1847,
+      1305
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "input_tokens": 12574,
+    "output_tokens": 90
+  }
+]

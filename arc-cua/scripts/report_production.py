@@ -84,7 +84,9 @@ def run_production_evaluation(
     start_run_time = time.time()
 
     # 1. Initialize Cloud Driver
-    cloud_driver = ArcCloudDriver(api_key="" if force_mock else None)
+    # The WebArena/OSWorld runners below execute against offline mock pages, so cloud sessions
+    # here only feed compute-time accounting. Live mode would bill real browsers nobody drives.
+    cloud_driver = ArcCloudDriver(mock=True)
     logger.info(f"ArcCloudDriver initialized [is_mock={cloud_driver.is_mock}]")
 
     # 2. Initialize Live Orchestrator

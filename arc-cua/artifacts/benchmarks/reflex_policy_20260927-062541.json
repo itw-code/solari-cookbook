@@ -1,0 +1,626 @@
+[
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 0,
+    "success": true,
+    "seconds": 12.4,
+    "model_seconds": 3.7,
+    "act_seconds": 5.8,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1879,
+      1869
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "backend": "solari",
+    "input_tokens": 4630,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 0,
+    "success": true,
+    "seconds": 10.5,
+    "model_seconds": 3.4,
+    "act_seconds": 5.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1772,
+      1598
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "backend": "solari",
+    "input_tokens": 4806,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 27.2,
+    "model_seconds": 4.9,
+    "act_seconds": 19.5,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#4",
+      "fill#2=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1926,
+      1194,
+      1812
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "backend": "solari",
+    "input_tokens": 5553,
+    "output_tokens": 35
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 0,
+    "success": true,
+    "seconds": 21.4,
+    "model_seconds": 6.7,
+    "act_seconds": 13.1,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#16",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1583,
+      1401,
+      2065,
+      1684
+    ],
+    "final_url": "https://httpbin.org/post",
+    "backend": "solari",
+    "input_tokens": 3634,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 0,
+    "success": true,
+    "seconds": 19.7,
+    "model_seconds": 3.5,
+    "act_seconds": 9.9,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1591,
+      1938
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "backend": "solari",
+    "input_tokens": 3787,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 0,
+    "success": true,
+    "seconds": 12.8,
+    "model_seconds": 3.2,
+    "act_seconds": 7.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#75",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1396,
+      1842
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "backend": "solari",
+    "input_tokens": 3849,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 0,
+    "success": true,
+    "seconds": 10.7,
+    "model_seconds": 3.5,
+    "act_seconds": 5.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1845,
+      1675
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "backend": "solari",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 0,
+    "success": true,
+    "seconds": 61.3,
+    "model_seconds": 12.7,
+    "act_seconds": 45.3,
+    "steps": 7,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#8",
+      "click#2",
+      "fill#11=Zurich",
+      "fill#13=London",
+      "fill#14=Oct 20, 2026",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1506,
+      1734,
+      1759,
+      1358,
+      2408,
+      1835,
+      2134
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "backend": "solari",
+    "input_tokens": 12608,
+    "output_tokens": 97
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 1,
+    "success": true,
+    "seconds": 10.6,
+    "model_seconds": 3.1,
+    "act_seconds": 5.8,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1752,
+      1357
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "backend": "solari",
+    "input_tokens": 4641,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 1,
+    "success": true,
+    "seconds": 12.4,
+    "model_seconds": 5.2,
+    "act_seconds": 5.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1791,
+      3400
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "backend": "solari",
+    "input_tokens": 4816,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 1,
+    "success": true,
+    "seconds": 29.3,
+    "model_seconds": 5.8,
+    "act_seconds": 20.8,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#4",
+      "fill#2=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1864,
+      1933,
+      1984
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "backend": "solari",
+    "input_tokens": 5586,
+    "output_tokens": 35
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 1,
+    "success": true,
+    "seconds": 21.5,
+    "model_seconds": 7.6,
+    "act_seconds": 12.6,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#16",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1776,
+      2031,
+      1885,
+      1864
+    ],
+    "final_url": "https://httpbin.org/post",
+    "backend": "solari",
+    "input_tokens": 3636,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 1,
+    "success": true,
+    "seconds": 15.3,
+    "model_seconds": 3.1,
+    "act_seconds": 8.5,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1755,
+      1365
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "backend": "solari",
+    "input_tokens": 3784,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 1,
+    "success": true,
+    "seconds": 12.4,
+    "model_seconds": 2.9,
+    "act_seconds": 7.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#75",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1643,
+      1210
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "backend": "solari",
+    "input_tokens": 3849,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 1,
+    "success": true,
+    "seconds": 11.0,
+    "model_seconds": 4.3,
+    "act_seconds": 5.3,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1429,
+      2863
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "backend": "solari",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 1,
+    "success": true,
+    "seconds": 61.4,
+    "model_seconds": 14.2,
+    "act_seconds": 44.2,
+    "steps": 7,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#8",
+      "click#2",
+      "fill#11=Zurich",
+      "fill#13=London",
+      "fill#14=Oct 20, 2026",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      2077,
+      1791,
+      2313,
+      1641,
+      1509,
+      2941,
+      1894
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "backend": "solari",
+    "input_tokens": 12608,
+    "output_tokens": 97
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_click_new",
+    "rep": 2,
+    "success": true,
+    "seconds": 10.2,
+    "model_seconds": 3.2,
+    "act_seconds": 5.2,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#3",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1570,
+      1601
+    ],
+    "final_url": "https://news.ycombinator.com/newest",
+    "backend": "solari",
+    "input_tokens": 4631,
+    "output_tokens": 14
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "hn_second_comments_link",
+    "rep": 2,
+    "success": true,
+    "seconds": 10.5,
+    "model_seconds": 3.2,
+    "act_seconds": 5.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#24",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1777,
+      1411
+    ],
+    "final_url": "https://news.ycombinator.com/item?id=49859112",
+    "backend": "solari",
+    "input_tokens": 4804,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "wikipedia_search",
+    "rep": 2,
+    "success": true,
+    "seconds": 28.7,
+    "model_seconds": 5.5,
+    "act_seconds": 20.7,
+    "steps": 3,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#4",
+      "fill#2=Playwright (software)",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1173,
+      2666,
+      1638
+    ],
+    "final_url": "https://en.wikipedia.org/wiki/Playwright_(software)",
+    "backend": "solari",
+    "input_tokens": 5553,
+    "output_tokens": 35
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "httpbin_form_submit",
+    "rep": 2,
+    "success": true,
+    "seconds": 21.3,
+    "model_seconds": 6.9,
+    "act_seconds": 13.0,
+    "steps": 4,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#1=Ada Lovelace",
+      "click#5",
+      "click#16",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1967,
+      1833,
+      1253,
+      1895
+    ],
+    "final_url": "https://httpbin.org/post",
+    "backend": "solari",
+    "input_tokens": 3636,
+    "output_tokens": 39
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "github_issues_tab",
+    "rep": 2,
+    "success": true,
+    "seconds": 15.9,
+    "model_seconds": 3.8,
+    "act_seconds": 8.6,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#12",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1991,
+      1793
+    ],
+    "final_url": "https://github.com/microsoft/playwright/issues",
+    "backend": "solari",
+    "input_tokens": 3792,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "python_docs_link",
+    "rep": 2,
+    "success": true,
+    "seconds": 14.3,
+    "model_seconds": 3.6,
+    "act_seconds": 8.9,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#75",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1933,
+      1687
+    ],
+    "final_url": "https://docs.python.org/3/library/asyncio-task.html",
+    "backend": "solari",
+    "input_tokens": 3849,
+    "output_tokens": 15
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "todomvc_add_item",
+    "rep": 2,
+    "success": true,
+    "seconds": 10.3,
+    "model_seconds": 3.3,
+    "act_seconds": 5.7,
+    "steps": 2,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "fill#11=buy milk",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1691,
+      1575
+    ],
+    "final_url": "https://todomvc.com/examples/react/dist/",
+    "backend": "solari",
+    "input_tokens": 1791,
+    "output_tokens": 24
+  },
+  {
+    "model": "gemini-3.8-flash",
+    "task": "google_flights_search",
+    "rep": 2,
+    "success": true,
+    "seconds": 59.5,
+    "model_seconds": 13.2,
+    "act_seconds": 43.2,
+    "steps": 7,
+    "claimed_done": true,
+    "error": null,
+    "actions": [
+      "click#8",
+      "click#2",
+      "fill#11=Zurich",
+      "fill#13=London",
+      "fill#14=Oct 20, 2026",
+      "click#15",
+      "done"
+    ],
+    "model_ms_per_step": [
+      1322,
+      1857,
+      1883,
+      1885,
+      1562,
+      3261,
+      1437
+    ],
+    "final_url": "https://www.google.com/travel/flights/search?tfs=CBwQAhooEgoyMDI2LTEwLTIwagwIAxIIL20vMDg5NjZyDAgDEggvbS8wNGpwbEABSAFwAYIBCwj___________8BmAEC&hl=en",
+    "backend": "solari",
+    "input_tokens": 12609,
+    "output_tokens": 97
+  }
+]
