@@ -1,0 +1,507 @@
+[
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-01",
+    "rep": 0,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1174,
+    "output_tokens": 507,
+    "seconds": 12.36,
+    "timing_ms": {
+      "index": 91.5,
+      "extract_llm": 3483.3,
+      "portal_load_inspect_bind": 2556.5,
+      "fill_and_submit": 6319.7,
+      "act_latency_per_step": [
+        411.15,
+        411.15,
+        411.15,
+        411.15,
+        411.15,
+        411.15,
+        411.15,
+        2380.67
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "$412.00",
+      "cpt_code": "99214",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "ok",
+      "cpt_code": "ok",
+      "denial_code": "ok"
+    },
+    "rejected": {},
+    "model_cost_usd": 0.002782,
+    "browser_cost_usd": 0.000515,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 0,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1244,
+    "output_tokens": 385,
+    "seconds": 14.27,
+    "timing_ms": {
+      "index": 28.5,
+      "extract_llm": 6281.5,
+      "portal_load_inspect_bind": 1731.3,
+      "fill_and_submit": 6252.4,
+      "act_latency_per_step": [
+        409.13,
+        409.13,
+        409.13,
+        409.13,
+        409.13,
+        2332.87
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "",
+      "cpt_code": "",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "blank",
+      "cpt_code": "blank",
+      "denial_code": "ok"
+    },
+    "rejected": {
+      "billed_amount": "more than one value fits",
+      "cpt_code": "more than one value fits"
+    },
+    "model_cost_usd": 0.002377,
+    "browser_cost_usd": 0.000594,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-01",
+    "rep": 1,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1174,
+    "output_tokens": 507,
+    "seconds": 10.51,
+    "timing_ms": {
+      "index": 9.6,
+      "extract_llm": 2500.7,
+      "portal_load_inspect_bind": 1738.3,
+      "fill_and_submit": 6268.9,
+      "act_latency_per_step": [
+        409.53,
+        409.53,
+        409.53,
+        409.53,
+        409.53,
+        409.53,
+        409.53,
+        2333.0
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "$412.00",
+      "cpt_code": "99214",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "ok",
+      "cpt_code": "ok",
+      "denial_code": "ok"
+    },
+    "rejected": {},
+    "model_cost_usd": 0.002782,
+    "browser_cost_usd": 0.000438,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 1,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1244,
+    "output_tokens": 368,
+    "seconds": 10.27,
+    "timing_ms": {
+      "index": 10.1,
+      "extract_llm": 2285.0,
+      "portal_load_inspect_bind": 1737.5,
+      "fill_and_submit": 6245.1,
+      "act_latency_per_step": [
+        404.62,
+        404.62,
+        404.62,
+        404.62,
+        2330.32
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "",
+      "billed_amount": "",
+      "cpt_code": "",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "blank",
+      "billed_amount": "blank",
+      "cpt_code": "blank",
+      "denial_code": "ok"
+    },
+    "rejected": {
+      "date_of_service": "value not in its evidence quote",
+      "billed_amount": "more than one value fits",
+      "cpt_code": "more than one value fits"
+    },
+    "model_cost_usd": 0.002313,
+    "browser_cost_usd": 0.000428,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-01",
+    "rep": 2,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1174,
+    "output_tokens": 507,
+    "seconds": 10.74,
+    "timing_ms": {
+      "index": 7.8,
+      "extract_llm": 2760.2,
+      "portal_load_inspect_bind": 1723.6,
+      "fill_and_submit": 6252.7,
+      "act_latency_per_step": [
+        406.76,
+        406.76,
+        406.76,
+        406.76,
+        406.76,
+        406.76,
+        406.76,
+        2333.22
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "$412.00",
+      "cpt_code": "99214",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "ok",
+      "cpt_code": "ok",
+      "denial_code": "ok"
+    },
+    "rejected": {},
+    "model_cost_usd": 0.002782,
+    "browser_cost_usd": 0.000447,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 2,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1244,
+    "output_tokens": 385,
+    "seconds": 11.52,
+    "timing_ms": {
+      "index": 9.3,
+      "extract_llm": 3535.3,
+      "portal_load_inspect_bind": 1726.5,
+      "fill_and_submit": 6253.4,
+      "act_latency_per_step": [
+        410.23,
+        410.23,
+        410.23,
+        410.23,
+        410.23,
+        2323.6
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "",
+      "cpt_code": "",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "blank",
+      "cpt_code": "blank",
+      "denial_code": "ok"
+    },
+    "rejected": {
+      "billed_amount": "more than one value fits",
+      "cpt_code": "more than one value fits"
+    },
+    "model_cost_usd": 0.002377,
+    "browser_cost_usd": 0.00048,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-01",
+    "rep": 3,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1174,
+    "output_tokens": 507,
+    "seconds": 12.77,
+    "timing_ms": {
+      "index": 7.7,
+      "extract_llm": 4770.8,
+      "portal_load_inspect_bind": 1727.7,
+      "fill_and_submit": 6272.5,
+      "act_latency_per_step": [
+        408.85,
+        408.85,
+        408.85,
+        408.85,
+        408.85,
+        408.85,
+        408.85,
+        2339.91
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "$412.00",
+      "cpt_code": "99214",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "ok",
+      "cpt_code": "ok",
+      "denial_code": "ok"
+    },
+    "rejected": {},
+    "model_cost_usd": 0.002782,
+    "browser_cost_usd": 0.000532,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 3,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1244,
+    "output_tokens": 385,
+    "seconds": 10.36,
+    "timing_ms": {
+      "index": 9.2,
+      "extract_llm": 2270.1,
+      "portal_load_inspect_bind": 1825.1,
+      "fill_and_submit": 6269.4,
+      "act_latency_per_step": [
+        410.28,
+        410.28,
+        410.28,
+        410.28,
+        410.28,
+        2328.91
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "",
+      "cpt_code": "",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "blank",
+      "cpt_code": "blank",
+      "denial_code": "ok"
+    },
+    "rejected": {
+      "billed_amount": "more than one value fits",
+      "cpt_code": "more than one value fits"
+    },
+    "model_cost_usd": 0.002377,
+    "browser_cost_usd": 0.000432,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-01",
+    "rep": 4,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1174,
+    "output_tokens": 507,
+    "seconds": 11.21,
+    "timing_ms": {
+      "index": 7.8,
+      "extract_llm": 3144.3,
+      "portal_load_inspect_bind": 1751.1,
+      "fill_and_submit": 6318.7,
+      "act_latency_per_step": [
+        416.19,
+        416.19,
+        416.19,
+        416.19,
+        416.19,
+        416.19,
+        416.19,
+        2349.66
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "$412.00",
+      "cpt_code": "99214",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "ok",
+      "cpt_code": "ok",
+      "denial_code": "ok"
+    },
+    "rejected": {},
+    "model_cost_usd": 0.002782,
+    "browser_cost_usd": 0.000467,
+    "solari_session_id": "Am5Of4yw…"
+  },
+  {
+    "harness": "arc",
+    "model": "gemini-3.8-flash",
+    "tokens": "api usage",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 4,
+    "turns": 1,
+    "tool_calls": 0,
+    "input_tokens": 1244,
+    "output_tokens": 385,
+    "seconds": 10.29,
+    "timing_ms": {
+      "index": 10.4,
+      "extract_llm": 2243.6,
+      "portal_load_inspect_bind": 1753.9,
+      "fill_and_submit": 6287.6,
+      "act_latency_per_step": [
+        407.07,
+        407.07,
+        407.07,
+        407.07,
+        407.07,
+        2341.81
+      ]
+    },
+    "submitted": true,
+    "confirmation_ok": true,
+    "received": {
+      "claim_id": "CLM-2026-448817",
+      "patient_name": "Dana Whitfield",
+      "date_of_service": "2026-06-14",
+      "billed_amount": "",
+      "cpt_code": "",
+      "denial_code": "CO-16"
+    },
+    "grades": {
+      "claim_id": "ok",
+      "patient_name": "ok",
+      "date_of_service": "ok",
+      "billed_amount": "blank",
+      "cpt_code": "blank",
+      "denial_code": "ok"
+    },
+    "rejected": {
+      "billed_amount": "more than one value fits",
+      "cpt_code": "more than one value fits"
+    },
+    "model_cost_usd": 0.002377,
+    "browser_cost_usd": 0.000429,
+    "solari_session_id": "Am5Of4yw…"
+  }
+]

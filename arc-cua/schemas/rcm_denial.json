@@ -1,0 +1,105 @@
+{
+  "schema_id": "healthcare_denial_appeal",
+  "target_url_pattern": "*appeal*",
+  "submit_affordance_hint": "Submit",
+  "success_indicator_pattern": "Confirmation|Receipt|Accepted|Reference",
+  "fields": [
+    {
+      "field_name": "claim_id",
+      "target_role": "textbox",
+      "label_hints": [
+        "Claim ID",
+        "Claim #",
+        "Claim Number"
+      ],
+      "description": "Claim number of the claim this denial notice is about (not other claims it mentions)",
+      "evidence_must_not_match": "(?i)not affected|processed separately|related claim"
+    },
+    {
+      "field_name": "patient_name",
+      "target_role": "textbox",
+      "label_hints": [
+        "Patient Name",
+        "Patient"
+      ],
+      "required": false,
+      "description": "Member / patient name"
+    },
+    {
+      "field_name": "date_of_service",
+      "target_role": "textbox",
+      "label_hints": [
+        "Date of Service",
+        "DOS"
+      ],
+      "required": false,
+      "format_transformer": "date_iso",
+      "description": "Date of service of the denied line item",
+      "evidence_must_match": "(?i)\\bdenied\\b",
+      "evidence_must_not_match": "(?i)\\bpaid\\b",
+      "same_row_as": [
+        "cpt_code"
+      ],
+      "row_start": "^[\\s|]*\\d+[\\s|]+\\d{4}-\\d{2}-\\d{2}",
+      "row_end": "(?i)\\b(denied|paid|adjusted|pending)\\s*$",
+      "value_pattern": "\\d{4}-\\d{2}-\\d{2}"
+    },
+    {
+      "field_name": "billed_amount",
+      "target_role": "textbox",
+      "label_hints": [
+        "Billed Amount",
+        "Amount"
+      ],
+      "required": false,
+      "description": "Billed amount of the denied line item",
+      "evidence_must_match": "(?i)\\bdenied\\b",
+      "evidence_must_not_match": "(?i)\\bpaid\\b",
+      "same_row_as": [
+        "cpt_code"
+      ],
+      "row_start": "^[\\s|]*\\d+[\\s|]+\\d{4}-\\d{2}-\\d{2}",
+      "row_end": "(?i)\\b(denied|paid|adjusted|pending)\\s*$",
+      "value_pattern": "\\$\\s?[\\d,]+\\.\\d{2}"
+    },
+    {
+      "field_name": "denial_code",
+      "target_role": "textbox",
+      "label_hints": [
+        "Denial Reason Code",
+        "Denial Code",
+        "Denial Reason"
+      ],
+      "description": "Claim adjustment group and reason code of the denial, e.g. a group prefix and number like CO-nn"
+    },
+    {
+      "field_name": "cpt_code",
+      "target_role": "textbox",
+      "label_hints": [
+        "CPT",
+        "Procedure Code"
+      ],
+      "description": "CPT procedure code of the denied line item (not paid lines)",
+      "evidence_must_match": "(?i)\\bdenied\\b",
+      "evidence_must_not_match": "(?i)\\bpaid\\b",
+      "same_row_as": [
+        "billed_amount",
+        "date_of_service"
+      ],
+      "row_start": "^[\\s|]*\\d+[\\s|]+\\d{4}-\\d{2}-\\d{2}",
+      "row_end": "(?i)\\b(denied|paid|adjusted|pending)\\s*$",
+      "value_pattern": "(?<!\\d)\\d{5}(?!\\d)"
+    },
+    {
+      "field_name": "notes",
+      "target_role": "textbox",
+      "label_hints": [
+        "Justification",
+        "Appeal Ground",
+        "Notes"
+      ],
+      "required": false,
+      "description": "The provider's stated basis for reconsidering the denial"
+    }
+  ]
+}

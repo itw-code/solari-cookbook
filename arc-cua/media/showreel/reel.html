@@ -23,17 +23,50 @@ const F = {
 // Scene cuts on a 150 BPM grid (0.4 s per beat).
 const CUT = { vs: 1.6, race: 3.2, tok: 8.4, cost: 10.8, end: 13.2, out: 15.0 };
 
-const TASKS = [
-  ["HACKER NEWS · CLICK “NEW”", 31.6, true, 10.6],
-  ["HACKER NEWS · 2ND COMMENTS", 43.1, true, 10.5],
-  ["WIKIPEDIA · SEARCH", 55.6, true, 28.7],
-  ["HTTPBIN · FILL + SUBMIT", 59.0, true, 21.4],
-  ["GITHUB · ISSUES TAB", 33.6, true, 15.9],
-  ["PYTHON DOCS · FOLLOW LINK", 34.6, true, 12.8],
-  ["TODOMVC · ADD ITEM", 31.5, true, 10.7],
-  ["GOOGLE FLIGHTS · ZRH→LON", 33.7, false, 61.3],
-];
-const RACE_T0 = 3.4, RACE_SPEED = 13; // race clock = (t - 3.4) * 13 s
+// One timeline, several cuts: ?v=<name> picks the copy and numbers (default: the Opus race).
+const TASK_NAMES = ["HACKER NEWS · CLICK “NEW”", "HACKER NEWS · 2ND COMMENTS", "WIKIPEDIA · SEARCH",
+  "HTTPBIN · FILL + SUBMIT", "GITHUB · ISSUES TAB", "PYTHON DOCS · FOLLOW LINK", "TODOMVC · ADD ITEM",
+  "GOOGLE FLIGHTS · ZRH→LON"];
+const VARIANTS = {
+  // Opus 5.5 via Claude Code + Solari MCP vs Gemini 3.8 Flash + ARC (docs/BENCHMARK_VS_SOLARI_MCP.md).
+  opus: {
+    open: ["ONE BROWSER.", "TWO AGENTS."],
+    a: { title: "OPUS 5.5", size: 170, sub: "+ SOLARI MCP", note: "CLAUDE CODE · GENERAL AGENT", short: "OPUS + SOLARI MCP" },
+    b: { title: "GEMINI 3.8 FLASH", size: 124, sub: "+ ARC", note: "ONE MODEL CALL PER ACTION", short: "GEMINI FLASH + ARC" },
+    // [lane A seconds, lane A passed, lane B seconds, lane B passed]
+    tasks: [[31.6, true, 10.6, true], [43.1, true, 10.5, true], [55.6, true, 28.7, true], [59.0, true, 21.4, true],
+            [33.6, true, 15.9, true], [34.6, true, 12.8, true], [31.5, true, 10.7, true], [33.7, false, 61.3, true]],
+    raceMax: 65, raceVerdict: "1.9× FASTER · 8/8 PASSED",
+    tokens: [1584023, 40661],
+    tokenSubs: ["≈198,000 per task · resends prompt + history", "≈5,100 per task · goal + tree + last 4 actions"],
+    tokenSlam: "39× FEWER",
+    cost: [160, 4.83], costSubs: ["LANE A · $0.160 / TASK", "LANE B · $0.0048 / TASK"], costSlam: ["33×", "CHEAPER"],
+    pills: [["1.9×", "FASTER"], ["39×", "FEWER TOKENS"], ["33×", "CHEAPER"]],
+    credit: "Opus 5.5 via Claude Code + Solari MCP  vs  Gemini 3.8 Flash + ARC · 8 tasks on Solari browsers · 27 Sep 2026",
+  },
+  // Same model both sides: Gemini 3.8 Flash on Solari's MCP tools vs on ARC; medians of 3 runs
+  // (artifacts/benchmarks/gemini_solari_mcp_20260927-*.json vs reflex_policy_20260927-062541.json).
+  gemini: {
+    open: ["ONE MODEL.", "TWO HARNESSES."],
+    a: { title: "GEMINI 3.8 FLASH", size: 124, dy: -150, sub: "+ SOLARI MCP", note: "TOOL CALLING · FULL HISTORY", short: "GEMINI + SOLARI MCP" },
+    b: { title: "GEMINI 3.8 FLASH", size: 124, sub: "+ ARC", note: "ONE MODEL CALL PER ACTION", short: "GEMINI + ARC" },
+    tasks: [[8.4, true, 10.6, true], [9.8, true, 10.5, true], [51.8, true, 28.7, true], [23.6, true, 21.4, true],
+            [14.2, true, 15.9, true], [11.1, true, 12.8, true], [14.8, true, 10.7, true], [11.8, false, 61.3, true]],
+    // Lane A's failed Flights run stops early; totals compare only tasks both lanes passed.
+    tickerShared: true,
+    raceMax: 65, raceVerdict: "1.2× FASTER · 24/24 VS 21/24",
+    tokens: [152849, 40678],
+    tokenSubs: ["≈19,100 per task · tool schemas + full history", "≈5,100 per task · goal + tree + last 4 actions"],
+    tokenSlam: "3.8× FEWER",
+    cost: [16.01, 4.84], costSubs: ["LANE A · $0.0160 / TASK", "LANE B · $0.0048 / TASK"], costSlam: ["3.3×", "CHEAPER"],
+    pills: [["1.2×", "FASTER"], ["3.8×", "FEWER TOKENS"], ["3.3×", "CHEAPER"]],
+    credit: "Gemini 3.8 Flash + Solari MCP  vs  Gemini 3.8 Flash + ARC · 8 tasks × 3 runs on Solari browsers · 27 Sep 2026",
+  },
+};
+const V = VARIANTS[new URLSearchParams(location.search).get("v")] || VARIANTS.opus;
+const TASKS = TASK_NAMES.map((n, i) => [n, ...V.tasks[i]]);
+const RACE_T0 = 3.4, RACE_DUR = 5.0; // the race replays in 5 s of screen time
+const RACE_SPEED = V.raceMax / RACE_DUR; // race clock = (t - 3.4) * RACE_SPEED s
 
 // ---------- helpers ----------
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -121,15 +154,15 @@ function sceneOpen(t) {
   if (k1 > 0) {
     const s = lerp(2.4, 1, eOutExpo(k1)), off = (1 - eOutExpo(k1)) * 26;
     g.save(); g.translate(W / 2, cy - 30); g.scale(s, s);
-    text("ONE BROWSER.", -off, 0, F.disp(900, 150), C.a, "center", "alphabetic", 0.7);
-    text("ONE BROWSER.", off, 0, F.disp(900, 150), C.b, "center", "alphabetic", 0.7);
-    text("ONE BROWSER.", 0, 0, F.disp(900, 150), C.ink, "center");
+    text(V.open[0], -off, 0, F.disp(900, 150), C.a, "center", "alphabetic", 0.7);
+    text(V.open[0], off, 0, F.disp(900, 150), C.b, "center", "alphabetic", 0.7);
+    text(V.open[0], 0, 0, F.disp(900, 150), C.ink, "center");
     g.restore();
   }
   if (k2 > 0) {
     const y = lerp(cy + 200, cy + 130, eOutExpo(k2));
     g.save(); g.beginPath(); g.rect(0, cy + 20, W, 200); g.clip();
-    text("TWO AGENTS.", W / 2, y, F.disp(900, 150), C.ink, "center");
+    text(V.open[1], W / 2, y, F.disp(900, 150), C.ink, "center");
     g.restore();
   }
   text("SOLARI CLOUD BROWSER · 8 REAL TASKS", W / 2, 150, F.mono(700, 24), C.mute, "center", "alphabetic", seg(t, 0.2, 0.6), 6);
@@ -157,14 +190,14 @@ function sceneVersus(t) {
   g.globalAlpha = 1; g.restore();
   // Lane titles.
   const ka = eOutExpo(seg(t, CUT.vs + 0.15, CUT.vs + 0.6)), kb = eOutExpo(seg(t, CUT.vs + 0.3, CUT.vs + 0.75));
-  text("LANE A", lerp(-300, 140, ka), 330, F.mono(700, 28), "rgba(255,255,255,.75)", "left", "alphabetic", ka, 8);
-  text("OPUS 5.5", lerp(-500, 132, ka), 470, F.disp(900, 170), C.white, "left", "alphabetic", ka);
-  text("+ SOLARI MCP", lerp(-500, 136, ka), 560, F.disp(800, 84), "rgba(255,255,255,.85)", "left", "alphabetic", ka);
-  text("CLAUDE CODE · GENERAL AGENT", lerp(-500, 140, ka), 620, F.mono(500, 24), "rgba(255,255,255,.7)", "left", "alphabetic", ka, 3);
+  text("LANE A", lerp(-300, 140, ka), 330 + (V.a.dy || 0), F.mono(700, 28), "rgba(255,255,255,.75)", "left", "alphabetic", ka, 8);
+  text(V.a.title, lerp(-500, 132, ka), 470 + (V.a.dy || 0), F.disp(900, V.a.size), C.white, "left", "alphabetic", ka);
+  text(V.a.sub, lerp(-500, 136, ka), 560 + (V.a.dy || 0), F.disp(800, 84), "rgba(255,255,255,.85)", "left", "alphabetic", ka);
+  text(V.a.note, lerp(-500, 140, ka), 620 + (V.a.dy || 0), F.mono(500, 24), "rgba(255,255,255,.7)", "left", "alphabetic", ka, 3);
   text("LANE B", lerp(W + 300, W - 140, kb), 560, F.mono(700, 28), "rgba(255,255,255,.75)", "right", "alphabetic", kb, 8);
-  text("GEMINI 3.8 FLASH", lerp(W + 500, W - 132, kb), 712, F.disp(900, 124), C.white, "right", "alphabetic", kb);
-  text("+ ARC", lerp(W + 500, W - 136, kb), 790, F.disp(800, 84), "rgba(255,255,255,.85)", "right", "alphabetic", kb);
-  text("ONE MODEL CALL PER ACTION", lerp(W + 500, W - 140, kb), 850, F.mono(500, 24), "rgba(255,255,255,.7)", "right", "alphabetic", kb, 3);
+  text(V.b.title, lerp(W + 500, W - 132, kb), 712, F.disp(900, V.b.size), C.white, "right", "alphabetic", kb);
+  text(V.b.sub, lerp(W + 500, W - 136, kb), 790, F.disp(800, 84), "rgba(255,255,255,.85)", "right", "alphabetic", kb);
+  text(V.b.note, lerp(W + 500, W - 140, kb), 850, F.mono(500, 24), "rgba(255,255,255,.7)", "right", "alphabetic", kb, 3);
   // VS: spins down from huge, with a ring on landing.
   const kv = seg(t, CUT.vs + 0.35, CUT.vs + 0.75);
   if (kv > 0) {
@@ -177,7 +210,7 @@ function sceneVersus(t) {
   }
 }
 
-function raceClock(t) { return clamp((t - RACE_T0) * RACE_SPEED, 0, 65); }
+function raceClock(t) { return clamp((t - RACE_T0) * RACE_SPEED, 0, V.raceMax); }
 function sceneRace(t) {
   const lt = t - CUT.race;
   const clock = raceClock(t);
@@ -187,24 +220,24 @@ function sceneRace(t) {
   // Header.
   const kh = eOutExpo(seg(t, CUT.race + 0.05, CUT.race + 0.5));
   text("THE RACE", lerp(40, 90, kh), 120, F.disp(900, 96), C.ink, "left", "alphabetic", kh);
-  text("SAME SOLARI BROWSER · TIME ON TASK · REPLAY 13×", 94, 162, F.mono(500, 22), C.mute, "left", "alphabetic", kh, 4);
+  text(`SAME SOLARI BROWSER · TIME ON TASK · REPLAY ${Math.round(RACE_SPEED)}×`, 94, 162, F.mono(500, 22), C.mute, "left", "alphabetic", kh, 4);
   // Clock.
   text(clock.toFixed(1), W - 150, 128, F.disp(900, 110), C.ink, "right", "alphabetic", kh);
   text("SEC", W - 92, 128, F.mono(700, 26), C.mute, "center", "alphabetic", kh, 4);
   // Lanes.
-  const x0 = 520, x1 = W - 120, top = 220, rowH = 100, scale = (x1 - x0) / 65;
-  for (const s of [15, 30, 45, 60]) {
+  const x0 = 520, x1 = W - 120, top = 220, rowH = 100, scale = (x1 - x0) / V.raceMax;
+  for (let s = 15; s < V.raceMax; s += 15) {
     const x = x0 + s * scale;
     g.save(); g.strokeStyle = C.rule; g.setLineDash([6, 8]); g.globalAlpha = kh;
     g.beginPath(); g.moveTo(x, top - 20); g.lineTo(x, top + rowH * 8); g.stroke(); g.restore();
     text(`${s}s`, x, top - 30, F.mono(500, 20), C.mute, "center", "alphabetic", kh);
   }
-  TASKS.forEach(([name, sa, okA, sb], i) => {
+  TASKS.forEach(([name, sa, okA, sb, okB], i) => {
     const ky = eOutExpo(seg(t, CUT.race + 0.1 + i * 0.05, CUT.race + 0.55 + i * 0.05));
     const y = top + i * rowH + lerp(40, 0, ky);
     g.save(); g.globalAlpha = ky;
     text(name, 94, y + 42, F.disp(800, 34), C.ink);
-    for (const [lane, s, ok, dy, col] of [["a", sa, okA, 10, C.a], ["b", sb, true, 50, C.b]]) {
+    for (const [lane, s, ok, dy, col] of [["a", sa, okA, 10, C.a], ["b", sb, okB, 50, C.b]]) {
       const yy = y + dy, h = 30;
       g.fillStyle = C.track; g.fillRect(x0, yy, x1 - x0, h);
       const done = Math.min(clock, s), w = done * scale;
@@ -218,16 +251,16 @@ function sceneRace(t) {
           g.fillStyle = C.white; g.fillRect(x0 + w - 3, yy - 4, 3, h + 8);
         }
       }
-      const fin = (s - clock) <= 0 ? seg(clock, s, s + 5) : 0; // finish animation in race-seconds
+      const fin = (s - clock) <= 0 ? seg(clock, s, s + RACE_SPEED * 5 / 13) : 0; // finish animation in race-seconds
       if (clock >= s) {
         const fx = x0 + s * scale;
         ring(fx, yy + h / 2, fin, col, 70, 6);
         sparks(fx, yy + h / 2, fin, col, 14, i * 17 + dy, 60);
         const label = `${s.toFixed(1)}s`;
-        const inside = s / 65 > 0.7;
+        const inside = s / V.raceMax > 0.7;
         text(label, inside ? fx - 12 : fx + 14, yy + 23, F.mono(700, 22), inside ? C.bg : col, inside ? "right" : "left", "alphabetic", eOutCubic(clamp(fin * 3)));
         if (!ok) {
-          const ks = seg(clock, s + 1, s + 6);
+          const ks = seg(clock, s + RACE_SPEED / 13, s + RACE_SPEED * 6 / 13);
           if (ks > 0) {
             g.save(); g.translate(fx + 230, yy + 14); g.rotate(-0.08);
             const sc = lerp(2.2, 1, eOutExpo(ks)); g.scale(sc, sc); g.globalAlpha *= eOutCubic(ks);
@@ -241,12 +274,14 @@ function sceneRace(t) {
     g.restore();
   });
   // Totals ticker at the bottom.
-  const sumA = TASKS.reduce((s, r) => s + Math.min(clock, r[1]), 0), sumB = TASKS.reduce((s, r) => s + Math.min(clock, r[3]), 0);
+  const counted = V.tickerShared ? TASKS.filter((r) => r[2] && r[4]) : TASKS;
+  const sumA = counted.reduce((s, r) => s + Math.min(clock, r[1]), 0), sumB = counted.reduce((s, r) => s + Math.min(clock, r[3]), 0);
   const kb = eOutExpo(seg(t, CUT.race + 0.4, CUT.race + 0.9));
   text(`A  ${sumA.toFixed(1)}s`, 94, H - 38, F.disp(900, 44), C.a, "left", "alphabetic", kb);
   text(`B  ${sumB.toFixed(1)}s`, 420, H - 38, F.disp(900, 44), C.b, "left", "alphabetic", kb);
+  if (V.tickerShared) text(`${counted.length} TASKS BOTH PASSED`, 746, H - 44, F.mono(700, 20), C.mute, "left", "alphabetic", kb, 3);
   const kf = eOutBack(seg(t, 7.7, 8.1));
-  if (kf > 0) text("1.9× FASTER · 8/8 PASSED", W - 120, H - 38, F.disp(900, 44), C.b, "right", "alphabetic", clamp(kf));
+  if (kf > 0) text(V.raceVerdict, W - 120, H - 38, F.disp(900, 44), C.b, "right", "alphabetic", clamp(kf));
   g.restore();
 }
 
@@ -257,7 +292,8 @@ function sceneTokens(t) {
   text("TOKENS SENT TO THE MODEL", W / 2, 120, F.mono(700, 26), C.mute, "center", "alphabetic", kIn, 8);
   // Two emitters: a flood (A) and a trickle (B). Particles are closed-form in t.
   const colX = [W * 0.3, W * 0.7];
-  const counts = [1400, 36]; // ~39:1
+  // Particle counts keep the real token ratio: ~1,130 tokens per particle, capped for frame time.
+  const counts = V.tokens.map((n) => Math.max(8, Math.min(1400, Math.round(n / 1130))));
   const cols = [C.a, C.b];
   const emitK = seg(t, CUT.tok + 0.15, CUT.tok + 1.9);
   for (let side = 0; side < 2; side++) {
@@ -290,14 +326,14 @@ function sceneTokens(t) {
     text(fmt(val), x, 610, F.disp(900, 128), C.ink, "center", "alphabetic", kIn);
     text(sub, x, 655, F.mono(500, 22), C.mute, "center", "alphabetic", kIn, 2);
   };
-  panel(colX[0], "LANE A · OPUS + SOLARI MCP", 1584023 * kc, C.a, "≈198,000 per task · resends prompt + history");
-  panel(colX[1], "LANE B · GEMINI FLASH + ARC", 40661 * kc, C.b, "≈5,100 per task · goal + tree + last 4 actions");
+  panel(colX[0], `LANE A · ${V.a.short}`, V.tokens[0] * kc, C.a, V.tokenSubs[0]);
+  panel(colX[1], `LANE B · ${V.b.short}`, V.tokens[1] * kc, C.b, V.tokenSubs[1]);
   // 39× slam with shockwave.
   const ks = seg(t, 10.0, 10.3);
   if (ks > 0) {
     const s = lerp(3.2, 1, eOutExpo(ks));
     g.save(); g.translate(W / 2, 900); g.scale(s, s);
-    text("39× FEWER", 0, 0, F.disp(900, 150), C.b, "center", "alphabetic", eOutCubic(ks));
+    text(V.tokenSlam, 0, 0, F.disp(900, 150), C.b, "center", "alphabetic", eOutCubic(ks));
     g.restore();
     ring(W / 2, 850, seg(t, 10.25, 10.8), C.b, 700, 18);
   }
@@ -311,7 +347,7 @@ function sceneCost(t) {
   const base = 900, maxH = 620;
   const stack = (cx, dollars, col, delay, label) => {
     const k = eOutExpo(seg(t, CUT.cost + delay, CUT.cost + delay + 1.1));
-    const hgt = maxH * (dollars / 160) * k;
+    const hgt = maxH * (dollars / Math.max(...V.cost)) * k;
     const chip = 22, n = Math.ceil(hgt / chip);
     for (let i = 0; i < n; i++) {
       const y = base - (i + 1) * chip;
@@ -323,15 +359,15 @@ function sceneCost(t) {
     text(`$${(dollars * k).toFixed(dollars < 10 ? 2 : 0)}`, cx, top - 30, F.disp(900, 110), C.ink, "center", "alphabetic", kIn);
     text(label, cx, base + 60, F.mono(700, 24), col, "center", "alphabetic", kIn, 5);
   };
-  stack(W * 0.33, 160, C.a, 0.1, "LANE A · $0.160 / TASK");
-  stack(W * 0.67, 4.83, C.b, 0.35, "LANE B · $0.0048 / TASK");
+  stack(W * 0.33, V.cost[0], C.a, 0.1, V.costSubs[0]);
+  stack(W * 0.67, V.cost[1], C.b, 0.35, V.costSubs[1]);
   g.strokeStyle = C.rule; g.lineWidth = 2; g.beginPath(); g.moveTo(W * 0.15, base); g.lineTo(W * 0.85, base); g.stroke();
   const ks = seg(t, 12.2, 12.5);
   if (ks > 0) {
     g.save(); g.translate(W * 0.67, 420); g.rotate(-0.06);
     const s = lerp(3, 1, eOutExpo(ks)); g.scale(s, s);
-    text("33×", 0, 0, F.disp(900, 190), C.b, "center", "alphabetic", eOutCubic(ks));
-    text("CHEAPER", 0, 70, F.disp(900, 70), C.ink, "center", "alphabetic", eOutCubic(ks));
+    text(V.costSlam[0], 0, 0, F.disp(900, 190), C.b, "center", "alphabetic", eOutCubic(ks));
+    text(V.costSlam[1], 0, 70, F.disp(900, 70), C.ink, "center", "alphabetic", eOutCubic(ks));
     g.restore();
     sparks(W * 0.67, 360, seg(t, 12.45, 13.1), C.b, 40, 777, 380);
   }
@@ -345,7 +381,7 @@ function shade(hex) {
 function sceneEnd(t) {
   const lt = t - CUT.end;
   grid(0.3 * (1 - seg(t, 14.2, 15)), lt * 30);
-  const pills = [["1.9×", "FASTER"], ["39×", "FEWER TOKENS"], ["33×", "CHEAPER"]];
+  const pills = V.pills;
   pills.forEach(([big, small], i) => {
     const k = eOutBack(seg(t, CUT.end + 0.05 + i * 0.12, CUT.end + 0.5 + i * 0.12), 1.6);
     const x = W / 2 + (i - 1) * 520, y = 330;
@@ -368,8 +404,7 @@ function sceneEnd(t) {
   text("ARC × SOLARI", W / 2, lerp(cy + 20, cy - 36, kt), F.disp(900, 170), C.ink, "center");
   g.restore();
   text("github.com/itw-code/arc-cua", W / 2, cy + 90, F.mono(700, 34), C.b, "center", "alphabetic", kt);
-  text("Opus 5.5 via Claude Code + Solari MCP  vs  Gemini 3.8 Flash + ARC · 8 tasks on Solari browsers · 27 Sep 2026",
-       W / 2, H - 70, F.mono(500, 20), C.mute, "center", "alphabetic", seg(t, CUT.end + 1.0, CUT.end + 1.4));
+  text(V.credit, W / 2, H - 70, F.mono(500, 20), C.mute, "center", "alphabetic", seg(t, CUT.end + 1.0, CUT.end + 1.4));
 }
 
 function render(t) {
@@ -394,7 +429,7 @@ function render(t) {
   if (fade > 0) { g.globalAlpha = fade; g.fillStyle = "#000"; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
 }
 window.render = render;
-window.CUT = CUT; window.TASKS = TASKS; window.RACE_T0 = RACE_T0; window.RACE_SPEED = RACE_SPEED;
+window.CUT = CUT; window.TASKS = TASKS; window.RACE_T0 = RACE_T0; window.RACE_SPEED = RACE_SPEED; window.V = V;
 window.ready = document.fonts.ready.then(() => Promise.all([
   document.fonts.load(F.disp(900, 100)), document.fonts.load(F.disp(800, 100)),
   document.fonts.load(F.mono(700, 20)), document.fonts.load(F.mono(500, 20)), document.fonts.load(F.body(600, 20)),

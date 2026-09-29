@@ -1,0 +1,26 @@
+{
+  "claim_id": {
+    "value": "CLM-2026-448817",
+    "page": 1
+  },
+  "patient_name": {
+    "value": "Dana Whitfield",
+    "page": 1
+  },
+  "date_of_service": {
+    "value": "2026-06-14",
+    "page": 2
+  },
+  "billed_amount": {
+    "value": null,
+    "page": 2
+  },
+  "cpt_code": {
+    "value": null,
+    "page": 2
+  },
+  "denial_code": {
+    "value": "CO-16",
+    "page": 3
+  }
+}

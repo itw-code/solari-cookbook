@@ -164,11 +164,12 @@
         <div class="font-extrabold text-lg tracking-tight leading-none flex items-center gap-1.5">
           ARC <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30 tracking-normal">ON SOLARI</span>
         </div>
-        <div class="text-[10px] font-mono text-muted tracking-[.22em] uppercase mt-1">Reflex + Cortex · 2.31 ms</div>
+        <div class="text-[10px] font-mono text-muted tracking-[.22em] uppercase mt-1">Harness + ARC Index</div>
       </div>
     </a>
     <div class="hidden md:flex items-center gap-5 text-sm text-slate-300 font-medium">
       <a href="#hero" class="hover:text-blue-400 transition-colors">Overview</a>
+      <a href="#measured" class="hover:text-blue-400 transition-colors">Measured</a>
       <a href="#mcp" class="hover:text-blue-400 transition-colors">Claude Code</a>
       <a href="#architecture" class="hover:text-blue-400 transition-colors">Architecture</a>
       <a href="#simulator" class="hover:text-blue-400 transition-colors">Simulator</a>
@@ -180,7 +181,7 @@
     <div class="flex items-center gap-3">
       <span class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-blue-500/10 text-blue-400 border border-blue-500/30">
         <span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
-        234/234 PASS
+        267 TESTS
       </span>
       <a href="explain.html" class="px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20 text-blue-300 font-mono text-xs font-bold transition flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
@@ -202,26 +203,27 @@
       <div class="lg:col-span-7">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card text-xs font-mono text-slate-300 mb-6 border border-blue-500/20">
           <span class="w-2 h-2 rounded-full bg-blue-400"></span>
-          <span>EMPIRICAL RESEARCH EVALUATION</span>
+          <span>MEASURED ON SOLARI · 2026-09-29</span>
           <span class="text-slate-500">|</span>
           <span class="text-blue-400 font-semibold">NOW AN MCP SERVER FOR CLAUDE CODE</span>
         </div>
 
         <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.05] text-white">
-          ARC Architecture
+          ARC on Solari
           <span class="block mt-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-blue-400 to-blue-600">
-            Sub-10ms Reflex on Solari MicroVMs
+            Verified actions, measured
           </span>
         </h1>
 
         <p class="mt-6 text-lg text-slate-300 leading-relaxed max-w-2xl">
-          Monolithic Computer-Using Agents incur a crushing <span class="text-red-400 font-semibold">vision tax</span>: sending high-resolution screenshots over the WAN to frontier LLMs for every keystroke. ARC decouples perception from reasoning by executing directly inside the <strong>Solari MicroVM</strong>: <strong>sub-10ms local reflex execution</strong> with cloud LLM escalation <em>only</em> on verified anomalies.
+          <strong>ARC CUA</strong> is a browser harness for agents: a token-budgeted accessibility tree with <code>[#N]</code> actions, verified by state-change checks and batched fills, on Solari cloud browsers.
+          <strong>ARC Index</strong> builds on it to turn documents into verified actions. Every field needs an evidence quote from the cited row, and a value that can't be proven is left blank instead of typed into the form.
         </p>
 
         <!-- CTA Buttons -->
         <div class="mt-8 flex flex-wrap gap-4">
-          <a href="#simulator" class="px-6 py-3.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-black font-black text-sm tracking-wide transition-all shadow-[0_0_30px_rgba(37,99,235,0.35)] flex items-center gap-2">
-            <span>Explore Cost Simulator</span>
+          <a href="#measured" class="px-6 py-3.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-black font-black text-sm tracking-wide transition-all shadow-[0_0_30px_rgba(37,99,235,0.35)] flex items-center gap-2">
+            <span>See Measured Results</span>
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
           </a>
           <a href="#architecture" class="px-6 py-3.5 rounded-xl glass-card hover:border-blue-500/40 text-slate-200 font-bold text-sm tracking-wide transition-all flex items-center gap-2">
@@ -230,30 +232,22 @@
           </a>
         </div>
 
-        <!-- Three Stat Cards -->
+        <!-- Three Stat Cards (measured, see #measured) -->
         <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- Stat 1 -->
           <div class="p-5 rounded-2xl glass-card glow-primary relative overflow-hidden">
-            <div class="absolute -right-3 -bottom-3 text-blue-500/10 font-mono font-black text-6xl select-none">%</div>
-            <div class="text-3xl sm:text-4xl font-black text-blue-400 tracking-tight">99.69%</div>
-            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Cost Reduction</div>
-            <div class="text-[11px] text-muted mt-1">$0.0015 vs $0.4820 per task</div>
+            <div class="text-3xl sm:text-4xl font-black text-blue-400 tracking-tight">8.4×</div>
+            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Cheaper per appeal</div>
+            <div class="text-[11px] text-muted mt-1">$0.00305 vs $0.02575 · ARC Index vs traditional agent</div>
           </div>
-
-          <!-- Stat 2 -->
           <div class="p-5 rounded-2xl glass-card relative overflow-hidden border border-teal-500/30">
-            <div class="absolute -right-3 -bottom-3 text-teal-500/10 font-mono font-black text-6xl select-none">ms</div>
-            <div class="text-3xl sm:text-4xl font-black text-blue-300 tracking-tight">2.31 ms</div>
-            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Reflex Step Latency</div>
-            <div class="text-[11px] text-muted mt-1">99.90% faster than cloud LLM</div>
+            <div class="text-3xl sm:text-4xl font-black text-blue-300 tracking-tight">24 / 24</div>
+            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">vs 21/24 on Solari MCP</div>
+            <div class="text-[11px] text-muted mt-1">Same model · 3.3× cheaper per task</div>
           </div>
-
-          <!-- Stat 3 -->
           <div class="p-5 rounded-2xl glass-card relative overflow-hidden border border-slate-700">
-            <div class="absolute -right-3 -bottom-3 text-slate-500/10 font-mono font-black text-6xl select-none">234</div>
-            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">234 / 234</div>
-            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Verified Tests</div>
-            <div class="text-[11px] text-blue-400 font-mono mt-1">+1 opt-in live Solari test</div>
+            <div class="text-3xl sm:text-4xl font-black text-white tracking-tight">16 → 0</div>
+            <div class="text-xs uppercase font-mono tracking-wider text-slate-300 font-bold mt-1">Wrong values let through</div>
+            <div class="text-[11px] text-blue-400 font-mono mt-1">Forced pick, two denied lines</div>
           </div>
         </div>
       </div>
@@ -267,14 +261,14 @@
               <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
               <span class="w-3 h-3 rounded-full bg-blue-500/80 inline-block"></span>
               <span class="w-3 h-3 rounded-full bg-blue-500/80 inline-block"></span>
-              <span class="ml-2 text-slate-300 font-semibold">arc-telemetry.log</span>
+              <span class="ml-2 text-slate-300 font-semibold">arc-trace (illustrative)</span>
             </div>
-            <span class="text-blue-400 font-bold">● LIVE STREAM</span>
+            <span class="text-amber-300 font-bold">● MOCK TRACE</span>
           </div>
 
           <!-- Telemetry Stream Content -->
           <div class="space-y-2 text-slate-300 leading-relaxed overflow-x-auto">
-            <div class="text-slate-500">// MicroVM initialized: ephemeral Firecracker UDS</div>
+            <div class="text-slate-500">// Illustrative trace from the mock design model (not timed on Solari)</div>
             <div><span class="text-blue-400">[0.018ms]</span> <span class="text-blue-300">AT-SPI2 D-Bus:</span> Accessible desktop tree serialized</div>
             <div><span class="text-blue-400">[0.024ms]</span> <span class="text-blue-300">CDP AXTree:</span> Sanitized DOM accessibility tree (41 nodes)</div>
             <div><span class="text-blue-400">[1.050ms]</span> <span class="text-slate-200">ReflexRunner:</span> Public Playwright click <span class="text-blue-300">#checkout-btn</span></div>
@@ -289,14 +283,85 @@
                 <span>Escalate: <strong class="text-blue-400">NO (98% Local)</strong></span>
               </div>
             </div>
-            <div class="pt-2 text-slate-500">// Production benchmark execution</div>
-            <div><span class="text-blue-400">→ WebArena tasks:</span> 100% success (SER = 0.80)</div>
-            <div><span class="text-blue-400">→ OSWorld tasks:</span> 100% success (0.05ms AT-SPI)</div>
-            <div class="text-blue-400 font-bold">[PASS] Overall scorecard: 10/10 tasks complete | Wall time: 7.89s</div>
+            <div class="pt-2 text-slate-500">// Measured on Solari, 2026-09-29</div>
+            <div><span class="text-blue-400">→ fill_many:</span> 7 fields in one call, 386 ms</div>
+            <div><span class="text-blue-400">→ appeal filed:</span> 11.4 s (traditional agent: 89 s)</div>
+            <div class="text-blue-400 font-bold">[PASS] wrong values let through: 0 · confirmation matched</div>
           </div>
         </div>
       </div>
 
+    </div>
+  </section>
+
+
+  <!-- ========================================================================= -->
+  <!-- 1a. MEASURED RESULTS (live runs on Solari, 2026-09-27/29)                 -->
+  <!-- ========================================================================= -->
+  <section id="measured" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Live runs on Solari cloud browsers</div>
+      <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Measured results</h2>
+      <p class="mt-4 text-slate-300">Two products, both measured against the usual way of doing the same job, with the same model on the same
+        Solari browsers. Result files: <a class="underline" href="https://github.com/itw-code/arc-cua/tree/feat/gemini-harness-reel/artifacts/benchmarks">artifacts/benchmarks</a>.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="glass-card rounded-2xl p-6">
+        <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase">ARC CUA · browser harness</div>
+        <h3 class="text-xl font-bold text-white mt-1">vs Solari's own MCP, same model</h3>
+        <p class="text-xs text-muted mt-1">Gemini 3.8 Flash as a tool-calling agent over <code>@solarisdk/mcp</code>, or through ARC · 8 tasks × 3 runs</p>
+        <table class="w-full mt-4 text-sm">
+          <thead><tr class="text-left text-xs font-mono text-muted uppercase"><th class="py-2"></th><th class="py-2 text-right">Solari MCP</th><th class="py-2 text-right">ARC</th></tr></thead>
+          <tbody class="divide-y divide-white/5">
+            <tr><td class="py-2 text-slate-300">Success</td><td class="py-2 text-right">21/24</td><td class="py-2 text-right font-bold text-blue-300">24/24</td></tr>
+            <tr><td class="py-2 text-slate-300">Input tokens, 24 runs</td><td class="py-2 text-right">458,546</td><td class="py-2 text-right font-bold text-blue-300">122,034 <span class="text-muted font-normal">(3.8×)</span></td></tr>
+            <tr><td class="py-2 text-slate-300">Model + browser, per 1,000 tasks</td><td class="py-2 text-right">$16.01</td><td class="py-2 text-right font-bold text-blue-300">$4.84 <span class="text-muted font-normal">(3.3×)</span></td></tr>
+            <tr><td class="py-2 text-slate-300">Sum of medians, 7 tasks both pass</td><td class="py-2 text-right">133.7 s</td><td class="py-2 text-right font-bold text-blue-300">110.6 s</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-muted mt-3">Google Flights: 0/3 for the tool-calling agent, 3/3 for ARC. <a class="underline" href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/BENCHMARK_VS_SOLARI_MCP.md">Part E</a></p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase">ARC Index · documents → verified actions</div>
+        <h3 class="text-xl font-bold text-white mt-1">vs a traditional browser agent, same denial appeal</h3>
+        <p class="text-xs text-muted mt-1">Same letters, same portal, Solari browsers on both sides · Gemini 3.8 Flash, n=10 appeals each</p>
+        <table class="w-full mt-4 text-sm">
+          <thead><tr class="text-left text-xs font-mono text-muted uppercase"><th class="py-2">Per appeal</th><th class="py-2 text-right">Traditional</th><th class="py-2 text-right">ARC Index</th></tr></thead>
+          <tbody class="divide-y divide-white/5">
+            <tr><td class="py-2 text-slate-300">Input tokens</td><td class="py-2 text-right">26,955</td><td class="py-2 text-right font-bold text-blue-300">1,209 <span class="text-muted font-normal">(22×)</span></td></tr>
+            <tr><td class="py-2 text-slate-300">Model + browser cost</td><td class="py-2 text-right">$0.02575</td><td class="py-2 text-right font-bold text-blue-300">$0.00305 <span class="text-muted font-normal">(8.4×)</span></td></tr>
+            <tr><td class="py-2 text-slate-300">Wall time, mean</td><td class="py-2 text-right">89 s</td><td class="py-2 text-right font-bold text-blue-300">11.4 s <span class="text-muted font-normal">(7.8×)</span></td></tr>
+            <tr><td class="py-2 text-slate-300">Right / wrong, of 60 fields</td><td class="py-2 text-right">49 / 0</td><td class="py-2 text-right font-bold text-blue-300">49 / 0</td></tr>
+          </tbody>
+        </table>
+        <p class="text-xs text-muted mt-3">Forced to pick between two denied lines, wrong values let through: 16 (old check) → <strong class="text-blue-300">0</strong> (uniqueness rule), Claude Sonnet 5.5, n=8.
+          <a class="underline" href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/ARC_INDEX_PLAN.md">Plan §10–11</a></p>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6 mt-8">
+        <figure class="glass-card rounded-2xl overflow-hidden">
+          <video class="w-full block" src="artifacts/arc-index-economics-showreel.mp4" poster="artifacts/arc-index-economics-showreel-poster.jpg" controls preload="none" playsinline></video>
+          <figcaption class="p-4"><div class="font-bold text-white text-sm">Economics: traditional agent vs ARC Index</div>
+            <div class="text-xs text-muted mt-1">8.4× cheaper and 7.8× faster per appeal, same accuracy</div></figcaption>
+        </figure>
+        <figure class="glass-card rounded-2xl overflow-hidden">
+          <video class="w-full block" src="artifacts/arc-index-benchmark-showreel.mp4" poster="artifacts/arc-index-benchmark-showreel-poster.jpg" controls preload="none" playsinline></video>
+          <figcaption class="p-4"><div class="font-bold text-white text-sm">Wrong values let through</div>
+            <div class="text-xs text-muted mt-1">A confident pick between two denied lines, and the rule that rejects it</div></figcaption>
+        </figure>
+        <figure class="glass-card rounded-2xl overflow-hidden">
+          <video class="w-full block" src="artifacts/arc-index-showreel.mp4" poster="artifacts/arc-index-showreel-poster.jpg" controls preload="none" playsinline></video>
+          <figcaption class="p-4"><div class="font-bold text-white text-sm">ARC Index: one value, letter to receipt</div>
+            <div class="text-xs text-muted mt-1">Cited row, batched fill on Solari, SimHash check, receipt</div></figcaption>
+        </figure>
+        <figure class="glass-card rounded-2xl overflow-hidden">
+          <video class="w-full block" src="artifacts/gemini-harness-showreel.mp4" poster="artifacts/gemini-harness-showreel-poster.jpg" controls preload="none" playsinline></video>
+          <figcaption class="p-4"><div class="font-bold text-white text-sm">Same model, two harnesses</div>
+            <div class="text-xs text-muted mt-1">Gemini 3.8 Flash on Solari's MCP vs on ARC</div></figcaption>
+        </figure>
     </div>
   </section>
 
@@ -440,6 +505,13 @@
   <!-- 2. ARCHITECTURE DIAGRAM SECTION                                          -->
   <!-- ========================================================================= -->
   <section id="architecture" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+
+    <div class="mb-8 p-4 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 text-sm leading-relaxed">
+      <strong class="font-mono text-xs uppercase tracking-wider text-amber-300">Design model, not live results.</strong>
+      The figures in this section (routing percentages, per-step costs and latencies) come from the repo's mock-execution scorecard
+      (<code>PROJECTED_BASED_ON_MOCK_EXECUTION</code>). The in-VM runner they assume is not built yet.
+      For live-run numbers, see <a href="#measured" class="underline text-amber-100">Measured results</a>.
+    </div>
     <div class="text-center max-w-3xl mx-auto mb-12">
       <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Hierarchical Execution</div>
       <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Reflex + Cortex Cascading Architecture</h2>
@@ -628,7 +700,7 @@
           <svg class="w-4 h-4 text-blue-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span>
             <strong>VISUALIZED BENCHMARK — PROJECTED_BASED_ON_MOCK_EXECUTION.</strong>
-            Timing behavior is animated from the empirical parameters recorded in <code class="text-blue-200">artifacts/production/final_scorecard.json</code> (aggregate Reflex step: 2.31 ms; frontier baseline: &gt;2,500 ms per step). Per-step rows are illustrative and normalized to those published aggregates; the browser does not measure these durations itself.
+            Timing behavior is animated from the mock-scorecard parameters recorded in <code class="text-blue-200">artifacts/production/final_scorecard.json</code> (aggregate Reflex step: 2.31 ms; frontier baseline: &gt;2,500 ms per step). Per-step rows are illustrative and normalized to those published aggregates; the browser does not measure these durations itself.
           </span>
         </div>
 
@@ -789,11 +861,18 @@
   <!-- 3. INTERACTIVE COST & LATENCY SIMULATOR                                  -->
   <!-- ========================================================================= -->
   <section id="simulator" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+
+    <div class="mb-8 p-4 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 text-sm leading-relaxed">
+      <strong class="font-mono text-xs uppercase tracking-wider text-amber-300">Design model, not live results.</strong>
+      The figures in this section ($0.0015 vs $0.4820 per task, 2.31 ms vs 2,850 ms per step) come from the repo's mock-execution scorecard
+      (<code>PROJECTED_BASED_ON_MOCK_EXECUTION</code>). The in-VM runner they assume is not built yet.
+      For live-run numbers, see <a href="#measured" class="underline text-amber-100">Measured results</a>.
+    </div>
     <div class="text-center max-w-3xl mx-auto mb-12">
       <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Live Economic Model</div>
       <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Interactive Cost &amp; Latency Simulator</h2>
       <p class="mt-3 text-slate-400 text-sm sm:text-base">
-        Adjust the slider to simulate task volume and observe real cost divergence between monolithic frontier LLMs and Arc Hybrid execution, parameterized with empirical metrics from <code class="text-blue-300 font-mono">FINAL_RESEARCH_REPORT.md</code>.
+        Adjust the slider to simulate task volume and see the cost divergence the design model predicts between monolithic frontier LLMs and Arc Hybrid execution, parameterized with the mock-scorecard figures from <code class="text-blue-300 font-mono">FINAL_RESEARCH_REPORT.md</code>.
       </p>
     </div>
 
@@ -903,12 +982,19 @@
   <!-- 4. BENCHMARK RESULTS SECTION                                             -->
   <!-- ========================================================================= -->
   <section id="benchmarks" class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-white/5">
+
+    <div class="mb-8 p-4 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-200 text-sm leading-relaxed">
+      <strong class="font-mono text-xs uppercase tracking-wider text-amber-300">Design model, not live results.</strong>
+      The figures in this section (WebArena and OSWorld 100% success, per-task costs) come from the repo's mock-execution scorecard
+      (<code>PROJECTED_BASED_ON_MOCK_EXECUTION</code>). The in-VM runner they assume is not built yet.
+      For live-run numbers, see <a href="#measured" class="underline text-amber-100">Measured results</a>.
+    </div>
     <div class="text-center max-w-3xl mx-auto mb-12">
       <div class="text-xs font-mono font-bold tracking-widest text-blue-400 uppercase mb-2">Standardized Evaluation</div>
       <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Autonomous Benchmark Results</h2>
       <p class="mt-3 text-slate-400 text-sm sm:text-base">
-        Empirical evaluation comparing Arc Hybrid against leading autonomous agents on industry-standard WebArena (web automation) and OSWorld (desktop automation).
-        Task definitions follow Zhou et al. (WebArena) and Xie et al. (OSWorld) — see <a class="underline decoration-blue-500/50 text-blue-300 hover:text-blue-200" href="./docs/REFERENCES.md">docs/REFERENCES.md</a>.
+        Mock-execution evaluation comparing Arc Hybrid against leading autonomous agents on industry-standard WebArena (web automation) and OSWorld (desktop automation).
+        Task definitions follow Zhou et al. (WebArena) and Xie et al. (OSWorld) — see <a class="underline decoration-blue-500/50 text-blue-300 hover:text-blue-200" href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/REFERENCES.md">docs/REFERENCES.md</a>.
         Repository-measured figures (2.31 ms avg latency, $0.0015/task, 100% mock success) come from this repo's scorecard, not from those papers; external GPT-4o/Sonnet rows are this repo's recorded comparison values, not paper results.
       </p>
       <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-mono">
@@ -1293,7 +1379,7 @@
             <h3 class="text-lg font-bold text-white">Full-Scale Benchmark Scaling &amp; Architecture Report</h3>
             <p class="text-xs text-slate-400 mt-1">Resumable JSONL runners, ModernBERT training pipeline, and 6-section research whitepaper.</p>
             <div class="mt-2 inline-flex items-center gap-2 text-xs font-mono text-slate-300">
-              <span class="text-blue-400 font-semibold">Cost Reduction: 99.69%</span> · <span>Latency: -99.90%</span>
+              <span class="text-blue-400 font-semibold">Cost Reduction: 99.69%</span> · <span>Latency: -99.90%</span> <span class="text-amber-300">(mock scorecard; measured: 8.4× cheaper per appeal)</span>
             </div>
           </div>
           <div class="absolute left-4 sm:left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-panel border-2 border-blue-400 grid place-items-center text-blue-400 z-10 shadow-[0_0_15px_rgba(37,99,235,0.5)]"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></div>
@@ -1403,7 +1489,7 @@
         <div>pip install -e ".[mcp]"</div>
         <div><span class="text-slate-500"># Verify all 234 unit and integration tests</span></div>
         <div>pytest tests/</div>
-        <div><span class="text-slate-500"># Run production scorecard evaluation</span></div>
+        <div><span class="text-slate-500"># Run the mock scorecard (live benchmarks: see README)</span></div>
         <div>python scripts/report_production.py</div>
         <div><span class="text-slate-500"># Use it from Claude Code</span></div>
         <div>claude mcp add --scope user arc -- arc-cua-mcp</div>
@@ -1413,10 +1499,10 @@
         <a href="#simulator" class="px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)]">
           Launch Simulator ↑
         </a>
-        <a href="./docs/CHANGELOG.md" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">
+        <a href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/CHANGELOG.md" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">
           Read Full Changelog
         </a>
-        <a href="./docs/REFERENCES.md" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">
+        <a href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/REFERENCES.md" class="px-6 py-3 rounded-xl glass-card text-white font-bold text-xs uppercase tracking-wider hover:border-blue-500/40 transition-all">
           Research References
         </a>
       </div>
@@ -1435,7 +1521,7 @@
         All repository-measured figures (2.31 ms avg latency, $0.0015/task, 100% mock success, 94.2%/98.1%/100% monitor rates) are this repository's own scorecard results — not published-paper results.
       </p>
       <div class="mt-4 inline-flex items-start gap-2 px-3 py-2 rounded-lg bg-blue-500/5 border border-blue-500/25 text-blue-300 text-[11px] font-mono text-left">
-        <span><strong>STATUS: PROJECTED_BASED_ON_MOCK_EXECUTION.</strong> External GPT-4o/Sonnet comparison rows are this repo's recorded baselines, not paper-measured values. Full provenance with verification status in <a class="underline decoration-amber-500/50 hover:text-blue-200" href="./docs/REFERENCES.md">docs/REFERENCES.md</a>.</span>
+        <span><strong>STATUS: PROJECTED_BASED_ON_MOCK_EXECUTION.</strong> External GPT-4o/Sonnet comparison rows are this repo's recorded baselines, not paper-measured values. Full provenance with verification status in <a class="underline decoration-amber-500/50 hover:text-blue-200" href="https://github.com/itw-code/arc-cua/blob/feat/gemini-harness-reel/docs/REFERENCES.md">docs/REFERENCES.md</a>.</span>
       </div>
     </div>
 
@@ -1478,7 +1564,7 @@
         </svg>
         <div class="text-left leading-tight">
           <div class="font-extrabold text-slate-200 text-sm tracking-tight">ARC</div>
-          <div class="tracking-[.2em] uppercase text-[10px]">Reflex + Cortex · 2.31 ms</div>
+          <div class="tracking-[.2em] uppercase text-[10px]">Harness + ARC Index</div>
         </div>
       </div>
       <div class="text-center sm:text-right">

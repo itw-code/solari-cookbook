@@ -1,0 +1,310 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>ARC Index Economics</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+html,body{margin:0;height:100%;background:#EEE6D6;overflow:hidden}
+canvas{position:absolute;inset:0;margin:auto;width:min(100vw,177.78vh);height:min(56.25vw,100vh)}
+</style></head><body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// ARC Index economics reel: 15 s, every pixel a pure function of t (window.render(t)).
+// A traditional browser agent vs ARC Index on the same denial appeal, same Solari browsers.
+// Measured numbers only: artifacts/benchmarks/appeal/summary.json (scripts/benchmark_appeal_baseline.py).
+const W = 1920, H = 1080, DUR = 15;
+const C = {
+  paper: '#EEE6D6', paper2: '#E3D8C2', card: '#FBF8F1', ink: '#16181F', ink2: '#6B665C',
+  red: '#E0452B', redHot: '#FF7B55', blue: '#2449D8', bar: '#D3C9B6', ok: '#1F7A4D',
+};
+const F = {
+  s: (px, it) => `${it ? 'italic ' : ''}400 ${px}px "Instrument Serif"`,
+  m: (w, px) => `${w} ${px}px "IBM Plex Mono"`,
+  u: (w, px) => `${w} ${px}px "Instrument Sans"`,
+};
+
+// ---------- helpers (as in media/arc-index-reel/reel.html) ----------
+function rng(s) { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); }
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eo = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eb = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+
+let g;
+function T(s, x, y, font, color, o = {}) {
+  const a = o.a ?? 1; if (a <= 0) return;
+  g.save(); g.globalAlpha *= a; g.font = font; g.fillStyle = color;
+  g.textAlign = o.align || 'left'; g.textBaseline = o.base || 'alphabetic'; g.letterSpacing = (o.ls || 0) + 'px';
+  g.fillText(s, x, y); g.restore();
+}
+function tw(s, font, ls = 0) { g.save(); g.font = font; g.letterSpacing = ls + 'px'; const w = g.measureText(s).width; g.restore(); return w; }
+function rr(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+function rise(s, x, y, font, color, px, p, out = 0, a = 1) {
+  if (p <= 0 || out >= 1) return;
+  const w = tw(s, font);
+  g.save(); g.beginPath(); g.rect(x - 30, y - px * 1.02, w + 80, px * 1.32); g.clip();
+  T(s, x, y + px * 1.05 * (1 - eo(p)) - px * 1.3 * eio(out), font, color, { a });
+  g.restore();
+}
+function headline(t, words, x, y, px, t0, st, out = 0) {
+  let cx = x; const sp = tw(' ', F.s(px));
+  words.forEach((w, i) => {
+    const o = typeof w === 'string' ? { s: w } : w; const f = F.s(px, o.it);
+    rise(o.s, cx, y, f, o.c || C.ink, px, seg(t, t0 + i * st, t0 + i * st + .6), out);
+    cx += tw(o.s, f) + sp;
+  });
+  return cx - x;
+}
+function slam(drawFn, x, y, p, rot = 0, sc0 = 2.3) {
+  if (p <= 0) return;
+  const e = eo(p), s = lerp(sc0, 1, e), off = (1 - e) * 30;
+  g.save(); g.translate(x, y); g.rotate(rot); g.scale(s, s); g.globalAlpha *= clamp(p * 5);
+  g.save(); g.globalCompositeOperation = 'multiply'; g.translate(-off, off * .5); drawFn(C.blue, .7 * (1 - e)); g.restore();
+  g.save(); g.globalCompositeOperation = 'multiply'; g.translate(off, -off * .5); drawFn(C.redHot, .7 * (1 - e)); g.restore();
+  drawFn(null, 1);
+  g.restore();
+}
+// A hand-drawn outline around a box, drawn along its perimeter as p goes 0 -> 1.
+function outline(x, y, w, h, p, color, lw = 5, dash = null) {
+  if (p <= 0) return;
+  const P = 2 * (w + h), L = P * eio(p);
+  g.save(); g.strokeStyle = color; g.lineWidth = lw; g.lineCap = 'round'; g.lineJoin = 'round';
+  if (dash) g.setLineDash(dash);
+  let px = x, py = y, left = L;
+  g.beginPath(); g.moveTo(px, py);
+  for (const [dx, dy, len] of [[1, 0, w], [0, 1, h], [-1, 0, w], [0, -1, h]]) {
+    const d = Math.min(left, len);
+    px += dx * d; py += dy * d; g.lineTo(px, py);
+    left -= d; if (left <= 0) break;
+  }
+  g.stroke(); g.restore();
+}
+function check(x, y, s, p, color) {    // a tick mark drawn on
+  if (p <= 0) return;
+  g.save(); g.strokeStyle = color; g.lineWidth = s * .16; g.lineCap = 'round'; g.lineJoin = 'round';
+  const a = [x - s * .42, y], b = [x - s * .1, y + s * .32], c = [x + s * .45, y - s * .38];
+  const q = eio(p), l1 = .4;
+  g.beginPath(); g.moveTo(...a);
+  if (q < l1) g.lineTo(lerp(a[0], b[0], q / l1), lerp(a[1], b[1], q / l1));
+  else { g.lineTo(...b); const r = (q - l1) / (1 - l1); g.lineTo(lerp(b[0], c[0], r), lerp(b[1], c[1], r)); }
+  g.stroke(); g.restore();
+}
+function cross(x, y, s, p, color) {
+  if (p <= 0) return;
+  g.save(); g.strokeStyle = color; g.lineWidth = s * .16; g.lineCap = 'round';
+  const q1 = eio(clamp(p * 2)), q2 = eio(clamp(p * 2 - 1)), r = s * .38;
+  g.beginPath(); g.moveTo(x - r, y - r); g.lineTo(x - r + 2 * r * q1, y - r + 2 * r * q1);
+  if (q2 > 0) { g.moveTo(x + r, y - r); g.lineTo(x + r - 2 * r * q2, y - r + 2 * r * q2); }
+  g.stroke(); g.restore();
+}
+
+// ---------- background: paper, drifting light, dot grid ----------
+const GRAIN = [0, 1, 2, 3].map(k => {
+  const c = document.createElement('canvas'); c.width = c.height = 512; const x = c.getContext('2d');
+  const d = x.createImageData(512, 512);
+  for (let i = 0; i < 512 * 512; i++) { const v = 128 + (rng(i * .731 + k * 977.1) - .5) * 180; d.data[i * 4] = d.data[i * 4 + 1] = d.data[i * 4 + 2] = v; d.data[i * 4 + 3] = 255; }
+  x.putImageData(d, 0, 0); return c;
+});
+function drawPaper(t) {
+  g.setTransform(1, 0, 0, 1, 0, 0);
+  g.fillStyle = C.paper; g.fillRect(0, 0, W, H);
+  const lx = 960 + Math.sin(t * .35) * 460, ly = 420 + Math.cos(t * .27) * 180;
+  let gr = g.createRadialGradient(lx, ly, 0, lx, ly, 1150);
+  gr.addColorStop(0, 'rgba(255,252,244,.9)'); gr.addColorStop(1, 'rgba(255,252,244,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  const bx = 1500 - Math.sin(t * .22) * 300;
+  gr = g.createRadialGradient(bx, 980, 0, bx, 980, 900);
+  gr.addColorStop(0, 'rgba(214,160,110,.16)'); gr.addColorStop(1, 'rgba(214,160,110,0)'); g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  const sp = 44, ox = (t * 6) % sp, breathe = .75 + .25 * Math.sin(t * 2.1);
+  g.fillStyle = `rgba(22,24,31,${.09 * breathe})`;
+  for (let x = -ox; x < W; x += sp) for (let y = 22; y < H; y += sp) g.fillRect(x, y, 2.4, 2.4);
+}
+
+// ---------- measured data (artifacts/benchmarks/appeal/summary.json, 2026-09-29) ----------
+// Gemini 3.8 Flash, API usage, n=10 appeals per harness (2 letters x 5), Solari cloud browsers.
+// Sonnet 5.5 via Claude Code subagents: tokens estimated chars/4 as a bare API loop would bill.
+const D = {
+  base: { tokens: 26955, model: 0.022025, total: 0.025753, secs: 89.47, calls: 11.7, ok: 49 },
+  arc:  { tokens: 1209,  model: 0.002573, total: 0.003049, secs: 11.43, calls: 1,    ok: 49 },
+  sonnet: { base: 0.02201, arc: 0.005236 },
+  fields: 60,
+};
+const fmt$ = (v, d = 4) => '$' + v.toFixed(d);
+const fmtN = v => Math.round(v).toLocaleString('en-US');
+
+// ---------- persistent chrome ----------
+function drawChrome(t) {
+  const a = seg(t, .3, .8) * (1 - seg(t, 13.0, 13.3));
+  T('ARC INDEX · ECONOMICS · DENIAL APPEAL', 90, 84, F.m(500, 24), C.ink2, { a, ls: 3 });
+  T('MEASURED 2026-09-29 · SOLARI', W - 90, 84, F.m(500, 24), C.ink2, { a, ls: 3, align: 'right' });
+  if (a > 0) { g.save(); g.globalAlpha = a; g.fillStyle = C.ink; g.fillRect(90, 104, (W - 180) * eio(seg(t, .3, 1.2)), 2); g.restore(); }
+}
+
+// ---------- A. title (0 - 2.7) ----------
+function drawTitle(t) {
+  if (t > 3.0) return;
+  const out = seg(t, 2.35, 2.8);
+  headline(t, ['Same', 'letter.'], 90, 400, 170, .35, .12, out);
+  headline(t, ['Same', 'portal.'], 90, 580, 170, .6, .12, out);
+  headline(t, [{ s: 'Two', it: true, c: C.red }, { s: 'harnesses.', it: true, c: C.red }], 90, 760, 170, .9, .12, out);
+  rise('a traditional browser agent vs ARC Index, on the same Solari cloud browser', 96, 880, F.m(500, 28), C.ink2, 28, seg(t, 1.3, 1.8), out);
+}
+
+// ---------- B. the race (2.7 - 7.5) ----------
+const BASE_STEPS = ['read_page', 'evaluate', 'type', 'type', 'type', 'type', 'type', 'type', 'type', 'evaluate', 'click', 'read_page'];
+function lane(t, y, title, sub, steps, t0, t1, tokens, secs, col, note) {
+  const a = seg(t, t0 - .5, t0 - .1); if (a <= 0) return;
+  rise(title, 90, y, F.m(600, 32), C.ink, 32, a);
+  rise(sub, 90, y + 40, F.s(34, true), C.ink2, 34, seg(t, t0 - .4, t0));
+  // blocks: one per model turn / call
+  const x0 = 90, bw = 92, gap = 10, by = y + 80;
+  steps.forEach((s, k) => {
+    const tk = lerp(t0, t1, (k + 1) / steps.length), p = seg(t, tk - .12, tk + .05);
+    if (p <= 0) return;
+    const w = s.w || bw;
+    const x = x0 + (s.x ?? k * (bw + gap));
+    g.save(); g.globalAlpha *= eo(p); g.translate(0, (1 - eb(p)) * 18);
+    rr(x, by, w, 64, 8); g.fillStyle = s.fill || C.card; g.fill();
+    g.strokeStyle = col; g.lineWidth = 2.5; g.stroke();
+    T(s.label || s, x + w / 2, by + 40, F.m(500, s.w ? 22 : 17), s.ink || C.ink, { align: 'center' });
+    g.restore();
+  });
+  // counters: tokens re-read so far and seconds
+  const p = seg(t, t0, t1);
+  if (p > 0) {
+    const cx = 1640;
+    T(fmtN(tokens * eio(p)), cx, y + 20, F.s(96), col, { align: 'right' });
+    T('input tokens', cx + 16, y + 20, F.m(500, 24), C.ink2);
+    T(`${(secs * eio(p)).toFixed(secs < 20 ? 1 : 0)} s`, cx, y + 100, F.s(72), C.ink, { align: 'right' });
+    T('per appeal', cx + 16, y + 100, F.m(500, 24), C.ink2);
+  }
+  if (note) T(note, 90, by + 110, F.m(400, 22), C.ink2, { a: seg(t, t1 - .3, t1) });
+}
+function drawRace(t) {
+  if (t < 2.4 || t > 7.8) return;
+  const out = eio(seg(t, 7.2, 7.7));
+  g.save(); g.globalAlpha *= 1 - out; g.translate(0, -out * 60);
+  lane(t, 200, 'TRADITIONAL AGENT', 'the model reads the letter and drives the browser, one tool call per turn',
+    BASE_STEPS, 3.1, 6.6, D.base.tokens, D.base.secs, C.red,
+    'each turn resends the whole conversation · 11.7 tool calls on average · nothing checks what it types');
+  lane(t, 620, 'ARC INDEX', 'one extraction call, checked against the letter, then one batched fill',
+    [{ label: 'extract · 1 call', w: 300, x: 0 }, { label: 'ground-check', w: 250, x: 312, fill: C.ink, ink: C.card },
+     { label: 'fill_many × 7 + submit', w: 380, x: 574 }],
+    3.1, 4.3, D.arc.tokens, D.arc.secs, C.blue,
+    'evidence quote, row rules, uniqueness · ambiguous fields rejected before the browser');
+  g.restore();
+}
+
+// ---------- C. the economics (7.6 - 11.3) ----------
+function drawEcon(t) {
+  if (t < 7.5 || t > 11.6) return;
+  const out = eio(seg(t, 11.0, 11.45));
+  g.save(); g.globalAlpha *= 1 - out; g.translate(0, -out * 60);
+  headline(t, ['Per', 'appeal', { s: 'filed', it: true }], 90, 250, 110, 7.6, .09);
+  rise('GEMINI 3.8 FLASH · n=10 EACH · MEASURED API USAGE', 96, 312, F.m(600, 26), C.ink2, 26, seg(t, 7.8, 8.2));
+  T('TRADITIONAL', 1060, 392, F.m(600, 24), C.red, { a: seg(t, 7.9, 8.2), align: 'right', ls: 2 });
+  T('ARC INDEX', 1400, 392, F.m(600, 24), C.blue, { a: seg(t, 7.9, 8.2), align: 'right', ls: 2 });
+  const rows = [
+    ['input tokens', fmtN(D.base.tokens), fmtN(D.arc.tokens), '22× fewer'],
+    ['model cost', fmt$(D.base.model, 5), fmt$(D.arc.model, 5), '8.6× less'],
+    ['+ browser time', fmt$(D.base.total, 5), fmt$(D.arc.total, 5), '8.4× less'],
+    ['wall time', `${D.base.secs.toFixed(0)} s`, `${D.arc.secs.toFixed(1)} s`, '7.8× faster'],
+  ];
+  rows.forEach(([k, b, a, x], i) => {
+    const y = 470 + i * 112, p = seg(t, 8.1 + i * .3, 8.6 + i * .3); if (p <= 0) return;
+    g.fillStyle = C.bar; g.fillRect(90, y + 36, (W - 180) * eio(p), 2);
+    rise(k, 96, y, F.m(500, 32), C.ink, 32, p);
+    rise(b, 1060 - tw(b, F.s(72)), y + 8, F.s(72), C.red, 72, p);
+    rise(a, 1400 - tw(a, F.s(72)), y + 8, F.s(72), C.blue, 72, seg(t, 8.25 + i * .3, 8.75 + i * .3));
+    rise(x, 1500, y + 4, F.s(56, true), C.ink, 56, seg(t, 8.45 + i * .3, 8.95 + i * .3));
+  });
+  rise(`Claude Sonnet 5.5 (Claude Code subagents, tokens estimated): model cost ${fmt$(D.sonnet.base)} → ${fmt$(D.sonnet.arc)}, 4.2× less`,
+    96, 1000, F.m(500, 24), C.ink2, 24, seg(t, 9.9, 10.3));
+  g.restore();
+}
+
+// ---------- D. at volume, and accuracy (11.3 - 13.2) ----------
+function drawVolume(t) {
+  if (t < 11.2 || t > 13.4) return;
+  const out = eio(seg(t, 12.85, 13.25));
+  g.save(); g.globalAlpha *= 1 - out;
+  rise('PER 1,000 APPEALS · MODEL + BROWSER', 96, 290, F.m(600, 28), C.ink2, 28, seg(t, 11.35, 11.7), out);
+  const p = eio(seg(t, 11.45, 12.1));
+  T(fmt$(D.base.total * 1000 * p, 2), 90, 520, F.s(200), C.red, { a: seg(t, 11.4, 11.6) });
+  T('traditional', 96, 580, F.m(500, 28), C.ink2, { a: seg(t, 11.5, 11.8) });
+  T(fmt$(D.arc.total * 1000 * p, 2), 900, 520, F.s(200), C.blue, { a: seg(t, 11.5, 11.7) });
+  T('ARC Index', 906, 580, F.m(500, 28), C.ink2, { a: seg(t, 11.6, 11.9) });
+  rise(`Both got ${D.base.ok}/${D.fields} fields right and let 0 wrong values through.`, 96, 740, F.s(52, true), C.ink, 52, seg(t, 12.0, 12.4), out);
+  rise('The agent was told to leave ambiguous fields blank, and did. ARC rejects them by rule.', 96, 810, F.m(500, 28), C.ink2, 28, seg(t, 12.15, 12.55), out);
+  g.restore();
+}
+
+// ---------- E. end card (13.2 - 15) ----------
+function drawEnd(t) {
+  if (t < 13.1) return;
+  const p0 = seg(t, 13.2, 13.7);
+  if (p0 > 0) {
+    const f = F.s(430);
+    g.save(); g.beginPath(); g.rect(0, 250, 900, 640); g.clip();
+    T('8.4×', 80, 700 + (1 - eo(p0)) * 480, f, C.red);
+    g.restore();
+  }
+  headline(t, ['cheaper'], 900, 470, 130, 13.45, .1);
+  headline(t, [{ s: 'per', it: true }, { s: 'appeal.', it: true }], 900, 610, 130, 13.6, .1);
+  rise('7.8× faster · 22× fewer input tokens · same accuracy', 906, 700, F.m(500, 30), C.ink, 30, seg(t, 13.95, 14.35));
+  rise('Measured 2026-09-29 · 2 synthetic denial letters × 5 · Gemini 3.8 Flash $0.75/$3.75 per M · Solari $0.15/h · plan §11',
+    90, 1010, F.m(500, 22), C.ink2, 22, seg(t, 14.1, 14.5));
+}
+
+// ---------- frame ----------
+function drawScene(t, ctx) {
+  g = ctx;
+  drawPaper(t);
+  drawChrome(t);
+  drawTitle(t);
+  drawRace(t);
+  drawEcon(t);
+  drawVolume(t);
+  drawEnd(t);
+}
+const cv = document.getElementById('c'), G0 = cv.getContext('2d');
+const OFF = document.createElement('canvas'); OFF.width = W; OFF.height = H; const G1 = OFF.getContext('2d');
+window.SAMPLES = 6; // sub-frame samples for motion blur (180° shutter at 60 fps)
+window.render = (t, S = window.SAMPLES) => {
+  t = clamp(t, 0, DUR - 1e-4);
+  const shutter = .5 / 60;
+  if (S <= 1) drawScene(t, G0);
+  else for (let k = 0; k < S; k++) {
+    drawScene(clamp(t - shutter * (1 - k / (S - 1)), 0, DUR), G1);
+    G0.setTransform(1, 0, 0, 1, 0, 0); G0.globalAlpha = 1 / (k + 1); G0.drawImage(OFF, 0, 0); G0.globalAlpha = 1;
+  }
+  g = G0; g.setTransform(1, 0, 0, 1, 0, 0);
+  const vg = g.createRadialGradient(960, 540, 420, 960, 540, 1250);
+  vg.addColorStop(0, 'rgba(90,60,30,0)'); vg.addColorStop(1, 'rgba(90,60,30,.24)'); g.fillStyle = vg; g.fillRect(0, 0, W, H);
+  const fr = Math.floor(t * 60), gt = GRAIN[fr % 4], ox = -Math.floor(rng(fr) * 512), oy = -Math.floor(rng(fr + .5) * 512);
+  g.save(); g.globalCompositeOperation = 'soft-light'; g.globalAlpha = .32;
+  for (let x = ox; x < W; x += 512) for (let y = oy; y < H; y += 512) g.drawImage(gt, x, y);
+  g.restore();
+  const fade = Math.max(1 - seg(t, 0, .22), seg(t, 14.72, 15));
+  if (fade > 0) { g.fillStyle = C.paper; g.globalAlpha = fade; g.fillRect(0, 0, W, H); g.globalAlpha = 1; }
+};
+
+const fontsToLoad = [F.s(64), F.s(64, true), F.m(400, 30), F.m(500, 30), F.m(600, 30), F.u(500, 30), F.u(600, 30)];
+window.ready = document.fonts.ready.then(() => Promise.all(fontsToLoad.map(f => document.fonts.load(f))));
+
+// Preview: autoplay + loop. Space pauses, R restarts. ?t=6.2 freezes; ?clean=1 holds for export.
+const Q = new URLSearchParams(location.search);
+window.ready.then(() => {
+  if (Q.has('clean')) { window.render(0); return; }
+  if (Q.has('t')) { window.render(+Q.get('t')); return; }
+  let t0 = performance.now(), paused = false, pt = 0;
+  addEventListener('keydown', e => {
+    if (e.code === 'Space') { paused = !paused; if (!paused) t0 = performance.now() - pt * 1000; }
+    if (e.code === 'KeyR') { t0 = performance.now(); paused = false; }
+  });
+  (function loop(now) {
+    if (!paused) { pt = ((now - t0) / 1000) % DUR; window.render(pt, 2); }
+    requestAnimationFrame(loop);
+  })(performance.now());
+});
+</script></body></html>

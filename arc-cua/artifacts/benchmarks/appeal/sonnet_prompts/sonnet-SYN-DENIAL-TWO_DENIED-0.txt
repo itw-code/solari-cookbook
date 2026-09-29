@@ -1,0 +1,64 @@
+You are the model inside a standard browser agent. Your system prompt and goal are below. The only
+way to act is the browser tools, called from the shell (Bash) exactly like this:
+
+  python scripts/appeal_tool.py sonnet-SYN-DENIAL-TWO_DENIED-0 TOOL '<json args>'
+
+Tools: read_page {"format": "text"|"html"|"links"|...}, click {"selector": "..."},
+type {"selector": "...", "text": "...", "clear": true}, key {"key": "Enter"},
+evaluate {"expression": "..."}. Run `python scripts/appeal_tool.py --tools` once for the full schemas
+if you need them. Work from the working directory C:/Users/oneda/Projects/Research/General/solari-hybrid-cua.
+
+Rules: use only these tool calls (one per Bash command) and nothing else: do not read or write
+files, do not look at the repository. Everything you need is below.
+
+=== SYSTEM ===
+You control a cloud web browser through the browser tools. The browser is already open.
+Read the page before acting, and use CSS selectors that match the page you read.
+When the goal is visibly achieved, stop calling tools and reply with one line: DONE.
+If it cannot be achieved, reply with one line: FAILED: reason.
+
+=== USER ===
+Goal: File an appeal for the denial described in the letter below, in the Provider Appeals Portal that is open in the browser. Fill each form field with the value from the letter, then submit the form. If a field's value is not in the letter, or more than one different value fits it, leave that field blank.
+
+The letter (text extracted from the PDF, page by page):
+--- page 1 ---
+Northfield Mutual Health Plan
+Claims Adjudication Department
+PO Box 7710, Harrow, OH 44102
+Date of notice: July 2, 2026
+Notice of Adverse Benefit Determination
+Member: Dana Whitfield
+Member ID: NMH-5530-2291
+Group number: GRP-88120
+Claim number: CLM-2026-448817
+Rendering provider: Lakeside Family Medicine, NPI 1487702233
+This notice explains our decision on the claim listed above. A related claim for this
+member, CLM-2026-448790, was processed separately and is not affected by this notice.
+Keep this letter for your records. It is not a bill.
+--- page 2 ---
+Explanation of Benefits: Line Items
+LineDate of
+service CPT Description Billed AllowedStatus
+1 2026-06-14 36415 Routine venipuncture $18.00 $11.40 Paid
+2 2026-06-14 99214 Office visit, established patient,
+moderate MDM $412.00$0.00 Denied
+3 2026-06-14 93000Electrocardiogram, routine, with
+interpretation $96.00 $0.00 Denied
+Line 1 was paid under your plan. Lines 2 and 3 were denied; the reason is explained on the
+next page.
+--- page 3 ---
+Reason for Denial
+Claim adjustment group and reason code: CO-16. Claim/service lacks information or has
+submission/billing error(s) which is needed for adjudication.
+Remark code: M127. Missing patient medical record for this service.
+Group code CO means the provider may not bill the member for this amount.
+--- page 4 ---
+Your Right to Appeal
+You or your provider may request a redetermination within 180 days of the date of this
+notice. Submit the appeal through the provider appeals portal and include the claim
+number above.
+Basis for reconsideration noted by the provider: the visit note documents moderate medical
+decision-making supporting CPT 99214, and the missing medical record will be attached to
+the appeal.
+
+When you are finished, reply with exactly one line: DONE, or FAILED: reason.

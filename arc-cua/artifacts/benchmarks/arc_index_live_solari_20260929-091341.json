@@ -1,0 +1,603 @@
+{
+  "backend": "solari",
+  "model": "gemini-3.8-flash",
+  "solari_session_id": "AldExYx7…",
+  "wall_s": 27.5,
+  "llm_usage": {
+    "input_tokens": 2143,
+    "output_tokens": 492
+  },
+  "cases": [
+    {
+      "case": "SYN-DENIAL-01",
+      "document": "synthetic_denial_letter.pdf",
+      "schema": "healthcare_denial_appeal",
+      "backend": "solari",
+      "solari_session_id": "AldExYx7…",
+      "pages": 4,
+      "extraction": [
+        {
+          "field": "claim_id",
+          "expected": "CLM-2026-448817",
+          "got": "CLM-2026-448817",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_b9",
+          "snippet": "Claim number: CLM-2026-448817",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "patient_name",
+          "expected": "Dana Whitfield",
+          "got": "Dana Whitfield",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_b6",
+          "snippet": "Member: Dana Whitfield",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "date_of_service",
+          "expected": "2026-06-14",
+          "got": "2026-06-14",
+          "grounded": true,
+          "error": null,
+          "cited_page": 2,
+          "cited_block": "p2_b5",
+          "snippet": "2 2026-06-14 99214Office visit, established patient,",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "billed_amount",
+          "expected": "$412.00",
+          "got": "$412.00",
+          "grounded": true,
+          "error": null,
+          "cited_page": 2,
+          "cited_block": "p2_b6",
+          "snippet": "moderate MDM $412.00$0.00 Denied",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "cpt_code",
+          "expected": "99214",
+          "got": "99214",
+          "grounded": true,
+          "error": null,
+          "cited_page": 2,
+          "cited_block": "p2_b5",
+          "snippet": "2 2026-06-14 99214Office visit, established patient,",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "denial_code",
+          "expected": "CO-16",
+          "got": "CO-16",
+          "grounded": true,
+          "error": null,
+          "cited_page": 3,
+          "cited_block": "p3_b2",
+          "snippet": "Claim adjustment group and reason code: CO-16. Claim/service lacks information or has",
+          "value_ok": true,
+          "page_ok": true
+        }
+      ],
+      "submission": [
+        {
+          "field": "claim_id",
+          "expected": "CLM-2026-448817",
+          "received": "CLM-2026-448817",
+          "ok": true
+        },
+        {
+          "field": "patient_name",
+          "expected": "Dana Whitfield",
+          "received": "Dana Whitfield",
+          "ok": true
+        },
+        {
+          "field": "date_of_service",
+          "expected": "2026-06-14",
+          "received": "2026-06-14",
+          "ok": true
+        },
+        {
+          "field": "billed_amount",
+          "expected": "$412.00",
+          "received": "$412.00",
+          "ok": true
+        },
+        {
+          "field": "cpt_code",
+          "expected": "99214",
+          "received": "99214",
+          "ok": true
+        },
+        {
+          "field": "denial_code",
+          "expected": "CO-16",
+          "received": "CO-16",
+          "ok": true
+        }
+      ],
+      "receipt": {
+        "receipt_id": "rcpt_5030278a6f75",
+        "document_name": "synthetic_denial_letter.pdf",
+        "schema_id": "healthcare_denial_appeal",
+        "fields_submitted": {
+          "claim_id": "CLM-2026-448817",
+          "patient_name": "Dana Whitfield",
+          "date_of_service": "2026-06-14",
+          "billed_amount": "$412.00",
+          "denial_code": "CO-16",
+          "cpt_code": "99214",
+          "notes": "the visit note documents moderate medical"
+        },
+        "citations": [
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 1,
+            "block_id": "p1_b9",
+            "text_snippet": "Claim number: CLM-2026-448817",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 1,
+            "block_id": "p1_b6",
+            "text_snippet": "Member: Dana Whitfield",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 2,
+            "block_id": "p2_b5",
+            "text_snippet": "2 2026-06-14 99214Office visit, established patient,",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 2,
+            "block_id": "p2_b6",
+            "text_snippet": "moderate MDM $412.00$0.00 Denied",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 3,
+            "block_id": "p3_b2",
+            "text_snippet": "Claim adjustment group and reason code: CO-16. Claim/service lacks information or has",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 2,
+            "block_id": "p2_b5",
+            "text_snippet": "2 2026-06-14 99214Office visit, established patient,",
+            "confidence": 1.0
+          },
+          {
+            "document": "synthetic_denial_letter.pdf",
+            "page": 4,
+            "block_id": "p4_b5",
+            "text_snippet": "Basis for reconsideration noted by the provider: the visit note documents moderate medical",
+            "confidence": 1.0
+          }
+        ],
+        "submission_confirmation_code": "APL-MUM1L8V4-2087",
+        "state_changed": true,
+        "hamming_distance": 9,
+        "wall_time_ms": 6468.76,
+        "solari_session_id": "AldExYx7…",
+        "timestamp": "2026-09-29T02:13:28Z",
+        "step_log": [
+          {
+            "field": "claim_id",
+            "verb": "FILL",
+            "index": 1,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "patient_name",
+            "verb": "FILL",
+            "index": 2,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "date_of_service",
+            "verb": "FILL",
+            "index": 3,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "billed_amount",
+            "verb": "FILL",
+            "index": 4,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "denial_code",
+            "verb": "FILL",
+            "index": 5,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "cpt_code",
+            "verb": "FILL",
+            "index": 6,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "notes",
+            "verb": "FILL",
+            "index": 7,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 417.06,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "<submit>",
+            "verb": "CLICK",
+            "index": 8,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 7,
+            "action_latency_ms": 2503.55,
+            "error": null
+          }
+        ]
+      },
+      "confirmation_rendered": "APL-MUM1L8V4-2087",
+      "confirmation_ok": true,
+      "all_fills_changed_state": true,
+      "timing_ms": {
+        "index": 147.7,
+        "extract_llm": 2053.2,
+        "portal_load_inspect_bind": 2752.9,
+        "fill_and_submit": 6468.8,
+        "act_latency_per_step": [
+          417.06,
+          417.06,
+          417.06,
+          417.06,
+          417.06,
+          417.06,
+          417.06,
+          2503.55
+        ]
+      }
+    },
+    {
+      "case": "MED-CMS-01",
+      "document": "cms_fiss_spr_example.pdf",
+      "schema": "medicare_redetermination",
+      "backend": "solari",
+      "solari_session_id": "AldExYx7…",
+      "pages": 1,
+      "extraction": [
+        {
+          "field": "patient_name",
+          "expected": "SMITH J",
+          "got": "SMITH J",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_18",
+          "snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "mbi",
+          "expected": "1EG4TE5MK72",
+          "got": "1EG4TE5MK72",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_22",
+          "snippet": "1EG4TE5MK72      .00",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "from_date",
+          "expected": "10/01/2018",
+          "got": "10/01/2018",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_20",
+          "snippet": "10/01/2018 10/31/2018 111 .00 .00 .00 .00 .00",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "thru_date",
+          "expected": "10/31/2018",
+          "got": "10/31/2018",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_20",
+          "snippet": "10/01/2018 10/31/2018 111 .00 .00 .00 .00 .00",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "reason_code",
+          "expected": [
+            "29",
+            "16"
+          ],
+          "got": "29",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_18",
+          "snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+          "value_ok": true,
+          "page_ok": true
+        },
+        {
+          "field": "remark_code",
+          "expected": [
+            "N211",
+            "MA18"
+          ],
+          "got": "N211",
+          "grounded": true,
+          "error": null,
+          "cited_page": 1,
+          "cited_block": "p1_18",
+          "snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+          "value_ok": true,
+          "page_ok": true
+        }
+      ],
+      "submission": [
+        {
+          "field": "patient_name",
+          "expected": "SMITH J",
+          "received": "SMITH J",
+          "ok": true
+        },
+        {
+          "field": "mbi",
+          "expected": "1EG4TE5MK72",
+          "received": "1EG4TE5MK72",
+          "ok": true
+        },
+        {
+          "field": "from_date",
+          "expected": "10/01/2018",
+          "received": "10/01/2018",
+          "ok": true
+        },
+        {
+          "field": "thru_date",
+          "expected": "10/31/2018",
+          "received": "10/31/2018",
+          "ok": true
+        },
+        {
+          "field": "reason_code",
+          "expected": [
+            "29",
+            "16"
+          ],
+          "received": "29",
+          "ok": true
+        },
+        {
+          "field": "remark_code",
+          "expected": [
+            "N211",
+            "MA18"
+          ],
+          "received": "N211",
+          "ok": true
+        }
+      ],
+      "receipt": {
+        "receipt_id": "rcpt_295ab917b45a",
+        "document_name": "cms_fiss_spr_example.pdf",
+        "schema_id": "medicare_redetermination",
+        "fields_submitted": {
+          "patient_name": "SMITH J",
+          "mbi": "1EG4TE5MK72",
+          "from_date": "10/01/2018",
+          "thru_date": "10/31/2018",
+          "reason_code": "29",
+          "remark_code": "N211"
+        },
+        "citations": [
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_18",
+            "text_snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+            "confidence": 1.0
+          },
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_22",
+            "text_snippet": "1EG4TE5MK72      .00",
+            "confidence": 1.0
+          },
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_20",
+            "text_snippet": "10/01/2018 10/31/2018 111 .00 .00 .00 .00 .00",
+            "confidence": 1.0
+          },
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_20",
+            "text_snippet": "10/01/2018 10/31/2018 111 .00 .00 .00 .00 .00",
+            "confidence": 1.0
+          },
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_18",
+            "text_snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+            "confidence": 1.0
+          },
+          {
+            "document": "cms_fiss_spr_example.pdf",
+            "page": 1,
+            "block_id": "p1_18",
+            "text_snippet": "SMITH J XXXXXXXXXXXXXXXXXXX 29 N211 057  .00 .00 .00 15743.55",
+            "confidence": 1.0
+          }
+        ],
+        "submission_confirmation_code": "APL-MUM1LH78-9211",
+        "state_changed": true,
+        "hamming_distance": 9,
+        "wall_time_ms": 6237.32,
+        "solari_session_id": "AldExYx7…",
+        "timestamp": "2026-09-29T02:13:39Z",
+        "step_log": [
+          {
+            "field": "patient_name",
+            "verb": "FILL",
+            "index": 1,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "mbi",
+            "verb": "FILL",
+            "index": 2,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "from_date",
+            "verb": "FILL",
+            "index": 3,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "thru_date",
+            "verb": "FILL",
+            "index": 4,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "reason_code",
+            "verb": "FILL",
+            "index": 5,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "remark_code",
+            "verb": "FILL",
+            "index": 6,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 0,
+            "action_latency_ms": 410.27,
+            "error": null,
+            "batched": true
+          },
+          {
+            "field": "<submit>",
+            "verb": "CLICK",
+            "index": 7,
+            "success": true,
+            "state_changed": true,
+            "hamming_distance": 8,
+            "action_latency_ms": 2310.37,
+            "error": null
+          }
+        ]
+      },
+      "confirmation_rendered": "APL-MUM1LH78-9211",
+      "confirmation_ok": true,
+      "all_fills_changed_state": true,
+      "timing_ms": {
+        "index": 20.4,
+        "extract_llm": 1889.5,
+        "portal_load_inspect_bind": 1747.1,
+        "fill_and_submit": 6237.4,
+        "act_latency_per_step": [
+          410.27,
+          410.27,
+          410.27,
+          410.27,
+          410.27,
+          410.27,
+          2310.37
+        ]
+      }
+    }
+  ],
+  "timestamp": "2026-09-29T02:13:41Z"
+}

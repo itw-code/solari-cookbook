@@ -1,0 +1,38 @@
+[
+  {
+    "ep": "sonnet-SYN-DENIAL-01-0",
+    "case": "SYN-DENIAL-01",
+    "rep": 0,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-01-0.txt"
+  },
+  {
+    "ep": "sonnet-SYN-DENIAL-TWO_DENIED-0",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 0,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-TWO_DENIED-0.txt"
+  },
+  {
+    "ep": "sonnet-SYN-DENIAL-01-1",
+    "case": "SYN-DENIAL-01",
+    "rep": 1,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-01-1.txt"
+  },
+  {
+    "ep": "sonnet-SYN-DENIAL-TWO_DENIED-1",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 1,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-TWO_DENIED-1.txt"
+  },
+  {
+    "ep": "sonnet-SYN-DENIAL-01-2",
+    "case": "SYN-DENIAL-01",
+    "rep": 2,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-01-2.txt"
+  },
+  {
+    "ep": "sonnet-SYN-DENIAL-TWO_DENIED-2",
+    "case": "SYN-DENIAL-TWO_DENIED",
+    "rep": 2,
+    "prompt": "C:\\Users\\oneda\\Projects\\Research\\General\\solari-hybrid-cua\\artifacts\\benchmarks\\appeal\\sonnet_prompts\\sonnet-SYN-DENIAL-TWO_DENIED-2.txt"
+  }
+]

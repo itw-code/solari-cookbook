@@ -17,6 +17,8 @@ dependencies = [
 
 [project.optional-dependencies]
 mcp = ["mcp>=2.2,<3"]
+# ARC Index (src/arc_index): documents -> verified actions, on top of ARC CUA.
+index = ["pypdf>=4", "pageindex>=0.2.20"]
 
 [project.scripts]
 arc-cua = "arc_cua.cli:main"
